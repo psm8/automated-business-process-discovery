@@ -1,0 +1,15 @@
+<e> ::= <e><something> | <something>
+<something> ::=  <and> | <xor> | <multiseq> | empty
+<multiseq> ::= seq(<edges><edge>)
+
+<and> ::= andsplit(<edge>,{<innerandsplit>},<edge>) | andsplit(<edge>,<edge>)<something>andjoin(<edge>,<edge>)
+<innerandsplit> ::= <edgecolon><edge>})<something>andjoin({<edge><colonedge> | <edgecolon><innerandsplit><colonedge>
+
+<xor> ::= xorsplit(<edge>,{<innerxorsplit>},<edge>) | xorsplit(<edge>,<edge>)<something>xorjoin(<edge>,<edge>)
+<innerxorsplit> ::= <edgecolon><edge>})<something>xorjoin({<edge><colonedge> | <edgecolon><innerxorsplit><colonedge>
+
+<edges> ::= <edgecolon>|<edgecolon><edges>
+
+<colonedge> ::= ,<edge>
+<edgecolon> ::= <edge>,
+<edge> ::= a | b | c | d | e | f | g | h

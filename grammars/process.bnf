@@ -1,0 +1,8 @@
+<e> ::= <something>
+<something> ::=  <something>,<something> | <andgate> | <xorgate> | seq(<edge>)
+
+<andgate> ::= and(<something>,<something>)
+
+<xorgate> ::= xor(<something>,<something>)
+
+<edge> ::= a | b | c | d | e | f | g | h
