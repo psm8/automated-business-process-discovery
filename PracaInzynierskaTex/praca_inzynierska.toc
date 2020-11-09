@@ -1,0 +1,39 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {polish}{}
+\contentsline {chapter}{\numberline {1}Wprowadzenie}{7}% 
+\contentsline {section}{\numberline {1.1}Cele pracy}{7}% 
+\contentsline {section}{\numberline {1.2}Przegl\IeC {\k a}d prac}{7}% 
+\contentsline {section}{\numberline {1.3}Zawarto\IeC {\'s}\IeC {\'c} pracy}{7}% 
+\contentsline {chapter}{\numberline {2}Wst\IeC {\k e}p teoretyczny}{9}% 
+\contentsline {section}{\numberline {2.1}Procesy biznesowe}{10}% 
+\contentsline {subsection}{\numberline {2.1.1}Procesy Biznesowe}{10}% 
+\contentsline {subsection}{\numberline {2.1.2}Dzienniki zdarze\IeC {\'n}}{10}% 
+\contentsline {section}{\numberline {2.2}Modelowanie proces\IeC {\'o}w biznesowych}{10}% 
+\contentsline {subsection}{\numberline {2.2.1}Sieci Petriego}{10}% 
+\contentsline {subsection}{\numberline {2.2.2}Drzewa procesowe}{10}% 
+\contentsline {subsection}{\numberline {2.2.3}BPMN}{10}% 
+\contentsline {section}{\numberline {2.3}Algorytmy do wykrywania proces\IeC {\'o}w biznesowych}{10}% 
+\contentsline {subsection}{\numberline {2.3.1}Alpha algorithm}{10}% 
+\contentsline {subsection}{\numberline {2.3.2}The ILP Miner}{10}% 
+\contentsline {subsection}{\numberline {2.3.3}Heuristic Miner}{10}% 
+\contentsline {subsection}{\numberline {2.3.4}Multi-phase Miner}{10}% 
+\contentsline {section}{\numberline {2.4}Ewolucja genetyczna}{10}% 
+\contentsline {section}{\numberline {2.5}Gramatyka}{10}% 
+\contentsline {subsection}{\numberline {2.5.1}BNF}{10}% 
+\contentsline {subsection}{\numberline {2.5.2}Mo\IeC {\.z}liwe problemy przy tworzeniu gramatyki}{10}% 
+\contentsline {section}{\numberline {2.6}Metryki}{10}% 
+\contentsline {subsection}{\numberline {2.6.1}Stopie\IeC {\'n} z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{10}% 
+\contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{10}% 
+\contentsline {subsection}{\numberline {2.6.3}Precyzja}{10}% 
+\contentsline {subsection}{\numberline {2.6.4}Generalizacja}{10}% 
+\contentsline {chapter}{\numberline {3}Projekt i implementacja}{11}% 
+\contentsline {section}{\numberline {3.1}Wykorzystane technologie}{11}% 
+\contentsline {subsection}{\numberline {3.1.1}PonyGE2}{11}% 
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{11}% 
+\contentsline {section}{\numberline {3.3}Implementacja}{11}% 
+\contentsline {section}{\numberline {3.4}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{11}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{13}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{13}% 
+\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{13}% 
+\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{13}% 
+\contentsline {section}{\numberline {4.4}Wnioski}{13}% 

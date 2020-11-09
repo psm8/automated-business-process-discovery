@@ -1,8 +1,11 @@
 <e> ::= <something>
-<something> ::=  <something>,<something> | <andgate> | <xorgate> | seq(<edge>)
 
-<andgate> ::= and(<something>,<something>)
+<something> ::=  <something><something> | <andgate> | <iorgate> | <xorgate> | {<edge>}
 
-<xorgate> ::= xor(<something>,<something>)
+<andgate> ::= and(<something><something>)
+
+<iorgate> ::= ior(<something><something>) | ior(<something><something>trm())
+
+<xorgate> ::= xor(<something>)|xor(<something>trm())
 
 <edge> ::= a | b | c | d | e | f | g | h

@@ -1,30 +1,47 @@
+from itertools import islice
+import collections
+
+
+def consume(iterator, n):
+    "Advance the iterator n-steps ahead. If n is none, consume entirely."
+    # Use functions that consume iterators at C speed.
+    if n is None:
+        # feed the entire iterator into a zero-length deque
+        collections.deque(iterator, maxlen=0)
+    else:
+        # advance to the empty slice starting at position n
+        next(islice(iterator, n, n), None)
+
+
 class Gate:
 
-    def __init__(self, name: str):
-        self.name = name
-        self.gates = []
-        self.processes = []
+    def __init__(self, expression: str):
+        self.name = expression[0:3]
+        self.elements = []
 
-    def add_gate(self, gate: Gate):
-        self.gates.extend(gate)
+    def add_element(self, element):
+        self.elements.append(element)
 
-    def parse(self, expression: str):
+    def parse(self, expression: str) -> int:
 
-        expression_local = ""
-        for i in len(expression):
-            if expression(i) == "(":
-                break
-            elif expression(i) == ")":
-                gate = Gate(expression[i:i+3])
-
-                expression = expression[i+3:]
-                i += 3
-                gate.parse(expression)
-            elif expression(i) == ",":
-                break
+        numbers = iter(range(len(expression)))
+        for i in numbers:
+            if expression[i] == "{":
+                self.add_element(expression[i + 1])
+                consume(numbers, 2)
+            elif expression[i] == ")":
+                return i+1
+            elif i+4 < len(expression):
+                if expression[i:i+3] == "and" or expression[i:i+3] == "ior" or expression[i:i+3] == "xor":
+                    gate = Gate(expression)
+                    consume(numbers, 3)
+                    processed_characters = gate.parse(expression[i+4:])
+                    self.add_element(gate)
+                    consume(numbers, processed_characters)
+                elif expression[i:i+3] == "trm":
+                    self.add_element(Gate("trm"))
+                    consume(numbers, 4)
+                else:
+                    raise Exception
             else:
-                self.processes.extend(expression(i))
-
-    def add_process(self, process: str):
-        self.processes.extend(process)
-
+                raise Exception
