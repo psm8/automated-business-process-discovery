@@ -45,3 +45,33 @@ class Gate:
                     raise Exception
             else:
                 raise Exception
+
+    def traverse(self, expression: str) -> int:
+        matches = 0
+        elements = self.elements.copy()
+
+        #python way to check empty
+        if self.name == "trm":
+            return matches
+        elif self.name == "and":
+            return matches
+        elif self.name == "xor":
+            return matches
+        elif self.name == "ior":
+            return matches
+        else:
+            while elements:
+                if not expression:
+                    break
+                else:
+                    elem = elements.pop(0)
+                    if isinstance(elem, str):
+                        if expression[0] == elem:
+                            matches += 1
+                            expression = expression[1:]
+                    else:
+                        return matches
+
+        return matches
+
+

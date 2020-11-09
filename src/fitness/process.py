@@ -6,18 +6,26 @@ def calculate_simplicity_metric(s):
     return
 
 
-def calculate_simplicity_metric(s):
-    return
+def calculate_fitness_metric(gate):
+    list1 = ["abcd", "abd", "acd", "abdc"]
+    result = 0
+    for elem in list1:
+        result += gate.traverse(elem)
 
-def calculate_length_metric(desired_length):
-    # Loops as long as the shorter of two strings
-    if length == 50:
+    return result/14
+
+
+def calculate_length_metric(guess, goal_length):
+    length = len(guess)
+    if length == goal_length:
         # Perfect match.
         fitness = 1
     else:
         # Imperfect match, find distance to match.
-        distance = abs(50 - length)
+        distance = abs(goal_length - length)
         fitness = 1 / (1 + distance)
+
+    return fitness
 
 
 class process(base_ff):
@@ -29,15 +37,10 @@ class process(base_ff):
 
     def evaluate(self, ind, **kwargs):
         guess = ind.phenotype
-        length = len(guess)
+
         gate = BaseGate()
         gate.parse(guess)
-        # Loops as long as the shorter of two strings
-        if length == 50:
-            # Perfect match.
-            fitness = 1
-        else:
-            # Imperfect match, find distance to match.
-            distance = abs(50 - length)
-            fitness = 1 / (1 + distance)
-        return fitness
+
+        length_metric = calculate_length_metric(guess, 50)
+        fitness_metric = calculate_fitness_metric(gate)
+        return length_metric * fitness_metric
