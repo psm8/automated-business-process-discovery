@@ -1,11 +1,23 @@
-<e> ::= <something>
+<e> ::= <somethingnoseq>
 
-<something> ::=  <something><something> | <andgate> | <iorgate> | <xorgate> | {<edge>}
+<somethingnoseq> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | <terminate> | {<process>}
+
+<something> ::=  <something><something> | <andgate> | <xorgate> | <seqgate> | <optgate> | <lopgate> | {<process>}
 
 <andgate> ::= and(<something><something>)
 
-<iorgate> ::= ior(<something><something>) | ior(<something><something>trm())
+<xorgate> ::= xor(<something><something>)
 
-<xorgate> ::= xor(<something>)|xor(<something>trm())
+<seqgate> ::= seq(<somethingnoseq><somethingnoseq>)
 
-<edge> ::= a | b | c | d
+<optgate> ::= opt(<somethingnosingleopt>)
+
+<somethingnosingleopt> ::=<something><something> | <andgate> | <xorgate> | <seqgate> | <lopgate> | {<process>}
+
+<lopgate> ::= lop(<somethingnosinglelop>)
+
+<somethingnosinglelop> ::=<something><something> | <andgate> | <xorgate> | <seqgate> | <optgate> | {<process>}
+
+<terminate> ::= trm()
+
+<process> ::= a | b | c | d

@@ -1,15 +1,17 @@
-<e> ::= <e><something> | <something>
-<something> ::=  <and> | <xor> | <multiseq> | empty
-<multiseq> ::= seq(<edges><edge>)
+<e> ::= <something>
 
-<and> ::= andsplit(<edge>,{<innerandsplit>},<edge>) | andsplit(<edge>,<edge>)<something>andjoin(<edge>,<edge>)
-<innerandsplit> ::= <edgecolon><edge>})<something>andjoin({<edge><colonedge> | <edgecolon><innerandsplit><colonedge>
+<something> ::=  <something><something> | <andgate> | <xorgate> | <seqgate> | <optgate> | <lopgate> | <terminate> | {<process>}
 
-<xor> ::= xorsplit(<edge>,{<innerxorsplit>},<edge>) | xorsplit(<edge>,<edge>)<something>xorjoin(<edge>,<edge>)
-<innerxorsplit> ::= <edgecolon><edge>})<something>xorjoin({<edge><colonedge> | <edgecolon><innerxorsplit><colonedge>
+<andgate> ::= and(<something><something>)
 
-<edges> ::= <edgecolon>|<edgecolon><edges>
+<xorgate> ::= xor(<something><something>)
 
-<colonedge> ::= ,<edge>
-<edgecolon> ::= <edge>,
-<edge> ::= a | b | c | d | e | f | g | h
+<seqgate> ::= seq(<something><something>)
+
+<optgate> ::= opt(<something>)
+
+<lopgate> ::= lop(<something>)
+
+<terminate> ::= trm()
+
+<process> ::= a | b | c | d

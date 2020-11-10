@@ -32,7 +32,8 @@ class Gate:
             elif expression[i] == ")":
                 return i+1
             elif i+4 < len(expression):
-                if expression[i:i+3] == "and" or expression[i:i+3] == "ior" or expression[i:i+3] == "xor":
+                if expression[i:i+3] == "and" or expression[i:i+3] == "opt" or expression[i:i+3] == "xor" or \
+                        expression[i:i+3] == "lop" or expression[i:i+3] == "seq":
                     gate = Gate(expression)
                     consume(numbers, 3)
                     processed_characters = gate.parse(expression[i+4:])
@@ -50,16 +51,20 @@ class Gate:
         matches = 0
         elements = self.elements.copy()
 
-        #python way to check empty
-        if self.name == "trm":
-            return matches
-        elif self.name == "and":
+        if self.name == "and":
             return matches
         elif self.name == "xor":
             return matches
-        elif self.name == "ior":
+        elif self.name == "seq":
+            return matches
+        elif self.name == "opt":
+            return matches
+        elif self.name == "trm":
+            return matches
+        elif self.name == "lop":
             return matches
         else:
+            # python way to check empty
             while elements:
                 if not expression:
                     break
@@ -70,8 +75,7 @@ class Gate:
                             matches += 1
                             expression = expression[1:]
                     else:
-                        return matches
-
+                        matches = elem.traverse(expression)
         return matches
 
 
