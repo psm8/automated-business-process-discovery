@@ -34,7 +34,7 @@ class Gate:
             elif i+4 < len(expression):
                 if expression[i:i+3] == "and" or expression[i:i+3] == "opt" or expression[i:i+3] == "xor" or \
                         expression[i:i+3] == "lop" or expression[i:i+3] == "seq":
-                    gate = Gate(expression)
+                    gate = Gate(expression[i:])
                     consume(numbers, 3)
                     processed_characters = gate.parse(expression[i+4:])
                     self.add_element(gate)
@@ -47,35 +47,85 @@ class Gate:
             else:
                 raise Exception
 
+    # def check_repetitions(self, process):
+    #     if self.name == "and" or self.name == "opt" or self.name == "xor":
+    #         for elem in self.elements:
+    #             if elem == process:
+    #                 raise Exception
+
     def traverse(self, expression: str) -> int:
         matches = 0
         elements = self.elements.copy()
 
-        if self.name == "and":
-            return matches
-        elif self.name == "xor":
-            return matches
-        elif self.name == "seq":
-            return matches
-        elif self.name == "opt":
-            return matches
-        elif self.name == "trm":
-            return matches
-        elif self.name == "lop":
-            return matches
-        else:
-            # python way to check empty
-            while elements:
-                if not expression:
-                    break
+        while elements:
+            if not expression:
+                return matches
+            else:
+                elem = elements.pop(0)
+                if isinstance(elem, str):
+                    if expression[0] == elem:
+                        matches += 1
+                        expression = expression[1:]
                 else:
-                    elem = elements.pop(0)
-                    if isinstance(elem, str):
-                        if expression[0] == elem:
-                            matches += 1
-                            expression = expression[1:]
-                    else:
+                    if self.name == "and":
+                        return matches
+                    elif self.name == "xor":
+                        return matches
+                    elif self.name == "seq":
                         matches = elem.traverse(expression)
+                        return matches
+                    # python way to check empty
+                    elif self.name == "opt":
+                        return matches
+                    elif self.name == "trm":
+                        return matches
+                    elif self.name == "lop":
+                        return matches
+                    else:
+                        raise Exception
+        return matches
+
+    def get_model_minimal_length(self):
+        length = 0
+        elements = self.elements.copy()
+
+        while elements:
+            if not expression:
+                return length
+            else:
+                elem = elements.pop(0)
+                if isinstance(elem, str):
+                    if expression[0] == elem:
+                        length += 1
+                        expression = expression[1:]
+                else:
+                    if self.name == "and":
+                        return length
+                    elif self.name == "xor":
+                        return length
+                    elif self.name == "seq":
+                        length = elem.get_model_minimal_length(expression)
+                        return length
+                    # python way to check empty
+                    elif self.name == "opt":
+                        return length
+                    elif self.name == "trm":
+                        return length
+                    elif self.name == "lop":
+                        return length
+                    else:
+                        raise Exception
         return matches
 
 
+# class TimeoutException(Exception):
+#     def __init__(self, msg=None):
+#         #: The message from the remark tag or element
+#         self.msg = msg
+#
+#     def __str__(self):
+#         if self.msg is None:
+#             return "No error message provided"
+#         if not isinstance(self.msg, str):
+#             return str(self.msg)
+#         return self.msg

@@ -1,5 +1,5 @@
 from fitness.base_ff_classes.base_ff import base_ff
-from gate.base_gate import BaseGate
+from gate.gate import Gate
 
 
 def calculate_simplicity_metric(s):
@@ -38,7 +38,7 @@ class process(base_ff):
     def evaluate(self, ind, **kwargs):
         guess = ind.phenotype
 
-        gate = BaseGate()
+        gate = Gate("seq")
         gate.parse(guess)
 
         length_metric = calculate_length_metric(guess, 50)
