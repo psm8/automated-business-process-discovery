@@ -17,9 +17,9 @@ def consume(iterator, n):
 
 class Gate:
 
-    def __init__(self, expression: str):
+    def __init__(self, expression: str, elements=[]):
         self.name = expression[0:3]
-        self.elements = []
+        self.elements = elements
 
     def add_element(self, element):
         self.elements.append(element)
@@ -118,7 +118,8 @@ class Gate:
                                 if elem == processes.get(flag)[0]:
                                     flag += 1
                                 # the difference between and and xor
-                                self.find_first_occurrence(processes, flag)
+                                gate = Gate(self.name, elements)
+                                gate.find_first_occurrence(processes, flag)
                             all_processes.append(processes)
                         else:
                             all_processes.append(elem.find_first_occurrence(processes, flag))
@@ -135,6 +136,7 @@ class Gate:
                             all_processes.append(processes)
                         else:
                             all_processes.append(elem.find_first_occurrence(processes, flag))
+                    all_processes_with_flag = self.remove_policy_xor(all_processes)
                 elif self.name == "seq":
                     elem = elements.pop(0)
                     if isinstance(elem, str):
@@ -196,18 +198,20 @@ class Gate:
             for i in range(len(processes)):
                 if processes == -1:
                     if i > 0:
-                        results[processes] = (processes.get(i)[1] + 1)/i
+                        results[processes] = ((processes.get(i)[1] + 1)/i, i)
                     else:
                         results[processes] = 999
 
-        new_all_processes = [k for k, v in results.items() if float(v) >= min(results, key=results.get)]
+        new_all_processes_with_flag = [k for k, v in results.items() if float(v) >= min(results, key=results.get)]
 
-        return new_all_processes
+        return new_all_processes_with_flag
 
-    def continue_processing_xor(self, all_processes):
-        new_global_processes = []
-
-        return new_global_processes
+    def split_if_multiple(self, all_processes_with_flag, elements):
+        new_all_processes = []
+        for processes in all_processes_with_flag:
+            gate = Gate(self.name, elements)
+            new_all_processes.append(gate.find_first_occurrence(processes[0], processes[1]))
+        return self.remove_policy_xor(new_all_processes)[0]
 
     def traverse_and_gate(self, expression: str, goal_length: int) -> []:
         if self.traverse_inner() == goal_length:
@@ -297,8 +301,6 @@ class Gate:
                 iterator += 1
 
         return processes
-
-
 
 # class TimeoutException(Exception):
 #     def __init__(self, msg=None):

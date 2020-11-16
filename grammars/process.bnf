@@ -1,4 +1,4 @@
-<e> ::= <notallowstartingwithtrm><somethingnoseq>
+<e> ::= <notallowstartingwithtrm>
 
 <somethingnoseq> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | <terminate> | {<process>}
 
@@ -22,6 +22,6 @@
 
 <terminate> ::= trm()
 
-<notallowstartingwithtrm> ::= <andgate> | <xorgate> | <optgate> | <lopgate> | {<process>}
+<notallowstartingwithtrm> ::= <notallowstartingwithtrm><somethingnoseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | {<process>}
 
 <process> ::= a | b | c | d

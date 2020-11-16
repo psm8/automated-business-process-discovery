@@ -47,7 +47,7 @@ def calculate_max_allowed_length():
     return math.floor(2 * get_model_average_length()) - 1
 
 
-class process(base_ff):
+class process_fitness(base_ff):
     maximise = True
 
     def __init__(self):
@@ -58,7 +58,7 @@ class process(base_ff):
         guess = ind.phenotype
 
         gate = Gate("seq")
-        gate.parse(guess)
+        gate.parse('and({c}{d})')
         length = gate.get_model_minimal_length()
         if length > calculate_max_allowed_length():
             return -100000
