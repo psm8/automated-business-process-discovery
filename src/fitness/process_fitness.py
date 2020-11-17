@@ -1,5 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.gate import Gate
+from gate.process import Process
 
 import math
 
@@ -58,13 +59,12 @@ class process_fitness(base_ff):
         guess = ind.phenotype
 
         gate = Gate("seq")
-        gate.parse('and({c}{d})')
+        gate.parse('{d}{a}{c}{b}')
         length = gate.get_model_minimal_length()
         if length > calculate_max_allowed_length():
             return -100000
         processes = gate.get_processes_list()
-        test = string_to_dictionary("abcd")
-        first_occurrence = gate.find_first_occurrence(string_to_dictionary("abcd"), 0)
+        first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
         length_metric = calculate_length_metric(guess, 50)
         fitness_metric = calculate_fitness_metric(gate)
         return length_metric * fitness_metric

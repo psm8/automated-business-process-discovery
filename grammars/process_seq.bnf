@@ -1,0 +1,5 @@
+<e> ::= <somethingnoseq>
+
+<somethingnoseq> ::= <somethingnoseq><somethingnoseq> | {<process>}
+
+<process> ::= a | b | c | d

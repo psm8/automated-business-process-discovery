@@ -1,7 +1,10 @@
-import math
+from __future__ import annotations
 
 from itertools import islice, permutations
+from copy import deepcopy
 import collections
+
+from .process import Process
 
 
 def consume(iterator, n):
@@ -17,9 +20,12 @@ def consume(iterator, n):
 
 class Gate:
 
-    def __init__(self, expression: str, elements=[]):
+    def __init__(self, expression: str, elements=None):
         self.name = expression[0:3]
-        self.elements = elements
+        if elements is None:
+            self.elements = []
+        else:
+            self.elements = elements
 
     def add_element(self, element):
         self.elements.append(element)
@@ -55,182 +61,175 @@ class Gate:
     #             if elem == process:
     #                 raise Exception
 
-    def traverse(self, expression: str, goal_length: int) -> int:
-        cumulative_error = 0
-        matches = []
-        if self.name == "and":
-            return 0
-        elif self.name == "xor":
-            return 0
-        elif self.name == "seq":
-            return sum(self.traverse_process_children(expression))
-        # python way to check empty
-        elif self.name == "opt":
-            return 0
-        elif self.name == "trm":
-            return 0
-        elif self.name == "lop":
-            return 0
-        else:
-            raise Exception
+    def find_first_occurrence(self, global_process: Process) -> [Process]:
 
-    # def traverse_2(self, expression: str, goal_length: int) -> int:
-    #     cumulative_error = 0
-    #     matches = []
-    #     if self.name == "and":
-    #         if not elem in matches
-    #             cumulative_error +=1
-    #         else:
-    #             next elem
-    #     elif self.name == "xor":
-    #         if not elem in matches
-    #             cumulative_error += 1
-    #     elif self.name == "seq":
-    #         if elem != matches[0]:
-    #             cumulative_error += 1
-    #     # python way to check empty
-    #     elif self.name == "opt":
-    #         if elem in matches:
-    #             next elem
-    #     elif self.name == "trm":
-    #         return 0
-    #     elif self.name == "lop":
-    #         if elem == matches[0]:
-    #             next elem
-    #     else:
-    #         raise Exception
-
-    def find_first_occurrence(self, global_processes: dict, flag: int) -> []:
         all_processes = []
         elements = self.elements.copy()
 
-        while flag < len(global_processes) or global_processes.get(flag)[1] - flag <= len(global_processes) / 2:
+        while global_process.flag < len(global_process.events) and \
+                global_process.events.get(global_process.flag)[1] - global_process.flag <= \
+                len(global_process.events) / 2:
             # python way to check empty
             if elements:
                 if self.name == "and":
-                    elem = elements.pop(0)
+                    local_matches_and = 0
+                    self.calc_and(all_processes, elements, global_process)
+                    all_processes = self.remove_policy_and(all_processes)
+                    model_minimal_length = self.get_model_minimal_length()
+                    for i in range(global_process.flag, len(global_process.events)):
+                        global_process.events[i] = (global_process.events.get(i)[0], len(elements) - local_matches_and - 1)
+                elif self.name == "xor":
                     # python way to check empty
                     while elements:
-                        processes = global_processes.copy()
+                        elem = elements.pop(0)
+                        process = Process(global_process.events, global_process.flag)
                         if isinstance(elem, str):
-                            for i in range(flag, len(processes)):
-                                processes[i] = (processes.get(i)[0], processes.get(i)[1] + 1)
-                                if elem == processes.get(flag)[0]:
-                                    flag += 1
+                            for i in range(process.flag, len(process.events)):
+                                process.events[i] = (process.events.get(i)[0], process.events.get(i)[1] + 1)
+                                if elem == process.events.get(process.flag)[0]:
+                                    process.flag += 1
+                            all_processes.append(process)
+                        else:
+                            all_processes.append(elem.find_first_occurrence(process, global_process.flag))
+                    all_processes = self.remove_policy_xor(all_processes)
+                elif self.name == "seq":
+                    self.calc_seq(all_processes, elements, global_process)
+                    all_processes = self.remove_policy_seq(all_processes)
+                elif self.name == "opt":
+                    # python way to check empty
+                    while elements:
+                        elem = elements.pop(0)
+                        process = Process(global_process.events, global_process.flag)
+                        if isinstance(elem, str):
+                            for i in range(process.flag, len(process.events)):
+                                process.events[i] = (process.events.get(i)[0], process.events.get(i)[1] + 1)
+                                if elem == process.events.get(process.flag)[0]:
+                                    process.flag += 1
                                 # the difference between and and xor
                                 gate = Gate(self.name, elements)
-                                gate.find_first_occurrence(processes, flag)
-                            all_processes.append(processes)
+                                gate.find_first_occurrence(process)
+                            all_processes.append(process)
                         else:
-                            all_processes.append(elem.find_first_occurrence(processes, flag))
-                elif self.name == "xor":
-                    elem = elements.pop(0)
-                    # python way to check empty
-                    while elements:
-                        processes = global_processes.copy()
-                        if isinstance(elem, str):
-                            for i in range(flag, len(processes)):
-                                processes[i] = (processes.get(i)[0], processes.get(i)[1] + 1)
-                                if elem == processes.get(flag)[0]:
-                                    flag += 1
-                            all_processes.append(processes)
-                        else:
-                            all_processes.append(elem.find_first_occurrence(processes, flag))
-                    all_processes_with_flag = self.remove_policy_xor(all_processes)
-                elif self.name == "seq":
-                    elem = elements.pop(0)
-                    if isinstance(elem, str):
-                        if elem == global_processes.get(flag)[0]:
-                            for i in range(flag, len(global_processes)):
-                                global_processes[i] = (global_processes.get(i)[0],
-                                                       global_processes.get(i)[1] + 1)
-                    else:
-                        global_processes = elem.find_first_occurrence(global_processes, flag)
-                    flag += 1
-                elif self.name == "opt":
-                    elem = elements.pop(0)
-                    # python way to check empty
-                    while elements:
-                        processes = global_processes.copy()
-                        if isinstance(elem, str):
-                            for i in range(flag, len(processes)):
-                                processes[i] = (processes.get(i)[0], processes.get(i)[1] + 1)
-                                if elem == processes.get(flag)[0]:
-                                    flag += 1
-                                # the difference between and and xor
-                                self.find_first_occurrence(processes, flag)
-                            all_processes.append(processes)
-                        else:
-                            all_processes.append(elem.find_first_occurrence(processes, flag))
-                    flag += 1
+                            all_processes.append(elem.find_first_occurrence(process, process.flag))
+                    global_process.flag += 1
                 elif self.name == "trm":
-                    return global_processes
+                    return global_process
                 elif self.name == "lop":
                     elem = elements.pop(0)
                     if isinstance(elem, str):
-                        if elem == global_processes.get(flag)[0]:
-                            for i in range(flag, len(global_processes)):
-                                global_processes[i] = (global_processes.get(i)[0],
-                                                       global_processes.get(i)[1] + 1)
-                                flag += 1
+                        if elem == global_process.events.get(global_process.flag)[0]:
+                            for i in range(global_process.flag, len(global_process.events)):
+                                global_process.events[i] = (global_process.events.get(i)[0],
+                                                            global_process.events.get(i)[1] + 1)
+                                global_process.flag += 1
                     else:
-                        global_processes = elem.find_first_occurrence(global_processes, flag)
+                        global_process = elem.find_first_occurrence(global_process)
                 else:
                     raise Exception
 
-            else:
-                for i in range(flag, len(global_processes)):
-                    global_processes[i] = (global_processes.get(i)[0], -1)
-                return global_processes
+                if len(all_processes) > 1:
+                    return self.split_if_multiple(all_processes, elements)
 
-        for i in range(flag, len(global_processes)):
-            global_processes[i] = (global_processes.get(i)[0], -1)
-        return global_processes
+            else:
+                for i in range(global_process.flag, len(global_process.events)):
+                    global_process.events[i] = (global_process.events.get(i)[0], -1)
+                return [global_process]
+
+        for i in range(global_process.flag, len(global_process.events)):
+            global_process.events[i] = (global_process.events.get(i)[0], -1)
+        return [global_process]
+
+    def calc_and(self, all_processes: [Process], elements: [Gate], global_process: Process):
+        for elem in elements:
+            if isinstance(elem, str):
+                process = Process(global_process.events, global_process.flag)
+                if elem == process.events.get(process.flag)[0]:
+                    elements.remove(elem)
+                    for i in range(process.flag, len(process.events)):
+                        process.events[i] = (process.events.get(i)[0],
+                                             process.events.get(i)[1] + 1)
+                    process.flag += 1
+                    # the difference between and and xor
+                    self.calc_and(all_processes, elements, process)
+                    all_processes.append(process)
+            else:
+                all_processes.append(elem.find_first_occurrence(process))
+                elements.remove(elem)
+                self.calc_and(all_processes, elements, process)
+
+    def calc_seq(self, all_processes: [Process], elements: [Gate], global_process: Process):
+        while elements:
+            process = deepcopy(global_process)
+            self.calc_seq_inner(all_processes, elements, process)
+            all_processes.append(process)
+            elements = elements[1:]
+
+    def calc_seq_inner(self, all_processes: [Process], elements: [Gate], process: Process):
+        if process.flag < len(process.events):
+            if isinstance(elements[0], str):
+                if elements[0] == process.events.get(process.flag)[0]:
+                    for i in range(process.flag, len(process.events)):
+                        process.events[i] = (process.events.get(i)[0], process.events.get(i)[1] + 1)
+                        if process.flag == 0
+                    elements = elements[1:]
+            else:
+                elements[0].find_first_occurrence(process)
+                if process.events.get(0)[1] != -1:
+                    return process
+            process.flag += 1
+            self.calc_seq_inner(all_processes, elements, process)
 
     def remove_policy_and(self, all_processes: []):
-        new_global_processes = []
-
-        return new_global_processes
-
-    def remove_policy_xor(self, all_processes: []) -> []:
         results = dict()
-        for processes in all_processes:
-            for i in range(len(processes)):
-                if processes == -1:
+        for process in all_processes:
+            for i in range(len(process.events)):
+                if process.events.get(i) == -1:
                     if i > 0:
-                        results[processes] = ((processes.get(i)[1] + 1)/i, i)
-                    else:
-                        results[processes] = 999
-
-        new_all_processes_with_flag = [k for k, v in results.items() if float(v) >= min(results, key=results.get)]
+                        results[process.events] = ((process.events.get(i)[1] + 1) / i, i)
+        if results:
+            new_all_processes_with_flag = [k for k, v in results.items() if float(v) >= min(results, key=results.get)]
+        else:
+            new_all_processes_with_flag = []
 
         return new_all_processes_with_flag
 
+    def remove_policy_xor(self, all_processes: [Process]) -> []:
+        results = dict()
+        for process in all_processes:
+            for i in range(len(process.events)):
+                if process.events.get(i) == -1:
+                    if i > 0:
+                        results[process.events] = ((process.events.get(i)[1] + 1)/i, i)
+        if results:
+            new_all_processes_with_flag = [k for k, v in results.items() if float(v) >= min(results, key=results.get)]
+        else:
+            new_all_processes_with_flag = []
+
+        return new_all_processes_with_flag
+
+    def remove_policy_seq(self, all_processes: [Process]) -> []:
+        results = dict()
+        for process in all_processes:
+            for i in range(len(process.events)):
+                if process.events.get(i) == -1:
+                    if i > 0:
+                        results[process.events] = ((process.events.get(i)[1] + 1)/i, i)
+        if results:
+            new_all_processes_with_flag = [k for k, v in results.items() if float(v) >= min(results, key=results.get)]
+        else:
+            new_all_processes_with_flag = []
+
+        return new_all_processes_with_flag
+
+    def calc_flags_seq(self) -> [Process]:
+        return []
+
     def split_if_multiple(self, all_processes_with_flag, elements):
         new_all_processes = []
-        for processes in all_processes_with_flag:
+        for process in all_processes_with_flag:
             gate = Gate(self.name, elements)
-            new_all_processes.append(gate.find_first_occurrence(processes[0], processes[1]))
+            new_all_processes.append(gate.find_first_occurrence(process))
         return self.remove_policy_xor(new_all_processes)[0]
-
-    def traverse_and_gate(self, expression: str, goal_length: int) -> []:
-        if self.traverse_inner() == goal_length:
-            return list(permutations([1, 2, 3]))
-
-    def traverse_inner(self) -> []:
-        processes = []
-        iterator = 0
-        elements = self.elements.copy()
-
-        while elements:
-            elem = elements.pop(0)
-            if isinstance(elem, str):
-                processes.append(elem)
-            else:
-                processes.append(elem.traverse())
-                iterator += 1
-
-        return processes
 
     def get_model_minimal_length(self) -> int:
         if self.name == "and":
@@ -261,31 +260,6 @@ class Gate:
                 lengths.append(elem.get_model_minimal_length())
 
         return lengths
-
-    def traverse_process_children(self, expression: str) -> []:
-        matches = []
-        iterator = 0
-        elements = self.elements.copy()
-
-        while elements:
-            if not expression:
-                break
-            else:
-                elem = elements.pop(0)
-                if isinstance(elem, str):
-                    if expression[0] == elem:
-                        if len(matches) <= iterator:
-                            matches.append(1)
-                            iterator += 1
-                        else:
-                            matches[iterator] += 1
-                        expression = expression[1:]
-
-                else:
-                    matches.append(elem.traverse(expression, len(expression)))
-                    iterator += 1
-
-        return matches
 
     def get_processes_list(self) -> []:
         processes = []
