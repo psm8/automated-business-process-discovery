@@ -235,25 +235,6 @@ class Gate:
             new_all_processes.append(gate.find_first_occurrence(process))
         return self.remove_policy_xor(new_all_processes)[0]
 
-    def traverse_and_gate(self, expression: str, goal_length: int) -> []:
-        if self.traverse_inner() == goal_length:
-            return list(permutations([1, 2, 3]))
-
-    def traverse_inner(self) -> []:
-        processes = []
-        iterator = 0
-        elements = self.elements.copy()
-
-        while elements:
-            elem = elements.pop(0)
-            if isinstance(elem, str):
-                processes.append(elem)
-            else:
-                processes.append(elem.traverse())
-                iterator += 1
-
-        return processes
-
     def get_model_minimal_length(self) -> int:
         if self.name == "and":
             length = sum(self.get_children_minimal_length())
