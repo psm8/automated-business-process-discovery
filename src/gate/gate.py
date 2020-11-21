@@ -235,23 +235,6 @@ class Gate:
             new_all_processes.append(gate.find_first_occurrence(process))
         return self.remove_policy_xor(new_all_processes)[0]
 
-    def get_model_minimal_length(self) -> int:
-        if self.name == "and":
-            length = sum(self.get_children_minimal_length())
-        elif self.name == "xor":
-            length = min(self.get_children_minimal_length())
-        elif self.name == "seq":
-            length = sum(self.get_children_minimal_length())
-        elif self.name == "opt":
-            length = 0
-        elif self.name == "trm":
-            length = 0
-        elif self.name == "lop":
-            length = 0
-        else:
-            raise Exception
-        return length
-
     def get_children_minimal_length(self) -> []:
         lengths = []
 
