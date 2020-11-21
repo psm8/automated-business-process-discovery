@@ -1,6 +1,5 @@
 from fitness.base_ff_classes.base_ff import base_ff
-from gate.gate import Gate
-from gate.process import Process
+from gate.seq_gate import SeqGate
 
 import math
 
@@ -26,7 +25,7 @@ def calculate_fitness_metric(gate):
     list1 = ["abcd", "abd", "acd", "abdc"]
     result = 0
     for elem in list1:
-        result += gate.traverse(elem, len(elem))
+        result += 1
 
     return result/14
 
@@ -58,13 +57,15 @@ class process_fitness(base_ff):
     def evaluate(self, ind, **kwargs):
         guess = ind.phenotype
 
-        gate = Gate("seq")
-        gate.parse('{d}{a}{c}{b}')
+        gate = SeqGate("seq")
+        gate.parse(guess)
         length = gate.get_model_minimal_length()
         if length > calculate_max_allowed_length():
             return -100000
         processes = gate.get_processes_list()
-        first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
+        gate.get_all_n_length_routes(8)
+        # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
+
         length_metric = calculate_length_metric(guess, 50)
         fitness_metric = calculate_fitness_metric(gate)
         return length_metric * fitness_metric

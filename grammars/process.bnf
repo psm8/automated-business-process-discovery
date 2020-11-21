@@ -1,5 +1,7 @@
 <e> ::= <notallowstartingwithtrm>
 
+<notallowstartingwithtrm> ::= <notallowstartingwithtrm><somethingnoseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | {<process>}
+
 <somethingnoseq> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | <terminate> | {<process>}
 
 <something> ::=  <something><something> | <andgate> | <xorgate> | <seqgate> | <optgate> | <lopgate> | {<process>}
@@ -14,14 +16,12 @@
 
 <optdoublegate> ::= opt(<something><something>)
 
-<somethingnosingleopt> ::=<something><something> | <andgate> | <xorgate> | <seqgate> | <lopgate> | {<process>}
+<somethingnosingleopt> ::= <something><something> | <andgate> | <xorgate> | <seqgate> | <lopgate> | {<process>}
 
 <lopgate> ::= lop(<somethingnosinglelop>)
 
 <somethingnosinglelop> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | <seqgate> | <optdoublegate> | {<process>}
 
 <terminate> ::= trm()
-
-<notallowstartingwithtrm> ::= <notallowstartingwithtrm><somethingnoseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | {<process>}
 
 <process> ::= a | b | c | d

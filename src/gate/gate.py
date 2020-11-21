@@ -42,7 +42,7 @@ class Gate:
             elif i+4 < len(expression):
                 if expression[i:i+3] == "and" or expression[i:i+3] == "opt" or expression[i:i+3] == "xor" or \
                         expression[i:i+3] == "lop" or expression[i:i+3] == "seq":
-                    gate = Gate(expression[i:])
+                    gate = self.__class__(expression[i:])
                     consume(numbers, 3)
                     processed_characters = gate.parse(expression[i+4:])
                     self.add_element(gate)
@@ -79,18 +79,7 @@ class Gate:
                     for i in range(global_process.flag, len(global_process.events)):
                         global_process.events[i] = (global_process.events.get(i)[0], len(elements) - local_matches_and - 1)
                 elif self.name == "xor":
-                    # python way to check empty
-                    while elements:
-                        elem = elements.pop(0)
-                        process = Process(global_process.events, global_process.flag)
-                        if isinstance(elem, str):
-                            for i in range(process.flag, len(process.events)):
-                                process.events[i] = (process.events.get(i)[0], process.events.get(i)[1] + 1)
-                                if elem == process.events.get(process.flag)[0]:
-                                    process.flag += 1
-                            all_processes.append(process)
-                        else:
-                            all_processes.append(elem.find_first_occurrence(process, global_process.flag))
+                    self.calc_xor(all_processes, elements, global_process)
                     all_processes = self.remove_policy_xor(all_processes)
                 elif self.name == "seq":
                     self.calc_seq(all_processes, elements, global_process)
@@ -157,6 +146,20 @@ class Gate:
                 elements.remove(elem)
                 self.calc_and(all_processes, elements, process)
 
+    def calc_xor(self, all_processes: [Process], elements: [Gate], global_process: Process):
+        # python way to check empty
+        while elements:
+            elem = elements.pop(0)
+            process = Process(global_process.events, global_process.flag)
+            if isinstance(elem, str):
+                for i in range(process.flag, len(process.events)):
+                    process.events[i] = (process.events.get(i)[0], process.events.get(i)[1] + 1)
+                    if elem == process.events.get(process.flag)[0]:
+                        process.flag += 1
+                all_processes.append(process)
+            else:
+                all_processes.append(elem.find_first_occurrence(process, global_process.flag))
+
     def calc_seq(self, all_processes: [Process], elements: [Gate], global_process: Process):
         while elements:
             process = deepcopy(global_process)
@@ -170,7 +173,8 @@ class Gate:
                 if elements[0] == process.events.get(process.flag)[0]:
                     for i in range(process.flag, len(process.events)):
                         process.events[i] = (process.events.get(i)[0], process.events.get(i)[1] + 1)
-                        if process.flag == 0
+                        # if process.flag == 0:
+
                     elements = elements[1:]
             else:
                 elements[0].find_first_occurrence(process)
@@ -231,13 +235,32 @@ class Gate:
             new_all_processes.append(gate.find_first_occurrence(process))
         return self.remove_policy_xor(new_all_processes)[0]
 
+    def traverse_and_gate(self, expression: str, goal_length: int) -> []:
+        if self.traverse_inner() == goal_length:
+            return list(permutations([1, 2, 3]))
+
+    def traverse_inner(self) -> []:
+        processes = []
+        iterator = 0
+        elements = self.elements.copy()
+
+        while elements:
+            elem = elements.pop(0)
+            if isinstance(elem, str):
+                processes.append(elem)
+            else:
+                processes.append(elem.traverse())
+                iterator += 1
+
+        return processes
+
     def get_model_minimal_length(self) -> int:
         if self.name == "and":
-            length = sum(self.get_model_minimal_length_process_children())
+            length = sum(self.get_children_minimal_length())
         elif self.name == "xor":
-            length = min(self.get_model_minimal_length_process_children())
+            length = min(self.get_children_minimal_length())
         elif self.name == "seq":
-            length = sum(self.get_model_minimal_length_process_children())
+            length = sum(self.get_children_minimal_length())
         elif self.name == "opt":
             length = 0
         elif self.name == "trm":
@@ -248,12 +271,10 @@ class Gate:
             raise Exception
         return length
 
-    def get_model_minimal_length_process_children(self) -> []:
+    def get_children_minimal_length(self) -> []:
         lengths = []
-        elements = self.elements.copy()
 
-        while elements:
-            elem = elements.pop(0)
+        for elem in self.elements:
             if isinstance(elem, str):
                 lengths.append(1)
             else:
