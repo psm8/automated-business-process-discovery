@@ -57,13 +57,13 @@ class process_fitness(base_ff):
     def evaluate(self, ind, **kwargs):
         guess = ind.phenotype
 
-        gate = SeqGate("seq")
+        gate = SeqGate()
         gate.parse(guess)
-        length = gate.get_model_minimal_length()
-        if length > calculate_max_allowed_length():
+        min_length = gate.get_model_minimal_length()
+        if min_length > calculate_max_allowed_length():
             return -100000
         processes = gate.get_processes_list()
-        gate.get_all_n_length_routes(8)
+        routes = gate.get_all_n_length_routes(8)
         # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
 
         length_metric = calculate_length_metric(guess, 50)

@@ -2,9 +2,8 @@ from gate.gate import Gate
 
 
 class LopGate(Gate):
-    def __init__(self):
-        self.name = "lop"
-        self.elements = []
+    def __init__(self, elements=None):
+        super().__init__("lop", elements)
 
     def get_all_n_length_routes(self, n: int) -> []:
         min_lengths = self.get_children_minimal_length()

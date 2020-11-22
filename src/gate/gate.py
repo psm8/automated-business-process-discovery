@@ -3,6 +3,7 @@ from __future__ import annotations
 from itertools import islice, permutations
 from copy import deepcopy
 import collections
+import importlib
 
 from .process import Process
 
@@ -20,8 +21,8 @@ def consume(iterator, n):
 
 class Gate:
 
-    def __init__(self, expression: str, elements=None):
-        self.name = expression[0:3]
+    def __init__(self, name: str, elements=None):
+        self.name = name[0:3]
         if elements is None:
             self.elements = []
         else:
@@ -40,7 +41,9 @@ class Gate:
             elif expression[i] == ")":
                 return i+1
             elif i+4 < len(expression):
-                gate = self.__class__(expression[i:])
+                gate_class = getattr(importlib.import_module("gate." + expression[i:i+3] + "_gate"),
+                                     expression[i:i+3].capitalize() + "Gate")
+                gate = gate_class()
                 consume(numbers, 3)
                 processed_characters = gate.parse(expression[i+4:])
                 self.add_element(gate)

@@ -2,8 +2,8 @@ from gate.gate import Gate
 
 
 class SeqGate(Gate):
-    def __init__(self, expression: str, elements=None):
-        super().__init__(expression, elements)
+    def __init__(self, elements=None):
+        super().__init__("seq", elements)
 
     def get_all_n_length_routes(self, n: int) -> []:
         min_lengths = self.get_children_minimal_length()

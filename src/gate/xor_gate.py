@@ -2,9 +2,8 @@ from gate.gate import Gate
 
 
 class XorGate(Gate):
-    def __init__(self):
-        self.name = "xor"
-        self.elements = []
+    def __init__(self, elements=None):
+        super().__init__("xor", elements)
 
     def get_all_n_length_routes(self, n: int) -> []:
         min_lengths = self.get_children_minimal_length()
