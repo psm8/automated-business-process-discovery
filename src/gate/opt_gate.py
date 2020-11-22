@@ -19,7 +19,7 @@ class OptGate(Gate):
                 local_list = []
                 for i in range(lower_limit, upper_limit + 1):
                     local_list.append(elem.get_all_n_length_routes(i))
-                global_list.append(local_list(permutations(local_list)))
+                global_list.append(list(permutations(local_list)))
 
         return global_list
 
