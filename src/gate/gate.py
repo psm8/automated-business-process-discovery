@@ -40,18 +40,11 @@ class Gate:
             elif expression[i] == ")":
                 return i+1
             elif i+4 < len(expression):
-                if expression[i:i+3] == "and" or expression[i:i+3] == "opt" or expression[i:i+3] == "xor" or \
-                        expression[i:i+3] == "lop" or expression[i:i+3] == "seq":
-                    gate = self.__class__(expression[i:])
-                    consume(numbers, 3)
-                    processed_characters = gate.parse(expression[i+4:])
-                    self.add_element(gate)
-                    consume(numbers, processed_characters)
-                elif expression[i:i+3] == "trm":
-                    self.add_element(Gate("trm"))
-                    consume(numbers, 4)
-                else:
-                    raise Exception
+                gate = self.__class__(expression[i:])
+                consume(numbers, 3)
+                processed_characters = gate.parse(expression[i+4:])
+                self.add_element(gate)
+                consume(numbers, processed_characters)
             else:
                 raise Exception
 
@@ -101,8 +94,6 @@ class Gate:
                         else:
                             all_processes.append(elem.find_first_occurrence(process, process.flag))
                     global_process.flag += 1
-                elif self.name == "trm":
-                    return global_process
                 elif self.name == "lop":
                     elem = elements.pop(0)
                     if isinstance(elem, str):
