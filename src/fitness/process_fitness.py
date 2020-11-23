@@ -44,8 +44,10 @@ def calculate_length_metric(guess, goal_length):
 
 
 def calculate_max_allowed_length():
-    return math.floor(2 * get_model_average_length()) - 1
+    return math.ceil(1.5 * get_model_average_length())
 
+def calculate_min_allowed_length():
+    return math.floor(0.5 * get_model_average_length())
 
 class process_fitness(base_ff):
     maximise = True
@@ -58,12 +60,15 @@ class process_fitness(base_ff):
         guess = ind.phenotype
 
         gate = SeqGate()
-        gate.parse(guess)
-        min_length = gate.get_model_minimal_length()
+        gate.parse("and(seq({d}{c})seq(and({a}{b})and({b}{c})))")
+        min_length = gate.get_model_min_length()
         if min_length > calculate_max_allowed_length():
             return -100000
+        max_length = gate.get_model_max_length()
+        if max_length < calculate_min_allowed_length():
+            return -100000
         processes = gate.get_processes_list()
-        routes = gate.get_all_n_length_routes(8)
+        routes = gate.get_all_n_length_routes(min_length)
         # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
 
         length_metric = calculate_length_metric(guess, 50)

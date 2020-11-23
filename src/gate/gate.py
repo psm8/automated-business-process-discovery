@@ -5,7 +5,7 @@ from copy import deepcopy
 import collections
 import importlib
 
-from .process import Process
+from gate.process import Process
 
 
 def consume(iterator, n):
@@ -229,14 +229,66 @@ class Gate:
             new_all_processes.append(gate.find_first_occurrence(process))
         return self.remove_policy_xor(new_all_processes)[0]
 
-    def get_children_minimal_length(self) -> []:
+    # could add max lengths
+    def get_goal_length_range(self, n, global_list, min_lengths):
+        min_length_local = min_lengths.pop(0)
+        min_lengths_sum = sum(min_lengths)
+        return max(min_length_local, n - (min_lengths_sum + self.list_length_recursive(global_list, max))),\
+            n - (min_lengths_sum + self.list_length_recursive(global_list, min))
+
+    def list_length_recursive(self, struct, min_or_max) -> int:
+        if struct:
+            # check if list of tuple
+            if isinstance(struct[0], tuple):
+                return min_or_max(self.list_length_recursive(x, min_or_max) for x in struct)
+            # else list of lists and events
+            else:
+                local_result = []
+                for elem in struct:
+                    if isinstance(elem, list):
+                        local_result.append(self.list_length_recursive(elem, min_or_max))
+                    else:
+                        local_result.append(1)
+                return sum(local_result)
+        else:
+            return 0
+
+    def list_min_length_recursive(self, struct) -> []:
+        if struct:
+            # check if list of tuple
+            if isinstance(struct[0], tuple):
+                return min(self.list_min_length_recursive(x) for x in struct)
+            # else list of lists and events
+            else:
+                local_result = []
+                for elem in struct:
+                    if isinstance(elem, list):
+                        local_result.append(self.list_min_length_recursive(elem))
+                    else:
+                        local_result.append(1)
+                return sum(local_result)
+        else:
+            return 0
+
+    def get_children_min_length(self) -> []:
         lengths = []
 
         for elem in self.elements:
             if isinstance(elem, str):
                 lengths.append(1)
             else:
-                lengths.append(elem.get_model_minimal_length())
+                lengths.append(elem.get_model_min_length())
+
+        return lengths
+
+    def get_children_max_length(self) -> []:
+        lengths = []
+
+        for elem in self.elements:
+            if isinstance(elem, str):
+                lengths.append(1)
+            else:
+                lengths.append(elem.get_model_max_length())
 
         return lengths
 
