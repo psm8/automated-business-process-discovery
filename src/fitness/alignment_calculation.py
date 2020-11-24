@@ -29,13 +29,60 @@ def calculate_alignment(shorter: str, longer: str, max: int):
     return 2 * matrix[size_x - 1, size_y - 1] + size_y - size_x
 
 
-def get_best_case():
+def routes_to_strings(struct):
+    if struct:
+        # check if list of tuple
+        if isinstance(struct[0], tuple):
+            values = []
+            for elem in struct:
+                routes = routes_to_strings(elem)
+                for route in routes:
+                    values.append(route)
+            results = values
+        # else list of lists and events
+        else:
+            values = []
+            for elem in struct:
+                if isinstance(elem, list):
+                    values.append(routes_to_strings(elem))
+                else:
+                    values.append(elem)
+            results = flatten_values(values)
+
+    return results
+
+
+def flatten_values(values2d_list):
+    results = []
+    values2d = values2d_list.pop(0)
+    if isinstance(values2d, list):
+        for values in values2d:
+            results.append(values)
+    else:
+        results.append(values2d)
+
+    print(results)
+    for values2d in values2d_list:
+        new_result = []
+        if isinstance(values2d, list):
+            for values in values2d:
+                for i in range(len(results)):
+                    new_result.append(results[i] + values)
+        else:
+            for i in range(len(results)):
+                new_result.append(results[i] + values2d)
+        results = new_result
+
+    return results
+
+
+def get_best_case() -> int:
     return 0
 
 
-def get_worst_allowed_alignment(self, expression):
+def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
-
-print(calculate_alignment("aaaatxtxt", "abbbtxt", 0))
+# result = routes_to_strings_inner([[('a', 'b'), ('b', 'a')], [('b', 'c'), ('c', 'b')]])
+# print(result)
 

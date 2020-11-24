@@ -1,5 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
+from fitness.alignment_calculation import routes_to_strings
 
 import math
 
@@ -60,7 +61,7 @@ class process_fitness(base_ff):
         guess = ind.phenotype
 
         gate = SeqGate()
-        gate.parse("and(seq({d}{c})seq(and({a}{b})and({b}{c})))")
+        gate.parse(guess)
         min_length = gate.get_model_min_length()
         if min_length > calculate_max_allowed_length():
             return -100000
@@ -70,7 +71,7 @@ class process_fitness(base_ff):
         processes = gate.get_processes_list()
         routes = gate.get_all_n_length_routes(min_length)
         # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
-
+        test = routes_to_strings(routes)
         length_metric = calculate_length_metric(guess, 50)
         fitness_metric = calculate_fitness_metric(gate)
         return length_metric * fitness_metric
