@@ -2,4 +2,4 @@
 
 <somethingnoseq> ::= <somethingnoseq><somethingnoseq> | {<process>}
 
-<process> ::= a | b | c | d
+<process> ::= a | b | c | d | e | f

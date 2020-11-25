@@ -25,8 +25,7 @@ def calculate_alignment(shorter: str, longer: str, max: int):
                     matrix[x - 1, y - 1] + 1,
                     matrix[x, y - 1] + 1
                 )
-    print(matrix)
-    return 2 * matrix[size_x - 1, size_y - 1] + size_y - size_x
+    return 2 * matrix[size_x - 1, size_y - 1] - abs(size_y - size_x)
 
 
 def routes_to_strings(struct):
@@ -61,7 +60,6 @@ def flatten_values(values2d_list):
     else:
         results.append(values2d)
 
-    print(results)
     for values2d in values2d_list:
         new_result = []
         if isinstance(values2d, list):
@@ -84,5 +82,3 @@ def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
 # result = routes_to_strings_inner([[('a', 'b'), ('b', 'a')], [('b', 'c'), ('c', 'b')]])
-# print(result)
-

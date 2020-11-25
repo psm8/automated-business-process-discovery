@@ -8,4 +8,4 @@
 
 <seqgate> ::= seq(<somethingnoseq><somethingnoseq>)
 
-<process> ::= a | b | c | d
+<process> ::= a | b | c | d | e | f

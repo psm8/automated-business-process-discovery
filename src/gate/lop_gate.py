@@ -12,6 +12,7 @@ class LopGate(Gate):
         for elem in self.elements:
             if isinstance(elem, str):
                 global_list.append(elem)
+                min_lengths.pop(0)
             else:
                 lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths)
                 local_list = []
