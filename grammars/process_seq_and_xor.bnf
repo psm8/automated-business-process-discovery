@@ -1,0 +1,13 @@
+<e> ::= <somethingnoseq>
+
+<somethingnoseq> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | {<process>}
+
+<something> ::=  <something><something> | <andgate> | <xorgate> | <seqgate> |  {<process>}
+
+<andgate> ::= and(<something><something>)
+
+<xorgate> ::= xor(<something><something>)
+
+<seqgate> ::= seq(<somethingnoseq><somethingnoseq>)
+
+<process> ::= a | b | c | d | e | f
