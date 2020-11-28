@@ -1,19 +1,9 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
 from fitness.alignment_calculation import routes_to_strings, calculate_alignment
-from util.list_util import is_struct_empty
+from util.util import is_struct_empty, string_to_dictionary
 
 import math
-
-
-def string_to_dictionary(string: str):
-    dictionary = dict()
-    i = 0
-    for x in string:
-        dictionary[i] = (x, -1)
-        i += 1
-    return dictionary
-
 
 def get_log():
     return ["abcdef", "acbdef"]
