@@ -3,9 +3,9 @@ CODON_SIZE:             100000
 CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
-GENERATIONS:            100
+GENERATIONS:            50
 MAX_GENOME_LENGTH:      500
-GRAMMAR_FILE:           process_seq_and.bnf
+GRAMMAR_FILE:           process_seq_and_xor.bnf
 INITIALISATION:         PI_grow
 INVALID_SELECTION:      False
 MAX_INIT_TREE_DEPTH:    10

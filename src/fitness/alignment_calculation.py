@@ -30,6 +30,14 @@ def calculate_alignment(shorter: str, longer: str, max: int):
 
 def routes_to_strings(struct):
     if struct:
+        # # check if set
+        # if isinstance(struct, set) or isinstance(struct, frozenset):
+        #     values = []
+        #     for elem in struct:
+        #         routes = routes_to_strings(elem)
+        #         for route in routes:
+        #             values.append(route)
+        #     results = values
         # check if list of tuple
         if isinstance(struct[0], tuple):
             values = []
@@ -48,7 +56,9 @@ def routes_to_strings(struct):
                     values.append(elem)
             results = flatten_values(values)
 
-    return results
+        return results
+    else:
+        return []
 
 
 def flatten_values(values2d_list):

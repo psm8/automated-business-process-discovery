@@ -233,12 +233,15 @@ class Gate:
     def get_goal_length_range(self, n, global_list, min_lengths):
         min_length_local = min_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
-        return max(min_length_local, n - (min_lengths_sum + self.list_length_recursive(global_list, max))),\
+        return max(1, min_length_local, n - (min_lengths_sum + self.list_length_recursive(global_list, max))),\
             n - (min_lengths_sum + self.list_length_recursive(global_list, min))
 
     def list_length_recursive(self, struct, min_or_max) -> int:
         if struct:
-            # check if list of tuple
+            # # check if set
+            # if isinstance(struct, set) or isinstance(struct, frozenset):
+            #     return min_or_max(self.list_length_recursive(x, min_or_max) for x in struct)
+            # check if list of tuples
             if isinstance(struct[0], tuple):
                 return min_or_max(self.list_length_recursive(x, min_or_max) for x in struct)
             # else list of lists and events
@@ -253,22 +256,10 @@ class Gate:
         else:
             return 0
 
-    def list_min_length_recursive(self, struct) -> []:
-        if struct:
-            # check if list of tuple
-            if isinstance(struct[0], tuple):
-                return min(self.list_min_length_recursive(x) for x in struct)
-            # else list of lists and events
-            else:
-                local_result = []
-                for elem in struct:
-                    if isinstance(elem, list):
-                        local_result.append(self.list_min_length_recursive(elem))
-                    else:
-                        local_result.append(1)
-                return sum(local_result)
-        else:
-            return 0
+    # should i use it everywhere??????????????????
+    #????????
+    def is_in_range(self, n, global_list) -> bool:
+        return self.list_length_recursive(global_list, min) <= n <= self.list_length_recursive(global_list, max)
 
     def get_children_min_length(self) -> []:
         lengths = []

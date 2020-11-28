@@ -1,29 +1,29 @@
 from gate.gate import Gate
-
+from util.list_util import is_struct_empty
 
 class XorGate(Gate):
     def __init__(self, elements=None):
         super().__init__("xor", elements)
 
     def get_all_n_length_routes(self, n: int) -> []:
-        if self.get_model_max_length() < n:
+        if self.get_model_max_length() < n and n > 0:
             return None
 
-        min_lengths = self.get_children_min_length()
         global_list = []
 
         for elem in self.elements:
             if isinstance(elem, str):
-                global_list.append(elem)
-                min_lengths.pop(0)
+                if n == 1:
+                    global_list.append(tuple(elem))
             else:
-                lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths)
-                for i in range(lower_limit, upper_limit + 1):
-                    child_all_n_length_routes = elem.get_all_n_length_routes(i)
-                    if child_all_n_length_routes is not None:
-                        global_list.append(child_all_n_length_routes)
+                child_all_n_length_routes = elem.get_all_n_length_routes(n)
+                # indicated something wrong
+                if is_struct_empty(child_all_n_length_routes):
+                    return []
+                if self.is_in_range(n, child_all_n_length_routes):
+                    global_list.append(tuple(child_all_n_length_routes))
 
-        return global_list
+        return [tuple(global_list)]
 
     def get_model_min_length(self) -> int:
         return min(self.get_children_min_length())

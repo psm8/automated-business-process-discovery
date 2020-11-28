@@ -1,7 +1,7 @@
 from itertools import powerset
 
 from gate.gate import Gate
-
+from util.list_util import is_struct_empty
 
 class OptGate(Gate):
     def __init__(self, elements=None):
@@ -20,14 +20,18 @@ class OptGate(Gate):
                 min_lengths.pop(0)
             else:
                 lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths)
-                local_tuple = []
                 for i in range(lower_limit, upper_limit + 1):
                     child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    #indicated something wrong
+                    if is_struct_empty(child_all_n_length_routes):
+                        return []
                     if child_all_n_length_routes is not None:
-                        local_tuple.append(child_all_n_length_routes)
-                global_list.append(local_tuple)
+                        global_list.append(child_all_n_length_routes)
 
-        return list(powerset(global_list))
+        if self.is_in_range(n, global_list):
+            return list(powerset(global_list))
+        else:
+            return []
 
     def get_model_min_length(self) -> int:
         return 0
