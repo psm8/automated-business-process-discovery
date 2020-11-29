@@ -1,6 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import routes_to_strings, calculate_alignment
+from fitness.alignment_calculation import routes_to_strings, calculate_alignment, flatten_values
 from util.util import is_struct_empty, string_to_dictionary
 
 import math
@@ -30,15 +30,17 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
     # should be change later
     while not n < calculate_min_allowed_length(log_average_length) and \
             not n > calculate_max_allowed_length(log_average_length):
-        routes = gate.get_all_n_length_routes(n)
-        if routes is not None and not is_struct_empty(routes):
-            string_list = routes_to_strings(routes)
-            best_local_error = 0
-            for elem in log:
-                best_local_error += min(calculate_alignment(string, elem, n) for string in string_list)
-            best_local_alignment = 1 - (best_local_error / (log_length + len(log) * len(string_list[0])))
-            if best_local_alignment > best_alignment:
-                best_alignment = best_local_alignment
+        if min_length <= n <= max_length:
+            routes = gate.get_all_n_length_routes(n)
+            #fix_routes to strings inside gate
+            if routes is not None and not is_struct_empty(routes):
+                strings_list = flatten_values(routes)
+                best_local_error = 0
+                for elem in log:
+                    best_local_error += min(calculate_alignment(string, elem, n) for string in strings_list)
+                best_local_alignment = 1 - (best_local_error / (log_length + len(log) * len(strings_list[0])))
+                if best_local_alignment > best_alignment:
+                    best_alignment = best_local_alignment
         if i % 2 == 1:
             n -= i
         else:

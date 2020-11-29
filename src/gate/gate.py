@@ -233,8 +233,8 @@ class Gate:
     def get_goal_length_range(self, n, global_list, min_lengths):
         min_length_local = min_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
-        return max(1, min_length_local, n - (min_lengths_sum + self.list_length_recursive(global_list, max))),\
-            n - (min_lengths_sum + self.list_length_recursive(global_list, min))
+        return max(1, min_length_local, n - (min_lengths_sum + self.list_length_new(global_list, max))),\
+            n - (min_lengths_sum + self.list_length_new(global_list, min))
 
     def list_length_recursive(self, struct, min_or_max) -> int:
         if struct:
@@ -251,15 +251,25 @@ class Gate:
                     if isinstance(elem, list):
                         local_result.append(self.list_length_recursive(elem, min_or_max))
                     else:
-                        local_result.append(1)
+                        local_result.append(len(elem))
                 return sum(local_result)
         else:
             return 0
 
+    # probably could be simplified because never nested lists
+    def list_length_new(self, struct, min_or_max) -> int:
+        result = 0
+        for elem in struct:
+            if isinstance(elem, list):
+                result += min_or_max(self.list_length_new(x, min_or_max) for x in elem)
+            else:
+                result += len(elem)
+        return result
+
     # should i use it everywhere??????????????????
     #????????
     def is_in_range(self, n, global_list) -> bool:
-        return self.list_length_recursive(global_list, min) <= n <= self.list_length_recursive(global_list, max)
+        return self.list_length_new(global_list, min) <= n <= self.list_length_new(global_list, max)
 
     def get_children_min_length(self) -> []:
         lengths = []

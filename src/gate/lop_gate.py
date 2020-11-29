@@ -30,7 +30,7 @@ class LopGate(Gate):
             return []
 
     def get_factor_of_n(self, n, child_list):
-        list_min_length = self.list_length_recursive(self, child_list, min)
+        list_min_length = self.list_length_new(self, child_list, min)
         if n%list_min_length == 0:
             return n/list_min_length
         else:

@@ -60,6 +60,33 @@ def routes_to_strings(struct):
     else:
         return []
 
+# def touples_to_strings(struct):
+#     if struct:
+#         values = []
+#         for elem in struct:
+#             routes = routes_to_strings(elem)
+#             for route in routes:
+#                 values.append(route)
+#         results = values
+#         # else list of lists and events
+#         return results
+#     else:
+#         return []
+#
+# def listss_to_strings(struct):
+#     if struct:
+#         values = []
+#         for elem in struct:
+#             if isinstance(elem, list):
+#                 values.append(routes_to_strings(elem))
+#             else:
+#                 values.append(elem)
+#         results = flatten_values(values)
+#
+#         return results
+#     else:
+#         return []
+
 
 def flatten_values(values2d_list):
     results = []
