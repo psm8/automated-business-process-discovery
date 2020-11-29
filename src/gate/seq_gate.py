@@ -1,5 +1,5 @@
 from gate.gate import Gate
-from util.list_util import is_struct_empty
+from util.util import is_struct_empty
 
 class SeqGate(Gate):
     def __init__(self, elements=None):
