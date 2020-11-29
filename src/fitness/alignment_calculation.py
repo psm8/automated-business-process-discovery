@@ -50,10 +50,10 @@ def routes_to_strings(struct):
         else:
             values = []
             for elem in struct:
-                if isinstance(elem, list):
-                    values.append(routes_to_strings(elem))
-                else:
-                    values.append(elem)
+                # if isinstance(elem, list):
+                #     values.append(routes_to_strings(elem))
+                # else:
+                values.append(elem)
             results = flatten_values(values)
 
         return results

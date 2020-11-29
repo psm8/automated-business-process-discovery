@@ -13,22 +13,18 @@ class OptGate(Gate):
         if self.get_model_max_length() < n:
             return None
 
-        min_lengths = self.get_children_min_length()
         global_list = []
 
         for elem in self.elements:
             if isinstance(elem, str):
                 global_list.append(elem)
-                min_lengths.pop(0)
             else:
-                lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths)
-                for i in range(lower_limit, upper_limit + 1):
-                    child_all_n_length_routes = elem.get_all_n_length_routes(i)
-                    #indicated something wrong
-                    if is_struct_empty(child_all_n_length_routes):
-                        return []
-                    if child_all_n_length_routes is not None:
-                        global_list.append(routes_to_strings(child_all_n_length_routes))
+                child_all_n_length_routes = elem.get_all_n_length_routes(n)
+                #indicated something wrong
+                if is_struct_empty(child_all_n_length_routes):
+                    return []
+                if child_all_n_length_routes is not None:
+                    global_list.append(routes_to_strings(child_all_n_length_routes))
 
         if self.is_in_range(n, global_list):
             return list(powerset(global_list))

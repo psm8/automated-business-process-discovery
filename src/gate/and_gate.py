@@ -14,14 +14,16 @@ class AndGate(Gate):
             return None
 
         min_lengths = self.get_children_min_length()
+        max_lengths = self.get_children_max_length()
         global_list = []
 
         for elem in self.elements:
             if isinstance(elem, str):
                 global_list.append(elem)
                 min_lengths.pop(0)
+                max_lengths.pop(0)
             else:
-                lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths)
+                lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths, max_lengths)
                 for i in range(lower_limit, upper_limit + 1):
                     child_all_n_length_routes = elem.get_all_n_length_routes(i)
                     #indicated something wrong

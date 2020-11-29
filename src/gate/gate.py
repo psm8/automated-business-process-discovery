@@ -230,10 +230,18 @@ class Gate:
         return self.remove_policy_xor(new_all_processes)[0]
 
     # could add max lengths
-    def get_goal_length_range(self, n, global_list, min_lengths):
+    def get_goal_length_upper_range(self, n, global_list, min_lengths):
         min_length_local = min_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
-        return max(1, min_length_local, n - (min_lengths_sum + self.list_length_new(global_list, max))),\
+        return n - (min_lengths_sum + self.list_length_new(global_list, min))
+
+    # could add max lengths
+    def get_goal_length_range(self, n, global_list, min_lengths, max_lengths):
+        min_length_local = min_lengths.pop(0)
+        max_length_local = max_lengths.pop(0)
+        min_lengths_sum = sum(min_lengths)
+        max_lengths_sum = sum(max_lengths)
+        return max(1, min_length_local, n - (max_lengths_sum + self.list_length_new(global_list, max))),\
             n - (min_lengths_sum + self.list_length_new(global_list, min))
 
     def list_length_recursive(self, struct, min_or_max) -> int:
