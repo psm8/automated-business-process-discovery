@@ -258,13 +258,18 @@ class Gate:
 
     # probably could be simplified because never nested lists
     def list_length_new(self, struct, min_or_max) -> int:
-        result = 0
-        for elem in struct:
-            if isinstance(elem, list):
-                result += min_or_max(self.list_length_new(x, min_or_max) for x in elem)
-            else:
-                result += len(elem)
-        return result
+        if struct:
+            result = 0
+            if isinstance(struct[0], tuple):
+                return min_or_max(self.list_length_new(x, min_or_max) for x in struct)
+            for elem in struct:
+                if isinstance(elem, list):
+                    result += min_or_max(self.list_length_new(x, min_or_max) for x in elem)
+                else:
+                    result += len(elem)
+            return result
+        else:
+            return 0
 
     # should i use it everywhere??????????????????
     #????????

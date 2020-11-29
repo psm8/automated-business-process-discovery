@@ -1,5 +1,7 @@
 from gate.gate import Gate
 from util.util import is_struct_empty
+from fitness.alignment_calculation import routes_to_strings
+
 
 class XorGate(Gate):
     def __init__(self, elements=None):
@@ -16,14 +18,18 @@ class XorGate(Gate):
                 if n == 1:
                     global_list.append(tuple(elem))
             else:
+                # possibly should add lower limit
                 child_all_n_length_routes = elem.get_all_n_length_routes(n)
                 # indicated something wrong
                 if is_struct_empty(child_all_n_length_routes):
                     return []
                 if self.is_in_range(n, child_all_n_length_routes):
-                    global_list.append(tuple(child_all_n_length_routes))
+                    global_list.append(self.to_tuple_list(routes_to_strings(child_all_n_length_routes)))
 
-        return [tuple(global_list)]
+        return global_list
+
+    def to_tuple_list(self, alist):
+        return [tuple(x) for x in alist]
 
     def get_model_min_length(self) -> int:
         return min(self.get_children_min_length())

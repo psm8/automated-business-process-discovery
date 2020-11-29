@@ -70,6 +70,26 @@ def calculate_min_allowed_length(log_average_length):
     return math.floor(0.5 * log_average_length)
 
 
+def evaluate_guess(guess):
+    log = get_log()
+    log_length = get_log_length(log)
+    log_average_length = log_length / len(log)
+    gate = SeqGate()
+    gate.parse(guess)
+    min_length = gate.get_model_min_length()
+    if min_length > calculate_max_allowed_length(log_average_length):
+        return -100000
+    max_length = gate.get_model_max_length()
+    if max_length < calculate_min_allowed_length(log_average_length):
+        return -100000
+    # processes = gate.get_processes_list()
+    # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
+    # length_metric = calculate_length_metric(guess, 50)
+    fitness_metric = calculate_fitness_metric(log, log_length, log_average_length, gate, min_length, max_length)
+
+    return fitness_metric
+
+
 class process_fitness(base_ff):
     maximise = True
 
@@ -80,19 +100,4 @@ class process_fitness(base_ff):
     def evaluate(self, ind, **kwargs):
         guess = ind.phenotype
 
-        log = get_log()
-        log_length = get_log_length(log)
-        log_average_length = log_length / len(log)
-        gate = SeqGate()
-        gate.parse(guess)
-        min_length = gate.get_model_min_length()
-        if min_length > calculate_max_allowed_length(log_average_length):
-            return -100000
-        max_length = gate.get_model_max_length()
-        if max_length < calculate_min_allowed_length(log_average_length):
-            return -100000
-        # processes = gate.get_processes_list()
-        # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
-        # length_metric = calculate_length_metric(guess, 50)
-        fitness_metric = calculate_fitness_metric(log, log_length, log_average_length, gate, min_length, max_length)
-        return fitness_metric
+        return evaluate_guess(guess)
