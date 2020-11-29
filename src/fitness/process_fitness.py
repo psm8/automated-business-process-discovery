@@ -16,6 +16,13 @@ def get_log_length(log: list):
 def calculate_simplicity_metric(s):
     return
 
+
+def calculate_precision_metric(guess):
+    precision = 0
+    
+    return precision
+
+
 def calculate_fitness_metric(log, log_length, log_average_length, gate, min_length, max_length):
     n = round(log_average_length)
     i = 1
