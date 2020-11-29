@@ -35,7 +35,6 @@ class LopGate(Gate):
         else:
             return []
 
-
     def to_n_length(self, n, child_list):
         min_length = min([len(x) for x in child_list])
         max_length = n - min_length
@@ -43,12 +42,13 @@ class LopGate(Gate):
         for child in child_list:
             len_child = len(child)
             if len_child <= max_length:
-                [global_result.append(x) for x in self.to_n_length_inner(n-len_child, max_length-len_child, child, child_list)]
+                # tuple()
+                [global_result.append((x,)) for x in self.to_n_length_inner(n-len_child, max_length-len_child, child, child_list)]
             elif len_child == n:
-                global_result.append(child)
+                # tuple()
+                global_result.append((child,))
 
         return global_result
-
 
     def to_n_length_inner(self, n, max_length, result, child_list):
         global_result = []
@@ -60,7 +60,6 @@ class LopGate(Gate):
                 global_result.append(copy.copy(result) + child)
 
         return global_result
-
 
     def get_model_min_length(self) -> int:
         return 0
