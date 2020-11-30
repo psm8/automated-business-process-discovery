@@ -17,7 +17,8 @@ def calculate_simplicity_metric(s):
     return
 
 
-def calculate_precision_metric(guess):
+def calculate_precision_metric(guess, mappings):
+    sum_branches = sum([mappings[char].event for char in guess])
     precision = 0
     
     return precision
@@ -34,10 +35,16 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, mappings
             routes = gate.get_all_n_length_routes(n)
             #fix_routes to strings inside gate
             if routes is not None and not is_struct_empty(routes):
-                strings_list = decode(flatten_values(routes), mappings)
+                strings_list = flatten_values(routes)
                 best_local_error = 0
                 for elem in log:
-                    best_local_error += min(calculate_alignment(string, elem, n) for string in strings_list)
+                    min_local = 1023
+                    for string in strings_list:
+                        value = calculate_alignment(decode(string, mappings), elem, n)
+                        if value < min_local:
+                            min_local = value
+                            string_global = string
+                    best_local_error += min_local
                 best_local_alignment = 1 - (best_local_error / (log_length + len(log) * len(strings_list[0])))
                 if best_local_alignment > best_alignment:
                     best_alignment = best_local_alignment
@@ -49,16 +56,12 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, mappings
     return best_alignment
 
 
-def decode(string_list: [str], mappings: dict) -> []:
-    result = []
-    for string in string_list:
-        local_result = ""
-        # test against lambda
-        for char in string:
-            local_result += mappings[char].event
-        result.append(local_result)
-    return result
-
+def decode(string: str, mappings: dict) -> []:
+    local_result = ""
+    # test against lambda
+    for char in string:
+        local_result += mappings[char].event
+    return local_result
 
 
 def calculate_length_metric(guess, goal_length):
