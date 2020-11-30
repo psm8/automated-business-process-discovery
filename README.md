@@ -10,3 +10,5 @@ add info about visited nodes and no of children, could be stored in dictionary c
 add info about visited nodes and no of children, could be stored in dictionary created when parsing.
 
 merge lop if repetitions
+
+consider if opt should return element length n or 0 to n

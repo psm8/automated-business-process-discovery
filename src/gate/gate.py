@@ -229,6 +229,12 @@ class Gate:
             new_all_processes.append(gate.find_first_occurrence(process))
         return self.remove_policy_xor(new_all_processes)[0]
 
+    def get_goal_length_lower_range(self, n, global_list, min_lengths, max_lengths):
+        min_length_local = min_lengths.pop(0)
+        max_length_local = max_lengths.pop(0)
+        max_lengths_sum = sum(max_lengths)
+        return max(1, min_length_local, n - (max_lengths_sum + self.list_length_new(global_list, max)))
+
     # could add max lengths
     def get_goal_length_upper_range(self, n, global_list, min_lengths):
         min_length_local = min_lengths.pop(0)

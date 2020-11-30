@@ -24,9 +24,9 @@ class XorGate(Gate):
                 if is_struct_empty(child_all_n_length_routes):
                     return []
                 if self.is_in_range(n, child_all_n_length_routes):
-                    global_list.append(self.to_tuple_list(routes_to_strings(child_all_n_length_routes)))
+                    global_list.append(routes_to_strings(child_all_n_length_routes))
 
-        return global_list
+        return self.to_tuple_list(global_list)
 
     def to_tuple_list(self, alist):
         return [tuple(x) for x in alist]
