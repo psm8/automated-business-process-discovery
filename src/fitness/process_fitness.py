@@ -23,7 +23,7 @@ def calculate_precision_metric(guess):
     return precision
 
 
-def calculate_fitness_metric(log, log_length, log_average_length, gate, min_length, max_length):
+def calculate_fitness_metric(log, log_length, log_average_length, gate, mappings, min_length, max_length):
     n = round(log_average_length)
     i = 1
     best_alignment = 0
@@ -34,7 +34,7 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
             routes = gate.get_all_n_length_routes(n)
             #fix_routes to strings inside gate
             if routes is not None and not is_struct_empty(routes):
-                strings_list = flatten_values(routes)
+                strings_list = decode(flatten_values(routes), mappings)
                 best_local_error = 0
                 for elem in log:
                     best_local_error += min(calculate_alignment(string, elem, n) for string in strings_list)
@@ -47,6 +47,18 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
             n += i
         i += 1
     return best_alignment
+
+
+def decode(string_list: [str], mappings: dict) -> []:
+    result = []
+    for string in string_list:
+        local_result = ""
+        # test against lambda
+        for char in string:
+            local_result += mappings[char].event
+        result.append(local_result)
+    return result
+
 
 
 def calculate_length_metric(guess, goal_length):
@@ -75,7 +87,8 @@ def evaluate_guess(guess):
     log_length = get_log_length(log)
     log_average_length = log_length / len(log)
     gate = SeqGate()
-    gate.parse(guess)
+    mappings = {'a': ""}
+    gate.parse(guess, mappings)
     min_length = gate.get_model_min_length()
     if min_length > calculate_max_allowed_length(log_average_length):
         return -100000
@@ -85,7 +98,8 @@ def evaluate_guess(guess):
     # processes = gate.get_processes_list()
     # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
     # length_metric = calculate_length_metric(guess, 50)
-    fitness_metric = calculate_fitness_metric(log, log_length, log_average_length, gate, min_length, max_length)
+    fitness_metric = calculate_fitness_metric(log, log_length, log_average_length, gate,
+                                              mappings, min_length, max_length)
 
     return fitness_metric
 
