@@ -1,7 +1,7 @@
 from gate.gate import Gate
 from util.util import is_struct_empty
 from fitness.alignment_calculation import routes_to_strings
-from gate.event import Event
+from event.event import Event
 
 
 class XorGate(Gate):

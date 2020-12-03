@@ -4,9 +4,9 @@ from itertools import islice
 import collections
 import importlib
 
-from gate.event import Event
-from gate.event_group import EventGroup
-from gate.event_group_parallel import EventGroupParallel
+from event.event import Event
+from event.event_group import EventGroup
+from event.event_group_parallel import EventGroupParallel
 
 
 def consume(iterator, n):
@@ -84,37 +84,13 @@ class Gate:
         return max(1, min_length_local, n - (max_lengths_sum + self.list_length_new(global_list, max))),\
             n - (min_lengths_sum + self.list_length_new(global_list, min))
 
-    def list_length_recursive(self, struct, min_or_max) -> int:
-        if struct:
-            # # check if set
-            # if isinstance(struct, set) or isinstance(struct, frozenset):
-            #     return min_or_max(self.list_length_recursive(x, min_or_max) for x in struct)
-            # check if list of tuples
-            if isinstance(struct[0], tuple):
-                return min_or_max(self.list_length_recursive(x, min_or_max) for x in struct)
-            # else list of lists and events
-            else:
-                local_result = []
-                for elem in struct:
-                    if isinstance(elem, list):
-                        local_result.append(self.list_length_recursive(elem, min_or_max))
-                    else:
-                        local_result.append(len(elem))
-                return sum(local_result)
-        else:
-            return 0
-
     # probably could be simplified because never nested lists
     def list_length_new(self, struct, min_or_max) -> int:
         if struct:
-            result = 0
-            if isinstance(struct, EventGroupParallel):
-                return min_or_max(self.list_length_new(x, min_or_max) for x in struct)
-            elif isinstance(struct, EventGroup):
-                result += min_or_max(self.list_length_new(x, min_or_max) for x in struct)
+            if isinstance(struct, list):
+                return sum(self.list_length_new(x, min_or_max) for x in struct)
             else:
-                result += len(struct)
-            return result
+                return len(struct)
         else:
             return 0
 

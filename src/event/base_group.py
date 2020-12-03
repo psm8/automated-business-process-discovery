@@ -1,4 +1,4 @@
-class EventGroupParallel:
+class BaseGroup:
 
     def __init__(self, events=None):
         if events is None:
@@ -17,3 +17,8 @@ class EventGroupParallel:
         self.events.append(event2)
         return self
 
+    def add_event_event_group(self, event, event_group):
+        self.events.append(event)
+        for event_local in event_group:
+            self.events.append(event_local)
+        return self

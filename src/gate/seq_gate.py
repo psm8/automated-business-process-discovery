@@ -1,7 +1,7 @@
 from gate.gate import Gate
 from util.util import is_struct_empty
-from fitness.alignment_calculation import routes_to_strings
-from gate.event import Event
+from fitness.alignment_calculation import flatten_values
+from event.event import Event
 
 
 class SeqGate(Gate):
@@ -30,7 +30,7 @@ class SeqGate(Gate):
                         return []
                     if child_all_n_length_routes is not None:
                         # list could be a problem
-                        global_list.append(list(routes_to_strings(child_all_n_length_routes)))
+                        global_list.append([child_all_n_length_routes])
 
         if self.is_in_range(n, global_list):
             return global_list

@@ -1,5 +1,7 @@
 import numpy as np
 import math
+from event.event_group import EventGroup
+from event.event_group_parallel import EventGroupParallel
 
 
 def calculate_alignment(shorter: str, longer: str, max: int):
@@ -28,29 +30,29 @@ def calculate_alignment(shorter: str, longer: str, max: int):
     return 2 * matrix[size_x - 1, size_y - 1] - abs(size_y - size_x)
 
 
-def routes_to_strings(struct):
-    if struct:
-        # check if list of tuples
-        if isinstance(struct[0], tuple):
-            values = []
-            for elem in struct:
-                routes = routes_to_strings(elem)
-                for route in routes:
-                    values.append(route)
-            results = values
-        # else list of lists and events
-        else:
-            values = []
-            for elem in struct:
-                # if isinstance(elem, list):
-                #     values.append(routes_to_strings(elem))
-                # else:
-                values.append(elem)
-            results = flatten_values(values)
-
-        return results
-    else:
-        return []
+# def event_group_to_strings(struct):
+#     if struct:
+#         # check if list of tuples
+#         if isinstance(struct, BaseGroup):
+#             values = []
+#             for elem in struct:
+#                 routes = event_group_to_strings(elem)
+#                 for route in routes:
+#                     values.append(route)
+#             results = values
+#         # else list of lists and events
+#         else:
+#             values = []
+#             for elem in struct:
+#                 # if isinstance(elem, list):
+#                 #     values.append(routes_to_strings(elem))
+#                 # else:
+#                 values.append(elem)
+#             results = flatten_values(values)
+#
+#         return results
+#     else:
+#         return []
 
 # def touples_to_strings(struct):
 #     if struct:

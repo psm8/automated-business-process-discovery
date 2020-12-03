@@ -1,6 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import routes_to_strings, calculate_alignment, flatten_values
+from fitness.alignment_calculation import calculate_alignment, flatten_values
 from util.util import is_struct_empty, string_to_dictionary
 
 import math
