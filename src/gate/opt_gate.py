@@ -3,6 +3,7 @@ from util.util import powerset
 from gate.gate import Gate
 from util.util import is_struct_empty, to_n_length
 from fitness.alignment_calculation import routes_to_strings, flatten_values
+from gate.event import Event
 
 
 class OptGate(Gate):
@@ -18,7 +19,7 @@ class OptGate(Gate):
         global_list = []
 
         for elem in self.elements:
-            if isinstance(elem, str):
+            if isinstance(elem, Event):
                 global_list.append(elem)
                 min_lengths.pop(0)
                 max_lengths.pop(0)

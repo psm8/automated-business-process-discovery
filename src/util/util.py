@@ -50,3 +50,4 @@ def to_n_length_inner(n, max_length, result, child_list):
             global_result.append(copy.copy(result) + child)
 
     return global_result
+

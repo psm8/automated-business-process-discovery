@@ -5,6 +5,8 @@ import collections
 import importlib
 
 from gate.event import Event
+from gate.event_group import EventGroup
+from gate.event_group_parallel import EventGroupParallel
 
 
 def consume(iterator, n):
@@ -30,15 +32,15 @@ class Gate:
     def add_element(self, element):
         self.elements.append(element)
 
-    def parse(self, expression: str, mappings: dict) -> int:
+    def parse(self, expression: str) -> int:
 
-        locally_added_mappings = []
+        locally_added_events = []
         numbers = iter(range(len(expression)))
         for i in numbers:
             if expression[i] == "{":
-                locally_added_mappings.append(chr(ord(list(mappings)[-1]) + 1))
-                self.add_element(chr(ord(list(mappings)[-1]) + 1))
-                mappings[chr(ord(list(mappings)[-1]) + 1)] = Event(expression[i + 1])
+                event = Event(expression[i + 1])
+                locally_added_events.append(event)
+                self.add_element(event)
                 consume(numbers, 2)
             elif expression[i] == ")":
                 return i+1
@@ -47,13 +49,13 @@ class Gate:
                                      expression[i:i+3].capitalize() + "Gate")
                 gate = gate_class()
                 consume(numbers, 3)
-                processed_characters = gate.parse(expression[i+4:], mappings)
+                processed_characters = gate.parse(expression[i+4:])
                 self.add_element(gate)
-                for mappings_index in locally_added_mappings:
-                    mappings[mappings_index].no_branches += 1
                 consume(numbers, processed_characters)
             else:
                 raise Exception
+        for event in locally_added_events:
+            event.no_branches += 1
 
     # def check_repetitions(self, process):
     #     if self.name == "and" or self.name == "opt" or self.name == "xor":
@@ -106,13 +108,12 @@ class Gate:
     def list_length_new(self, struct, min_or_max) -> int:
         if struct:
             result = 0
-            if isinstance(struct[0], tuple):
+            if isinstance(struct, EventGroupParallel):
                 return min_or_max(self.list_length_new(x, min_or_max) for x in struct)
-            for elem in struct:
-                if isinstance(elem, list):
-                    result += min_or_max(self.list_length_new(x, min_or_max) for x in elem)
-                else:
-                    result += len(elem)
+            elif isinstance(struct, EventGroup):
+                result += min_or_max(self.list_length_new(x, min_or_max) for x in struct)
+            else:
+                result += len(struct)
             return result
         else:
             return 0
@@ -126,7 +127,7 @@ class Gate:
         lengths = []
 
         for elem in self.elements:
-            if isinstance(elem, str):
+            if isinstance(elem, Event):
                 lengths.append(1)
             else:
                 lengths.append(elem.get_model_min_length())
@@ -137,7 +138,7 @@ class Gate:
         lengths = []
 
         for elem in self.elements:
-            if isinstance(elem, str):
+            if isinstance(elem, Event):
                 lengths.append(1)
             else:
                 lengths.append(elem.get_model_max_length())
@@ -151,7 +152,7 @@ class Gate:
 
         while elements:
             elem = elements.pop(0)
-            if isinstance(elem, str):
+            if isinstance(elem, Event):
                 processes.append(elem)
             else:
                 processes.append(elem.get_processes_list())

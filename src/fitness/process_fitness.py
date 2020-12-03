@@ -6,7 +6,7 @@ from util.util import is_struct_empty, string_to_dictionary
 import math
 
 def get_log():
-    return ["abcdef", "acbdef"]
+    return ["abcdefghijklmn", "acbdefghijklmn"]
 
 
 def get_log_length(log: list):
@@ -17,14 +17,14 @@ def calculate_simplicity_metric(s):
     return
 
 
-def calculate_precision_metric(guess, mappings):
+def calculate_precision_metric(guess):
     sum_branches = sum([mappings[char].event for char in guess])
     precision = 0
     
     return precision
 
 
-def calculate_fitness_metric(log, log_length, log_average_length, gate, mappings, min_length, max_length):
+def calculate_fitness_metric(log, log_length, log_average_length, gate, min_length, max_length):
     n = round(log_average_length)
     i = 1
     best_alignment = 0
@@ -40,7 +40,7 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, mappings
                 for elem in log:
                     min_local = 1023
                     for string in strings_list:
-                        value = calculate_alignment(decode(string, mappings), elem, n)
+                        value = calculate_alignment(decode(string), elem, n)
                         if value < min_local:
                             min_local = value
                             string_global = string
@@ -56,7 +56,7 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, mappings
     return best_alignment
 
 
-def decode(string: str, mappings: dict) -> []:
+def decode(string: str) -> []:
     local_result = ""
     # test against lambda
     for char in string:
@@ -90,8 +90,7 @@ def evaluate_guess(guess):
     log_length = get_log_length(log)
     log_average_length = log_length / len(log)
     gate = SeqGate()
-    mappings = {'a': ""}
-    gate.parse(guess, mappings)
+    gate.parse(guess)
     min_length = gate.get_model_min_length()
     if min_length > calculate_max_allowed_length(log_average_length):
         return -100000
@@ -102,7 +101,7 @@ def evaluate_guess(guess):
     # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
     # length_metric = calculate_length_metric(guess, 50)
     fitness_metric = calculate_fitness_metric(log, log_length, log_average_length, gate,
-                                              mappings, min_length, max_length)
+                                              min_length, max_length)
 
     return fitness_metric
 

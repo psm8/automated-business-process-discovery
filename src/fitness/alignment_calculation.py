@@ -30,15 +30,7 @@ def calculate_alignment(shorter: str, longer: str, max: int):
 
 def routes_to_strings(struct):
     if struct:
-        # # check if set
-        # if isinstance(struct, set) or isinstance(struct, frozenset):
-        #     values = []
-        #     for elem in struct:
-        #         routes = routes_to_strings(elem)
-        #         for route in routes:
-        #             values.append(route)
-        #     results = values
-        # check if list of tuple
+        # check if list of tuples
         if isinstance(struct[0], tuple):
             values = []
             for elem in struct:
@@ -105,7 +97,7 @@ def flatten_values(values2d_list):
                     new_result.append(results[i] + values)
         else:
             for i in range(len(results)):
-                new_result.append(results[i] + values2d)
+                new_result.append(results[i].add_event(values2d))
         results = new_result
 
     return results
@@ -117,5 +109,3 @@ def get_best_case() -> int:
 
 def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
-
-# result = routes_to_strings_inner([[('a', 'b'), ('b', 'a')], [('b', 'c'), ('c', 'b')]])

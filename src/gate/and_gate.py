@@ -3,6 +3,7 @@ from itertools import permutations
 from gate.gate import Gate
 from util.util import is_struct_empty
 from fitness.alignment_calculation import routes_to_strings
+from gate.event import Event
 
 
 class AndGate(Gate):
@@ -18,7 +19,7 @@ class AndGate(Gate):
         global_list = []
 
         for elem in self.elements:
-            if isinstance(elem, str):
+            if isinstance(elem, Event):
                 global_list.append(elem)
                 min_lengths.pop(0)
                 max_lengths.pop(0)
@@ -42,3 +43,4 @@ class AndGate(Gate):
 
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
+

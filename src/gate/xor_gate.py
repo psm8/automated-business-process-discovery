@@ -1,6 +1,7 @@
 from gate.gate import Gate
 from util.util import is_struct_empty
 from fitness.alignment_calculation import routes_to_strings
+from gate.event import Event
 
 
 class XorGate(Gate):
@@ -14,7 +15,7 @@ class XorGate(Gate):
         global_list = []
 
         for elem in self.elements:
-            if isinstance(elem, str):
+            if isinstance(elem, Event):
                 if n == 1:
                     global_list.append(tuple(elem))
             else:
