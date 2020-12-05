@@ -1,7 +1,9 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import calculate_alignment, flatten_values
+from fitness.alignment_calculation import calculate_alignment, flatten_values, nv
 from util.util import is_struct_empty, string_to_dictionary
+from event.event_group import EventGroup
+from event.event_group_parallel import EventGroupParallel
 
 import math
 
@@ -40,7 +42,7 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
                 for elem in log:
                     min_local = 1023
                     for string in strings_list:
-                        value = calculate_alignment(decode(string), elem, n)
+                        value = nv(elem, resolve_parallel(string), n)
                         if value < min_local:
                             min_local = value
                             string_global = string
@@ -54,6 +56,37 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
             n += i
         i += 1
     return best_alignment
+
+
+def resolve_parallel(route):
+    model_list = []
+    for event_group in range(len(route)):
+        if isinstance(route[i], EventGroup):
+            [model_list.append(event) for event in route[i].events]
+        else:                                       # isinstance(EventGroupParallel):
+            for j in range(len(route[i].events)):
+                model_list.append(route[i].events)
+    return model_list
+
+
+# def resolve_parallel(route):
+#     model_list = []
+#     first_event_in_parallel_group = -1
+#     parallel_group = []
+#     for i in range(len(route)):
+#         if isinstance(EventGroup):
+#             model_list.append(route[i].event.)
+#             first_event_in_parallel_group = -1
+#             parallel_group = []
+#         else:
+#             parallel_group += route[i]
+#             model_list.append(parallel_group)
+#             if first_event_in_parallel_group != -1:
+#                 len_model_list = len(model_list)
+#                 for j in range(first_event_in_parallel_group, len_model_list - 1):
+#                     model_list[j] = parallel_group
+#             else:
+#                 first_event_in_parallel_group = i
 
 
 def decode(string: str) -> []:
