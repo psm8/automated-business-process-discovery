@@ -1,6 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import calculate_alignment, flatten_values, nv
+from fitness.alignment_calculation import calculate_alignment, flatten_values, nw
 from util.util import is_struct_empty, string_to_dictionary
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
@@ -42,7 +42,7 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
                 for elem in log:
                     min_local = 1023
                     for string in strings_list:
-                        value = nv(elem, resolve_parallel(string), n)
+                        value = nw(elem, string, n)
                         if value < min_local:
                             min_local = value
                             string_global = string
@@ -56,17 +56,6 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
             n += i
         i += 1
     return best_alignment
-
-
-def resolve_parallel(route):
-    model_list = []
-    for event_group in range(len(route)):
-        if isinstance(route[i], EventGroup):
-            [model_list.append(event) for event in route[i].events]
-        else:                                       # isinstance(EventGroupParallel):
-            for j in range(len(route[i].events)):
-                model_list.append(route[i].events)
-    return model_list
 
 
 # def resolve_parallel(route):

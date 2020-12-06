@@ -1,62 +1,48 @@
 import numpy as np
 import math
 
+from event.event import Event
+from event.base_group import BaseGroup
+from event.event_group import EventGroup
+from event.event_group_parallel import EventGroupParallel
 
-def calculate_alignment(shorter: str, longer: str, max: int):
-    size_x = len(shorter) + 1
-    size_y = len(longer) + 1
-    matrix = np.zeros((size_x, size_y))
-    for x in range(size_x):
-        matrix[x, 0] = x
-    for y in range(size_y):
-        matrix[0, y] = y
-
-    for x in range(1, size_x):
-        for y in range(1, size_y):
-            if shorter[x - 1] == longer[y - 1]:
-                matrix[x, y] = min(
-                    matrix[x - 1, y] + 1,
-                    matrix[x - 1, y - 1],
-                    matrix[x, y - 1] + 1
-                )
-            else:
-                matrix[x, y] = min(
-                    matrix[x - 1, y] + 1,
-                    matrix[x - 1, y - 1] + 1,
-                    matrix[x, y - 1] + 1
-                )
-    return 2 * matrix[size_x - 1, size_y - 1] - abs(size_y - size_x)
-
-
-def calculate_alignment_parallel(shorter: str, longer: str):
-    penalty = 0
-    for x in shorter:
-        test = longer.find(x)
-        if test == -1:
-            penalty += 1
-        else:
-            # to check duplicates in future iterations
-            longer = longer[:test] + longer[(test+1):]
-    return penalty + len(longer)
-
-
+from itertools import permutations
 
 #-------------------------------------------------------
 #This function returns to values for cae of match or mismatch
-def diagonal(n1,n2,pt):
-    if n1 in n2:
+def diagonal(log, model, pt):
+    if log in model:
         return pt['MATCH']
     else:
         return pt['MISMATCH']
 
 
+def nw_wrapper(log, model):
+    result = nw_is_parallel_wrapper(log, model)
+    return result[len(result)-1]
+
+
+def nw_is_parallel_wrapper(log, model):
+    if isinstance(model, EventGroup):
+        result_x = nw(log, resolve_parallel_event_group(model))
+    else:
+        if are_all_events(model.events):
+            result_x = nw([event.name for event in [events for events in model.events]])
+        else:
+            event_permutations = permutations(model.events)
+
+            result_x = get_maxes([nw_is_parallel_wrapper(log, list(events)) for events in event_permutations])
+
+    return result_x
+
+
 #--------------------------------------------------------
-#This function creates the aligment and pointers matrices
-def nv(log, model, match=0, mismatch=-2, gap=-1):
-    penalty = {'MATCH': match, 'MISMATCH': mismatch, 'GAP': gap} #A dictionary for all the penalty valuse.
+#This function creates the alignment and pointers matrices
+def nw(log, model):
+    penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1} #A dictionary for all the penalty values.
     n = len(log) + 1 #The dimension of the matrix columns.
     m = len(model) + 1 #The dimension of the matrix rows.
-    al_mat = np.zeros((m,n),dtype = int) #Initializes the alighment matrix with zeros.
+    al_mat = np.zeros((m, n), dtype=int) #Initializes the alignment matrix with zeros.
     #Scans all the first rows element in the matrix and fill it with "gap penalty"
     for i in range(m):
         al_mat[i][0] = penalty['GAP'] * i
@@ -65,13 +51,95 @@ def nv(log, model, match=0, mismatch=-2, gap=-1):
         al_mat[0][j] = penalty['GAP'] * j
     #Fill the matrix with the correct values.
 
-    for i in range(1, m):
-        for j in range(1, n):
-            di = al_mat[i-1][j-1] + diagonal(log[j-1], model[i-1], penalty) #The value for match/mismatch -  diagonal.
-            ho = al_mat[i][j-1] + penalty['GAP'] #The value for gap - horizontal.(from the left cell)
-            ve = al_mat[i-1][j] + penalty['GAP'] #The value for gap - vertical.(from the upper cell)
-            al_mat[i][j] = max(di, ho, ve) #Fill the matrix with the maximal value.(based on the python default maximum)
-    print(np.matrix(al_mat))
+    pos = 1
+    if should_go_recurrent(model[0]):
+        recurrent_nw(log, model[0], pos)
+
+    # want to iterate in square pattern
+    i = 1
+    j = 1
+    k = 1
+    while True:
+        for i in range(1, k + 1):
+            basic_nw(al_mat, log, model[i - 1], penalty, i, j)
+        if k == min(m, n) - 1:
+            break
+        i += 1
+        for j in range(1, i):
+            basic_nw(al_mat, log, model[i - 1], penalty, i, j)
+        j += 1
+        k += 1
+
+    np_array = np.array(al_mat)
+    print(np_array)
+
+    return al_mat[m-1]
+
+
+def get_maxes(results):
+    np_array = np.array(results)
+    return np.max(np_array, axis=0)
+
+
+def basic_nw(al_mat, log, model_event, penalty, i, j):
+    di = al_mat[i - 1][j - 1] + diagonal(log[j - 1], model_event, penalty)  # The value for match/mismatch.
+    ho = al_mat[i][j - 1] + penalty['GAP']  # The value for gap - horizontal.(from the left cell)
+    ve = al_mat[i - 1][j] + penalty['GAP']  # The value for gap - vertical.(from the upper cell)
+    al_mat[i][j] = max(di, ho, ve)  # Fill the matrix with the maximal value.(based on the python default maximum)
+
+
+def fill_result_matrix(al_mat, local_result_matrix, pos):
+    return al_mat
+
+
+def recurrent_nw(log, model_events, pos):
+    # could add some stop improvements
+    result_x = [-999 for _ in (model_events + min(len(log) - pos, model_events))]
+    for i in range(min(len(log) - pos, model_events)):
+        local_result_x = nw_is_parallel_wrapper(trim_log(log, pos + i, len(model_events) + i), model_events)
+        for j in range(len(local_result_x)):
+            if local_result_x[j] - i > result_x[j + i]:
+                result_x[j + i] = local_result_x[j] - i
+    return result_x
+
+
+def trim_log(log, pos, len_model):
+    return log[pos:min(pos+len_model, len(log)-1)]
+
+
+def should_go_recurrent(event):
+    if isinstance(event, str) or isinstance(event, list):
+        return False
+    else:
+        return True
+
+def are_all_events(events):
+    for event in events:
+        if isinstance(event, BaseGroup):
+            return False
+    return True
+
+
+def resolve_parallel_event_group(event_group):
+    model_list = []
+
+    for event in event_group.events:
+        if isinstance(event, Event):
+            model_list.append(event.name)
+        elif isinstance(event, EventGroup):
+            if are_all_events(event.events):
+                [model_list.append(x.name) for x in event.events]
+            else:
+                model_list.append(event)
+        else:            # isinstance(EventGroupParallel):
+            if are_all_events(event.events):
+                for j in range(len(event.events)):
+                    model_list.append(event.name for event in event.events)
+            else:
+                model_list.append(event)
+
+    return model_list
+
 
 # def event_group_to_strings(struct):
 #     if struct:
@@ -124,6 +192,29 @@ def nv(log, model, match=0, mismatch=-2, gap=-1):
 #     else:
 #         return []
 
+# def resolve_parallel(event_group):
+#     model_list = []
+#     if isinstance(event_group, EventGroup):
+#         for i in range(len(event_group.events)):
+#             if isinstance(event_group.events[i], Event):
+#                 model_list.append(event_group.events[i])
+#             elif are_all_events(event_group.events[i]):
+#                 model_list.append(event_group.events[i])
+#             elif isinstance(event_group.events[i], EventGroup):
+#                 [model_list.append(event) for event in event_group.events[i].events]
+#             else:                                       # isinstance(EventGroupParallel):
+#                 for j in range(len(event_group.events[i].events.events)):
+#                     model_list.append(event_group.events[i].events.events)
+#     else:           # isinstance(EventGroupParallel):
+#         if are_all_events(event_group):
+#             for i in range(len(event_group.events)):
+#                 model_list.append(event_group.events[i])
+#         else:
+#             for i in range(len(event_group.events)):
+#                 event_permutations = permutations(event_group.events[i])
+#                 [model_list.append(list(x)) for x in event_permutations]
+#
+#     return model_list
 
 def flatten_values(values2d_list):
     results = []
@@ -155,4 +246,11 @@ def get_best_case() -> int:
 def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
-nv('abcd', 'abcthy')
+
+event_group_events = []
+for x in 'pqacezxys':
+    event_group_events.append(Event(x))
+event_group = EventGroup(event_group_events)
+
+# self.assertEqual(nw_wrapper('zxabcdezx', event_group), -8)
+nw_wrapper('zxabcdezx', event_group)
