@@ -1,6 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import calculate_alignment, flatten_values, nw
+from fitness.alignment_calculation import flatten_values, nw
 from util.util import is_struct_empty, string_to_dictionary
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
@@ -76,14 +76,6 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
 #                     model_list[j] = parallel_group
 #             else:
 #                 first_event_in_parallel_group = i
-
-
-def decode(string: str) -> []:
-    local_result = ""
-    # test against lambda
-    for char in string:
-        local_result += mappings[char].event
-    return local_result
 
 
 def calculate_length_metric(guess, goal_length):

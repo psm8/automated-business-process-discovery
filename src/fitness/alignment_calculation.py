@@ -8,13 +8,21 @@ from event.event_group_parallel import EventGroupParallel
 
 from itertools import permutations
 
+
 #-------------------------------------------------------
 #This function returns to values for cae of match or mismatch
 def diagonal(log, model, pt):
-    if log in model:
-        return pt['MATCH']
+    if isinstance(model, str):
+        if log == model:
+            return pt['MATCH']
+        else:
+            return pt['MISMATCH']
     else:
-        return pt['MISMATCH']
+        if log in model:
+            model.remove(log)
+            return pt['MATCH']
+        else:
+            return pt['MISMATCH']
 
 
 def nw_wrapper(log, model):
@@ -24,14 +32,17 @@ def nw_wrapper(log, model):
 
 def nw_is_parallel_wrapper(log, model):
     if isinstance(model, EventGroup):
-        result_x = nw(log, resolve_parallel_event_group(model))
+        result_x = nw(log, resolve_parallel_event_group(model.events))
     else:
         if are_all_events(model.events):
-            result_x = nw([event.name for event in [events for events in model.events]])
+            model_parallel = []
+            for i in range(len(model.events)):
+                model_parallel.append([event.name for event in model.events])
+            result_x = nw(log, model_parallel)
         else:
             event_permutations = permutations(model.events)
 
-            result_x = get_maxes([nw_is_parallel_wrapper(log, list(events)) for events in event_permutations])
+            result_x = get_maxes([nw(log, resolve_parallel_event_group(list(events))) for events in event_permutations])
 
     return result_x
 
@@ -69,6 +80,15 @@ def nw(log, model):
             basic_nw(al_mat, log, model[i - 1], penalty, i, j)
         j += 1
         k += 1
+
+    if n > min(m, n):
+        for it in range(min(m, n), n):
+            for i in range(1, min(m, n)):
+                basic_nw(al_mat, log, model[i - 1], penalty, i, it)
+    elif m > min(m, n):
+        for it in range(min(m, n), m):
+            for j in range(1, min(m, n)):
+                basic_nw(al_mat, log, model[it - 1], penalty, it, j)
 
     np_array = np.array(al_mat)
     print(np_array)
@@ -113,6 +133,7 @@ def should_go_recurrent(event):
     else:
         return True
 
+
 def are_all_events(events):
     for event in events:
         if isinstance(event, BaseGroup):
@@ -123,7 +144,7 @@ def are_all_events(events):
 def resolve_parallel_event_group(event_group):
     model_list = []
 
-    for event in event_group.events:
+    for event in event_group:
         if isinstance(event, Event):
             model_list.append(event.name)
         elif isinstance(event, EventGroup):
@@ -134,7 +155,7 @@ def resolve_parallel_event_group(event_group):
         else:            # isinstance(EventGroupParallel):
             if are_all_events(event.events):
                 for j in range(len(event.events)):
-                    model_list.append(event.name for event in event.events)
+                    model_list.append([event.name for event in event.events])
             else:
                 model_list.append(event)
 
@@ -247,10 +268,10 @@ def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
 
-event_group_events = []
-for x in 'pqacezxys':
-    event_group_events.append(Event(x))
-event_group = EventGroup(event_group_events)
-
-# self.assertEqual(nw_wrapper('zxabcdezx', event_group), -8)
-nw_wrapper('zxabcdezx', event_group)
+# event_group_events = []
+# for x in 'pqacezxys':
+#     event_group_events.append(Event(x))
+# event_group = EventGroup(event_group_events)
+#
+# # self.assertEqual(nw_wrapper('zxabcdezx', event_group), -8)
+# nw_wrapper('zxabcdezx', event_group)
