@@ -16,6 +16,7 @@ need to throw exception when same processes inside and, opt, xor
 for and we can just check all characters with skipping all to adding all 
 tak all substrings of string
 add method to recurrent parallel calculation to choose on substring that makes sense not take one before smallest [-3, -2, -1 ,0, -1, 0, -1, -2 , -3]
+gate should always return list of events
 ### Precision
 add info about visited nodes and no of children, could be stored in dictionary created when parsing.
 ### Generalization

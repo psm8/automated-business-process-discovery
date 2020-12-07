@@ -106,12 +106,27 @@ class AlignmentCalculationTest(unittest.TestCase):
 
         self.assertEqual(-9, nw_wrapper(event_group, 'zxabcdezxq'))
 
-    def test_fill_result_matrix(self):
-        matrix = [[0, -1, -2], [-1, 0, -1], [-2, -1, 0]]
+    def test_flatten_values(self):
+        e1 = Event('t')
+        e2 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
+        e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e4 = EventGroupParallel(string_to_events('xys'))
+        e5 = Event('t')
+        e6 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
+        e7 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e8 = EventGroupParallel(string_to_events('xys'))
+        e9 = Event('t')
+        e10 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
+        e11 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e12 = EventGroupParallel(string_to_events('xys'))
+        e13 = Event('t')
 
-    def test_resolve_parallel(self):
-        True
+        expected = [[e1, e7, e8, e9, e13], [e1, e10, e13], [e1, e11, e12, e13], [e2, e3, e7, e8, e9, e13],
+                    [e2, e3, e10, e13], [e2, e3, e11, e12, e13], [e4, e5, e6, e7, e8, e9, e13],
+                    [e4, e5, e6, e10, e13], [e4, e5, e6, e11, e12, e13]]
+        self.assertEqual(expected, flatten_values([[[e1], [e2, e3], [e4, e5, e6]],
+                                                   [[e7, e8, e9], [e10], [e11, e12]],
+                                                   [[e13]]]))
 
-
-if __name__ == '__main__':
-    unittest.main()
+    if __name__ == '__main__':
+        unittest.main()

@@ -1,9 +1,7 @@
-from itertools import permutations
-
 from gate.gate import Gate
 from util.util import is_struct_empty
 from event.event import Event
-from event.event_group import EventGroup
+from fitness.alignment_calculation import flatten_values
 from event.event_group_parallel import EventGroupParallel
 
 
@@ -20,8 +18,9 @@ class AndGate(Gate):
         global_list = []
 
         for elem in self.elements:
+            local_list = []
             if isinstance(elem, Event):
-                global_list.append(elem)
+                local_list.append(elem)
                 min_lengths.pop(0)
                 max_lengths.pop(0)
             else:
@@ -32,12 +31,16 @@ class AndGate(Gate):
                     if is_struct_empty(child_all_n_length_routes):
                         return []
                     if child_all_n_length_routes is not None:
-                        global_list.append(child_all_n_length_routes)
+                        local_list.append(child_all_n_length_routes)
+            global_list.append(local_list)
 
-        if self.is_in_range(n, global_list):
-            return EventGroupParallel(global_list)
-        else:
-            return None
+        result = []
+        if global_list:
+            for elem in flatten_values(global_list):
+                if self.is_in_range(n, elem):
+                    result.append(EventGroupParallel(elem))
+
+        return result
 
     def get_model_min_length(self) -> int:
         return sum(self.get_children_min_length())

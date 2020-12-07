@@ -1,7 +1,7 @@
 from gate.gate import Gate
 from util.util import is_struct_empty
-from fitness.alignment_calculation import routes_to_strings
 from event.event import Event
+from fitness.alignment_calculation import flatten_values
 
 
 class XorGate(Gate):
@@ -17,7 +17,7 @@ class XorGate(Gate):
         for elem in self.elements:
             if isinstance(elem, Event):
                 if n == 1:
-                    global_list.append(tuple(elem))
+                    global_list.append([elem])
             else:
                 # possibly should add lower limit
                 child_all_n_length_routes = elem.get_all_n_length_routes(n)
@@ -25,12 +25,12 @@ class XorGate(Gate):
                 if is_struct_empty(child_all_n_length_routes):
                     return []
                 if self.is_in_range(n, child_all_n_length_routes):
-                    global_list.append(routes_to_strings(child_all_n_length_routes))
+                    global_list.append(child_all_n_length_routes)
 
-        return self.to_tuple_list(global_list)
-
-    def to_tuple_list(self, alist):
-        return [tuple(x) for x in alist]
+        if global_list:
+            return flatten_values(global_list)
+        else:
+            return global_list
 
     def get_model_min_length(self) -> int:
         return min(self.get_children_min_length())

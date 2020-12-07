@@ -101,8 +101,8 @@ def nw(model, log):
     #             basic_nw(al_mat, model[j - 1], log, penalty, j, it)
 
     np_array = np.array(al_mat)
-    print(model)
-    print(np_array)
+    # print(model)
+    # print(np_array)
 
     return al_mat[m-1]
 
@@ -207,57 +207,6 @@ def resolve_parallel_event_group(event_group):
     return model_list
 
 
-# def event_group_to_strings(struct):
-#     if struct:
-#         # check if list of tuples
-#         if isinstance(struct, BaseGroup):
-#             values = []
-#             for elem in struct:
-#                 routes = event_group_to_strings(elem)
-#                 for route in routes:
-#                     values.append(route)
-#             results = values
-#         # else list of lists and events
-#         else:
-#             values = []
-#             for elem in struct:
-#                 # if isinstance(elem, list):
-#                 #     values.append(routes_to_strings(elem))
-#                 # else:
-#                 values.append(elem)
-#             results = flatten_values(values)
-#
-#         return results
-#     else:
-#         return []
-
-# def touples_to_strings(struct):
-#     if struct:
-#         values = []
-#         for elem in struct:
-#             routes = routes_to_strings(elem)
-#             for route in routes:
-#                 values.append(route)
-#         results = values
-#         # else list of lists and events
-#         return results
-#     else:
-#         return []
-#
-# def listss_to_strings(struct):
-#     if struct:
-#         values = []
-#         for elem in struct:
-#             if isinstance(elem, list):
-#                 values.append(routes_to_strings(elem))
-#             else:
-#                 values.append(elem)
-#         results = flatten_values(values)
-#
-#         return results
-#     else:
-#         return []
-
 # def resolve_parallel(event_group):
 #     model_list = []
 #     if isinstance(event_group, EventGroup):
@@ -285,21 +234,26 @@ def resolve_parallel_event_group(event_group):
 def flatten_values(values2d_list):
     results = []
     values2d = values2d_list.pop(0)
-    if isinstance(values2d, list):
-        for values in values2d:
+    for values in values2d:
+        if isinstance(values, list):
             results.append(values)
-    else:
-        results.append(values2d)
+        else:
+            results.append([values])
 
     for values2d in values2d_list:
         new_result = []
-        if isinstance(values2d, list):
-            for values in values2d:
+        for values in values2d:
+            if isinstance(values, list):
                 for i in range(len(results)):
-                    new_result.append(results[i] + values)
-        else:
-            for i in range(len(results)):
-                new_result.append(results[i].add_event(values2d))
+                    local_result = copy(results[i])
+                    [local_result.append(value) for value in values]
+                    new_result.append(local_result)
+            else:
+                # it probably doesnt work
+                for i in range(len(results)):
+                    local_result = copy(results[i])
+                    local_result.append(values)
+                    new_result.append(local_result)
         results = new_result
 
     return results

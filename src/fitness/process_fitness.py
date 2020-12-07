@@ -1,6 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import flatten_values, nw
+from fitness.alignment_calculation import flatten_values, nw_wrapper
 from util.util import is_struct_empty, string_to_dictionary
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
@@ -37,17 +37,16 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
             routes = gate.get_all_n_length_routes(n)
             #fix_routes to strings inside gate
             if routes is not None and not is_struct_empty(routes):
-                strings_list = flatten_values(routes)
                 best_local_error = 0
                 for elem in log:
                     min_local = 1023
-                    for string in strings_list:
-                        value = nw(string, elem)
+                    for event_group in routes:
+                        value = nw_wrapper(event_group, elem)
                         if value < min_local:
                             min_local = value
-                            string_global = string
+                            event_group_global = event_group
                     best_local_error += min_local
-                best_local_alignment = 1 - (best_local_error / (log_length + len(log) * len(strings_list[0])))
+                best_local_alignment = 1 + (best_local_error / (log_length + len(log) * len(routes[0])))
                 if best_local_alignment > best_alignment:
                     best_alignment = best_local_alignment
         if i % 2 == 1:
