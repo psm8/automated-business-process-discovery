@@ -119,32 +119,39 @@ def basic_nw(al_mat, model_event, log, penalty, i, j):
 
 def recurrent_nw(al_mat_x, model_events, logs, pos):
     # could add some stop improvements
-    result_x = [(-len(model_events) + x) for x in al_mat_x]
+    result_x = [(max([-len(model_events) - j + al_mat_x[i] for j in range(i+1)])) for i in range(len(al_mat_x))]
     for i in range(len(logs)):
         local_result_x = nw_is_parallel_wrapper(model_events, logs[i])
         for j in range(len(local_result_x)):
             # +1 because al_mat have extra column
-            if al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j)) > result_x[j + i + 1]:
-                result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j))
+            if al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j - 1)) > result_x[j + i + 1]:
+                result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j - 1))
     return result_x
 
 
 def parallel_nw(al_mat_x, model_events, logs, pt, pos):
     # could add some stop improvements
-    result_x = [(-len(model_events) + x) for x in al_mat_x]
+    result_x = [(max([-len(model_events) - j + al_mat_x[i] for j in range(i+1)])) for i in range(len(al_mat_x))]
+
     for i in range(len(logs)):
         local_model = copy(model_events)
         local_result_x = [0 for _ in range(len(logs[i]))]
         # initialize first elem
         local_result_x[0] = diagonal_paralllel(local_model, logs[i][0], pt)
+
         for j in range(1, len(logs[i])):
             local_result_x[j] = local_result_x[j-1] + diagonal_paralllel(local_model, logs[i][j], pt)
+
         for j in range(len(local_result_x)):
+            penalty_for_skipped_model_events = get_penalty_for_model_skipped(model_events, j)
             # +1 because al_mat have extra column
-            if al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j)) > result_x[j + i + 1]:
-                result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j))
+            if al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events > result_x[j + i + 1]:
+                result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events
     return result_x
 
+
+def get_penalty_for_model_skipped(model_events, j):
+    return max(0, len(model_events) - j - 1)
 
 def should_go_recurrent(event):
     if isinstance(event, str) or isinstance(event, list):

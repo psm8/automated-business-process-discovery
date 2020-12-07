@@ -55,11 +55,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         self.assertEqual(-11, nw_wrapper(event_group, 'zxabcdezxabc'))
 
     def test_nw_with_wrapper_parallel_inside(self):
-        event_group_events = []
-
-        for x in 'spqacezxy':
-            event_group_events.append(Event(x))
-        event_group = EventGroupParallel([Event('t'), EventGroupParallel(event_group_events)])
+        event_group = EventGroupParallel([Event('t'), EventGroupParallel(string_to_events('spqacezxy'))])
 
         self.assertEqual(-7, nw_wrapper(event_group, 'zxabcdezt'))
         # nw_wrapper('zxabcdezxq', event_group)
@@ -74,20 +70,29 @@ class AlignmentCalculationTest(unittest.TestCase):
         # nw_wrapper('zxabcdezxq', event_group)
 
     def test_nw_with_wrapper_parallel_inside_3(self):
-        event_group = EventGroupParallel([Event('t'),
-                                          EventGroupParallel(string_to_events('tpq')),
-                                          EventGroup(string_to_events('acez')),
-                                          EventGroupParallel(string_to_events('xyx'))])
+        event_group = EventGroup([Event('t'),
+                                  EventGroup(string_to_events('acez')),
+                                  EventGroupParallel(string_to_events('tpq')),
+                                  EventGroupParallel(string_to_events('xys'))])
 
-        self.assertEqual(nw_wrapper(event_group, 'zxabcdezxq'), -8)
+        self.assertEqual(-11, nw_wrapper(event_group, 'zxabcdezxq'))
         # nw_wrapper('zxabcdezxq', event_group)
 
     def test_nw_with_wrapper_parallel_inside_4(self):
         event_group = EventGroupParallel([Event('t'),
+                                          EventGroupParallel(string_to_events('tpq')),
+                                          EventGroup(string_to_events('acez')),
+                                          EventGroupParallel(string_to_events('xys'))])
+
+        self.assertEqual(-9, nw_wrapper(event_group, 'zxabcdezxq'))
+        # nw_wrapper('zxabcdezxq', event_group)
+
+    def test_nw_with_wrapper_parallel_inside_5(self):
+        event_group = EventGroupParallel([Event('t'),
                                           EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')]),
                                           EventGroup([EventGroupParallel(string_to_events('ac')),
                                                       EventGroup(string_to_events('ez'))]),
-                                          EventGroupParallel(string_to_events('xyx'))])
+                                          EventGroupParallel(string_to_events('xys'))])
 
         # self.assertEqual(nw_wrapper('zxabcdezx', event_group), -8)
         nw_wrapper(event_group, 'zxabcdezxq')
