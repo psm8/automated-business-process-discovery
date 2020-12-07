@@ -5,6 +5,7 @@ from event.event import Event
 from event.base_group import BaseGroup
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
+from test.test_util import string_to_events
 
 from copy import copy
 from itertools import permutations
@@ -25,6 +26,7 @@ def diagonal_paralllel(model, log, pt):
         return pt['MATCH']
     else:
         return pt['MISMATCH']
+
 
 
 def nw_wrapper(model, log):
@@ -62,10 +64,10 @@ def nw(model, log):
     #Fill the matrix with the correct values.
 
     for i in range(1, m):
-        if len(model[i-1]) > 1:
-            al_mat[i] = parallel_nw(al_mat[i-1], model[i-1], [x for x in substrings_of_string_reversed(log)], penalty, i)
-        elif should_go_recurrent(model[i-1]):
+        if should_go_recurrent(model[i-1]):
             al_mat[i] = recurrent_nw(al_mat[i-1], model[i-1], [x for x in substrings_of_string_reversed(log)], i)
+        elif len(model[i-1]) > 1:
+            al_mat[i] = parallel_nw(al_mat[i-1], model[i-1], [x for x in substrings_of_string_reversed(log)], penalty, i)
         else:
             for j in range(1, n):
                 di = al_mat[i-1][j-1] + diagonal(model[i - 1], log[j - 1], penalty) #The value for match/mismatch -  diagonal.
@@ -119,31 +121,36 @@ def basic_nw(al_mat, model_event, log, penalty, i, j):
 
 def recurrent_nw(al_mat_x, model_events, logs, pos):
     # could add some stop improvements
-    result_x = [(max([-len(model_events) - j + al_mat_x[i] for j in range(i+1)])) for i in range(len(al_mat_x))]
+    result_x = get_best_error_using_gap_move(model_events, al_mat_x)
+
     for i in range(len(logs)):
         local_result_x = nw_is_parallel_wrapper(model_events, logs[i])
+
         for j in range(len(local_result_x)):
-            # +1 because al_mat have extra column
-            if al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j - 1)) > result_x[j + i + 1]:
-                result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - (i + max(0, len(model_events) - i - j - 1))
+            if al_mat_x[i] + local_result_x[j] > result_x[j + i]:
+                result_x[j + i] = al_mat_x[i] + local_result_x[j]
     return result_x
 
 
 def parallel_nw(al_mat_x, model_events, logs, pt, pos):
     # could add some stop improvements
-    result_x = [(max([-len(model_events) - j + al_mat_x[i] for j in range(i+1)])) for i in range(len(al_mat_x))]
+    result_x = get_best_error_using_gap_move(model_events, al_mat_x)
 
     for i in range(len(logs)):
         local_model = copy(model_events)
         local_result_x = [0 for _ in range(len(logs[i]))]
         # initialize first elem
         local_result_x[0] = diagonal_paralllel(local_model, logs[i][0], pt)
+        misses_counter = local_result_x[0]/pt["MISMATCH"]
 
         for j in range(1, len(logs[i])):
-            local_result_x[j] = local_result_x[j-1] + diagonal_paralllel(local_model, logs[i][j], pt)
+            is_match = diagonal_paralllel(local_model, logs[i][j], pt)
+            misses_counter += is_match/pt["MISMATCH"]
+            local_result_x[j] = max(local_result_x[j-1] + is_match, -int(misses_counter + len(local_model)))
 
         for j in range(len(local_result_x)):
             penalty_for_skipped_model_events = get_penalty_for_model_skipped(model_events, j)
+            number_of_matches = (j + 1) - int(local_result_x[j]/pt["MISMATCH"])
             # +1 because al_mat have extra column
             if al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events > result_x[j + i + 1]:
                 result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events
@@ -152,6 +159,11 @@ def parallel_nw(al_mat_x, model_events, logs, pt, pos):
 
 def get_penalty_for_model_skipped(model_events, j):
     return max(0, len(model_events) - j - 1)
+
+
+def get_best_error_using_gap_move(model_events, al_mat_x):
+    return [(max([-len(model_events) - j + al_mat_x[i] for j in range(i+1)])) for i in range(len(al_mat_x))]
+
 
 def should_go_recurrent(event):
     if isinstance(event, str) or isinstance(event, list):
@@ -301,10 +313,11 @@ def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
 
-# event_group_events = []
-# for x in 'pqacezxys':
-#     event_group_events.append(Event(x))
-# event_group = EventGroup(event_group_events)
+# event_group = EventGroupParallel([Event('t'),
+#                                   EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')]),
+#                                   EventGroup([EventGroupParallel(string_to_events('ac')),
+#                                               EventGroup(string_to_events('ez'))]),
+#                                   EventGroupParallel(string_to_events('xys'))])
 #
 # # self.assertEqual(nw_wrapper('zxabcdezx', event_group), -8)
-# nw_wrapper('zxabcdezx', event_group)
+# nw_wrapper(event_group, 'zxabcdezxq')

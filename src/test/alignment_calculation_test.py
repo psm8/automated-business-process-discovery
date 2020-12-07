@@ -5,12 +5,7 @@ from event.event import Event
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
 
-
-def string_to_events(string: str):
-    event_group_events = []
-    for x in string:
-        event_group_events.append(Event(x))
-    return event_group_events
+from test.test_util import string_to_events
 
 
 class AlignmentCalculationTest(unittest.TestCase):
@@ -88,14 +83,28 @@ class AlignmentCalculationTest(unittest.TestCase):
         # nw_wrapper('zxabcdezxq', event_group)
 
     def test_nw_with_wrapper_parallel_inside_5(self):
+        event_group = EventGroup([Event('t'),
+                                          EventGroup([EventGroupParallel(string_to_events('ac')),
+                                                      EventGroup(string_to_events('ez'))]),
+                                          EventGroupParallel(string_to_events('xys')),
+                                          EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])])
+
+
+        self.assertEqual(-9, nw_wrapper(event_group, 'zxabcdezxq'))
+
+    def test_nw_with_wrapper_parallel_inside_6(self):
+        event_group = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+
+        self.assertEqual(-6, nw_wrapper(event_group, 'zxabcdezxq'))
+
+    def test_nw_with_wrapper_parallel_inside_7(self):
         event_group = EventGroupParallel([Event('t'),
                                           EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')]),
                                           EventGroup([EventGroupParallel(string_to_events('ac')),
                                                       EventGroup(string_to_events('ez'))]),
                                           EventGroupParallel(string_to_events('xys'))])
 
-        # self.assertEqual(nw_wrapper('zxabcdezx', event_group), -8)
-        nw_wrapper(event_group, 'zxabcdezxq')
+        self.assertEqual(-9, nw_wrapper(event_group, 'zxabcdezxq'))
 
     def test_fill_result_matrix(self):
         matrix = [[0, -1, -2], [-1, 0, -1], [-2, -1, 0]]
