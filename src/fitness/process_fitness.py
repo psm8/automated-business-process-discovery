@@ -42,7 +42,7 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
                 for elem in log:
                     min_local = 1023
                     for string in strings_list:
-                        value = nw(elem, string, n)
+                        value = nw(string, elem)
                         if value < min_local:
                             min_local = value
                             string_global = string

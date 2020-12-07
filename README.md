@@ -12,6 +12,10 @@ nv('labcd', 'abcde')
 nv('abcde', 'abcde')check also additional ones and add with +1
 check next elements in log until more than -1 penalty (-2, -3 , -4)
 if eventParallelGroup we still have to solve this for all combinations
+need to throw exception when same processes inside and, opt, xor
+for and we can just check all characters with skipping all to adding all 
+tak all substrings of string
+add method to recurrent parallel calculation to choose on substring that makes sense not take one before smallest [-3, -2, -1 ,0, -1, 0, -1, -2 , -3]
 ### Precision
 add info about visited nodes and no of children, could be stored in dictionary created when parsing.
 ### Generalization
