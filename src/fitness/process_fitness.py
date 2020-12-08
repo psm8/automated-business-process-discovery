@@ -8,7 +8,7 @@ from event.event_group_parallel import EventGroupParallel
 import math
 
 def get_log():
-    return ["abcdefghijklmn", "acbdefghijklmn"]
+    return ["abcdef", "acbdef"]
 
 
 def get_log_length(log: list):

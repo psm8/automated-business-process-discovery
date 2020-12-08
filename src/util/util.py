@@ -1,7 +1,8 @@
 import copy
 
 from itertools import chain, combinations
-
+from event.event_group import EventGroup
+from event.event_group_parallel import EventGroupParallel
 
 def string_to_dictionary(string: str):
     dictionary = dict()
@@ -28,26 +29,89 @@ def to_n_length(n, child_list):
     min_length = min([len(x) for x in child_list])
     max_length = n - min_length
     global_result = []
-    for child in child_list:
-        len_child = len(child)
+    while child_list:
+        len_child = len(child_list[0])
         if len_child <= max_length:
-            # tuple()
-            [global_result.append((x,)) for x in to_n_length_inner(n-len_child, max_length-len_child, child, child_list)]
+            [global_result.append(EventGroupParallel(x)) for x in to_n_length_inner(n-len_child, max_length-len_child, child_list[0], copy.copy(child_list))]
         elif len_child == n:
-            # tuple()
-            global_result.append((child,))
+            if isinstance(child_list[0], list):
+                global_result.append(child_list[0][0])
+                # possibly should be always list
+            else:
+                global_result.append(child_list[0])
+        child_list.remove(child_list[0])
 
     return global_result
 
 
 def to_n_length_inner(n, max_length, result, child_list):
     global_result = []
-    for child in child_list:
-        len_child = len(child)
+    while child_list:
+        len_child = len(child_list[0])
         if len_child <= max_length:
-            [global_result.append(copy.copy(result) + x) for x in to_n_length_inner(n-len_child, max_length-len_child, child, child_list)]
+            if not isinstance(result, list):
+                result = [result]
+            xs = [x for x in to_n_length_inner(n-len_child, max_length-len_child, child_list[0], copy.copy(child_list))]
+            local_results = [copy.copy(result) for _ in xs]
+            [local_results[i].append(x) for i in range(len(xs)) for x in xs[i]]
+            [global_result.append(local_result) for local_result in local_results]
         elif len_child == n:
-            global_result.append(copy.copy(result) + child)
+            if not isinstance(result, list):
+                result = [result]
+            local_result = copy.copy(result)
+            if isinstance(child_list[0], list):
+                local_result.append(child_list[0][0])
+                # possibly should be always list
+            else:
+                local_result.append(child_list[0])
+            global_result.append(local_result)
+        child_list.remove(child_list[0])
 
     return global_result
 
+
+def to_n_length_opt(n, child_list):
+    min_length = min([len(x) for x in child_list])
+    max_length = n - min_length
+    global_result = []
+    while child_list:
+        child = child_list[0]
+        len_child = len(child)
+        child_list.remove(child)
+        if len_child <= max_length:
+            [global_result.append(EventGroupParallel(x)) for x in to_n_length_inner_opt(n-len_child, max_length-len_child, child, copy.copy(child_list))]
+        elif len_child == n:
+            if isinstance(child, list):
+                global_result.append(child[0])
+            # possibly should be always list
+            else:
+                global_result.append(child)
+
+    return global_result
+
+
+def to_n_length_inner_opt(n, max_length, result, child_list):
+    global_result = []
+    while child_list:
+        child = child_list[0]
+        len_child = len(child)
+        child_list.remove(child)
+        if len_child <= max_length:
+            if not isinstance(result, list):
+                result = [result]
+            xs = [x for x in to_n_length_inner_opt(n-len_child, max_length-len_child, child, copy.copy(child_list))]
+            local_results = [copy.copy(result) for _ in xs]
+            [local_results[i].append(x) for i in range(len(xs)) for x in xs[i]]
+            [global_result.append(local_result) for local_result in local_results]
+        elif len_child == n:
+            if not isinstance(result, list):
+                result = [result]
+            local_result = copy.copy(result)
+            if isinstance(child, list):
+                local_result.append(child[0])
+
+            else:
+                local_result.append(child)
+            global_result.append(local_result)
+
+    return global_result

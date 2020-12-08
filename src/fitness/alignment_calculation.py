@@ -28,7 +28,6 @@ def diagonal_paralllel(model, log, pt):
         return pt['MISMATCH']
 
 
-
 def nw_wrapper(model, log):
     result = nw_is_parallel_wrapper(model, log)
     return result[len(result)-1]

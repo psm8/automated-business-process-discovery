@@ -20,6 +20,12 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_5(self):
         evaluate_guess('lop(xor({b}xor({a}{e}{d})){e})')
 
+    def test_6(self):
+        evaluate_guess('xor(and({c}and(and({c}{b}and({d}{f})){b}{e})){e}{e})')
+
+    def test_7(self):
+        # 'and({d}{d})lop({b})'
+        evaluate_guess('lop({c})')
 
 if __name__ == '__main__':
     unittest.main()

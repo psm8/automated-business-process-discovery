@@ -32,7 +32,9 @@ class AndGate(Gate):
                         return []
                     if child_all_n_length_routes is not None:
                         local_list.append(child_all_n_length_routes)
-            global_list.append(local_list)
+
+            if local_list:
+                global_list.append(local_list)
 
         result = []
         if global_list:

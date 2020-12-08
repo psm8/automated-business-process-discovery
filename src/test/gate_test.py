@@ -5,6 +5,8 @@ from event.event import Event
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
 from test.test_util import string_to_events
+from util.util import to_n_length, to_n_length_opt
+
 
 class GateTest(unittest.TestCase):
 
@@ -25,6 +27,37 @@ class GateTest(unittest.TestCase):
 
     def test_5(self):
         gate = SeqGate('lop(xor({b}xor({a}{e}{d})){e})')
+
+    def test_6(self):
+        gate = SeqGate()
+        gate.parse('xor(and({c}and(and({c}{b}and({d}{f})){b}{e})){e}{e})')
+        self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], gate.get_all_n_length_routes(7))
+        self.assertEqual([], gate.get_all_n_length_routes(6))
+
+    def test_7(self):
+        gate = SeqGate()
+        gate.parse('lop({c})')
+        self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], gate.get_all_n_length_routes(6))
+
+    def test_to_n_length(self):
+        e1 = Event('t')
+        e2 = EventGroupParallel([EventGroupParallel(string_to_events('t')), Event('q')])
+        e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e4 = EventGroupParallel(string_to_events('xys'))
+
+        expected = [EventGroupParallel([e1, e1, e1, e1]), EventGroupParallel([e1, e1, e2]),
+                    EventGroupParallel([e1, e4]), EventGroupParallel([e2, e2]), e3]
+        self.assertEqual(len(expected), len(to_n_length(4, [e1, e2, e3, e4])))
+
+    def test_to_n_length_opt(self):
+        e1 = Event('t')
+        e2 = EventGroupParallel([EventGroupParallel(string_to_events('t')), Event('q')])
+        e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e4 = EventGroupParallel(string_to_events('xys'))
+
+        expected = [EventGroupParallel([e1, e4]), e3]
+        self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3, e4])))
+
 
 
 if __name__ == '__main__':

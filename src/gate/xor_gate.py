@@ -1,7 +1,6 @@
 from gate.gate import Gate
 from util.util import is_struct_empty
 from event.event import Event
-from fitness.alignment_calculation import flatten_values
 
 
 class XorGate(Gate):
@@ -28,7 +27,7 @@ class XorGate(Gate):
                     global_list.append(child_all_n_length_routes)
 
         if global_list:
-            return flatten_values(global_list)
+            return [x[0] for x in global_list]
         else:
             return global_list
 
