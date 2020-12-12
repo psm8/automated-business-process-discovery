@@ -51,8 +51,8 @@ def nw_is_parallel_wrapper(model, log):
 #This function creates the alignment and pointers matrices
 def nw(model, log):
     penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1} #A dictionary for all the penalty values.
-    n = len(log) + 1 #The dimension of the matrix columns.
     m = len(model) + 1 #The dimension of the matrix rows.
+    n = len(log) + 1 #The dimension of the matrix columns.
     al_mat = np.zeros((m, n), dtype=int) #Initializes the alignment matrix with zeros.
     #Scans all the first rows element in the matrix and fill it with "gap penalty"
     for i in range(m):
@@ -69,6 +69,8 @@ def nw(model, log):
             al_mat[i] = parallel_nw(al_mat[i-1], model[i-1], [x for x in substrings_of_string_reversed(log)], penalty, i)
         else:
             basic_nw(al_mat, model[i - 1], log, penalty, i, n)
+
+    traceback_col_seq(al_mat, penalty['GAP'], model, log)
 
     np_array = np.array(al_mat)
     print(model)
@@ -126,6 +128,38 @@ def parallel_nw(al_mat_x, model_events, logs, pt, pos):
             if al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events > result_x[j + i + 1]:
                 result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events
     return result_x
+
+
+def traceback_col_seq(al_mat, penalty_gap, model, log):
+    array = copy(al_mat)
+    model_result, log_result = [], []
+    i = len(model)  #The dimension of the matrix rows.
+    j = len(log)  #The dimension of the matrix columns.
+
+    while i != 0 or j != 0:
+        if array[i][j] == array[i - 1][j] + penalty_gap:
+            model_result.append(model[i - 1])
+            log_result.append('-')
+            array[i][j] = 0
+            i -= 1
+        elif array[i][j] == array[i][j - 1] + penalty_gap:
+            model_result.append('-')
+            log_result.append(log[j - 1])
+            array[i][j] = 0
+            j -= 1
+        elif array[i][j] == array[i - 1][j - 1]:
+            model_result.append(model[i - 1])
+            log_result.append(log[j - 1])
+            array[i][j] = 0
+            i -= 1
+            j -= 1
+
+
+    print(model_result)
+    print(log_result)
+    print(array)
+
+    return model_result
 
 
 def get_penalty_for_model_skipped(model_events, j):
