@@ -20,7 +20,7 @@ def diagonal(model, log, pt):
         return pt['MISMATCH']
 
 
-def diagonal_paralllel(model, log, pt):
+def diagonal_parallel(model, log, pt):
     if log in model:
         model.remove(log)
         return pt['MATCH']
@@ -68,40 +68,11 @@ def nw(model, log):
         elif len(model[i-1]) > 1:
             al_mat[i] = parallel_nw(al_mat[i-1], model[i-1], [x for x in substrings_of_string_reversed(log)], penalty, i)
         else:
-            for j in range(1, n):
-                di = al_mat[i-1][j-1] + diagonal(model[i - 1], log[j - 1], penalty) #The value for match/mismatch -  diagonal.
-                ho = al_mat[i][j-1] + penalty['GAP'] #The value for gap - horizontal.(from the left cell)
-                ve = al_mat[i-1][j] + penalty['GAP'] #The value for gap - vertical.(from the upper cell)
-                al_mat[i][j] = max(di, ho, ve) #Fill the matrix with the maximal value.(based on the python default maximum)
-
-
-    # # want to iterate in square pattern
-    # i = 1
-    # j = 1
-    # k = 1
-    # while True:
-    #     for j in range(1, k + 1):
-    #         basic_nw(al_mat, model[j - 1], log, penalty, j, i)
-    #     if k == min(m, n) - 1:
-    #         break
-    #     j += 1
-    #     for i in range(1, j):
-    #         basic_nw(al_mat, model[j - 1], log, penalty, j, i)
-    #     i += 1
-    #     k += 1
-    #
-    # if n > min(m, n):
-    #     for it in range(min(m, n), n):
-    #         for i in range(1, min(m, n)):
-    #             basic_nw(al_mat, model[it - 1], log, penalty, it, i)
-    # elif m > min(m, n):
-    #     for it in range(min(m, n), m):
-    #         for j in range(1, min(m, n)):
-    #             basic_nw(al_mat, model[j - 1], log, penalty, j, it)
+            basic_nw(al_mat, model[i - 1], log, penalty, i, n)
 
     np_array = np.array(al_mat)
-    # print(model)
-    # print(np_array)
+    print(model)
+    print(np_array)
 
     return al_mat[m-1]
 
@@ -111,11 +82,12 @@ def get_maxes(results):
     return np.max(np_array, axis=0)
 
 
-def basic_nw(al_mat, model_event, log, penalty, i, j):
-    di = al_mat[i - 1][j - 1] + diagonal(model_event, log[j - 1], penalty)  # The value for match/mismatch.
-    ho = al_mat[i][j - 1] + penalty['GAP']  # The value for gap - horizontal.(from the left cell)
-    ve = al_mat[i - 1][j] + penalty['GAP']  # The value for gap - vertical.(from the upper cell)
-    al_mat[i][j] = max(di, ho, ve)  # Fill the matrix with the maximal value.(based on the python default maximum)
+def basic_nw(al_mat, model_event, log, penalty, i, n):
+    for j in range(1, n):
+        di = al_mat[i - 1][j - 1] + diagonal(model_event, log[j - 1], penalty)  # The value for match/mismatch.
+        ho = al_mat[i][j - 1] + penalty['GAP']  # The value for gap - horizontal.(from the left cell)
+        ve = al_mat[i - 1][j] + penalty['GAP']  # The value for gap - vertical.(from the upper cell)
+        al_mat[i][j] = max(di, ho, ve)  # Fill the matrix with the maximal value.(based on the python default maximum)
 
 
 def recurrent_nw(al_mat_x, model_events, logs, pos):
@@ -139,11 +111,11 @@ def parallel_nw(al_mat_x, model_events, logs, pt, pos):
         local_model = copy(model_events)
         local_result_x = [0 for _ in range(len(logs[i]))]
         # initialize first elem
-        local_result_x[0] = diagonal_paralllel(local_model, logs[i][0], pt)
+        local_result_x[0] = diagonal_parallel(local_model, logs[i][0], pt)
         misses_counter = local_result_x[0]/pt["MISMATCH"]
 
         for j in range(1, len(logs[i])):
-            is_match = diagonal_paralllel(local_model, logs[i][j], pt)
+            is_match = diagonal_parallel(local_model, logs[i][j], pt)
             misses_counter += is_match/pt["MISMATCH"]
             local_result_x[j] = max(local_result_x[j-1] + is_match, -int(misses_counter + len(local_model)))
 
