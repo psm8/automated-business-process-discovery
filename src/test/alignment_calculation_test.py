@@ -25,13 +25,14 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper(self):
         event_group = EventGroup(string_to_events('pqacezxys'))
 
-        self.assertEqual(-8, nw_wrapper(event_group, 'zxabcdezx'))
+        result, model_result = nw_wrapper(event_group, 'zxabcdezx')
+        self.assertEqual(-8, result)
 
     def test_nw_with_wrapper_parallel(self):
         event_group = EventGroupParallel(string_to_events('pqacezxys'))
 
-        # self.assertEqual(nw_wrapper('zxabcdezx', event_group), -8)
-        self.assertEqual(-14, nw_wrapper(event_group, 'zxklmnozx'))
+        result, model_result = nw_wrapper(event_group, 'zxklmnozx')
+        self.assertEqual(-14, result)
 
     def test_nw_with_wrapper_model_bigger(self):
         event_group_events = []
@@ -39,7 +40,8 @@ class AlignmentCalculationTest(unittest.TestCase):
             event_group_events.append(Event(x))
         event_group = EventGroup(event_group_events)
 
-        self.assertEqual(-11, nw_wrapper(event_group, 'zxabcdezx'))
+        result, model_result = nw_wrapper(event_group, 'zxabcdezx')
+        self.assertEqual(-11, result)
 
     def test_nw_with_wrapper_log_bigger(self):
         event_group_events = []
@@ -47,13 +49,14 @@ class AlignmentCalculationTest(unittest.TestCase):
             event_group_events.append(Event(x))
         event_group = EventGroup(event_group_events)
 
-        self.assertEqual(-11, nw_wrapper(event_group, 'zxabcdezxabc'))
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxabc')
+        self.assertEqual(-11, result)
 
     def test_nw_with_wrapper_parallel_inside(self):
         event_group = EventGroupParallel([Event('t'), EventGroupParallel(string_to_events('spqacezxy'))])
 
-        self.assertEqual(-7, nw_wrapper(event_group, 'zxabcdezt'))
-        # nw_wrapper('zxabcdezxq', event_group)
+        result, model_result = nw_wrapper(event_group, 'zxabcdezt')
+        self.assertEqual(-7, result)
 
     def test_nw_with_wrapper_parallel_inside_2(self):
         event_group = EventGroup([Event('t'),
@@ -61,8 +64,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroup(string_to_events('acez')),
                                   EventGroupParallel(string_to_events('xys'))])
 
-        self.assertEqual(-10, nw_wrapper(event_group, 'zxabcdezx'))
-        # nw_wrapper('zxabcdezxq', event_group)
+        result, model_result = nw_wrapper(event_group, 'zxabcdezx')
+        self.assertEqual(-10, result)
 
     def test_nw_with_wrapper_parallel_inside_3(self):
         event_group = EventGroup([Event('t'),
@@ -70,8 +73,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroupParallel(string_to_events('tpq')),
                                   EventGroupParallel(string_to_events('xys'))])
 
-        self.assertEqual(-11, nw_wrapper(event_group, 'zxabcdezxq'))
-        # nw_wrapper('zxabcdezxq', event_group)
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        self.assertEqual(-11, result)
 
     def test_nw_with_wrapper_parallel_inside_4(self):
         event_group = EventGroupParallel([Event('t'),
@@ -79,32 +82,48 @@ class AlignmentCalculationTest(unittest.TestCase):
                                           EventGroup(string_to_events('acez')),
                                           EventGroupParallel(string_to_events('xys'))])
 
-        self.assertEqual(-9, nw_wrapper(event_group, 'zxabcdezxq'))
-        # nw_wrapper('zxabcdezxq', event_group)
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        self.assertEqual(-9, result)
 
     def test_nw_with_wrapper_parallel_inside_5(self):
-        event_group = EventGroup([Event('t'),
-                                          EventGroup([EventGroupParallel(string_to_events('ac')),
-                                                      EventGroup(string_to_events('ez'))]),
-                                          EventGroupParallel(string_to_events('xys')),
-                                          EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])])
+        event_group = EventGroup([EventGroupParallel(string_to_events('ac')),
+                                  EventGroup(string_to_events('ez'))])
 
-
-        self.assertEqual(-9, nw_wrapper(event_group, 'zxabcdezxq'))
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        self.assertEqual(-6, result)
 
     def test_nw_with_wrapper_parallel_inside_6(self):
-        event_group = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        event_group = EventGroup([EventGroupParallel(string_to_events('ac')),
+                                  EventGroup(string_to_events('ez'))])
 
-        self.assertEqual(-6, nw_wrapper(event_group, 'zxabcdezxq'))
+        result, model_result = nw_wrapper(event_group, 'zxq')
+        self.assertEqual(-5, result)
 
     def test_nw_with_wrapper_parallel_inside_7(self):
+        event_group = EventGroup([Event('t'),
+                                  EventGroup([EventGroupParallel(string_to_events('ac')),
+                                              EventGroup(string_to_events('ez'))]),
+                                  EventGroupParallel(string_to_events('xys')),
+                                  EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])])
+
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        self.assertEqual(-9, result)
+
+    def test_nw_with_wrapper_parallel_inside_8(self):
+        event_group = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        self.assertEqual(-6, result)
+
+    def test_nw_with_wrapper_parallel_inside_9(self):
         event_group = EventGroupParallel([Event('t'),
                                           EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')]),
                                           EventGroup([EventGroupParallel(string_to_events('ac')),
                                                       EventGroup(string_to_events('ez'))]),
                                           EventGroupParallel(string_to_events('xys'))])
 
-        self.assertEqual(-9, nw_wrapper(event_group, 'zxabcdezxq'))
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        self.assertEqual(-9, result)
 
     def test_flatten_values(self):
         e1 = Event('t')
