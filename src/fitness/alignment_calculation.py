@@ -105,10 +105,9 @@ def nw(model, log):
             basic_nw(al_mat, model[i - 1], log, penalty, i, n)
 
     model_results = get_all_tracebacks(al_mat, penalty['GAP'], model, log, model_results_local)
-    # model_results = traceback_col_seq(al_mat, penalty['GAP'], model, log, model_results_local)
 
-    print(model)
-    print(al_mat)
+    # print(model)
+    # print(al_mat)
 
     return al_mat[m-1], model_results
 
@@ -130,11 +129,12 @@ def recurrent_nw(al_mat_x, model_events, logs, pos):
     for i in range(len(logs)):
         local_result_x, model_result_local = nw_is_parallel_wrapper(model_events, logs[i])
 
+        [model_results_local[i].append([]) for _ in range(len(model_result_local))]
         for j in range(len(local_result_x)):
             if al_mat_x[i] + local_result_x[j] > result_x[j + i]:
                 result_x[j + i] = al_mat_x[i] + local_result_x[j]
-                # -1 because we need move from last not from fist
-                model_results_local[j + i - 1] = model_result_local
+            if len(model_result_local) - j - 1 >= 0:
+                model_results_local[i][j] = model_result_local[len(model_result_local) - j - 1]
     return result_x, model_results_local
 
 
@@ -188,7 +188,7 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
 
             else:
                 for k in range(j):
-                    processes = get_not_none(model_results_local[i][k], j-k)
+                    processes = get_not_none(model_results_local[i][k])
                     if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
                         [model_result.append(x) for x in processes]
                         [model_result.append(None) for _ in range(event_group_full_length - len(processes))]
@@ -215,9 +215,9 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
                 array[i][j] = 0
                 j -= 1
 
-    print(model_result)
-    print(log_result)
-    print(array)
+    # print(model_result)
+    # print(log_result)
+    # print(array)
 
     return model_result
 
@@ -240,9 +240,8 @@ def prepare_model_result(model_results_local, i, len_log):
     return result
 
 
-def get_not_none(model_result_local, pos):
-    to_process = model_result_local[:pos+1]
-    return [x for x in to_process if x is not None]
+def get_not_none(model_result_local):
+    return [x for x in model_result_local if x is not None]
 
 
 def get_penalty_for_model_skipped(model_events, j):
