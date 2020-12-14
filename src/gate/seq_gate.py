@@ -3,14 +3,12 @@ from util.util import is_struct_empty
 from event.event import Event
 from fitness.alignment_calculation import flatten_values
 from event.event_group import EventGroup
-from exception.exception_decorator import only_throws
 
 
 class SeqGate(Gate):
     def __init__(self, elements=None):
         super().__init__("seq", elements)
 
-    @only_throws(ValueError)
     def add_element(self, element):
         self.elements.append(element)
 
@@ -31,7 +29,10 @@ class SeqGate(Gate):
             else:
                 lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths, max_lengths)
                 for i in range(lower_limit, upper_limit + 1):
-                    child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    try:
+                        child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    except ValueError:
+                        return []
                     # indicated something wrong
                     if is_struct_empty(child_all_n_length_routes):
                         return []

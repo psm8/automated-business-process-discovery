@@ -15,6 +15,7 @@ class AndGate(Gate):
         self.check_valid_before_appending(element)
         self.elements.append(element)
 
+    @only_throws(ValueError)
     def get_all_n_length_routes(self, n: int) -> []:
         if self.get_model_max_length() < n:
             return None
@@ -32,7 +33,10 @@ class AndGate(Gate):
             else:
                 lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths, max_lengths)
                 for i in range(lower_limit, upper_limit + 1):
-                    child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    try:
+                        child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    except ValueError:
+                        return []
                     #indicated something wrong
                     if is_struct_empty(child_all_n_length_routes):
                         return []
@@ -50,6 +54,7 @@ class AndGate(Gate):
                         # because always 1 elem list
                         result.append(elem[0])
                     else:
+                        self.check_valid_for_get_n_length(elem)
                         result.append(EventGroupParallel(elem))
 
         return result

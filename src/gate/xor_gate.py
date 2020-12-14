@@ -25,7 +25,10 @@ class XorGate(Gate):
                     global_list.append([elem])
             else:
                 # possibly should add lower limit
-                child_all_n_length_routes = elem.get_all_n_length_routes(n)
+                try:
+                    child_all_n_length_routes = elem.get_all_n_length_routes(n)
+                except ValueError:
+                    return []
                 # indicated something wrong
                 if is_struct_empty(child_all_n_length_routes):
                     return []
@@ -34,7 +37,7 @@ class XorGate(Gate):
 
         if global_list:
             # because always 1 elem list
-            return [x[0] for x in global_list]
+            return [x[0] for x in global_list if len(x[0]) == n]
         else:
             return global_list
 

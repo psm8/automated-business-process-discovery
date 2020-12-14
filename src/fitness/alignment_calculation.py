@@ -182,6 +182,7 @@ def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_loca
     while i != 0:
         event_group_full_length = len(model[i - 1])
         if model_results_local[i] is not None:
+            matched_flag = False
             if array[i][j] == array[i - 1][j] + event_group_full_length * penalty_gap:
                 [model_result.append(None) for _ in range(event_group_full_length)]
                 array[i][j] = 0
@@ -189,7 +190,7 @@ def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_loca
 
             else:
                 for k in range(j):
-                    processes = get_not_none(model_results_local[i][k], log)
+                    processes = get_not_none(model_results_local[i][k][len(model_results_local[i][k]) - (j-k)], log)
                     if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
                         [model_result.append(x) for x in processes]
                         for x in processes:
@@ -198,21 +199,28 @@ def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_loca
                         array[i][j] = 0
                         i -= 1
                         j = k
+                        matched_flag = True
                         break
+
+                if not matched_flag:
+                    if array[i][j] == array[i][j - 1] + penalty_gap:
+                        array[i][j] = 0
+                        j -= 1
+
 
         else:
             if array[i][j] == array[i - 1][j] + penalty_gap:
                 model_result.append(None)
                 array[i][j] = 0
                 i -= 1
+            elif array[i][j] == array[i][j - 1] + penalty_gap:
+                array[i][j] = 0
+                j -= 1
             elif array[i][j] == array[i - 1][j - 1]:
                 model_result.append(model[i-1])
                 log = log.replace(model[i-1].name, "", 1)
                 array[i][j] = 0
                 i -= 1
-                j -= 1
-            elif array[i][j] == array[i][j - 1] + penalty_gap:
-                array[i][j] = 0
                 j -= 1
 
     # print(model_result)
@@ -225,7 +233,7 @@ def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_loca
 def get_all_tracebacks(al_mat, penalty_gap, model, log, model_results_local):
     len_log = len(log)
     return [traceback_col_seq(al_mat[:, :i+2], penalty_gap, model, log[:i+1],
-                              prepare_model_result(model_results_local, i, len_log)) for i in range(len_log)]
+                              model_results_local) for i in range(len_log)]
 
 
 def prepare_model_result(model_results_local, i, len_log):
@@ -350,6 +358,9 @@ def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
 
-# event_group = EventGroupParallel(string_to_events('pqacezxys'))
+# event_group = EventGroup([Event('t'),
+#                           EventGroupParallel(string_to_events('tpq')),
+#                           EventGroup(string_to_events('acez')),
+#                           EventGroupParallel(string_to_events('xys'))])
 #
-# result, model_result = nw_wrapper(event_group, 'zxklmnozx')
+# result, model_result = nw_wrapper(event_group, 'zxabcdezx')

@@ -45,6 +45,11 @@ class GateTest(unittest.TestCase):
         all_n_routes = gate.get_all_n_length_routes(3)
         self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], all_n_routes)
 
+    def test_9(self):
+        gate = SeqGate()
+        gate.parse('and({c}and({a}lop({a}opt({d}))seq({c}{b})))')
+        all_n_routes = gate.get_all_n_length_routes(5)
+        self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], all_n_routes)
 
     def test_to_n_length(self):
         e1 = Event('t')
@@ -65,6 +70,13 @@ class GateTest(unittest.TestCase):
         expected = [EventGroupParallel([e1, e4]), e3]
         self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3, e4])))
 
+    def test_to_n_length_opt2(self):
+        e1 = Event('e')
+        e2 = EventGroup([Event('f'), Event('f'), Event('f')])
+        e3 = EventGroup([Event('f'), Event('f'), Event('f'), Event('f')])
+
+        expected = [EventGroupParallel([e1, e2]), e3]
+        self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3])))
 
 if __name__ == '__main__':
     unittest.main()

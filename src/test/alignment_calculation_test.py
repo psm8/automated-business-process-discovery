@@ -172,6 +172,48 @@ class AlignmentCalculationTest(unittest.TestCase):
         self.assertEqual(-6, result)
         self.assertCountEqual([x for x in 'bcd'], char_list)
 
+    def test_additional0(self):
+        event_group = EventGroup([Event('f'),
+                                  EventGroup([EventGroupParallel([EventGroup([Event('a')]), Event('f')]), Event('b')]),
+                                  Event('f')])
+
+        result, model_result = nw_wrapper(event_group, 'abcdef')
+        char_list = events_to_char_list(model_result)
+        self.assertEqual(-5, result)
+        self.assertCountEqual([x for x in 'abf'], char_list)
+
+    def test_additional1(self):
+        event_group = EventGroup([Event('f'),
+                                  EventGroup([EventGroupParallel([Event('a'), Event('f')]), Event('b')]),
+                                  Event('f')])
+
+        result, model_result = nw_wrapper(event_group, 'abcdef')
+        char_list = events_to_char_list(model_result)
+        self.assertEqual(-5, result)
+        self.assertCountEqual([x for x in 'abf'], char_list)
+
+    def test_additional2(self):
+        event_group = EventGroup([Event('a'),
+                                  EventGroup([Event('a'), Event('b'), Event('c'), Event('e'),
+                                              EventGroup([Event('f'), Event('f')])]),
+                                  Event('b'),
+                                  Event('c')])
+
+        result, model_result = nw_wrapper(event_group, 'acbd')
+        char_list = events_to_char_list(model_result)
+        self.assertEqual(-7, result)
+        self.assertCountEqual([x for x in 'abc'], char_list)
+
+    def test_additional3(self):
+        event_group = EventGroup([EventGroupParallel([Event('c'), Event('f')]),
+                                  EventGroupParallel([Event('a'), Event('b')]),
+                                  Event('c')])
+
+        result, model_result = nw_wrapper(event_group, 'bcd')
+        char_list = events_to_char_list(model_result)
+        self.assertEqual(-4, result)
+        self.assertCountEqual([x for x in 'bc'], char_list)
+
     def test_flatten_values(self):
         e1 = Event('t')
         e2 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])

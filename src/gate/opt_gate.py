@@ -3,7 +3,7 @@ from util.util import is_struct_empty, to_n_length_opt
 from fitness.alignment_calculation import flatten_values
 from event.event import Event
 from exception.exception_decorator import only_throws
-
+from event.base_group import BaseGroup
 
 class OptGate(Gate):
     def __init__(self, elements=None):
@@ -14,6 +14,7 @@ class OptGate(Gate):
         self.check_valid_before_appending(element)
         self.elements.append(element)
 
+    @only_throws(ValueError)
     def get_all_n_length_routes(self, n: int) -> []:
         if self.get_model_max_length() < n:
             return None
@@ -31,7 +32,10 @@ class OptGate(Gate):
             else:
                 lower_limit = self.get_goal_length_lower_range(n, global_list, min_lengths, max_lengths)
                 for i in range(lower_limit, n + 1):
-                    child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    try:
+                        child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    except ValueError:
+                        return []
                     # indicated something wrong
                     if is_struct_empty(child_all_n_length_routes):
                         return []
@@ -42,7 +46,11 @@ class OptGate(Gate):
                 global_list.append(local_list)
 
         if global_list:
-            return to_n_length_opt(n, flatten_values(global_list))
+            results = to_n_length_opt(n, flatten_values(global_list))
+            for result in results:
+                if isinstance(result, BaseGroup):
+                    self.check_valid_for_get_n_length(result.events)
+            return results
         else:
             return []
 

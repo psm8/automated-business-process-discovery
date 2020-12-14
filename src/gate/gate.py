@@ -29,11 +29,23 @@ class Gate:
             self.elements = elements
 
     @only_throws(ValueError)
+    def check_valid_for_get_n_length(self, elements_with_groups):
+        elements = []
+        for elem in elements_with_groups:
+            if isinstance(elem, Event):
+                elements.append(elem)
+        for i in range(len(elements)):
+            for j in range(i + 1, len(elements)):
+                if elements[i].name == elements[j].name:
+                    raise ValueError
+
+    @only_throws(ValueError)
     def check_valid_before_appending(self, element):
         for elem in self.elements:
             if isinstance(elem, Event):
                 if element.name == elem.name:
                     raise ValueError
+
 
     @only_throws(ValueError)
     def parse(self, expression: str) -> int:

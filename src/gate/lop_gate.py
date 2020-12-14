@@ -23,7 +23,10 @@ class LopGate(Gate):
             else:
                 upper_limit = self.get_goal_length_upper_range(n, global_list, min_lengths)
                 for i in range(1, upper_limit + 1):
-                    child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    try:
+                        child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                    except ValueError:
+                        return []
                     # indicated something wrong
                     if is_struct_empty(child_all_n_length_routes):
                         return []
