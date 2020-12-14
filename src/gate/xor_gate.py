@@ -33,6 +33,7 @@ class XorGate(Gate):
                     global_list.append(child_all_n_length_routes)
 
         if global_list:
+            # because always 1 elem list
             return [x[0] for x in global_list]
         else:
             return global_list

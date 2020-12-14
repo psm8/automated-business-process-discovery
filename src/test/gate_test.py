@@ -39,6 +39,13 @@ class GateTest(unittest.TestCase):
         gate.parse('lop({c})')
         self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], gate.get_all_n_length_routes(6))
 
+    def test_8(self):
+        gate = SeqGate()
+        gate.parse('xor({f}{d}and({e}xor(lop(xor({f}{d}))lop({a}))))and({b}{a})')
+        all_n_routes = gate.get_all_n_length_routes(3)
+        self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], all_n_routes)
+
+
     def test_to_n_length(self):
         e1 = Event('t')
         e2 = EventGroupParallel([EventGroupParallel(string_to_events('t')), Event('q')])
@@ -57,7 +64,6 @@ class GateTest(unittest.TestCase):
 
         expected = [EventGroupParallel([e1, e4]), e3]
         self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3, e4])))
-
 
 
 if __name__ == '__main__':

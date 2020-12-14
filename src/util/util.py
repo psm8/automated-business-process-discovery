@@ -32,7 +32,8 @@ def to_n_length(n, child_list):
     while child_list:
         len_child = len(child_list[0])
         if len_child <= max_length:
-            [global_result.append(EventGroupParallel(x)) for x in to_n_length_inner(n-len_child, max_length-len_child, child_list[0], copy.copy(child_list))]
+            [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
+                                                                            child_list[0], copy.copy(child_list))]
         elif len_child == n:
             if isinstance(child_list[0], list):
                 global_result.append(child_list[0][0])
