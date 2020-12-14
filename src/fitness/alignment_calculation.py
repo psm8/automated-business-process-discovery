@@ -124,7 +124,8 @@ def basic_nw(al_mat, model_event, log, penalty, i, n):
 def recurrent_nw(al_mat_x, model_events, logs, pos):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
-    model_results_local = [[]] * len(result_x)
+    model_results_local = []
+    [model_results_local.append([]) for _ in range(len(result_x))]
 
     for i in range(len(logs)):
         local_result_x, model_result_local = nw_is_parallel_wrapper(model_events, logs[i])
@@ -140,9 +141,11 @@ def recurrent_nw(al_mat_x, model_events, logs, pos):
 def parallel_nw(al_mat_x, model_events, logs, pt, pos):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
-    model_results = [[]] * len(result_x)
+    model_results = []
+    [model_results.append([]) for _ in range(len(result_x))]
 
     for i in range(len(logs)):
+        [model_results[i].append([]) for _ in range(len(logs[i]))]
         local_model = copy(model_events)
         local_result_x = [0 for _ in range(len(logs[i]))]
         model_results_local = [None] * len(local_result_x)
@@ -165,8 +168,7 @@ def parallel_nw(al_mat_x, model_events, logs, pt, pos):
             # +1 because al_mat have extra column
             if al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events >= result_x[j + i + 1]:
                 result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events
-                # not +1 because we need move from last not from fist
-                model_results[j + i] = model_results_local[:(len(model_results_local) - j)] # + [None] * (j+1)
+            model_results[i][j] = model_results_local[:(len(model_results_local) - j)] # + [None] * (j+1)
     return result_x, model_results
 
 
@@ -230,13 +232,12 @@ def prepare_model_result(model_results_local, i, len_log):
     result = []
     for model_result_local in model_results_local:
         if model_result_local is not None:
-            model_result_local = model_result_local[:i+2]
-            result.append([x[:len(x) - len_log + (i + 1)] for x in model_result_local])
+            model_result_local = model_result_local[:i+1]
+            result.append([x[len_log - (i + 1)] for x in model_result_local])
         else:
             result.append(model_result_local)
 
     return result
-
 
 
 def get_not_none(model_result_local, pos):
@@ -350,15 +351,6 @@ def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
 
-# event_group = EventGroup([Event('t'),
-#                           EventGroup([EventGroupParallel(string_to_events('ac')),
-#                                       EventGroup(string_to_events('ez'))]),
-#                           EventGroupParallel(string_to_events('xys')),
-#                           EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])])
-#
-# result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
-# print(model_result)
+event_group = EventGroupParallel(string_to_events('pqacezxys'))
 
-# event_group = EventGroup(string_to_events('pqacezxys'))
-#
-# result, model_result = nw_wrapper(event_group, 'zxabcdezx')
+result, model_result = nw_wrapper(event_group, 'zxklmnozx')

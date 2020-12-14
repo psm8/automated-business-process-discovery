@@ -10,18 +10,6 @@ from test.test_util import string_to_events, events_to_char_list
 
 class AlignmentCalculationTest(unittest.TestCase):
 
-    # def test_nw_with_wrapper_move_model(self):
-    #
-    #     # self.assertEqual(nw_wrapper('zxabcdezx', 'pqacezxys'), -6)
-    #     # self.assertEqual(nw_wrapper('abcde', 'acezx'), -6)
-    #     # self.assertEqual(nw_wrapper('bcdez', 'acezx'), -6)
-    #     # self.assertEqual(nw_wrapper('cdezx', 'acezx'), -6)
-    #
-    #     nw_wrapper('zxabcdezx', 'pqacezxys')
-    #     nw_wrapper('abcde', 'acezx')
-    #     nw_wrapper('bcdez', 'acezx')
-    #     nw_wrapper('cdezx', 'acezx')
-
     def test_nw_with_wrapper(self):
         event_group = EventGroup(string_to_events('pqacezxys'))
 
@@ -142,12 +130,24 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper_parallel_inside_74(self):
         event_group = EventGroup([Event('t'),
                                   EventGroup([EventGroupParallel(string_to_events('ac')),
+                                              EventGroup(string_to_events('ez'))])])
+
+        result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        char_list = events_to_char_list(model_result)
+        self.assertEqual(-7, result)
+        self.assertCountEqual([x for x in 'acez'], char_list)
+
+    def test_nw_with_wrapper_parallel_inside_75(self):
+        event_group = EventGroup([Event('t'),
+                                  EventGroup([EventGroupParallel(string_to_events('ac')),
                                               EventGroup(string_to_events('ez'))]),
                                   EventGroupParallel(string_to_events('xys')),
                                   EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])])
 
         result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        char_list = events_to_char_list(model_result)
         self.assertEqual(-9, result)
+        self.assertCountEqual([x for x in 'acezxq'], char_list)
 
     def test_nw_with_wrapper_parallel_inside_8(self):
         event_group = EventGroupParallel([Event('t'),
@@ -157,7 +157,9 @@ class AlignmentCalculationTest(unittest.TestCase):
                                           EventGroupParallel(string_to_events('xys'))])
 
         result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+        char_list = events_to_char_list(model_result)
         self.assertEqual(-9, result)
+        self.assertCountEqual([x for x in 'acezxq'], char_list)
 
     def test_flatten_values(self):
         e1 = Event('t')
