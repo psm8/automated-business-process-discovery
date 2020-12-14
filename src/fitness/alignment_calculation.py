@@ -172,9 +172,10 @@ def parallel_nw(al_mat_x, model_events, logs, pt, pos):
     return result_x, model_results
 
 
-def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
+def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_local):
     array = copy(al_mat)
-    model_result, log_result = [], []
+    log = copy(log_global)
+    model_result = []
     i = len(model)  #The dimension of the matrix rows.
     j = len(log)  #The dimension of the matrix columns.
 
@@ -188,11 +189,12 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
 
             else:
                 for k in range(j):
-                    processes = get_not_none(model_results_local[i][k])
+                    processes = get_not_none(model_results_local[i][k], log)
                     if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
                         [model_result.append(x) for x in processes]
+                        for x in processes:
+                            log = log.replace(x.name, "", 1)
                         [model_result.append(None) for _ in range(event_group_full_length - len(processes))]
-                        [log_result.append(x) for x in log[j-k-1:j-1]]
                         array[i][j] = 0
                         i -= 1
                         j = k
@@ -201,17 +203,15 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
         else:
             if array[i][j] == array[i - 1][j] + penalty_gap:
                 model_result.append(None)
-                log_result.append('-')
                 array[i][j] = 0
                 i -= 1
             elif array[i][j] == array[i - 1][j - 1]:
                 model_result.append(model[i-1])
-                log_result.append(log[j - 1])
+                log = log.replace(model[i-1].name, "", 1)
                 array[i][j] = 0
                 i -= 1
                 j -= 1
             elif array[i][j] == array[i][j - 1] + penalty_gap:
-                log_result.append(log[j - 1])
                 array[i][j] = 0
                 j -= 1
 
@@ -240,8 +240,8 @@ def prepare_model_result(model_results_local, i, len_log):
     return result
 
 
-def get_not_none(model_result_local):
-    return [x for x in model_result_local if x is not None]
+def get_not_none(model_result_local, log):
+    return [x for x in model_result_local if x is not None and x.name in log]
 
 
 def get_penalty_for_model_skipped(model_events, j):
@@ -350,6 +350,6 @@ def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
 
-event_group = EventGroupParallel(string_to_events('pqacezxys'))
-
-result, model_result = nw_wrapper(event_group, 'zxklmnozx')
+# event_group = EventGroupParallel(string_to_events('pqacezxys'))
+#
+# result, model_result = nw_wrapper(event_group, 'zxklmnozx')

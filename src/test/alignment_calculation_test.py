@@ -161,6 +161,17 @@ class AlignmentCalculationTest(unittest.TestCase):
         self.assertEqual(-9, result)
         self.assertCountEqual([x for x in 'acezxq'], char_list)
 
+    def test_nw_with_wrapper_parallel_inside_9(self):
+        event_group = EventGroup([Event('f'),
+                                  EventGroupParallel([EventGroupParallel(string_to_events('dc')), Event('f')]),
+                                  Event('b'),
+                                  EventGroupParallel([EventGroupParallel(string_to_events('df')), Event('e')])])
+
+        result, model_result = nw_wrapper(event_group, 'acbd')
+        char_list = events_to_char_list(model_result)
+        self.assertEqual(-6, result)
+        self.assertCountEqual([x for x in 'bcd'], char_list)
+
     def test_flatten_values(self):
         e1 = Event('t')
         e2 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
