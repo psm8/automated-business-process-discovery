@@ -31,34 +31,36 @@ def diagonal_parallel(model, log, pt):
 
 def nw_wrapper(model, log):
     result, model_result = nw_is_parallel_wrapper(model, log)
-    return result[len(result)-1], model_result
+    return result[len(result)-1], model_result[len(model_result)-1]
 
 
 def nw_is_parallel_wrapper(model, log):
     if isinstance(model, EventGroup):
-        result_x, model_result = nw(resolve_parallel_event_group(model.events), log)
+        result_x, model_results = nw(resolve_parallel_event_group(model.events), log)
     else:
         if are_all_events(model.events):
-            result_x, model_result = nw([[event for event in model.events]], log)
+            result_x, model_results = nw([[event for event in model.events]], log)
         else:
             # change way permutations are calculated
             event_permutations = permutations(model.events)
 
-            result_x, model_result = get_maxes([nw(resolve_parallel_event_group(list(events)), log) for events in event_permutations])
+            result_x, model_results = get_maxes([nw(resolve_parallel_event_group(list(events)), log) for events in event_permutations])
 
-    return result_x, model_result
+    return result_x, model_results
 
 
 def get_maxes(results):
     processed_results = []
     result_models = []
     for result in results:
+        if len(result[0]) - 1 != len(result[1]):
+            raise Exception
         processed_results.append([result[0][i] for i in range(len(result[0]))])
-        result_models.append([result[1][:i+1] for i in range(len(result[0]))])
+        result_models.append([result[1][i] for i in range(len(result[1]))])
     np_array = np.array(processed_results)
     maxes = np.argmax(np_array, axis=0)
     return [processed_results[maxes[i]][i] for i in range(len(maxes))], \
-           [result_models[maxes[i]][i] for i in range(len(maxes))]
+           [result_models[maxes[i + 1]][i] for i in range(len(maxes) - 1)]
 
 
 def parallel_event_permutations(events):
@@ -102,14 +104,13 @@ def nw(model, log):
             al_mat[i][0] = al_mat[i-1][0] + penalty['GAP']
             basic_nw(al_mat, model[i - 1], log, penalty, i, n)
 
-    # model_result = []
-    model_result = traceback_col_seq(al_mat, penalty['GAP'], model, log, model_results_local)
+    model_results = get_all_tracebacks(al_mat, penalty['GAP'], model, log, model_results_local)
+    # model_results = traceback_col_seq(al_mat, penalty['GAP'], model, log, model_results_local)
 
-    np_array = np.array(al_mat)
     print(model)
-    print(np_array)
+    print(al_mat)
 
-    return al_mat[m-1], model_result
+    return al_mat[m-1], model_results
 
 
 def basic_nw(al_mat, model_event, log, penalty, i, n):
@@ -123,7 +124,7 @@ def basic_nw(al_mat, model_event, log, penalty, i, n):
 def recurrent_nw(al_mat_x, model_events, logs, pos):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
-    model_results_local = [None] * len(result_x)
+    model_results_local = [[]] * len(result_x)
 
     for i in range(len(logs)):
         local_result_x, model_result_local = nw_is_parallel_wrapper(model_events, logs[i])
@@ -131,7 +132,8 @@ def recurrent_nw(al_mat_x, model_events, logs, pos):
         for j in range(len(local_result_x)):
             if al_mat_x[i] + local_result_x[j] > result_x[j + i]:
                 result_x[j + i] = al_mat_x[i] + local_result_x[j]
-                model_results_local[j + i] = model_result_local
+                # -1 because we need move from last not from fist
+                model_results_local[j + i - 1] = model_result_local
     return result_x, model_results_local
 
 
@@ -161,10 +163,10 @@ def parallel_nw(al_mat_x, model_events, logs, pt, pos):
             penalty_for_skipped_model_events = get_penalty_for_model_skipped(model_events, j)
             number_of_matches = (j + 1) - int(local_result_x[j]/pt["MISMATCH"])
             # +1 because al_mat have extra column
-            if al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events > result_x[j + i + 1]:
+            if al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events >= result_x[j + i + 1]:
                 result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events
                 # not +1 because we need move from last not from fist
-                model_results[j + i] = model_results_local[:(len(model_results_local) - j) + 1] # + [None] * (j+1)
+                model_results[j + i] = model_results_local[:(len(model_results_local) - j)] # + [None] * (j+1)
     return result_x, model_results
 
 
@@ -174,7 +176,7 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
     i = len(model)  #The dimension of the matrix rows.
     j = len(log)  #The dimension of the matrix columns.
 
-    while i != 0 or j != 0:
+    while i != 0:
         event_group_full_length = len(model[i - 1])
         if model_results_local[i] is not None:
             if array[i][j] == array[i - 1][j] + event_group_full_length * penalty_gap:
@@ -183,22 +185,16 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
                 i -= 1
 
             else:
-                for k in range(j+1):
+                for k in range(j):
                     processes = get_not_none(model_results_local[i][k], j-k)
                     if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
-                        [model_result.append(x) for x in model_results_local[i][j]]
-                        # model_result += [None] * (event_group_full_length - (j+1))
+                        [model_result.append(x) for x in processes]
+                        [model_result.append(None) for _ in range(event_group_full_length - len(processes))]
                         [log_result.append(x) for x in log[j-k-1:j-1]]
                         array[i][j] = 0
                         i -= 1
                         j = k
                         break
-
-            if i == 0 and j != 0:
-                while j != 0:
-                    log_result.append(log[j-1])
-                    array[i][j] = 0
-                    j -= 1
 
         else:
             if array[i][j] == array[i - 1][j] + penalty_gap:
@@ -207,7 +203,7 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
                 array[i][j] = 0
                 i -= 1
             elif array[i][j] == array[i - 1][j - 1]:
-                model_result.append(model[i - 1])
+                model_result.append(model[i-1])
                 log_result.append(log[j - 1])
                 array[i][j] = 0
                 i -= 1
@@ -224,10 +220,28 @@ def traceback_col_seq(al_mat, penalty_gap, model, log, model_results_local):
     return model_result
 
 
+def get_all_tracebacks(al_mat, penalty_gap, model, log, model_results_local):
+    len_log = len(log)
+    return [traceback_col_seq(al_mat[:, :i+2], penalty_gap, model, log[:i+1],
+                              prepare_model_result(model_results_local, i, len_log)) for i in range(len_log)]
+
+
+def prepare_model_result(model_results_local, i, len_log):
+    result = []
+    for model_result_local in model_results_local:
+        if model_result_local is not None:
+            model_result_local = model_result_local[:i+2]
+            result.append([x[:len(x) - len_log + (i + 1)] for x in model_result_local])
+        else:
+            result.append(model_result_local)
+
+    return result
+
+
+
 def get_not_none(model_result_local, pos):
     to_process = model_result_local[:pos+1]
     return [x for x in to_process if x is not None]
-
 
 
 def get_penalty_for_model_skipped(model_events, j):
@@ -336,6 +350,15 @@ def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
 
-# event_group = EventGroupParallel([Event('t'), EventGroupParallel(string_to_events('spqacezxy'))])
+# event_group = EventGroup([Event('t'),
+#                           EventGroup([EventGroupParallel(string_to_events('ac')),
+#                                       EventGroup(string_to_events('ez'))]),
+#                           EventGroupParallel(string_to_events('xys')),
+#                           EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])])
 #
-# result, model_result = nw_wrapper(event_group, 'zxabcdezt')
+# result, model_result = nw_wrapper(event_group, 'zxabcdezxq')
+# print(model_result)
+
+# event_group = EventGroup(string_to_events('pqacezxys'))
+#
+# result, model_result = nw_wrapper(event_group, 'zxabcdezx')
