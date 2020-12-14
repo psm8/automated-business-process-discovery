@@ -2,11 +2,17 @@ from gate.gate import Gate
 from util.util import is_struct_empty, to_n_length
 from fitness.alignment_calculation import flatten_values
 from event.event import Event
+from exception.exception_decorator import only_throws
 
 
 class LopGate(Gate):
     def __init__(self, elements=None):
         super().__init__("lop", elements)
+
+    @only_throws(ValueError)
+    def add_element(self, element):
+        self.check_valid_before_appending(element)
+        self.elements.append(element)
 
     def get_all_n_length_routes(self, n: int) -> []:
         min_lengths = self.get_children_min_length()

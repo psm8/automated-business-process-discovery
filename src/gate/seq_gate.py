@@ -3,11 +3,16 @@ from util.util import is_struct_empty
 from event.event import Event
 from fitness.alignment_calculation import flatten_values
 from event.event_group import EventGroup
+from exception.exception_decorator import only_throws
 
 
 class SeqGate(Gate):
     def __init__(self, elements=None):
         super().__init__("seq", elements)
+
+    @only_throws(ValueError)
+    def add_element(self, element):
+        self.elements.append(element)
 
     def get_all_n_length_routes(self, n: int) -> []:
         if self.get_model_max_length() < n:

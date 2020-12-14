@@ -5,8 +5,7 @@ import collections
 import importlib
 
 from event.event import Event
-from event.event_group import EventGroup
-from event.event_group_parallel import EventGroupParallel
+from exception.exception_decorator import only_throws
 
 
 def consume(iterator, n):
@@ -29,9 +28,14 @@ class Gate:
         else:
             self.elements = elements
 
-    def add_element(self, element):
-        self.elements.append(element)
+    @only_throws(ValueError)
+    def check_valid_before_appending(self, element):
+        for elem in self.elements:
+            if isinstance(elem, Event):
+                if element.name == elem.name:
+                    raise ValueError
 
+    @only_throws(ValueError)
     def parse(self, expression: str) -> int:
 
         locally_added_events = []

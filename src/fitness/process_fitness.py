@@ -41,7 +41,7 @@ def calculate_fitness_metric(log, log_length, log_average_length, gate, min_leng
                 for elem in log:
                     min_local = 1023
                     for event_group in routes:
-                        value = nw_wrapper(event_group, elem)
+                        value, events = nw_wrapper(event_group, elem)
                         if value < min_local:
                             min_local = value
                             event_group_global = event_group
@@ -103,7 +103,10 @@ def evaluate_guess(guess):
     log_length = get_log_length(log)
     log_average_length = log_length / len(log)
     gate = SeqGate()
-    gate.parse(guess)
+    try:
+        gate.parse(guess)
+    except ValueError:
+        return -100000
     min_length = gate.get_model_min_length()
     if min_length > calculate_max_allowed_length(log_average_length):
         return -100000
