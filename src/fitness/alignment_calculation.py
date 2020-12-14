@@ -207,7 +207,6 @@ def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_loca
                         array[i][j] = 0
                         j -= 1
 
-
         else:
             if array[i][j] == array[i - 1][j] + penalty_gap:
                 model_result.append(None)
@@ -297,30 +296,6 @@ def resolve_parallel_event_group(event_group_local):
 
     return model_list
 
-
-# def resolve_parallel(event_group):
-#     model_list = []
-#     if isinstance(event_group, EventGroup):
-#         for i in range(len(event_group.events)):
-#             if isinstance(event_group.events[i], Event):
-#                 model_list.append(event_group.events[i])
-#             elif are_all_events(event_group.events[i]):
-#                 model_list.append(event_group.events[i])
-#             elif isinstance(event_group.events[i], EventGroup):
-#                 [model_list.append(event) for event in event_group.events[i].events]
-#             else:                                       # isinstance(EventGroupParallel):
-#                 for j in range(len(event_group.events[i].events.events)):
-#                     model_list.append(event_group.events[i].events.events)
-#     else:           # isinstance(EventGroupParallel):
-#         if are_all_events(event_group):
-#             for i in range(len(event_group.events)):
-#                 model_list.append(event_group.events[i])
-#         else:
-#             for i in range(len(event_group.events)):
-#                 event_permutations = permutations(event_group.events[i])
-#                 [model_list.append(list(x)) for x in event_permutations]
-#
-#     return model_list
 
 def flatten_values(values2d_list):
     results = []
