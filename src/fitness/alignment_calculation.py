@@ -11,8 +11,8 @@ from copy import copy
 from itertools import permutations
 
 
-#-------------------------------------------------------
-#This function returns to values for cae of match or mismatch
+# -------------------------------------------------------
+# This function returns to values for case of match or mismatch
 def diagonal(model, log, pt):
     if log == model.name:
         return pt['MATCH']
@@ -20,6 +20,8 @@ def diagonal(model, log, pt):
         return pt['MISMATCH']
 
 
+# -------------------------------------------------------
+# This function returns to values for case of match or mismatch for parallel event group
 def diagonal_parallel(model, log, pt):
     # not sure if most efficient to unpack event here
     for event in model:
@@ -29,22 +31,22 @@ def diagonal_parallel(model, log, pt):
     return pt['MISMATCH'], None
 
 
-def nw_wrapper(model, log):
-    result, model_result = nw_is_parallel_wrapper(model, log)
+def calculate_best_alignment(model, log):
+    result, model_result = calculate_alignment_process_event_groups(model, log)
     return result[len(result)-1], model_result[len(model_result)-1]
 
 
-def nw_is_parallel_wrapper(model, log):
+def calculate_alignment_process_event_groups(model, log):
     if isinstance(model, EventGroup):
-        result_x, model_results = nw(resolve_parallel_event_group(model.events), log)
+        result_x, model_results = calculate_alignment(resolve_event_group(model.events), log)
     else:
         if are_all_events(model.events):
-            result_x, model_results = nw([[event for event in model.events]], log)
+            result_x, model_results = calculate_alignment([[event for event in model.events]], log)
         else:
             # change way permutations are calculated
             event_permutations = permutations(model.events)
 
-            result_x, model_results = get_maxes([nw(resolve_parallel_event_group(list(events)), log) for events in event_permutations])
+            result_x, model_results = get_maxes([calculate_alignment(resolve_event_group(list(events)), log) for events in event_permutations])
 
     return result_x, model_results
 
@@ -78,7 +80,7 @@ def parallel_event_permutations(events):
 
 #--------------------------------------------------------
 #This function creates the alignment and pointers matrices
-def nw(model, log):
+def calculate_alignment(model, log):
     penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1} #A dictionary for all the penalty values.
     m = len(model) + 1 #The dimension of the matrix rows.
     model_results_local = [None] * m
@@ -95,14 +97,14 @@ def nw(model, log):
 
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
-            al_mat[i], model_results_local[i] = recurrent_nw(al_mat[i-1], model[i-1],
-                                                             [x for x in substrings_of_string_reversed(log)], i)
+            al_mat[i], model_results_local[i] = recurrent_alignment(al_mat[i - 1], model[i - 1],
+                                                                    [x for x in substrings_of_string_reversed(log)], i)
         elif len(model[i-1]) > 1:
-            al_mat[i], model_results_local[i] = parallel_nw(al_mat[i-1], model[i-1],
-                                                            [x for x in substrings_of_string_reversed(log)], penalty, i)
+            al_mat[i], model_results_local[i] = parallel_alignment(al_mat[i - 1], model[i - 1],
+                                                                   [x for x in substrings_of_string_reversed(log)], penalty, i)
         else:
             al_mat[i][0] = al_mat[i-1][0] + penalty['GAP']
-            basic_nw(al_mat, model[i - 1], log, penalty, i, n)
+            basic_alignment(al_mat, model[i - 1], log, penalty, i, n)
 
     model_results = get_all_tracebacks(al_mat, penalty['GAP'], model, log, model_results_local)
 
@@ -112,7 +114,7 @@ def nw(model, log):
     return al_mat[m-1], model_results
 
 
-def basic_nw(al_mat, model_event, log, penalty, i, n):
+def basic_alignment(al_mat, model_event, log, penalty, i, n):
     for j in range(1, n):
         di = al_mat[i - 1][j - 1] + diagonal(model_event, log[j - 1], penalty)  # The value for match/mismatch.
         ho = al_mat[i][j - 1] + penalty['GAP']  # The value for gap - horizontal.(from the left cell)
@@ -120,14 +122,14 @@ def basic_nw(al_mat, model_event, log, penalty, i, n):
         al_mat[i][j] = max(di, ho, ve)  # Fill the matrix with the maximal value.(based on the python default maximum)
 
 
-def recurrent_nw(al_mat_x, model_events, logs, pos):
+def recurrent_alignment(al_mat_x, model_events, logs, pos):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
     model_results_local = []
     [model_results_local.append([]) for _ in range(len(result_x))]
 
     for i in range(len(logs)):
-        local_result_x, model_result_local = nw_is_parallel_wrapper(model_events, logs[i])
+        local_result_x, model_result_local = calculate_alignment_process_event_groups(model_events, logs[i])
 
         [model_results_local[i].append([]) for _ in range(len(model_result_local))]
         for j in range(len(local_result_x)):
@@ -138,7 +140,7 @@ def recurrent_nw(al_mat_x, model_events, logs, pos):
     return result_x, model_results_local
 
 
-def parallel_nw(al_mat_x, model_events, logs, pt, pos):
+def parallel_alignment(al_mat_x, model_events, logs, pt, pos):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
     model_results = []
@@ -172,7 +174,7 @@ def parallel_nw(al_mat_x, model_events, logs, pt, pos):
     return result_x, model_results
 
 
-def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_local):
+def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
     array = copy(al_mat)
     log = copy(log_global)
     model_result = []
@@ -231,20 +233,20 @@ def traceback_col_seq(al_mat, penalty_gap, model, log_global, model_results_loca
 
 def get_all_tracebacks(al_mat, penalty_gap, model, log, model_results_local):
     len_log = len(log)
-    return [traceback_col_seq(al_mat[:, :i+2], penalty_gap, model, log[:i+1],
-                              model_results_local) for i in range(len_log)]
+    return [traceback(al_mat[:, :i + 2], penalty_gap, model, log[:i + 1],
+                      model_results_local) for i in range(len_log)]
 
 
-def prepare_model_result(model_results_local, i, len_log):
-    result = []
-    for model_result_local in model_results_local:
-        if model_result_local is not None:
-            model_result_local = model_result_local[:i+1]
-            result.append([x[len_log - (i + 1)] for x in model_result_local])
-        else:
-            result.append(model_result_local)
-
-    return result
+# def prepare_model_result(model_results_local, i, len_log):
+#     result = []
+#     for model_result_local in model_results_local:
+#         if model_result_local is not None:
+#             model_result_local = model_result_local[:i+1]
+#             result.append([x[len_log - (i + 1)] for x in model_result_local])
+#         else:
+#             result.append(model_result_local)
+#
+#     return result
 
 
 def get_not_none(model_result_local, log):
@@ -277,7 +279,7 @@ def substrings_of_string_reversed(string):
     return [string[x:] for x in range(len(string))]
 
 
-def resolve_parallel_event_group(event_group_local):
+def resolve_event_group(event_group_local):
     model_list = []
 
     for event in event_group_local:

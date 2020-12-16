@@ -5,7 +5,7 @@ from event.event import Event
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
 from test.test_util import string_to_events
-from util.util import to_n_length, to_n_length_opt
+from util.util import to_n_length, to_n_length_opt, flatten_values
 
 
 class GateTest(unittest.TestCase):
@@ -77,6 +77,29 @@ class GateTest(unittest.TestCase):
 
         expected = [EventGroupParallel([e1, e2]), e3]
         self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3])))
+
+    def test_flatten_values(self):
+        e1 = Event('t')
+        e2 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
+        e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e4 = EventGroupParallel(string_to_events('xys'))
+        e5 = Event('t')
+        e6 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
+        e7 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e8 = EventGroupParallel(string_to_events('xys'))
+        e9 = Event('t')
+        e10 = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
+        e11 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e12 = EventGroupParallel(string_to_events('xys'))
+        e13 = Event('t')
+
+        expected = [[e1, e7, e8, e9, e13], [e1, e10, e13], [e1, e11, e12, e13], [e2, e3, e7, e8, e9, e13],
+                    [e2, e3, e10, e13], [e2, e3, e11, e12, e13], [e4, e5, e6, e7, e8, e9, e13],
+                    [e4, e5, e6, e10, e13], [e4, e5, e6, e11, e12, e13]]
+        self.assertEqual(expected, flatten_values([[[e1], [e2, e3], [e4, e5, e6]],
+                                                   [[e7, e8, e9], [e10], [e11, e12]],
+                                                   [[e13]]]))
+        
 
 if __name__ == '__main__':
     unittest.main()

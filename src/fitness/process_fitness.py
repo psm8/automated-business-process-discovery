@@ -1,6 +1,6 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import nw_wrapper
+from fitness.alignment_calculation import calculate_best_alignment
 from util.util import is_struct_empty
 from fitness.generalization_calculation import add_executions, reset_executions
 
@@ -67,7 +67,7 @@ def calculate_metrics(log, log_length, log_average_length, gate, min_length, max
                 for elem in log:
                     min_local = 1023
                     for event_group in routes:
-                        value, events = nw_wrapper(event_group, elem)
+                        value, events = calculate_best_alignment(event_group, elem)
                         if value < min_local:
                             min_local = value
                             events_global = events
