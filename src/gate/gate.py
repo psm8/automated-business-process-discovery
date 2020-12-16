@@ -137,7 +137,7 @@ class Gate:
 
         return lengths
 
-    def get_processes_list(self) -> []:
+    def get_events_list(self) -> []:
         processes = []
         iterator = 0
         elements = self.elements.copy()
@@ -147,7 +147,7 @@ class Gate:
             if isinstance(elem, Event):
                 processes.append(elem)
             else:
-                processes.append(elem.get_processes_list())
+                [processes.append(x) for x in elem.get_events_list()]
                 iterator += 1
 
         return processes
