@@ -6,6 +6,7 @@ import importlib
 
 from event.event import Event
 from exception.exception_decorator import only_throws
+from util.util import event_list_length
 
 
 def consume(iterator, n):
@@ -76,13 +77,13 @@ class Gate:
         min_length_local = min_lengths.pop(0)
         max_length_local = max_lengths.pop(0)
         max_lengths_sum = sum(max_lengths)
-        return max(1, min_length_local, n - (max_lengths_sum + self.list_length_new(global_list, max)))
+        return max(1, min_length_local, n - (max_lengths_sum + event_list_length(global_list, max)))
 
     # could add max lengths
     def get_goal_length_upper_range(self, n, global_list, min_lengths):
         min_length_local = min_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
-        return n - (min_lengths_sum + self.list_length_new(global_list, min))
+        return n - (min_lengths_sum + event_list_length(global_list, min))
 
     # could add max lengths
     def get_goal_length_range(self, n, global_list, min_lengths, max_lengths):
@@ -90,23 +91,13 @@ class Gate:
         max_length_local = max_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
         max_lengths_sum = sum(max_lengths)
-        return max(1, min_length_local, n - (max_lengths_sum + self.list_length_new(global_list, max))),\
-            n - (min_lengths_sum + self.list_length_new(global_list, min))
-
-    # probably could be simplified because never nested lists
-    def list_length_new(self, struct, min_or_max) -> int:
-        if struct:
-            if isinstance(struct, list):
-                return sum(self.list_length_new(x, min_or_max) for x in struct)
-            else:
-                return len(struct)
-        else:
-            return 0
+        return max(1, min_length_local, n - (max_lengths_sum + event_list_length(global_list, max))),\
+            n - (min_lengths_sum + event_list_length(global_list, min))
 
     # should i use it everywhere??????????????????
     #????????
     def is_in_range(self, n, global_list) -> bool:
-        return self.list_length_new(global_list, min) <= n <= self.list_length_new(global_list, max)
+        return event_list_length(global_list, min) <= n <= event_list_length(global_list, max)
 
     def get_children_min_length(self) -> []:
         lengths = []

@@ -2,6 +2,7 @@ import unittest
 
 from gate.seq_gate import SeqGate
 from event.event import Event
+from event.base_group import BaseGroup
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
 from test.test_util import string_to_events
@@ -13,11 +14,16 @@ class GateTest(unittest.TestCase):
     def test_1(self):
         gate = SeqGate()
         gate.parse('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})')
-        self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], gate.get_all_n_length_routes(14))
+        self.assertCountEqual([EventGroupMatcher(EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))]))],
+                              gate.get_all_n_length_routes(14))
         self.assertEqual([], gate.get_all_n_length_routes(13))
 
     def test_2(self):
         gate = SeqGate('{f}xor({d}and({b}lop({b})opt({a})))')
+        self.assertCountEqual([EventGroupMatcher(EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))]))],
+                              gate.get_all_n_length_routes(14))
+        self.assertEqual([], gate.get_all_n_length_routes(13))
+
 
     def test_3(self):
         gate = SeqGate('lop(opt(seq(xor({e}{c})lop({d}))){f})')
@@ -37,13 +43,13 @@ class GateTest(unittest.TestCase):
     def test_7(self):
         gate = SeqGate()
         gate.parse('lop({c})')
-        self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], gate.get_all_n_length_routes(6))
+        self.assertEqual([EventGroupMatcher(EventGroup([EventGroupParallel(string_to_events('cccccc'))]))], gate.get_all_n_length_routes(6))
 
     def test_8(self):
         gate = SeqGate()
         gate.parse('xor({f}{d}and({e}xor(lop(xor({f}{d}))lop({a}))))and({b}{a})')
-        all_n_routes = gate.get_all_n_length_routes(3)
-        self.assertEqual([EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))])], all_n_routes)
+        all_length_3_routes = gate.get_all_n_length_routes(3)
+        self.assertEqual([EventGroup([Event('b'), EventGroupParallel(string_to_events('ba'))])], all_length_3_routes)
 
     def test_9(self):
         gate = SeqGate()
@@ -96,10 +102,37 @@ class GateTest(unittest.TestCase):
         expected = [[e1, e7, e8, e9, e13], [e1, e10, e13], [e1, e11, e12, e13], [e2, e3, e7, e8, e9, e13],
                     [e2, e3, e10, e13], [e2, e3, e11, e12, e13], [e4, e5, e6, e7, e8, e9, e13],
                     [e4, e5, e6, e10, e13], [e4, e5, e6, e11, e12, e13]]
-        self.assertEqual(expected, flatten_values([[[e1], [e2, e3], [e4, e5, e6]],
+        self.assertCountEqual(expected, flatten_values([[[e1], [e2, e3], [e4, e5, e6]],
                                                    [[e7, e8, e9], [e10], [e11, e12]],
                                                    [[e13]]]))
-        
+
+
+class EventGroupMatcher:
+    expected: BaseGroup
+
+    def __init__(self, expected):
+        self.expected = expected
+
+    def __eq__(self, other):
+        if isinstance(other, EventGroupMatcher):
+            other = other.expected
+        for event in self.expected.events:
+            match = False
+            if isinstance(event, Event):
+                for other_event in other.events:
+                    if event.name == other_event.name:
+                        match = True
+                if not match:
+                    return False
+            else:
+                for other_event in other.events:
+                    if isinstance(event, BaseGroup):
+                        if EventGroupMatcher(event) == other_event:
+                            match = True
+                if not match:
+                    return False
+        return True
+
 
 if __name__ == '__main__':
     unittest.main()

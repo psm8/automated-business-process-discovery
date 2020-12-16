@@ -145,3 +145,13 @@ def flatten_values(values2d_list):
         results = new_result
 
     return results
+
+
+def event_list_length(struct, min_or_max) -> int:
+    if struct:
+        if isinstance(struct, list):
+            return sum(event_list_length(x, min_or_max) for x in struct)
+        else:
+            return len(struct)
+    else:
+        return 0
