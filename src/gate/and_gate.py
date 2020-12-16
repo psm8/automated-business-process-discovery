@@ -1,7 +1,7 @@
 from gate.gate import Gate
 from util.util import is_struct_empty
 from event.event import Event
-from fitness.alignment_calculation import flatten_values
+from util.util import flatten_values
 from event.event_group_parallel import EventGroupParallel
 from exception.exception_decorator import only_throws
 

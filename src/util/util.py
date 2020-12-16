@@ -4,6 +4,7 @@ from itertools import chain, combinations
 from event.event_group import EventGroup
 from event.event_group_parallel import EventGroupParallel
 
+
 def string_to_dictionary(string: str):
     dictionary = dict()
     i = 0
@@ -116,3 +117,31 @@ def to_n_length_inner_opt(n, max_length, result, child_list):
             global_result.append(local_result)
 
     return global_result
+
+
+def flatten_values(values2d_list):
+    results = []
+    values2d = values2d_list.pop(0)
+    for values in values2d:
+        if isinstance(values, list):
+            results.append(values)
+        else:
+            results.append([values])
+
+    for values2d in values2d_list:
+        new_result = []
+        for values in values2d:
+            if isinstance(values, list):
+                for i in range(len(results)):
+                    local_result = copy.copy(results[i])
+                    [local_result.append(value) for value in values]
+                    new_result.append(local_result)
+            else:
+                # it probably doesnt work
+                for i in range(len(results)):
+                    local_result = copy.copy(results[i])
+                    local_result.append(values)
+                    new_result.append(local_result)
+        results = new_result
+
+    return results

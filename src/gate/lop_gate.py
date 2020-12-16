@@ -1,6 +1,6 @@
 from gate.gate import Gate
 from util.util import is_struct_empty, to_n_length
-from fitness.alignment_calculation import flatten_values
+from util.util import flatten_values
 from event.event import Event
 
 

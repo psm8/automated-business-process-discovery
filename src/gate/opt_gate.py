@@ -1,6 +1,6 @@
 from gate.gate import Gate
 from util.util import is_struct_empty, to_n_length_opt
-from fitness.alignment_calculation import flatten_values
+from util.util import flatten_values
 from event.event import Event
 from exception.exception_decorator import only_throws
 from event.base_group import BaseGroup

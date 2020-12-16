@@ -1,7 +1,7 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from gate.seq_gate import SeqGate
-from fitness.alignment_calculation import flatten_values, nw_wrapper
-from util.util import is_struct_empty, string_to_dictionary
+from fitness.alignment_calculation import nw_wrapper
+from util.util import is_struct_empty
 from fitness.generalization_calculation import add_executions, reset_executions
 
 import math
@@ -110,8 +110,6 @@ def evaluate_guess(guess):
     max_length = gate.get_model_max_length()
     if max_length < calculate_min_allowed_length(log_average_length):
         return -100000
-    # processes = gate.get_processes_list()
-    # first_occurrences = gate.find_first_occurrence(Process(string_to_dictionary("abcd"), 0))
     # length_metric = calculate_length_metric(guess, 50)
     fitness_metric = calculate_metrics(log, log_length, log_average_length, gate,
                                        min_length, max_length)

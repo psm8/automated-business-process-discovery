@@ -297,34 +297,6 @@ def resolve_parallel_event_group(event_group_local):
     return model_list
 
 
-def flatten_values(values2d_list):
-    results = []
-    values2d = values2d_list.pop(0)
-    for values in values2d:
-        if isinstance(values, list):
-            results.append(values)
-        else:
-            results.append([values])
-
-    for values2d in values2d_list:
-        new_result = []
-        for values in values2d:
-            if isinstance(values, list):
-                for i in range(len(results)):
-                    local_result = copy(results[i])
-                    [local_result.append(value) for value in values]
-                    new_result.append(local_result)
-            else:
-                # it probably doesnt work
-                for i in range(len(results)):
-                    local_result = copy(results[i])
-                    local_result.append(values)
-                    new_result.append(local_result)
-        results = new_result
-
-    return results
-
-
 def get_best_case() -> int:
     return 0
 
