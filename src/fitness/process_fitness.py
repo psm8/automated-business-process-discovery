@@ -4,7 +4,6 @@ from fitness.alignment_calculation import flatten_values, nw_wrapper
 from util.util import is_struct_empty, string_to_dictionary
 from fitness.generalization_calculation import add_executions, reset_executions
 
-
 import math
 
 
@@ -16,11 +15,25 @@ def get_event_log_length(log: list):
     return sum(len(x) for x in log)
 
 
+def calculate_length_metric(guess, goal_length):
+    length = len(guess)
+    if length == goal_length:
+        # Perfect match.
+        fitness = 1
+    else:
+        # Imperfect match, find distance to match.
+        distance = abs(goal_length - length)
+        fitness = 1 / (1 + distance)
+
+    return fitness
+
+
 def calculate_simplicity_metric(s):
     return
 
 
 def calculate_precision_metric(guess):
+    # calculate precision based on R)metric calculation
     precision = 0
     
     return precision
@@ -44,7 +57,9 @@ def calculate_metrics(log, log_length, log_average_length, gate, min_length, max
             not n > calculate_max_allowed_length(log_average_length):
         if min_length <= n <= max_length:
             routes = gate.get_all_n_length_routes(n)
-            model_events_list = gate.get_events_list()
+            model_events_list_with_parents = gate.get_events_with_parents()
+            model_events_list = [x[1] for x in model_events_list_with_parents]
+            model_parents_list = [x[0] for x in model_events_list_with_parents]
             reset_executions(model_events_list)
             #fix_routes to strings inside gate
             if routes is not None and not is_struct_empty(routes):
@@ -70,39 +85,6 @@ def calculate_metrics(log, log_length, log_average_length, gate, min_length, max
             n += i
         i += 1
     return best_result
-
-
-# def resolve_parallel(route):
-#     model_list = []
-#     first_event_in_parallel_group = -1
-#     parallel_group = []
-#     for i in range(len(route)):
-#         if isinstance(EventGroup):
-#             model_list.append(route[i].event.)
-#             first_event_in_parallel_group = -1
-#             parallel_group = []
-#         else:
-#             parallel_group += route[i]
-#             model_list.append(parallel_group)
-#             if first_event_in_parallel_group != -1:
-#                 len_model_list = len(model_list)
-#                 for j in range(first_event_in_parallel_group, len_model_list - 1):
-#                     model_list[j] = parallel_group
-#             else:
-#                 first_event_in_parallel_group = i
-
-
-def calculate_length_metric(guess, goal_length):
-    length = len(guess)
-    if length == goal_length:
-        # Perfect match.
-        fitness = 1
-    else:
-        # Imperfect match, find distance to match.
-        distance = abs(goal_length - length)
-        fitness = 1 / (1 + distance)
-
-    return fitness
 
 
 def calculate_max_allowed_length(log_average_length):

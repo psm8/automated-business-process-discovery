@@ -4,6 +4,18 @@ from functools import wraps
 class InvalidRaiseException(Exception):
     pass
 
+# class TimeoutException(Exception):
+#     def __init__(self, msg=None):
+#         #: The message from the remark tag or element
+#         self.msg = msg
+#
+#     def __str__(self):
+#         if self.msg is None:
+#             return "No error message provided"
+#         if not isinstance(self.msg, str):
+#             return str(self.msg)
+#         return self.msg
+
 
 def only_throws(E):
     def decorator(f):

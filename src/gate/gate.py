@@ -46,7 +46,6 @@ class Gate:
                 if element.name == elem.name:
                     raise ValueError
 
-
     @only_throws(ValueError)
     def parse(self, expression: str) -> int:
 
@@ -72,12 +71,6 @@ class Gate:
                 raise Exception
         for event in locally_added_events:
             event.no_branches += 1
-
-    # def check_repetitions(self, process):
-    #     if self.name == "and" or self.name == "opt" or self.name == "xor":
-    #         for elem in self.elements:
-    #             if elem == process:
-    #                 raise Exception
 
     def get_goal_length_lower_range(self, n, global_list, min_lengths, max_lengths):
         min_length_local = min_lengths.pop(0)
@@ -137,29 +130,13 @@ class Gate:
 
         return lengths
 
-    def get_events_list(self) -> []:
-        processes = []
-        iterator = 0
-        elements = self.elements.copy()
+    def get_events_with_parents(self) -> [tuple]:
+        nodes = []
 
-        while elements:
-            elem = elements.pop(0)
+        for elem in self.elements:
             if isinstance(elem, Event):
-                processes.append(elem)
+                nodes.append((self, elem))
             else:
-                [processes.append(x) for x in elem.get_events_list()]
-                iterator += 1
+                [nodes.append(x) for x in elem.get_events_with_parents()]
 
-        return processes
-
-# class TimeoutException(Exception):
-#     def __init__(self, msg=None):
-#         #: The message from the remark tag or element
-#         self.msg = msg
-#
-#     def __str__(self):
-#         if self.msg is None:
-#             return "No error message provided"
-#         if not isinstance(self.msg, str):
-#             return str(self.msg)
-#         return self.msg
+        return nodes
