@@ -6,7 +6,7 @@ import importlib
 
 from event.event import Event
 from exception.exception_decorator import only_throws
-from util.util import event_list_length
+from util.util import event_list_length, event_list_length_inner
 
 
 def consume(iterator, n):
@@ -95,9 +95,11 @@ class Gate:
             n - (min_lengths_sum + event_list_length(global_list, min))
 
     # should i use it everywhere??????????????????
-    #????????
-    def is_in_range(self, n, global_list) -> bool:
-        return event_list_length(global_list, min) <= n <= event_list_length(global_list, max)
+    def check_length(self, n, global_list) -> bool:
+        return sum([len(x) for x in global_list]) == n
+
+    def is_length_in_range(self, n, global_list) -> bool:
+        return event_list_length_inner(global_list, min) <= n <= event_list_length_inner(global_list, max)
 
     def get_children_min_length(self) -> []:
         lengths = []

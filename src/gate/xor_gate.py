@@ -32,11 +32,12 @@ class XorGate(Gate):
                 # indicated something wrong
                 if is_struct_empty(child_all_n_length_routes):
                     return []
-                if self.is_in_range(n, child_all_n_length_routes):
+                if self.is_length_in_range(n, child_all_n_length_routes):
                     global_list.append(child_all_n_length_routes)
 
         if global_list:
             # because always 1 elem list
+            # probably not necessary to check length
             return [x[0] for x in global_list if len(x[0]) == n]
         else:
             return global_list

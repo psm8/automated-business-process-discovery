@@ -8,6 +8,8 @@ from event.event_group_parallel import EventGroupParallel
 from test.test_util import string_to_events
 from util.util import to_n_length, to_n_length_opt, flatten_values
 
+from itertools import product
+
 
 class GateTest(unittest.TestCase):
 
@@ -49,7 +51,9 @@ class GateTest(unittest.TestCase):
         gate = SeqGate()
         gate.parse('xor({f}{d}and({e}xor(lop(xor({f}{d}))lop({a}))))and({b}{a})')
         all_length_3_routes = gate.get_all_n_length_routes(3)
-        self.assertEqual([EventGroup([Event('b'), EventGroupParallel(string_to_events('ba'))])], all_length_3_routes)
+        self.assertCountEqual([EventGroupMatcher(EventGroup([Event('f'), EventGroupParallel(string_to_events('ba'))])),
+                               EventGroupMatcher(EventGroup([Event('d'), EventGroupParallel(string_to_events('ba'))])),
+                               EventGroupMatcher(EventGroup([Event('e'), EventGroupParallel(string_to_events('ba'))]))], all_length_3_routes)
 
     def test_9(self):
         gate = SeqGate()
@@ -99,12 +103,10 @@ class GateTest(unittest.TestCase):
         e12 = EventGroupParallel(string_to_events('xys'))
         e13 = Event('t')
 
-        expected = [[e1, e7, e8, e9, e13], [e1, e10, e13], [e1, e11, e12, e13], [e2, e3, e7, e8, e9, e13],
-                    [e2, e3, e10, e13], [e2, e3, e11, e12, e13], [e4, e5, e6, e7, e8, e9, e13],
-                    [e4, e5, e6, e10, e13], [e4, e5, e6, e11, e12, e13]]
-        self.assertCountEqual(expected, flatten_values([[[e1], [e2, e3], [e4, e5, e6]],
-                                                   [[e7, e8, e9], [e10], [e11, e12]],
-                                                   [[e13]]]))
+        expected = [list(x) for x in product([e1, e2, e3, e4, e5, e6], [e7, e8, e9, e10, e11, e12])]
+        [x.append(e13) for x in expected]
+        actual = flatten_values([[[e1], [e2, e3], [e4, e5, e6]], [[e7, e8, e9], [e10], [e11, e12]], [[e13]]])
+        self.assertCountEqual(expected, actual)
 
 
 class EventGroupMatcher:
@@ -120,8 +122,9 @@ class EventGroupMatcher:
             match = False
             if isinstance(event, Event):
                 for other_event in other.events:
-                    if event.name == other_event.name:
-                        match = True
+                    if isinstance(other, Event):
+                        if event.name == other_event.name:
+                            match = True
                 if not match:
                     return False
             else:

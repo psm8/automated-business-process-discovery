@@ -15,6 +15,8 @@ def string_to_dictionary(string: str):
 
 
 def is_struct_empty(in_list) -> bool:
+    if in_list is None:
+        return True
     if isinstance(in_list, list) or isinstance(in_list, tuple):
         return all(map(is_struct_empty, in_list))
     return False
@@ -124,21 +126,20 @@ def flatten_values(values2d_list):
     values2d = values2d_list.pop(0)
     for values in values2d:
         if isinstance(values, list):
-            results.append(values)
+            [results.append([x]) for x in values]
         else:
             results.append([values])
 
     for values2d in values2d_list:
         new_result = []
-        for values in values2d:
-            if isinstance(values, list):
-                for i in range(len(results)):
-                    local_result = copy.copy(results[i])
-                    [local_result.append(value) for value in values]
-                    new_result.append(local_result)
-            else:
-                # it probably doesnt work
-                for i in range(len(results)):
+        for i in range(len(results)):
+            for values in values2d:
+                if isinstance(values, list):
+                    for value in values:
+                        local_result = copy.copy(results[i])
+                        local_result.append(value)
+                        new_result.append(local_result)
+                else:
                     local_result = copy.copy(results[i])
                     local_result.append(values)
                     new_result.append(local_result)
@@ -147,11 +148,16 @@ def flatten_values(values2d_list):
     return results
 
 
-def event_list_length(struct, min_or_max) -> int:
-    if struct:
-        if isinstance(struct, list):
-            return sum(event_list_length(x, min_or_max) for x in struct)
-        else:
-            return len(struct)
+def event_list_length(global_list, min_or_max) -> int:
+    if global_list:
+        return sum(event_list_length_inner(local_list, min_or_max) for local_list in global_list)
     else:
         return 0
+
+
+def event_list_length_inner(struct, min_or_max) -> int:
+    for inner_struct in struct:
+        if isinstance(inner_struct, list):
+            return min_or_max([len(x) for x in inner_struct])
+        else:
+            return len(struct)

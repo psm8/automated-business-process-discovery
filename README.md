@@ -1,5 +1,11 @@
 # automated-business-process-discovery
  
+ 
+### Gate returns:
+    gate -> [BaseGroup] - parallel
+    local_list -> [[BaseGroup], [BaseGroup], ...] - parallel
+    global_list -> [[[BaseGroup], [BaseGroup], ...], [[BaseGroup], [BaseGroup], ...], ...] - linear
+
 ### Simplicity
 
 ### Replay fitness

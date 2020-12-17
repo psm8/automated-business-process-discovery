@@ -49,7 +49,7 @@ class AndGate(Gate):
         result = []
         if global_list:
             for elem in flatten_values(global_list):
-                if self.is_in_range(n, elem):
+                if self.check_length(n, elem):
                     if n == 1:
                         # because always 1 elem list
                         result.append(elem[0])
