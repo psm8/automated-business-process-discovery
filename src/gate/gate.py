@@ -75,31 +75,28 @@ class Gate:
 
     def get_goal_length_lower_range(self, n, global_list, min_lengths, max_lengths):
         min_length_local = min_lengths.pop(0)
-        max_length_local = max_lengths.pop(0)
+        max_lengths.pop(0)
         max_lengths_sum = sum(max_lengths)
-        return max(1, min_length_local, n - (max_lengths_sum + event_list_length(global_list, max)))
+        return max(min_length_local, n - (max_lengths_sum + event_list_length(global_list, max)))
 
     # could add max lengths
     def get_goal_length_upper_range(self, n, global_list, min_lengths):
-        min_length_local = min_lengths.pop(0)
+        min_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
         return n - (min_lengths_sum + event_list_length(global_list, min))
 
     # could add max lengths
     def get_goal_length_range(self, n, global_list, min_lengths, max_lengths):
         min_length_local = min_lengths.pop(0)
-        max_length_local = max_lengths.pop(0)
+        max_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
         max_lengths_sum = sum(max_lengths)
-        return max(1, min_length_local, n - (max_lengths_sum + event_list_length(global_list, max))),\
+        return max(min_length_local, n - (max_lengths_sum + event_list_length(global_list, max))),\
             n - (min_lengths_sum + event_list_length(global_list, min))
 
     # should i use it everywhere??????????????????
     def check_length(self, n, global_list) -> bool:
         return sum([len(x) for x in global_list]) == n
-
-    def is_length_in_range(self, n, global_list) -> bool:
-        return event_list_length_inner(global_list, min) <= n <= event_list_length_inner(global_list, max)
 
     def get_children_min_length(self) -> []:
         lengths = []

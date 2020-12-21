@@ -126,7 +126,7 @@ def flatten_values(values2d_list):
     values2d = values2d_list.pop(0)
     for values in values2d:
         if isinstance(values, list):
-            [results.append([x]) for x in values]
+            [results.append([x]) if x else results.append([]) for x in values]
         else:
             results.append([values])
 
@@ -135,9 +135,13 @@ def flatten_values(values2d_list):
         for i in range(len(results)):
             for values in values2d:
                 if isinstance(values, list):
-                    for value in values:
+                    if values:
+                        for value in values:
+                            local_result = copy.copy(results[i])
+                            local_result.append(value)
+                            new_result.append(local_result)
+                    else:
                         local_result = copy.copy(results[i])
-                        local_result.append(value)
                         new_result.append(local_result)
                 else:
                     local_result = copy.copy(results[i])
@@ -156,8 +160,14 @@ def event_list_length(global_list, min_or_max) -> int:
 
 
 def event_list_length_inner(struct, min_or_max) -> int:
+    results = []
     for inner_struct in struct:
         if isinstance(inner_struct, list):
-            return min_or_max([len(x) for x in inner_struct])
+            if inner_struct:
+                results.append(min_or_max([len(x) for x in inner_struct]))
+            else:
+                results.append(0)
         else:
-            return len(struct)
+            results.append(len(struct))
+    return min_or_max(results)
+

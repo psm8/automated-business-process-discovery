@@ -17,30 +17,33 @@ class XorGate(Gate):
         if self.get_model_max_length() < n and n > 0:
             return None
 
-        global_list = []
+        local_list = []
 
         for elem in self.elements:
             if isinstance(elem, Event):
                 if n == 1:
-                    global_list.append([elem])
+                    local_list.append([elem])
             else:
                 # possibly should add lower limit
                 try:
                     child_all_n_length_routes = elem.get_all_n_length_routes(n)
                 except ValueError:
                     return []
-                # indicated something wrong
-                if is_struct_empty(child_all_n_length_routes):
-                    return []
-                if self.is_length_in_range(n, child_all_n_length_routes):
-                    global_list.append(child_all_n_length_routes)
+                if child_all_n_length_routes is not None:
+                    local_list.append(child_all_n_length_routes)
 
-        if global_list:
-            # because always 1 elem list
-            # probably not necessary to check length
-            return [x[0] for x in global_list if len(x[0]) == n]
+        result = []
+        if local_list:
+            for elem in local_list:
+                if isinstance(elem, list):
+                    [result.append(x) for x in elem if len(x) == n]
+                else:
+                    if len(elem) == n:
+                        result.append(elem)
         else:
-            return global_list
+            return local_list
+
+        return result
 
     def get_model_min_length(self) -> int:
         return min(self.get_children_min_length())

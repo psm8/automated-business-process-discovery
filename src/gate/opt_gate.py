@@ -36,9 +36,6 @@ class OptGate(Gate):
                         child_all_n_length_routes = elem.get_all_n_length_routes(i)
                     except ValueError:
                         return []
-                    # indicated something wrong
-                    if is_struct_empty(child_all_n_length_routes):
-                        return []
                     if child_all_n_length_routes is not None:
                         local_list.append(child_all_n_length_routes)
 

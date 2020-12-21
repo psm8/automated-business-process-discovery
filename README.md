@@ -5,6 +5,11 @@
     gate -> [BaseGroup] - parallel
     local_list -> [[BaseGroup], [BaseGroup], ...] - parallel
     global_list -> [[[BaseGroup], [BaseGroup], ...], [[BaseGroup], [BaseGroup], ...], ...] - linear
+    
+    Add lop max length
+    Gate max size expecially opt
+    Check with process list 
+    Check with result
 
 ### Simplicity
 
