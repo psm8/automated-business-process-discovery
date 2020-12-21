@@ -1,17 +1,20 @@
-from gate.gate import Gate
-from util.util import is_struct_empty
-from event.event import Event
-from util.util import flatten_values
-from event.event_group import EventGroup
+from processdiscovery.gate.gate import Gate
+from processdiscovery.event.event import Event
+from processdiscovery.util.util import flatten_values
+from processdiscovery.event.event_group_parallel import EventGroupParallel
+from processdiscovery.exception.exception_decorator import only_throws
 
 
-class SeqGate(Gate):
+class AndGate(Gate):
     def __init__(self, elements=None):
-        super().__init__("seq", elements)
+        super().__init__("and", elements)
 
+    @only_throws(ValueError)
     def add_element(self, element):
+        self.check_valid_before_appending(element)
         self.elements.append(element)
 
+    @only_throws(ValueError)
     def get_all_n_length_routes(self, n: int) -> []:
         if self.get_model_max_length() < n:
             return None
@@ -43,7 +46,12 @@ class SeqGate(Gate):
         if global_list:
             for elem in flatten_values(global_list):
                 if self.check_length(n, elem):
-                    result.append(EventGroup(elem))
+                    if n == 1:
+                        # because always 1 elem list
+                        result.append(elem[0])
+                    else:
+                        self.check_valid_for_get_n_length(elem)
+                        result.append(EventGroupParallel(elem))
 
         return result
 

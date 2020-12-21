@@ -1,8 +1,8 @@
 import copy
 
 from itertools import chain, combinations
-from event.event_group import EventGroup
-from event.event_group_parallel import EventGroupParallel
+from processdiscovery.event.event_group import EventGroup
+from processdiscovery.event.event_group_parallel import EventGroupParallel
 
 
 def string_to_dictionary(string: str):

@@ -1,7 +1,7 @@
-from gate.gate import Gate
-from util.util import is_struct_empty, to_n_length
-from util.util import flatten_values
-from event.event import Event
+from processdiscovery.gate.gate import Gate
+from processdiscovery.util.util import to_n_length
+from processdiscovery.util.util import flatten_values
+from processdiscovery.event.event import Event
 
 
 class LopGate(Gate):

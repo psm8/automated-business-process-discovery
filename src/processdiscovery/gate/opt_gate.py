@@ -1,9 +1,9 @@
-from gate.gate import Gate
-from util.util import is_struct_empty, to_n_length_opt
-from util.util import flatten_values
-from event.event import Event
-from exception.exception_decorator import only_throws
-from event.base_group import BaseGroup
+from processdiscovery.gate.gate import Gate
+from processdiscovery.util.util import to_n_length_opt
+from processdiscovery.util.util import flatten_values
+from processdiscovery.event.event import Event
+from processdiscovery.exception.exception_decorator import only_throws
+from processdiscovery.event.base_group import BaseGroup
 
 class OptGate(Gate):
     def __init__(self, elements=None):

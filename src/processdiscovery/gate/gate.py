@@ -4,9 +4,9 @@ from itertools import islice
 import collections
 import importlib
 
-from event.event import Event
-from exception.exception_decorator import only_throws
-from util.util import event_list_length, event_list_length_inner
+from processdiscovery.event.event import Event
+from processdiscovery.exception.exception_decorator import only_throws
+from processdiscovery.util.util import event_list_length
 
 
 def consume(iterator, n):
@@ -61,7 +61,7 @@ class Gate:
             elif expression[i] == ")":
                 return i+1
             elif i+4 < len(expression):
-                gate_class = getattr(importlib.import_module("gate." + expression[i:i+3] + "_gate"),
+                gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
                                      expression[i:i+3].capitalize() + "Gate")
                 gate = gate_class()
                 consume(numbers, 3)

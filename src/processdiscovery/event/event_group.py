@@ -1,4 +1,4 @@
-from event.base_group import BaseGroup
+from processdiscovery.event.base_group import BaseGroup
 
 
 class EventGroup(BaseGroup):

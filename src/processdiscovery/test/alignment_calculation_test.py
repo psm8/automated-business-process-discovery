@@ -1,11 +1,11 @@
 import unittest
 
-from fitness.alignment_calculation import *
-from event.event import Event
-from event.event_group import EventGroup
-from event.event_group_parallel import EventGroupParallel
+from processdiscovery.evaluation.alignment_calculation import *
+from processdiscovery.event.event import Event
+from processdiscovery.event.event_group import EventGroup
+from processdiscovery.event.event_group_parallel import EventGroupParallel
 
-from test.test_util import string_to_events, events_to_char_list
+from processdiscovery.test import string_to_events, events_to_char_list
 
 
 class AlignmentCalculationTest(unittest.TestCase):

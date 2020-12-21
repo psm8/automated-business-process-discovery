@@ -1,7 +1,6 @@
-from gate.gate import Gate
-from util.util import is_struct_empty
-from event.event import Event
-from exception.exception_decorator import only_throws
+from processdiscovery.gate.gate import Gate
+from processdiscovery.event.event import Event
+from processdiscovery.exception.exception_decorator import only_throws
 
 
 class XorGate(Gate):

@@ -1,11 +1,9 @@
 import numpy as np
 import math
 
-from event.event import Event
-from event.base_group import BaseGroup
-from event.event_group import EventGroup
-from event.event_group_parallel import EventGroupParallel
-from test.test_util import string_to_events
+from processdiscovery.event.event import Event
+from processdiscovery.event.base_group import BaseGroup
+from processdiscovery.event.event_group import EventGroup
 
 from copy import copy
 from itertools import permutations

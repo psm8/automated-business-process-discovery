@@ -1,7 +1,10 @@
 \chapter{Projekt i implementacja}
 
 \section{Wykorzystane technologie}
+\subsection{Python 3.8.1}
 \subsection{PonyGE2}
+
+
 
 \section{Tworzenie gramatyki procesu biznesowego}
 
@@ -10,26 +13,25 @@ performed”
 
 \section{Implementacja}
 
-Parsowanie gramatyki
-Gen n length
-calculate alignment
-traceback
-calculate other metrics
+Ogólny flow:
+
+
+Parsowanie gramatyki:
+Wyszukiwanie w modelu logów o określonej długości:
+calculate alignment:
+traceback:
+calculate other metrics:
+
+\begin{figure}[!ht]
+\lstset{caption=Parser gramatyki, captionpos=b}
+\lstset{label=src:passive, frame=single}
 \begin{lstlisting}
-\documentclass[a4paper,12pt]{article}      % preambuła
-\usepackage[polish]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{times}
-
-\begin{document}                           % część główna
-
-\section{Sztuczne życie}
-
-% treść
-% ąśężźćńłóĘŚĄŻŹĆŃÓŁ
-
-\end{document}
+agent Buffer {
+  i :: Int = 0;
+  proc pop  { out pop i; }
+  proc push { in  push i; }
+}
 \end{lstlisting}
+\end{figure}
 
 \section{Wybór parametrów algorytmu}

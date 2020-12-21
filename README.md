@@ -30,7 +30,7 @@ add method to recurrent parallel calculation to choose on substring that makes s
 gate should always return list of events
 add to loop to_n_length return seq if same gates
 test model same event name in gate but inside other gates
-imporove and to have ['a', 'b', 'c', and] not calc all combos
+improve and to have ['a', 'b', 'c', and] not calc all combos
 ### Precision
 add info about visited nodes and no of children, could be stored in dictionary created when parsing.
 ### Generalization

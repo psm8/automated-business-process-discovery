@@ -28,7 +28,8 @@
 \contentsline {subsection}{\numberline {2.6.4}Generalizacja}{10}% 
 \contentsline {chapter}{\numberline {3}Projekt i implementacja}{11}% 
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{11}% 
-\contentsline {subsection}{\numberline {3.1.1}PonyGE2}{11}% 
+\contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{11}% 
+\contentsline {subsection}{\numberline {3.1.2}PonyGE2}{11}% 
 \contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{11}% 
 \contentsline {section}{\numberline {3.3}Implementacja}{11}% 
 \contentsline {section}{\numberline {3.4}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{11}% 
@@ -37,3 +38,4 @@
 \contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{13}% 
 \contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{13}% 
 \contentsline {section}{\numberline {4.4}Wnioski}{13}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{15}% 

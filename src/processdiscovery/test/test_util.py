@@ -1,4 +1,4 @@
-from event.event import Event
+from processdiscovery.event.event import Event
 
 
 def string_to_events(string: str):

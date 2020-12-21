@@ -1,9 +1,4 @@
-from gate.seq_gate import SeqGate
-from fitness.process_fitness import evaluate_guess
-from fitness.alignment_calculation import *
-from event.event import Event
-from event.event_group import EventGroup
-from event.event_group_parallel import EventGroupParallel
+from processdiscovery.gate.seq_gate import SeqGate
 
 gate = SeqGate()
 gate.parse('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})')
