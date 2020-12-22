@@ -3,11 +3,12 @@ import unittest
 from processdiscovery.event.event import Event
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
-from processdiscovery.test import string_to_events
+from processdiscovery.test.test_util import string_to_events
 from processdiscovery.util.util import flatten_values, event_list_length
 
 from itertools import product
 from copy import deepcopy
+
 
 class UtilTest(unittest.TestCase):
 

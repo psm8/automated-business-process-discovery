@@ -3,185 +3,193 @@
 \section{Wykorzystane technologie}
 \subsection{Python 3.8.1}
 \subsection{PonyGE2}
-\cite{Fenton_2017}
-\begin{figure}[h]
-	\centering
-	\framebox[2.0\width]{A}
+PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w jezyku Python. Pozwala na latwa konfiguracje parametrow ewolucji genetycznej oraz latwa mozliwosc dodania wlasnych problemow oraz sposobow ewaluacji wynikow.
 
-	\caption{\label{fig:subcaption_example}Przykład użycia}
+\begin{figure}[h]
+	\centering{\includegraphics{PonyGE2-search-loop.jpg}}
+	\caption{\label{fig:subcaption_example}Petla wyszukiwania}
 \end{figure}
 \section{Projekt systemu}
 
 \section{Tworzenie gramatyki procesu biznesowego}
 
 Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
-gramatyki.  \cite{10.1007/978-3-540-69534-9_35}
+gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przenalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
 
+Zapis GE{\_}RANGE:dataset{\_}n{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych odpowiadajacej ich ilosci w zbiorze danych.
 \begin{figure}[!ht]
 \lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
-\lstset{label=src:passive, frame=single}
+\lstset{label=src:grammar, frame=single}
 \begin{lstlisting}
-<e> ::= <somethingnoseq>
+<e> ::= <anygateexceptseq>
 
-<somethingnoseq> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | 
-<optgate> | <lopgate> | {<process>}
+<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | 
+<xorgate> | <optgate> | <lopgate> | {<event>}
 
-<something> ::=  <something><something> | <andgate> | <xorgate> | <seqgate> | 
-<optgate> | <lopgate> | {<process>}
+<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | 
+<lopgate> | {<event>}
 
-<andgate> ::= and(<something><something>)
+<andgate> ::= and(<anygate><anygate>)
 
-<xorgate> ::= xor(<something><something>)
+<xorgate> ::= xor(<anygate><anygate>)
 
-<seqgate> ::= seq(<somethingnoseq><somethingnoseq>)
+<seqgate> ::= seq(<anygateexceptseq><anygateexceptseq>)
 
-<optgate> ::= opt(<somethingnosingleopt>)
+<optgate> ::= opt(<anygatenosingleopt>)
 
-<optdoublegate> ::= opt(<something><something>)
+<optdoublegate> ::= opt(<anygate><anygate>)
 
-<somethingnosingleopt> ::= <something><something> | <andgate> | <xorgate> | 
-<seqgate> | <lopgate> | {<process>}
+<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | 
+<lopgate> | {<event>}
 
-<lopgate> ::= lop(<somethingnosinglelop>)
+<lopgate> ::= lop(<anygatenosinglelop>)
 
-<somethingnosinglelop> ::= <somethingnoseq><somethingnoseq> | <andgate> | 
-<xorgate> | <seqgate> | <optdoublegate> | {<process>}
+<anygatenosinglelop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | 
+<xorgate> | <seqgate> | <optdoublegate> | {<event>}
 
-<process> ::= GE_RANGE:dataset_n_vars
+<event> ::= GE_RANGE:dataset_n_vars
 \end{lstlisting}
 \end{figure}
+
+Przykład wygenerowanej gramatyki:
+and(\{d\}opt(\{f\})and(\{a\}\{c\})lop(seq(lop(\{a\})\{e\})))
+\clearpage
 
 \section{Implementacja}
 
-Ogólny flow \cite{https://doi.org/10.1002/widm.1045}:
+\subsubsection{Ogólny schemat blokowy}
 \begin{figure}[!ht]
-\lstset{caption=Parser gramatyki, captionpos=b}
-\lstset{label=src:passive, frame=single}
-\begin{lstlisting}
-agent Buffer {
-  i :: Int = 0;
-  proc pop  { out pop i; }
-  proc push { in  push i; }
-}
-\end{lstlisting}
+	\centering{\includegraphics{Overall-flow-chart.png}}
+	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
 \end{figure}
+\clearpage
 
 \subsubsection{Parsowanie gramatyki}
-
+Parser pozwala na przedtworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
+Parsując korzystamy z faktu, że przy projektowaniu gramtyki wszyskie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
 \begin{figure}[!ht]
 \lstset{caption=Parser gramatyki, captionpos=b}
 \lstset{label=src:passive, frame=single}
 \begin{lstlisting}
-    def parse(self, expression: str) -> int:
+    def parsuj(wyrażenie: str) -> int:
 
-        locally_added_events = []
-        numbers = iter(range(len(expression)))
-        for i in numbers:
-            if expression[i] == "{":
-                event = Event(expression[i + 1])
-                locally_added_events.append(event)
-                self.add_element(event)
-                consume(numbers, 2)
-            elif expression[i] == ")":
+        lokalnie_dodane_zdarzenia = []
+        for i w zakresie długość_wyrażenia:
+            if wyrażenia[i] == "{":
+                zdarzenie := Event(wyrażenia[i + 1])
+                dodaj zdarzenie do lokalnie_dodane_zdarzenia
+                dodaj zdarzenie do aktualnie parsowanej bramki 
+                i += 2
+            elif wyrażenia[i] == ")":
                 return i+1
-            elif i+4 < len(expression):
-                gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
-                                     expression[i:i+3].capitalize() + "Gate")
-                gate = gate_class()
-                consume(numbers, 3)
-                processed_characters = gate.parse(expression[i+4:])
-                self.add_element(gate)
-                consume(numbers, processed_characters)
+            elif i+4 < długość_wyrażenia:
+                bramka := stwórz nową bramkę Gate  typu zgodnego z wyrażeniem 
+                i += 3
+                przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
+                dodaj zdarzenie do aktualnie parsowanej bramki 
+                i += ilość_przeparsowanych_znaków
             else:
-                raise Exception
-        for event in locally_added_events:
-            event.no_branches += 1
+                wyrzuć wyjątek
+        for zdarzenie w lokalnie_dodane_zdarzenia:
+            zdarzenie.ilość_dzieci += 1
 \end{lstlisting}
 \end{figure}
 
-\subsubsection{Ewaluacja wyniku}
+\subsubsection{Obliczanie metryk}
 
 \begin{figure}[!ht]
-\lstset{caption=Parser gramatyki, captionpos=b}
-\lstset{label=src:passive, frame=single}
+\lstset{caption=Obliczanie metryk, captionpos=b}
+\lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-    n = round(log_average_length)
+def oblicz_metryki(log, długość_logu, średnia_długość_procesu_w_logu, model, 
+				   najkrótsza_dozwolona_długość, 
+				   najdłuższa_dozwolona_długość) -> int:
+    n = zaokrąglij(średnia_długość_process_w_logu)
     i = 1
-    best_result = 0
-    # should be change later
-    while not n < calculate_min_allowed_length(log_average_length) and \
-            not n > calculate_max_allowed_length(log_average_length):
-        if min_length <= n <= max_length:
-            routes = gate.get_all_n_length_routes(n)
-            if len(routes) > 10:
-                print(10)
-            model_events_list_with_parents = gate.get_events_with_parents()
-            model_events_list = [x[1] for x in model_events_list_with_parents]
-            model_parents_list = [x[0] for x in model_events_list_with_parents]
-            reset_executions(model_events_list)
-            # fix_routes to strings inside gate
-            if routes is not None and not is_struct_empty(routes):
-                best_local_error = 0
-                for elem in log:
-                    min_local = 1023
-                    for event_group in routes:
-                        value, events = calculate_best_alignment(event_group, elem)
-                        if value < min_local:
-                            min_local = value
-                            events_global = events
-                    add_executions(model_events_list, events_global)
-                    best_local_error += min_local
-
-                best_local_alignment = calculate_fitness_metric(best_local_error, log_length, log, n)
-                best_local_generalization = calculate_generalization_metric(model_events_list)
-                best_local_result = (best_local_alignment + best_local_generalization) / 2
-                if best_local_result > best_result:
-                    best_result = best_local_result
+    najlepszy_wynik = 0
+    while n znajduje się pomiędzy największą i najmienjszą 
+    	  dopuszczalną długością logu:
+        if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
+            procesy_o_dlugosci_n = model.wyszukaj_procesy_o_określonej_długości(n)
+            wszystkie_procesy = model.wyszukaj_wszystkie_procesy
+            wszyscy_rodzice_procesów = model.wyszukaj_wszystkich_rodziców_procesów
+            if istnieją procesy_o_dlugosci_n:
+                najlepszy_błąd_lokalny = 0
+                for elem w log:
+                    minimalny_błąd_lokalny = 1023
+                    for proces w procesy_o_dlugosci_n:
+                        błąd_lokalny, ścieżka = oblicz_dopasowanie(event_group, elem)
+                        if błąd_lokalny < minimalny_błąd_lokalny:
+                            minimalny_błąd_lokalny = błąd_lokalny
+                            najlpesza_ścieżka = ścieżka
+                    najlepszy_błąd_lokalny += minimalny_błąd_lokalny
+               oblicz metryki odwzorowanie, precyzja, generalizacja, prostota 
+               najlepszy_wynik_lokalny = suma_obliczonych_metryk / liczba_metryk
+               if najlepszy_wynik_lokalny > najlepszy_wynik:
+                   najlepszy_wynik = najlepszy_wynik_lokalny
         if i % 2 == 1:
             n -= i
         else:
             n += i
         i += 1
-    return best_result
+    return najlepszy_wynik
 \end{lstlisting}
 \end{figure}
 
-\subsubsection{Wyszukiwanie w modelu logów o określonej długości}
+\subsubsection{Wyszukiwanie w modelu procesów o określonej długości}
 
+Algorytm rekurencyjny. Implementacja rózni się w zależności od przeszukiwanej branki logicznej.
 \begin{figure}[!ht]
-\lstset{caption=Parser gramatyki, captionpos=b}
-\lstset{label=src:passive, frame=single}
+\lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
+\lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}
-    n = round(log_average_length)
 \end{lstlisting}
 \end{figure}
 
 \subsubsection{Obliczanie dopasowania}
-Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}
+Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równlogłych zdarzeń.
 \begin{figure}[!ht]
-\lstset{caption=Parser gramatyki, captionpos=b}
-\lstset{label=src:passive, frame=single}
+\lstset{caption=Obliczanie dopasowania, captionpos=b}
+\lstset{label=src:alignment_calculation, frame=single}
 \begin{lstlisting}
-agent Buffer {
-  i :: Int = 0;
-  proc pop  { out pop i; }
-  proc push { in  push i; }
-}
+def oblicz_dopasowanie(model, log):
+    kara = {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
+    wyniki_lokalne = [None] * dlugosc_macierzy_rozwiazan
+    macierz_rozwiazan = Zainicjalizuj macierz zerami
+    for i in range(m):
+        macierz_rozwiazan[i][0] = kara['PRZERWA'] * i
+    for j in range(n):
+        macierz_rozwiazan[0][j] = kara['PRZERWA'] * j
+    #Wypelnij osie macierzy wlasciwymi wartosciami
+
+    for i in range(1, m):
+        if should_go_recurrent(model[i-1]):
+            al_mat[i], model_results_local[i] = 
+            recurrent_alignment(al_mat[i - 1], model[i - 1],
+                                [x for x in substrings_of_string_reversed(log)], i)
+        elif len(model[i-1]) > 1:
+            al_mat[i], model_results_local[i] = 
+            parallel_alignment(al_mat[i - 1], model[i - 1],
+                              [x for x in substrings_of_string_reversed(log)], kara, i)
+        else:
+            al_mat[i][0] = al_mat[i-1][0] + penalty['GAP']
+            basic_alignment(al_mat, model[i - 1], log, kara, i, n)
+
+    model_results = get_all_tracebacks(al_mat, penalty['GAP'], model, 
+    log, model_results_local)
+
+    return macierz_rozwiazan[m-1] #ostatnia linijka, model_results
 \end{lstlisting}
 \end{figure}
 
 \subsubsection{Znajdowanie ścieżki w modelu}
-
+Potrzebne do obliczenia precyzji oraz generazlizacji.
 \begin{figure}[!ht]
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
 \begin{lstlisting}
-def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
-    array = copy(al_mat)
-    log = copy(log_global)
-    model_result = []
-    i = len(model)  #The dimension of the matrix rows.
-    j = len(log)  #The dimension of the matrix columns.
+def znajdz_sciezke(macierz_rozwiazan, model, log, rozwiazania_podmodeli):
+    sciezka = []
 
     while i != 0:
         event_group_full_length = len(model[i - 1])
@@ -194,12 +202,15 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
 
             else:
                 for k in range(j):
-                    processes = get_not_none(model_results_local[i][k][len(model_results_local[i][k]) - (j-k)], log)
-                    if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
+                    processes = get_not_none(model_results_local[i][k]
+                    [len(model_results_local[i][k]) - (j-k)], log)
+                    if array[i][j] == array[i - 1][k] + 
+                    	(event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
                         [model_result.append(x) for x in processes]
                         for x in processes:
                             log = log.replace(x.name, "", 1)
-                        [model_result.append(None) for _ in range(event_group_full_length - len(processes))]
+                        [model_result.append(None) 
+                         for _ in range(event_group_full_length - len(processes))]
                         array[i][j] = 0
                         i -= 1
                         j = k
@@ -225,22 +236,7 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
                 array[i][j] = 0
                 i -= 1
                 j -= 1
-
-    return model_result
-\end{lstlisting}
-\end{figure}
-
-\subsubsection{Obliczanie innych metryk}
-
-\begin{figure}[!ht]
-\lstset{caption=Parser gramatyki, captionpos=b}
-\lstset{label=src:passive, frame=single}
-\begin{lstlisting}
-agent Buffer {
-  i :: Int = 0;
-  proc pop  { out pop i; }
-  proc push { in  push i; }
-}
+    return sciezka
 \end{lstlisting}
 \end{figure}
 

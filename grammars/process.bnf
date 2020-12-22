@@ -1,23 +1,23 @@
-<e> ::= <somethingnoseq>
+<e> ::= <anygateexceptseq>
 
-<somethingnoseq> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | {<process>}
+<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <optgate> | <lopgate> | {<event>}
 
-<something> ::=  <something><something> | <andgate> | <xorgate> | <seqgate> | <optgate> | <lopgate> | {<process>}
+<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <lopgate> | {<event>}
 
-<andgate> ::= and(<something><something>)
+<andgate> ::= and(<anygate><anygate>)
 
-<xorgate> ::= xor(<something><something>)
+<xorgate> ::= xor(<anygate><anygate>)
 
-<seqgate> ::= seq(<somethingnoseq><somethingnoseq>)
+<seqgate> ::= seq(<anygateexceptseq><anygateexceptseq>)
 
-<optgate> ::= opt(<somethingnosingleopt>)
+<optgate> ::= opt(<anygatenosingleopt>)
 
-<optdoublegate> ::= opt(<something><something>)
+<optdoublegate> ::= opt(<anygate><anygate>)
 
-<somethingnosingleopt> ::= <something><something> | <andgate> | <xorgate> | <seqgate> | <lopgate> | {<process>}
+<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <lopgate> | {<event>}
 
-<lopgate> ::= lop(<somethingnosinglelop>)
+<lopgate> ::= lop(<anygatenosinglelop>)
 
-<somethingnosinglelop> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | <seqgate> | <optdoublegate> | {<process>}
+<anygatenosinglelop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <seqgate> | <optdoublegate> | {<event>}
 
-<process> ::= a | b | c | d | e | f
+<event> ::= a | b | c | d | e | f

@@ -106,9 +106,6 @@ def calculate_alignment(model, log):
 
     model_results = get_all_tracebacks(al_mat, penalty['GAP'], model, log, model_results_local)
 
-    # print(model)
-    # print(al_mat)
-
     return al_mat[m-1], model_results
 
 
@@ -187,7 +184,6 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
                 [model_result.append(None) for _ in range(event_group_full_length)]
                 array[i][j] = 0
                 i -= 1
-
             else:
                 for k in range(j):
                     processes = get_not_none(model_results_local[i][k][len(model_results_local[i][k]) - (j-k)], log)
@@ -201,12 +197,10 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
                         j = k
                         matched_flag = True
                         break
-
                 if not matched_flag:
                     if array[i][j] == array[i][j - 1] + penalty_gap:
                         array[i][j] = 0
                         j -= 1
-
         else:
             if array[i][j] == array[i - 1][j] + penalty_gap:
                 model_result.append(None)
@@ -221,10 +215,6 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
                 array[i][j] = 0
                 i -= 1
                 j -= 1
-
-    # print(model_result)
-    # print(log_result)
-    # print(array)
 
     return model_result
 
