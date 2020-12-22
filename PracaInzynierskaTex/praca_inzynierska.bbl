@@ -1,0 +1,343 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{none/global//global/global}
+  \entry{doi:10.1142/S0218843014400012}{article}{}
+    \name{author}{3}{}{%
+      {{hash=BJCAM}{%
+         family={Buijs},
+         familyi={B\bibinitperiod},
+         given={J.\bibnamedelima C. A.\bibnamedelima M.},
+         giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim
+  A\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=vDBF}{%
+         prefix={van},
+         prefixi={v\bibinitperiod},
+         family={Dongen},
+         familyi={D\bibinitperiod},
+         given={B.\bibnamedelima F.},
+         giveni={B\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={W.\bibnamedelima M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BJCAMDBFvAWMPvd1}
+    \strng{fullhash}{BJCAMDBFvAWMPvd1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Process discovery algorithms typically aim at discovering process models
+  from event logs that best describe the recorded behavior. Often, the quality
+  of a process discovery algorithm is measured by quantifying to what extent
+  the resulting model can reproduce the behavior in the log, i.e. replay
+  fitness. At the same time, there are other measures that compare a model with
+  recorded behavior in terms of the precision of the model and the extent to
+  which the model generalizes the behavior in the log. Furthermore, many
+  measures exist to express the complexity of a model irrespective of the log.
+  In this paper, we first discuss several quality dimensions related to process
+  discovery. We further show that existing process discovery algorithms
+  typically consider at most two out of the four main quality dimensions:
+  replay fitness, precision, generalization and simplicity. Moreover, existing
+  approaches cannot steer the discovery process based on user-defined weights
+  for the four quality dimensions. This paper presents the ETM algorithm which
+  allows the user to seamlessly steer the discovery process based on
+  preferences with respect to the four quality dimensions. We show that all
+  dimensions are important for process discovery. However, it only makes sense
+  to consider precision, generalization and simplicity if the replay fitness is
+  acceptable.%
+    }
+    \verb{doi}
+    \verb 10.1142/S0218843014400012
+    \endverb
+    \verb{eprint}
+    \verb https://doi.org/10.1142/S0218843014400012
+    \endverb
+    \field{number}{01}
+    \field{pages}{1440001}
+    \field{title}{Quality Dimensions in Process Discovery: The Importance of
+  Fitness, Precision, Generalization and Simplicity}
+    \verb{url}
+    \verb https://doi.org/10.1142/S0218843014400012
+    \endverb
+    \field{volume}{23}
+    \field{journaltitle}{International Journal of Cooperative Information
+  Systems}
+    \field{year}{2014}
+  \endentry
+
+  \entry{Fenton_2017}{article}{}
+    \name{author}{6}{}{%
+      {{hash=FM}{%
+         family={Fenton},
+         familyi={F\bibinitperiod},
+         given={Michael},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={McDermott},
+         familyi={M\bibinitperiod},
+         given={James},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=FD}{%
+         family={Fagan},
+         familyi={F\bibinitperiod},
+         given={David},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=FS}{%
+         family={Forstenlechner},
+         familyi={F\bibinitperiod},
+         given={Stefan},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=HE}{%
+         family={Hemberg},
+         familyi={H\bibinitperiod},
+         given={Erik},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=OM}{%
+         family={O’Neill},
+         familyi={O\bibinitperiod},
+         given={Michael},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {ACM}%
+    }
+    \strng{namehash}{FM+1}
+    \strng{fullhash}{FMMJFDFSHEOM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1145/3067695.3082469
+    \endverb
+    \field{isbn}{9781450349390}
+    \field{title}{PonyGE2}
+    \verb{url}
+    \verb http://dx.doi.org/10.1145/3067695.3082469
+    \endverb
+    \field{journaltitle}{Proceedings of the Genetic and Evolutionary
+  Computation Conference Companion}
+    \field{year}{2017}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{10.1007/978-3-540-69534-9_35}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=MMz}{%
+         family={Muehlen},
+         familyi={M\bibinitperiod},
+         given={Michael\bibnamedelima zur},
+         giveni={M\bibinitperiod\bibinitdelim z\bibinitperiod},
+      }}%
+      {{hash=RJ}{%
+         family={Recker},
+         familyi={R\bibinitperiod},
+         given={Jan},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \name{editor}{2}{}{%
+      {{hash=BZ}{%
+         family={Bellahs{\`e}ne},
+         familyi={B\bibinitperiod},
+         given={Zohra},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=LM}{%
+         family={L{\'e}onard},
+         familyi={L\bibinitperiod},
+         given={Michel},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer Berlin Heidelberg}%
+    }
+    \strng{namehash}{MMzRJ1}
+    \strng{fullhash}{MMzRJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    The Business Process Modeling Notation (BPMN) is an increasingly important
+  industry standard for the graphical representation of business processes.
+  BPMN offers a wide range of modeling constructs, significantly more than
+  other popular languages. However, not all of these constructs are equally
+  important in practice as business analysts frequently use arbitrary subsets
+  of BPMN. In this paper we investigate what these subsets are, and how they
+  differ between academic, consulting, and general use of the language. We
+  analyzed 120 BPMN diagrams using mathematical and statistical techniques. Our
+  findings indicate that BPMN is used in groups of several, well-defined
+  construct clusters, but less than 20{\%} of its vocabulary is regularly used
+  and some constructs did not occur in any of the models we analyzed. While the
+  average model contains just 9 different BPMN constructs, models of this
+  complexity have typically just 4-5 constructs in common, which means that
+  only a small agreed subset of BPMN has emerged. Our findings have
+  implications for the entire ecosystems of analysts and modelers in that they
+  provide guidance on how to reduce language complexity, which should increase
+  the ease and speed of process modeling.%
+    }
+    \field{booktitle}{Advanced Information Systems Engineering}
+    \field{isbn}{978-3-540-69534-9}
+    \field{pages}{465\bibrangedash 479}
+    \field{title}{How Much Language Is Enough? Theoretical and Practical Use of
+  the Business Process Modeling Notation}
+    \list{location}{1}{%
+      {Berlin, Heidelberg}%
+    }
+    \field{year}{2008}
+  \endentry
+
+  \entry{https://doi.org/10.1002/widm.1045}{article}{}
+    \name{author}{3}{}{%
+      {{hash=vdAW}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=AA}{%
+         family={Adriansyah},
+         familyi={A\bibinitperiod},
+         given={Arya},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=vDB}{%
+         prefix={van},
+         prefixi={v\bibinitperiod},
+         family={Dongen},
+         familyi={D\bibinitperiod},
+         given={Boudewijn},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AWvdAADBv1}
+    \strng{fullhash}{AWvdAADBv1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Abstract Process mining techniques use event data to discover process
+  models, to check the conformance of predefined process models, and to extend
+  such models with information about bottlenecks, decisions, and resource
+  usage. These techniques are driven by observed events rather than hand-made
+  models. Event logs are used to learn and enrich process models. By replaying
+  history using the model, it is possible to establish a precise relationship
+  between events and model elements. This relationship can be used to check
+  conformance and to analyze performance. For example, it is possible to
+  diagnose deviations from the modeled behavior. The severity of each deviation
+  can be quantified. Moreover, the relationship established during replay and
+  the timestamps in the event log can be combined to show bottlenecks. These
+  examples illustrate the importance of maintaining a proper alignment between
+  event log and process model. Therefore, we elaborate on the realization of
+  such alignments and their application to conformance checking and performance
+  analysis. © 2012 Wiley Periodicals, Inc. This article is categorized under:
+  Algorithmic Development > Association Rules Algorithmic Development > Spatial
+  and Temporal Data Mining Application Areas > Business and Industry
+  Fundamental Concepts of Data and Knowledge > Data Concepts%
+    }
+    \verb{doi}
+    \verb https://doi.org/10.1002/widm.1045
+    \endverb
+    \verb{eprint}
+    \verb https://onlinelibrary.wiley.com/doi/pdf/10.1002/widm.1045
+    \endverb
+    \field{number}{2}
+    \field{pages}{182\bibrangedash 192}
+    \field{title}{Replaying history on process models for conformance checking
+  and performance analysis}
+    \verb{url}
+    \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/widm.1045
+    \endverb
+    \field{volume}{2}
+    \field{journaltitle}{WIREs Data Mining and Knowledge Discovery}
+    \field{year}{2012}
+  \endentry
+
+  \entry{ea252fd3937a4a309a5e07e61e5531a7}{article}{}
+    \name{author}{2}{}{%
+      {{hash=NS}{%
+         family={Needleman},
+         familyi={N\bibinitperiod},
+         given={{Saul B.}},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=WC}{%
+         family={Wunsch},
+         familyi={W\bibinitperiod},
+         given={{Christian D.}},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {English (US)}%
+    }
+    \list{publisher}{1}{%
+      {Academic Press Inc.}%
+    }
+    \strng{namehash}{NSWC1}
+    \strng{fullhash}{NSWC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    A computer adaptable method for finding similarities in the amino acid
+  sequences of two proteins has been developed. From these findings it is
+  possible to determine whether significant homology exists between the
+  proteins. This information is used to trace their possible evolutionary
+  development. The maximum match is a number dependent upon the similarity of
+  the sequences. One of its definitions is the largest number of amino acids of
+  one protein that can be matched with those of a second protein allowing for
+  all possible interruptions in either of the sequences. While the
+  interruptions give rise to a very large number of comparisons, the method
+  efficiently excludes from consideration those comparisons that cannot
+  contribute to the maximum match. Comparisons are made from the smallest unit
+  of significance, a pair of amino acids, one from each protein. All possible
+  pairs are represented by a two-dimensional array, and all possible
+  comparisons are represented by pathways through the array. For this maximum
+  match only certain of the possible pathways must be evaluated. A numerical
+  value, one in this case, is assigned to every cell in the array representing
+  like amino acids. The maximum match is the largest number that would result
+  from summing the cell values of every pathway.%
+    }
+    \verb{doi}
+    \verb 10.1016/0022-2836(70)90057-4
+    \endverb
+    \field{issn}{0022-2836}
+    \field{number}{3}
+    \field{pages}{443\bibrangedash 453}
+    \field{title}{A general method applicable to the search for similarities in
+  the amino acid sequence of two proteins}
+    \field{volume}{48}
+    \field{journaltitle}{Journal of Molecular Biology}
+    \field{month}{03}
+    \field{year}{1970}
+  \endentry
+\enddatalist
+\endinput

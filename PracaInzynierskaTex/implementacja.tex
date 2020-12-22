@@ -3,24 +3,234 @@
 \section{Wykorzystane technologie}
 \subsection{Python 3.8.1}
 \subsection{PonyGE2}
+\cite{Fenton_2017}
+\begin{figure}[h]
+	\centering
+	\framebox[2.0\width]{A}
 
-
+	\caption{\label{fig:subcaption_example}Przykład użycia}
+\end{figure}
+\section{Projekt systemu}
 
 \section{Tworzenie gramatyki procesu biznesowego}
 
-“a token is a theoretical concept that is used as an aid to define the behaviour of a process that is being
-performed”
+Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
+gramatyki.  \cite{10.1007/978-3-540-69534-9_35}
+
+\begin{figure}[!ht]
+\lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
+\lstset{label=src:passive, frame=single}
+\begin{lstlisting}
+<e> ::= <somethingnoseq>
+
+<somethingnoseq> ::= <somethingnoseq><somethingnoseq> | <andgate> | <xorgate> | 
+<optgate> | <lopgate> | {<process>}
+
+<something> ::=  <something><something> | <andgate> | <xorgate> | <seqgate> | 
+<optgate> | <lopgate> | {<process>}
+
+<andgate> ::= and(<something><something>)
+
+<xorgate> ::= xor(<something><something>)
+
+<seqgate> ::= seq(<somethingnoseq><somethingnoseq>)
+
+<optgate> ::= opt(<somethingnosingleopt>)
+
+<optdoublegate> ::= opt(<something><something>)
+
+<somethingnosingleopt> ::= <something><something> | <andgate> | <xorgate> | 
+<seqgate> | <lopgate> | {<process>}
+
+<lopgate> ::= lop(<somethingnosinglelop>)
+
+<somethingnosinglelop> ::= <somethingnoseq><somethingnoseq> | <andgate> | 
+<xorgate> | <seqgate> | <optdoublegate> | {<process>}
+
+<process> ::= GE_RANGE:dataset_n_vars
+\end{lstlisting}
+\end{figure}
 
 \section{Implementacja}
 
-Ogólny flow:
+Ogólny flow \cite{https://doi.org/10.1002/widm.1045}:
+\begin{figure}[!ht]
+\lstset{caption=Parser gramatyki, captionpos=b}
+\lstset{label=src:passive, frame=single}
+\begin{lstlisting}
+agent Buffer {
+  i :: Int = 0;
+  proc pop  { out pop i; }
+  proc push { in  push i; }
+}
+\end{lstlisting}
+\end{figure}
 
+\subsubsection{Parsowanie gramatyki}
 
-Parsowanie gramatyki:
-Wyszukiwanie w modelu logów o określonej długości:
-calculate alignment:
-traceback:
-calculate other metrics:
+\begin{figure}[!ht]
+\lstset{caption=Parser gramatyki, captionpos=b}
+\lstset{label=src:passive, frame=single}
+\begin{lstlisting}
+    def parse(self, expression: str) -> int:
+
+        locally_added_events = []
+        numbers = iter(range(len(expression)))
+        for i in numbers:
+            if expression[i] == "{":
+                event = Event(expression[i + 1])
+                locally_added_events.append(event)
+                self.add_element(event)
+                consume(numbers, 2)
+            elif expression[i] == ")":
+                return i+1
+            elif i+4 < len(expression):
+                gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
+                                     expression[i:i+3].capitalize() + "Gate")
+                gate = gate_class()
+                consume(numbers, 3)
+                processed_characters = gate.parse(expression[i+4:])
+                self.add_element(gate)
+                consume(numbers, processed_characters)
+            else:
+                raise Exception
+        for event in locally_added_events:
+            event.no_branches += 1
+\end{lstlisting}
+\end{figure}
+
+\subsubsection{Ewaluacja wyniku}
+
+\begin{figure}[!ht]
+\lstset{caption=Parser gramatyki, captionpos=b}
+\lstset{label=src:passive, frame=single}
+\begin{lstlisting}
+    n = round(log_average_length)
+    i = 1
+    best_result = 0
+    # should be change later
+    while not n < calculate_min_allowed_length(log_average_length) and \
+            not n > calculate_max_allowed_length(log_average_length):
+        if min_length <= n <= max_length:
+            routes = gate.get_all_n_length_routes(n)
+            if len(routes) > 10:
+                print(10)
+            model_events_list_with_parents = gate.get_events_with_parents()
+            model_events_list = [x[1] for x in model_events_list_with_parents]
+            model_parents_list = [x[0] for x in model_events_list_with_parents]
+            reset_executions(model_events_list)
+            # fix_routes to strings inside gate
+            if routes is not None and not is_struct_empty(routes):
+                best_local_error = 0
+                for elem in log:
+                    min_local = 1023
+                    for event_group in routes:
+                        value, events = calculate_best_alignment(event_group, elem)
+                        if value < min_local:
+                            min_local = value
+                            events_global = events
+                    add_executions(model_events_list, events_global)
+                    best_local_error += min_local
+
+                best_local_alignment = calculate_fitness_metric(best_local_error, log_length, log, n)
+                best_local_generalization = calculate_generalization_metric(model_events_list)
+                best_local_result = (best_local_alignment + best_local_generalization) / 2
+                if best_local_result > best_result:
+                    best_result = best_local_result
+        if i % 2 == 1:
+            n -= i
+        else:
+            n += i
+        i += 1
+    return best_result
+\end{lstlisting}
+\end{figure}
+
+\subsubsection{Wyszukiwanie w modelu logów o określonej długości}
+
+\begin{figure}[!ht]
+\lstset{caption=Parser gramatyki, captionpos=b}
+\lstset{label=src:passive, frame=single}
+\begin{lstlisting}
+    n = round(log_average_length)
+\end{lstlisting}
+\end{figure}
+
+\subsubsection{Obliczanie dopasowania}
+Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}
+\begin{figure}[!ht]
+\lstset{caption=Parser gramatyki, captionpos=b}
+\lstset{label=src:passive, frame=single}
+\begin{lstlisting}
+agent Buffer {
+  i :: Int = 0;
+  proc pop  { out pop i; }
+  proc push { in  push i; }
+}
+\end{lstlisting}
+\end{figure}
+
+\subsubsection{Znajdowanie ścieżki w modelu}
+
+\begin{figure}[!ht]
+\lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
+\lstset{label=src:traceback, frame=single}
+\begin{lstlisting}
+def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
+    array = copy(al_mat)
+    log = copy(log_global)
+    model_result = []
+    i = len(model)  #The dimension of the matrix rows.
+    j = len(log)  #The dimension of the matrix columns.
+
+    while i != 0:
+        event_group_full_length = len(model[i - 1])
+        if model_results_local[i] is not None:
+            matched_flag = False
+            if array[i][j] == array[i - 1][j] + event_group_full_length * penalty_gap:
+                [model_result.append(None) for _ in range(event_group_full_length)]
+                array[i][j] = 0
+                i -= 1
+
+            else:
+                for k in range(j):
+                    processes = get_not_none(model_results_local[i][k][len(model_results_local[i][k]) - (j-k)], log)
+                    if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
+                        [model_result.append(x) for x in processes]
+                        for x in processes:
+                            log = log.replace(x.name, "", 1)
+                        [model_result.append(None) for _ in range(event_group_full_length - len(processes))]
+                        array[i][j] = 0
+                        i -= 1
+                        j = k
+                        matched_flag = True
+                        break
+
+                if not matched_flag:
+                    if array[i][j] == array[i][j - 1] + penalty_gap:
+                        array[i][j] = 0
+                        j -= 1
+
+        else:
+            if array[i][j] == array[i - 1][j] + penalty_gap:
+                model_result.append(None)
+                array[i][j] = 0
+                i -= 1
+            elif array[i][j] == array[i][j - 1] + penalty_gap:
+                array[i][j] = 0
+                j -= 1
+            elif array[i][j] == array[i - 1][j - 1]:
+                model_result.append(model[i-1])
+                log = log.replace(model[i-1].name, "", 1)
+                array[i][j] = 0
+                i -= 1
+                j -= 1
+
+    return model_result
+\end{lstlisting}
+\end{figure}
+
+\subsubsection{Obliczanie innych metryk}
 
 \begin{figure}[!ht]
 \lstset{caption=Parser gramatyki, captionpos=b}
@@ -33,5 +243,6 @@ agent Buffer {
 }
 \end{lstlisting}
 \end{figure}
+
 
 \section{Wybór parametrów algorytmu}

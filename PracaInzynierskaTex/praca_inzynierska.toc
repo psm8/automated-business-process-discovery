@@ -5,23 +5,20 @@
 \contentsline {section}{\numberline {1.2}Przegl\IeC {\k a}d prac}{7}% 
 \contentsline {section}{\numberline {1.3}Zawarto\IeC {\'s}\IeC {\'c} pracy}{7}% 
 \contentsline {chapter}{\numberline {2}Wst\IeC {\k e}p teoretyczny}{9}% 
-\contentsline {section}{\numberline {2.1}Procesy biznesowe}{10}% 
-\contentsline {subsection}{\numberline {2.1.1}Procesy Biznesowe}{10}% 
-\contentsline {subsection}{\numberline {2.1.2}Dzienniki zdarze\IeC {\'n}}{10}% 
-\contentsline {section}{\numberline {2.2}Modelowanie proces\IeC {\'o}w biznesowych}{10}% 
-\contentsline {subsection}{\numberline {2.2.1}Sieci Petriego}{10}% 
-\contentsline {subsection}{\numberline {2.2.2}Drzewa procesowe}{10}% 
-\contentsline {subsection}{\numberline {2.2.3}BPMN}{10}% 
-\contentsline {section}{\numberline {2.3}Algorytmy do wykrywania proces\IeC {\'o}w biznesowych}{10}% 
-\contentsline {subsection}{\numberline {2.3.1}Alpha algorithm}{10}% 
-\contentsline {subsection}{\numberline {2.3.2}The ILP Miner}{10}% 
-\contentsline {subsection}{\numberline {2.3.3}Heuristic Miner}{10}% 
-\contentsline {subsection}{\numberline {2.3.4}Multi-phase Miner}{10}% 
-\contentsline {section}{\numberline {2.4}Ewolucja genetyczna}{10}% 
-\contentsline {section}{\numberline {2.5}Gramatyka}{10}% 
-\contentsline {subsection}{\numberline {2.5.1}BNF}{10}% 
-\contentsline {subsection}{\numberline {2.5.2}Mo\IeC {\.z}liwe problemy przy tworzeniu gramatyki}{10}% 
-\contentsline {section}{\numberline {2.6}Metryki}{10}% 
+\contentsline {section}{\numberline {2.1}Procesy biznesowe}{9}% 
+\contentsline {subsection}{\numberline {2.1.1}Procesy Biznesowe}{9}% 
+\contentsline {subsection}{\numberline {2.1.2}Dzienniki zdarze\IeC {\'n}}{9}% 
+\contentsline {section}{\numberline {2.2}Modelowanie proces\IeC {\'o}w biznesowych}{9}% 
+\contentsline {section}{\numberline {2.3}Algorytmy do wykrywania proces\IeC {\'o}w biznesowych}{9}% 
+\contentsline {subsection}{\numberline {2.3.1}Alpha algorithm}{9}% 
+\contentsline {subsection}{\numberline {2.3.2}The ILP Miner}{9}% 
+\contentsline {subsection}{\numberline {2.3.3}Heuristic Miner}{9}% 
+\contentsline {subsection}{\numberline {2.3.4}Multi-phase Miner}{9}% 
+\contentsline {section}{\numberline {2.4}Ewolucja genetyczna}{9}% 
+\contentsline {section}{\numberline {2.5}Gramatyka}{9}% 
+\contentsline {subsection}{\numberline {2.5.1}BNF}{9}% 
+\contentsline {subsection}{\numberline {2.5.2}Mo\IeC {\.z}liwe problemy przy tworzeniu gramatyki}{9}% 
+\contentsline {section}{\numberline {2.6}Metryki}{9}% 
 \contentsline {subsection}{\numberline {2.6.1}Stopie\IeC {\'n} z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{10}% 
 \contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{10}% 
 \contentsline {subsection}{\numberline {2.6.3}Precyzja}{10}% 
@@ -30,12 +27,19 @@
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{11}% 
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{11}% 
 \contentsline {subsection}{\numberline {3.1.2}PonyGE2}{11}% 
-\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{11}% 
-\contentsline {section}{\numberline {3.3}Implementacja}{11}% 
-\contentsline {section}{\numberline {3.4}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{11}% 
-\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{13}% 
-\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{13}% 
-\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{13}% 
-\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{13}% 
-\contentsline {section}{\numberline {4.4}Wnioski}{13}% 
-\contentsline {chapter}{\numberline {5}Podsumowanie}{15}% 
+\contentsline {section}{\numberline {3.2}Projekt systemu}{11}% 
+\contentsline {section}{\numberline {3.3}Tworzenie gramatyki procesu biznesowego}{11}% 
+\contentsline {section}{\numberline {3.4}Implementacja}{11}% 
+\contentsline {subsubsection}{\numberline {3.4.0.1}Parsowanie gramatyki}{11}% 
+\contentsline {subsubsection}{\numberline {3.4.0.2}Ewaluacja wyniku}{11}% 
+\contentsline {subsubsection}{\numberline {3.4.0.3}Wyszukiwanie w modelu log\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{11}% 
+\contentsline {subsubsection}{\numberline {3.4.0.4}Obliczanie dopasowania}{11}% 
+\contentsline {subsubsection}{\numberline {3.4.0.5}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{11}% 
+\contentsline {subsubsection}{\numberline {3.4.0.6}Obliczanie innych metryk}{12}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{12}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{19}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{19}% 
+\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{19}% 
+\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{19}% 
+\contentsline {section}{\numberline {4.4}Wnioski}{19}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{21}% 
