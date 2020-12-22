@@ -84,9 +84,10 @@ class GateTest(unittest.TestCase):
         e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
         e4 = EventGroupParallel(string_to_events('xys'))
 
-        expected = [EventGroupParallel([e1, e1, e1, e1]), EventGroupParallel([e1, e1, e2]),
+        expected = [EventGroupParallel([e1, e1, e2]),
                     EventGroupParallel([e1, e4]), EventGroupParallel([e2, e2]), e3]
-        self.assertEqual(len(expected), len(to_n_length(4, [e1, e2, e3, e4])))
+        actual = to_n_length(4, [e1, e2, e3, e4], 3)
+        self.assertEqual(len(expected), len(actual))
 
     def test_to_n_length_opt(self):
         e1 = Event('t')

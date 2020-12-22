@@ -5,6 +5,8 @@ from processdiscovery.event.event import Event
 
 
 class LopGate(Gate):
+    LOP_GATE_MAX_DEPTH = 3
+
     def __init__(self, elements=None):
         super().__init__("lop", elements)
 
@@ -34,7 +36,7 @@ class LopGate(Gate):
                 global_list.append(local_list)
 
         if global_list:
-            return to_n_length(n, flatten_values(global_list))
+            return to_n_length(n, flatten_values(global_list), self.LOP_GATE_MAX_DEPTH)
         else:
             return []
 

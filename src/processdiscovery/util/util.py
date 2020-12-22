@@ -28,7 +28,7 @@ def powerset(iterable):
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
 
-def to_n_length(n, child_list):
+def to_n_length(n, child_list, max_depth):
     min_length = min([len(x) for x in child_list])
     max_length = n - min_length
     global_result = []
@@ -36,7 +36,8 @@ def to_n_length(n, child_list):
         len_child = len(child_list[0])
         if len_child <= max_length:
             [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
-                                                                            child_list[0], copy.copy(child_list))]
+                                                                            child_list[0], copy.copy(child_list),
+                                                                            1, max_depth)]
         elif len_child == n:
             if isinstance(child_list[0], list):
                 global_result.append(child_list[0][0])
@@ -48,14 +49,15 @@ def to_n_length(n, child_list):
     return global_result
 
 
-def to_n_length_inner(n, max_length, result, child_list):
+def to_n_length_inner(n, max_length, result, child_list, current_depth, max_depth):
     global_result = []
-    while child_list:
+    while child_list and current_depth < max_depth:
         len_child = len(child_list[0])
         if len_child <= max_length:
             if not isinstance(result, list):
                 result = [result]
-            xs = [x for x in to_n_length_inner(n-len_child, max_length-len_child, child_list[0], copy.copy(child_list))]
+            xs = [x for x in to_n_length_inner(n-len_child, max_length-len_child, child_list[0],
+                                               copy.copy(child_list), current_depth + 1, max_depth)]
             local_results = [copy.copy(result) for _ in xs]
             [local_results[i].append(x) for i in range(len(xs)) for x in xs[i]]
             [global_result.append(local_result) for local_result in local_results]
