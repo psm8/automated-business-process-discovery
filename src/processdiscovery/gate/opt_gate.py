@@ -47,7 +47,7 @@ class OptGate(Gate):
             results = []
             for elem in flattened_list:
                 [results.append(x) for x in to_n_length_opt(n, elem)]
-            for result in results:
+            for result in list(set(results)):
                 if isinstance(result, BaseGroup):
                     self.check_valid_for_get_n_length(result.events)
             return results

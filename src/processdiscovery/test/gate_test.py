@@ -86,8 +86,8 @@ class GateTest(unittest.TestCase):
         e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
         e4 = EventGroupParallel(string_to_events('xys'))
 
-        expected = [EventGroupParallel([e1, e1, e2]),
-                    EventGroupParallel([e1, e4]), EventGroupParallel([e2, e2]), e3]
+        expected = [EventGroup([e1, e1, e2]), EventGroup([e1, e2, e1]), EventGroup([e2, e1, e1]),
+                    EventGroup([e4, e1]), EventGroup([e1, e4]), EventGroup([e2, e2]), e3]
         actual = to_n_length(4, [e1, e2, e3, e4], 3)
         self.assertEqual(len(expected), len(actual))
 
@@ -115,10 +115,12 @@ class GateTest(unittest.TestCase):
         e4 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
         e5 = EventGroupParallel(string_to_events('xys'))
 
-        expected = [EventGroupParallel([e1, e4]), e3]
-        flattened = flatten_values([[[e1, e2], [e3]], [[e4]], [[e5]]])
-        actual = to_n_length_opt(4, flattened)
-        self.assertEqual(len(expected), len(actual))
+        expected = [EventGroupParallel([e1, e5]), EventGroupParallel([e2, e5]), e3]
+        flattened_list = flatten_values([[[e1, e2], [e3]], [[e4]], [[e5]]])
+        actual = []
+        for elem in flattened_list:
+            [actual.append(x) for x in to_n_length_opt(4, elem)]
+        self.assertEqual(len(expected), len(list(set(actual))))
 
 
 class EventGroupMatcher:
