@@ -8,7 +8,7 @@
     
     Add lop max length - done
     Gate max size expecially opt - done
-    Check with process list 
+    Check with process list - done
     Check with result
     Consider adding unique to list
 
