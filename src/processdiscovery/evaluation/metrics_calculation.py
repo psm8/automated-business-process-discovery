@@ -2,6 +2,7 @@ from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment
 from processdiscovery.util.util import is_struct_empty
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
+from processdiscovery.evaluation.precision_calculation import count_log_enabled
 
 import math
 import csv
@@ -11,12 +12,12 @@ MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.6
 
 
 def get_event_log_csv(filename) -> dict:
-    with open('filename', newline='') as csvfile:
-        data = csv.reader(csvfile, delimiter=', ')
-    events = {}
-    for row in data:
-        count = data.pop(0)
-        events[set(data)] = count
+    with open("datasets/" + filename, newline='') as csvfile:
+        data = csv.reader(csvfile, delimiter=',')
+        events = {}
+        for row in data:
+            count = row.pop(0)
+            events[tuple(row)] = int(count)
     return events
 
 
@@ -51,9 +52,12 @@ def calculate_simplicity_metric(s):
     return
 
 
-def calculate_precision_metric(guess):
-    # calculate precision based on R)metric calculation
-    precision = 0
+def calculate_precision_metric(sum_of_processes_length):
+    log = get_event_log_csv('discovered-processes.csv')
+    log_count = count_log_enabled(log.keys())
+    model_count = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+    test = sum([log[process] * (model_count[i] - log_count[i])/(model_count[i]) for process in log.keys() for i in range(len(process))])
+    precision = 1 - sum([log[process] * (model_count[i] - log_count[i])/(model_count[i]) for process in log.keys() for i in range(len(process))]) / sum_of_processes_length
 
     return precision
 
@@ -63,8 +67,8 @@ def calculate_generalization_metric(model_events_list):
                     if model_event.no_visits != 0 else 0 for model_event in model_events_list]) / len(model_events_list)
 
 
-def calculate_fitness_metric(best_local_error, event_log_length, log, n):
-    return 1 + (best_local_error / (event_log_length + len(log) * n))
+def calculate_fitness_metric(best_local_error, sum_of_processes_length, log, n):
+    return 1 + (best_local_error / (sum_of_processes_length + len(log) * n))
 
 
 def compare_model_with_log_events(model_events_list, log_unique_events):
@@ -150,3 +154,6 @@ def evaluate_guess(guess):
                                        min_length, max_length)
 
     return fitness_metric
+
+
+calculate_precision_metric(7539)
