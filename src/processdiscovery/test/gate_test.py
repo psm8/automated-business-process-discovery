@@ -5,7 +5,7 @@ from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
-from processdiscovery.test.test_util import string_to_events
+from processdiscovery.test.util.test_util import string_to_events
 from processdiscovery.util.util import to_n_length, to_n_length_opt, flatten_values
 
 
