@@ -26,6 +26,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         print(events_to_char_list(model_result))
         self.assertEqual(-14, result)
         self.assertCountEqual([x for x in 'zx'], events_to_char_list(model_result))
+        self.assertEqual(['z', 'x'], events_to_char_list(model_result))
 
     def test_nw_with_wrapper_model_bigger(self):
         event_group_events = []
@@ -37,6 +38,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         print(events_to_char_list(model_result))
         self.assertEqual(-11, result)
         self.assertCountEqual([x for x in 'acezx'], events_to_char_list(model_result))
+        self.assertEqual(['a', 'c', 'e', 'z', 'x'], events_to_char_list(model_result))
 
     def test_nw_with_wrapper_log_bigger(self):
         event_group_events = []
@@ -49,6 +51,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         print(events_to_char_list(model_result))
         self.assertEqual(-11, result)
         self.assertCountEqual([x for x in 'acezx'], events_to_char_list(model_result))
+        self.assertEqual(['a', 'c', 'e', 'z', 'x'], events_to_char_list(model_result))
 
     def test_nw_with_wrapper_parallel_inside(self):
         event_group = EventGroupParallel([Event('t'), EventGroupParallel(string_to_events('spqacezxy'))])
@@ -58,6 +61,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         print(events_to_char_list(model_result))
         self.assertEqual(-7, result)
         self.assertCountEqual([x for x in 'acezxt'], char_list)
+        self.assertEqual(['a', 'c', 'e', 'z', 'x'], events_to_char_list(model_result))
 
     def test_nw_with_wrapper_parallel_inside_2(self):
         event_group = EventGroup([Event('t'),

@@ -2,7 +2,7 @@ from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment
 from processdiscovery.util.util import is_struct_empty
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
-from processdiscovery.evaluation.precision_calculation import count_log_enabled
+from processdiscovery.evaluation.precision_calculation import count_log_enabled, count_log_enabled2
 
 import math
 import csv
@@ -54,10 +54,10 @@ def calculate_simplicity_metric(s):
 
 def calculate_precision_metric(sum_of_processes_length):
     log = get_event_log_csv('discovered-processes.csv')
-    log_count = count_log_enabled(log.keys())
+    log_count = count_log_enabled2(log.keys())
     model_count = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-    test = sum([log[process] * (model_count[i] - log_count[i])/(model_count[i]) for process in log.keys() for i in range(len(process))])
-    precision = 1 - sum([log[process] * (model_count[i] - log_count[i])/(model_count[i]) for process in log.keys() for i in range(len(process))]) / sum_of_processes_length
+    precision = 1 - sum([log[process] * (model_count[i] - log_count[process[:i]])/(model_count[i])
+                         for process in log.keys() for i in range(len(process))]) / sum_of_processes_length
 
     return precision
 
