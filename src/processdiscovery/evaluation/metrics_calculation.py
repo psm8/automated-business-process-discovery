@@ -56,8 +56,8 @@ def calculate_metrics(log, log_length, log_average_length, gate, min_length, max
             not n > calculate_max_allowed_length(log_average_length):
         if min_length <= n <= max_length:
             routes = gate.get_all_n_length_routes(n)
-            if len(routes) > 10:
-                print(10)
+            if len(routes) > 10000:
+                print(10000)
             model_events_list_with_parents = gate.get_events_with_parents()
             model_events_list = [x[1] for x in model_events_list_with_parents]
             model_parents_list = [x[0] for x in model_events_list_with_parents]

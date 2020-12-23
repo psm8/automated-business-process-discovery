@@ -16,6 +16,8 @@ class AndGate(Gate):
 
     @only_throws(ValueError)
     def get_all_n_length_routes(self, n: int) -> []:
+        if n == 0:
+            return []
         if self.get_model_max_length() < n:
             return None
 

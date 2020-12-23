@@ -6,8 +6,8 @@
     local_list -> [[BaseGroup], [BaseGroup], ...] - parallel
     global_list -> [[[BaseGroup], [BaseGroup], ...], [[BaseGroup], [BaseGroup], ...], ...] - linear
     
-    Add lop max length
-    Gate max size expecially opt
+    Add lop max length - done
+    Gate max size expecially opt - done
     Check with process list 
     Check with result
     Consider adding unique to list

@@ -49,7 +49,9 @@ class GateTest(unittest.TestCase):
     def test_7(self):
         gate = SeqGate()
         gate.parse('lop({c})')
-        self.assertEqual([EventGroupMatcher(EventGroup([EventGroupParallel(string_to_events('cccccc'))]))], gate.get_all_n_length_routes(6))
+        self.assertEqual(None, gate.get_all_n_length_routes(6))
+        self.assertEqual([EventGroupMatcher(EventGroup([EventGroupParallel(string_to_events('ccc'))]))],
+                         gate.get_all_n_length_routes(3))
 
     def test_8(self):
         gate = SeqGate()
@@ -69,6 +71,12 @@ class GateTest(unittest.TestCase):
                                                                                           Event('e'),
                                                                                           EventGroup(string_to_events('cb'))])])]))]
         self.assertCountEqual(expected, all_length_5_routes)
+
+    def test_92(self):
+        gate = SeqGate()
+        gate.parse('lop(xor(opt({f})seq({f}and(opt({a})lop({d})))))')
+        all_length_3_routes = gate.get_all_n_length_routes(3)
+        self.assertCountEqual(8, len(all_length_3_routes))
 
     def test_number_of_combos_lop_opt(self):
         # assuming max lop gate length = 3

@@ -14,6 +14,8 @@ class LopGate(Gate):
         self.elements.append(element)
 
     def get_all_n_length_routes(self, n: int) -> []:
+        if n == 0:
+            return []
         min_lengths = self.get_children_min_length()
         global_list = []
 

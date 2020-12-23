@@ -5,17 +5,24 @@ from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 from processdiscovery.event.base_group import BaseGroup
 
+
 class OptGate(Gate):
+    OPT_GATE_MAX_NUMBER_OF_CHILDREN = 4
+
     def __init__(self, elements=None):
         super().__init__("opt", elements)
 
     @only_throws(ValueError)
     def add_element(self, element):
         self.check_valid_before_appending(element)
+        if len(self.elements) >= self.OPT_GATE_MAX_NUMBER_OF_CHILDREN:
+            raise ValueError
         self.elements.append(element)
 
     @only_throws(ValueError)
     def get_all_n_length_routes(self, n: int) -> []:
+        if n == 0:
+            return []
         if self.get_model_max_length() < n:
             return None
 
