@@ -6,7 +6,7 @@ from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.test.test_util import string_to_events
-from processdiscovery.util.util import to_n_length, to_n_length_opt
+from processdiscovery.util.util import to_n_length, to_n_length_opt, flatten_values
 
 
 class GateTest(unittest.TestCase):
@@ -70,13 +70,15 @@ class GateTest(unittest.TestCase):
                                                                                           EventGroup(string_to_events('cb'))])])]))]
         self.assertCountEqual(expected, all_length_5_routes)
 
-    def test_92(self):
+    def test_number_of_combos_lop_opt(self):
+        # assuming max lop gate length = 3
         gate = SeqGate()
         gate.parse('lop({b})opt({c}{d})lop(xor({e}{b}))')
         all_length_5_routes = gate.get_all_n_length_routes(5)
-        #  (0,0,5) 2^5 + (0,1,4) 2 * 2^4 + (0,2,3) 2^3 + (1,0,4) 2^4 + (1,1,3) 2 * 2^3 + (1,2,2) 2^2 + (2,0,3) 2^3
-        # (2^6 + 2^3) + (2^5 + 2^2) + (2^4 + 2)  + (2^3  +1) + (2^2) + 1  = 2^7 + 2^3 + 2^2 = 140
-        self.assertEqual(10, len(all_length_5_routes))
+        # (0,2,3) 2^3 + (1,1,3) 2 * 2^3 + (1,2,2) 2^2 + (2,0,3) 2^3 + (2,1,2) 2 * 2^2 + (2,2,1) 2 +
+        # (3,0,2) 2^2 + (3,1,1) 2 * 2 + (3,2,0) 1
+        # 8 + 16 + 4 + 8 + 8 + 2 + 4 + 4 + 1
+        self.assertEqual(55, len(all_length_5_routes))
 
     def test_to_n_length(self):
         e1 = Event('t')
@@ -105,6 +107,18 @@ class GateTest(unittest.TestCase):
 
         expected = [EventGroupParallel([e1, e2]), e3]
         self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3])))
+
+    def test_to_n_length_opt3(self):
+        e1 = Event('t')
+        e2 = Event('q')
+        e3 = EventGroupParallel([EventGroupParallel(string_to_events('tq'))])
+        e4 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e5 = EventGroupParallel(string_to_events('xys'))
+
+        expected = [EventGroupParallel([e1, e4]), e3]
+        flattened = flatten_values([[[e1, e2], [e3]], [[e4]], [[e5]]])
+        actual = to_n_length_opt(4, flattened)
+        self.assertEqual(len(expected), len(actual))
 
 
 class EventGroupMatcher:

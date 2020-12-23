@@ -36,7 +36,9 @@ class LopGate(Gate):
                 global_list.append(local_list)
 
         if global_list:
-            return to_n_length(n, flatten_values(global_list), self.LOP_GATE_MAX_DEPTH)
+            flattened_list = flatten_values(global_list)
+            results = [x for x in to_n_length(n, flattened_list, self.LOP_GATE_MAX_DEPTH)]
+            return results
         else:
             return []
 
@@ -44,4 +46,4 @@ class LopGate(Gate):
         return 0
 
     def get_model_max_length(self) -> int:
-        return 127
+        return self.LOP_GATE_MAX_DEPTH * sum(self.get_children_max_length())

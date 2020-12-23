@@ -32,11 +32,12 @@ def to_n_length(n, child_list, max_depth):
     min_length = min([len(x) for x in child_list])
     max_length = n - min_length
     global_result = []
+    child_list_copy = copy.copy(child_list)
     while child_list:
         len_child = len(child_list[0])
         if len_child <= max_length:
             [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
-                                                                            child_list[0], copy.copy(child_list),
+                                                                            child_list[0], copy.copy(child_list_copy),
                                                                             1, max_depth)]
         elif len_child == n:
             if isinstance(child_list[0], list):
@@ -51,13 +52,14 @@ def to_n_length(n, child_list, max_depth):
 
 def to_n_length_inner(n, max_length, result, child_list, current_depth, max_depth):
     global_result = []
+    child_list_copy = copy.copy(child_list)
     while child_list and current_depth < max_depth:
         len_child = len(child_list[0])
         if len_child <= max_length:
             if not isinstance(result, list):
                 result = [result]
             xs = [x for x in to_n_length_inner(n-len_child, max_length-len_child, child_list[0],
-                                               copy.copy(child_list), current_depth + 1, max_depth)]
+                                               copy.copy(child_list_copy), current_depth + 1, max_depth)]
             local_results = [copy.copy(result) for _ in xs]
             [local_results[i].append(x) for i in range(len(xs)) for x in xs[i]]
             [global_result.append(local_result) for local_result in local_results]
@@ -85,7 +87,9 @@ def to_n_length_opt(n, child_list):
         len_child = len(child)
         child_list.remove(child)
         if len_child <= max_length:
-            [global_result.append(EventGroupParallel(x)) for x in to_n_length_inner_opt(n-len_child, max_length-len_child, child, copy.copy(child_list))]
+            [global_result.append(EventGroupParallel(x)) for x in to_n_length_inner_opt(n-len_child,
+                                                                                        max_length-len_child, child,
+                                                                                        copy.copy(child_list))]
         elif len_child == n:
             if isinstance(child, list):
                 global_result.append(child[0])
@@ -128,13 +132,20 @@ def flatten_values(values2d_list):
     values2d = values2d_list.pop(0)
     for values in values2d:
         if isinstance(values, list):
-            [results.append([x]) if x else results.append([]) for x in values]
+            if any(x == [] for x in results):
+                [results.append([x]) for x in values]
+            else:
+                if values == []:
+                    results.append([])
+                else:
+                    [results.append([x]) if x else results.append([]) for x in values]
         else:
             results.append([values])
 
     for values2d in values2d_list:
         new_result = []
         for i in range(len(results)):
+            empty_already_added = False
             for values in values2d:
                 if isinstance(values, list):
                     if values:
@@ -142,9 +153,10 @@ def flatten_values(values2d_list):
                             local_result = copy.copy(results[i])
                             local_result.append(value)
                             new_result.append(local_result)
-                    else:
+                    elif not empty_already_added:
                         local_result = copy.copy(results[i])
                         new_result.append(local_result)
+                        empty_already_added = True
                 else:
                     local_result = copy.copy(results[i])
                     local_result.append(values)

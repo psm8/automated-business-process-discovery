@@ -10,6 +10,7 @@
     Gate max size expecially opt
     Check with process list 
     Check with result
+    Consider adding unique to list
 
 ### Simplicity
 

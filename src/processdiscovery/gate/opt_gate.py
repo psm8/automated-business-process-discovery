@@ -43,7 +43,10 @@ class OptGate(Gate):
                 global_list.append(local_list)
 
         if global_list:
-            results = to_n_length_opt(n, flatten_values(global_list))
+            flattened_list = flatten_values(global_list)
+            results = []
+            for elem in flattened_list:
+                [results.append(x) for x in to_n_length_opt(n, elem)]
             for result in results:
                 if isinstance(result, BaseGroup):
                     self.check_valid_for_get_n_length(result.events)
