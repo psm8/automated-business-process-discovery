@@ -2,12 +2,12 @@ from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment
 from processdiscovery.util.util import is_struct_empty
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
-from processdiscovery.evaluation.precision_calculation import count_log_enabled, count_log_enabled2
+from processdiscovery.evaluation.precision_calculation import count_log_enabled
 
 import math
 import csv
 
-MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.8
+MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.95
 MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.6
 
 
@@ -52,14 +52,18 @@ def calculate_simplicity_metric(s):
     return
 
 
-def calculate_precision_metric(sum_of_processes_length):
-    log = get_event_log_csv('discovered-processes.csv')
-    log_count = count_log_enabled2(log.keys())
-    model_count = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-    precision = 1 - sum([log[process] * (model_count[i] - log_count[process[:i]])/(model_count[i])
-                         for process in log.keys() for i in range(len(process))]) / sum_of_processes_length
+def calculate_precision_metric(log, model_parents_list):
+    if log:
+        # log = get_event_log_csv('discovered-processes.csv')
+        sum_of_processes_length = get_sum_of_processes_length(log)
+        log_count = count_log_enabled(log.keys())
+        # model_count = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+        precision = 1 - sum([log[process] * (model_parents_list[x] - log_count[process[:x]])/(model_parents_list[x])
+                            for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
 
-    return precision
+        return precision
+    else:
+        return 0
 
 
 def calculate_generalization_metric(model_events_list):
@@ -87,9 +91,10 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
     i = 1
     best_result = 0
     model_events_list_with_parents = gate.get_events_with_parents()
-    model_events_list = [x[1] for x in model_events_list_with_parents]
-    model_parents_list = [x[0] for x in model_events_list_with_parents]
+    model_events_list = list(model_events_list_with_parents.keys())
+    # model_parents_list = [x[0] for x in model_events_list_with_parents]
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_unique_events)
+    perfectly_aligned_logs = dict()
     if model_to_log_events_ratio < MINIMAL_ALIGNMENT_MODEL_WITH_LOG:
         return model_to_log_events_ratio/10
     # should be change later
@@ -106,6 +111,9 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
                     min_local = 1023
                     for event_group in routes:
                         value, events = calculate_best_alignment(event_group, list(elem))
+                        if value == 0:
+                            perfectly_aligned_logs[events] = log[elem]
+                            break
                         if value < min_local:
                             min_local = value
                             events_global = events
@@ -114,7 +122,8 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
 
                 best_local_alignment = calculate_fitness_metric(best_local_error, sum_of_processes_length, log, n)
                 best_local_generalization = calculate_generalization_metric(model_events_list)
-                best_local_result = (best_local_alignment + best_local_generalization) / 2
+                best_local_precision = calculate_precision_metric(perfectly_aligned_logs, model_events_list_with_parents)
+                best_local_result = (best_local_alignment + best_local_generalization + best_local_precision) / 3
                 if best_local_result > best_result:
                     best_result = best_local_result
         if i % 2 == 1:
@@ -154,6 +163,3 @@ def evaluate_guess(guess):
                                        min_length, max_length)
 
     return fitness_metric
-
-
-calculate_precision_metric(7539)

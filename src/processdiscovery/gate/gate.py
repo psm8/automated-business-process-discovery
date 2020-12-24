@@ -120,13 +120,13 @@ class Gate:
 
         return lengths
 
-    def get_events_with_parents(self) -> [tuple]:
-        nodes = []
+    def get_events_with_parents(self) -> dict:
+        nodes = dict()
 
         for elem in self.elements:
             if isinstance(elem, Event):
-                nodes.append((self, elem))
+                nodes[elem] = self
             else:
-                [nodes.append(x) for x in elem.get_events_with_parents()]
+                nodes = dict(list(nodes.items()) + list(elem.get_events_with_parents().items()))
 
         return nodes
