@@ -27,5 +27,8 @@ class AlignmentCalculationTest(unittest.TestCase):
         # 'and({d}{d})lop({b})'
         evaluate_guess('lop({c})')
 
+    def test_8(self):
+        evaluate_guess('and({a}{f}opt(and({b}{e}lop({c}))){d})')
+
 if __name__ == '__main__':
     unittest.main()

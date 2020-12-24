@@ -48,8 +48,12 @@ def calculate_length_metric(guess, goal_length):
     return fitness
 
 
-def calculate_simplicity_metric(s):
-    return
+def calculate_simplicity_metric(model_events_list, log_unique_events):
+    model_unique_events = set()
+    [model_unique_events.add(x.name) for x in model_events_list]
+    return 1 - (((len(model_events_list) - len(model_unique_events)) + (len(log_unique_events) -
+                                                                        len(model_unique_events))) /
+                (len(model_events_list) + len(log_unique_events)))
 
 
 def calculate_precision_metric(log, model_parents_list):
@@ -67,8 +71,10 @@ def calculate_precision_metric(log, model_parents_list):
 
 
 def calculate_generalization_metric(model_events_list):
+    test = sum([math.pow(math.sqrt(model_event.no_visits), -1)
+                    if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / len(model_events_list)
     return 1 - sum([math.pow(math.sqrt(model_event.no_visits), -1)
-                    if model_event.no_visits != 0 else 0 for model_event in model_events_list]) / len(model_events_list)
+                    if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / len(model_events_list)
 
 
 def calculate_fitness_metric(best_local_error, sum_of_processes_length, log, n):
@@ -94,7 +100,6 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
     model_events_list = list(model_events_list_with_parents.keys())
     # model_parents_list = [x[0] for x in model_events_list_with_parents]
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_unique_events)
-    perfectly_aligned_logs = dict()
     if model_to_log_events_ratio < MINIMAL_ALIGNMENT_MODEL_WITH_LOG:
         return model_to_log_events_ratio/10
     # should be change later
@@ -106,13 +111,14 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
                 print(10000)
             reset_executions(model_events_list)
             if routes is not None and not is_struct_empty(routes):
+                perfectly_aligned_logs = dict()
                 best_local_error = 0
                 for elem in log.keys():
                     min_local = 1023
                     for event_group in routes:
                         value, events = calculate_best_alignment(event_group, list(elem))
                         if value == 0:
-                            perfectly_aligned_logs[events] = log[elem]
+                            perfectly_aligned_logs[tuple(events)] = log[elem]
                             break
                         if value < min_local:
                             min_local = value
@@ -123,7 +129,9 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
                 best_local_alignment = calculate_fitness_metric(best_local_error, sum_of_processes_length, log, n)
                 best_local_generalization = calculate_generalization_metric(model_events_list)
                 best_local_precision = calculate_precision_metric(perfectly_aligned_logs, model_events_list_with_parents)
-                best_local_result = (best_local_alignment + best_local_generalization + best_local_precision) / 3
+                best_local_simplicity = calculate_simplicity_metric(model_events_list, log_unique_events)
+                best_local_result = (best_local_alignment + best_local_generalization + best_local_precision +
+                                     best_local_simplicity) / 4
                 if best_local_result > best_result:
                     best_result = best_local_result
         if i % 2 == 1:

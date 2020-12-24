@@ -257,6 +257,18 @@ class AlignmentCalculationTest(unittest.TestCase):
         self.assertCountEqual([x for x in ['b', 'c']], char_list)
         # self.assertEqual(['b', 'c'], events_to_char_list(model_result))
 
+    def test_all_events_in_model(self):
+        # when your algorithm is smarter than you
+        event_group = EventGroupParallel([Event('a'), Event('f'),
+                                  EventGroupParallel(string_to_events('bec')),
+                                  Event('d')])
+
+        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f'])
+        char_list = events_to_char_list(model_result)
+        print(events_to_char_list(model_result))
+        self.assertEqual(-2, result)
+        self.assertCountEqual([x for x in ['a', 'b', 'c', 'd', 'e', 'f']], char_list)
+
     def test_parallel_many_events(self):
         event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
                                           Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
@@ -268,6 +280,13 @@ class AlignmentCalculationTest(unittest.TestCase):
         print(events_to_char_list(model_result))
         self.assertEqual(0, result)
         self.assertCountEqual([x for x in 'abcdefghijklmn'], char_list)
+
+    def test_parallel_event_permutations(self):
+        event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
+                                          Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
+                                          Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n')])
+
+
 
     if __name__ == '__main__':
         unittest.main()

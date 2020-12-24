@@ -44,7 +44,8 @@ def calculate_alignment_process_event_groups(model, log):
             # change way permutations are calculated
             event_permutations = permutations(model.events)
 
-            result_x, model_results = get_maxes([calculate_alignment(resolve_event_group(list(events)), log) for events in event_permutations])
+            result_x, model_results = get_maxes([calculate_alignment(resolve_event_group(list(events)), log) for events
+                                                 in event_permutations])
 
     return result_x, model_results
 
