@@ -1,12 +1,13 @@
-from processdiscovery.gate.seq_gate import SeqGate
+from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment, parallel_event_permutations
+from processdiscovery.event.event import Event
+from processdiscovery.event.event_group_parallel import EventGroupParallel
 
-gate = SeqGate()
-gate.parse('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})')
+event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
+                                  Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
+                                  Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n'),
+                                  EventGroupParallel([Event('o'), Event('p'), Event('q')])])
 
-'xor({e}seq(and({c}{f}){b}and({d}{f})and({a}{e})))'
-test = gate.get_all_n_length_routes(14)
-
-print(test)
+expected = parallel_event_permutations(event_group.events)
 
 # evaluate_guess('and({c}{f})and({b}{f}){a}{d}{a}{e}and({e}{d})')
 

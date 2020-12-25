@@ -12,6 +12,14 @@ class Event:
     def __len__(self):
         return len(self.name)
 
+    def __hash__(self):
+        return hash(id(self.name))
+
+    def __eq__(self, other):
+        if not isinstance(other, type(self)):
+            return NotImplemented
+        return id(self) == id(other)
+
     def add_event(self, event):
         event_group = EventGroup()
         if isinstance(event, EventGroup):

@@ -4,6 +4,8 @@ from itertools import chain, combinations
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 
+import numpy as np
+
 
 def string_to_dictionary(string: str):
     dictionary = dict()
@@ -185,3 +187,13 @@ def event_list_length_inner(struct, min_or_max) -> int:
             results.append(len(struct))
     return min_or_max(results)
 
+
+def subset_sum(numbers, target, max_len, current_len=0, partial=[], partial_sum=0):
+    if current_len > max_len:
+        return
+    if partial_sum == target:
+        yield partial
+    if partial_sum >= target:
+        return
+    for i, n in enumerate(numbers):
+        yield from subset_sum(numbers, target, max_len, current_len + 1, partial + [n], partial_sum + n)

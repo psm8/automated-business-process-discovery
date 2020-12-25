@@ -9,6 +9,7 @@ import csv
 
 MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.95
 MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.6
+BIG_PENALTY = -10000
 
 
 def get_event_log_csv(filename) -> dict:
@@ -71,10 +72,12 @@ def calculate_precision_metric(log, model_parents_list):
 
 
 def calculate_generalization_metric(model_events_list):
-    test = sum([math.pow(math.sqrt(model_event.no_visits), -1)
-                    if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / len(model_events_list)
-    return 1 - sum([math.pow(math.sqrt(model_event.no_visits), -1)
-                    if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / len(model_events_list)
+    if any([model_event.no_visits == 0 for model_event in model_events_list]):
+        return 0
+    else:
+        return 1 - sum([math.pow(math.sqrt(model_event.no_visits), -1)
+                        if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / \
+               len(model_events_list)
 
 
 def calculate_fitness_metric(best_local_error, sum_of_processes_length, log, n):
@@ -159,13 +162,13 @@ def evaluate_guess(guess):
     try:
         gate.parse(guess)
     except ValueError:
-        return -100000
+        return BIG_PENALTY
     min_length = gate.get_model_min_length()
     if min_length > calculate_max_allowed_length(process_average_length):
-        return -100000
+        return BIG_PENALTY
     max_length = gate.get_model_max_length()
     if max_length < calculate_min_allowed_length(process_average_length):
-        return -100000
+        return BIG_PENALTY
     # length_metric = calculate_length_metric(guess, 50)
     fitness_metric = calculate_metrics(log, log_unique_events, sum_of_processes_length, process_average_length, gate,
                                        min_length, max_length)

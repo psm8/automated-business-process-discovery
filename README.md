@@ -11,6 +11,7 @@
     Check with process list - done
     Check with result
     Consider adding unique to list
+    to_n_length is too slow - add exception when lop have too many children
 
 ### Simplicity
 

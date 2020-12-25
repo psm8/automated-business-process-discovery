@@ -4,7 +4,7 @@ from processdiscovery.event.event import Event
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.test.util.test_util import string_to_events
-from processdiscovery.util.util import flatten_values, event_list_length
+from processdiscovery.util.util import flatten_values, event_list_length, subset_sum
 
 from itertools import product
 from copy import deepcopy
@@ -58,6 +58,10 @@ class UtilTest(unittest.TestCase):
         actual = flatten_values([[[e1], [e2, e3], [e4, e5, e6]], [[e7, e8, e9], [e10], [e11, e12]], [[e13], []]])
         self.assertCountEqual(expected, actual)
 
+    def test_subset_sum(self):
+        v = [1, 1, 2, 3, 10]
+        sum = 12
+        print(list(subset_sum(v, sum)))
 
 if __name__ == '__main__':
     unittest.main()

@@ -267,7 +267,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-2, result)
-        self.assertCountEqual([x for x in ['a', 'b', 'c', 'd', 'e', 'f']], char_list)
+        self.assertCountEqual([x for x in ['a', 'b', 'c', 'e', 'f']], char_list)
 
     def test_parallel_many_events(self):
         event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
@@ -284,7 +284,10 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_parallel_event_permutations(self):
         event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
                                           Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
-                                          Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n')])
+                                          Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n'),
+                                          EventGroupParallel([Event('o'), Event('p'), Event('q')])])
+
+        expected = parallel_event_permutations(event_group)
 
 
 
