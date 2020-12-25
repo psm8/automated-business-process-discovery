@@ -6,7 +6,7 @@ from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.test.util.test_util import string_to_events
-from processdiscovery.util.util import to_n_length, to_n_length_opt, flatten_values
+from processdiscovery.util.util import to_n_length_opt, flatten_values
 
 
 class GateTest(unittest.TestCase):
@@ -96,17 +96,6 @@ class GateTest(unittest.TestCase):
         # (3,0,2) 2^2 + (3,1,1) 2 * 2 + (3,2,0) 1
         # 8 + 16 + 4 + 8 + 8 + 2 + 4 + 4 + 1
         self.assertEqual(55, len(all_length_5_routes))
-
-    def test_to_n_length(self):
-        e1 = Event('t')
-        e2 = EventGroupParallel([EventGroupParallel(string_to_events('t')), Event('q')])
-        e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
-        e4 = EventGroupParallel(string_to_events('xys'))
-
-        expected = [EventGroup([e1, e1, e2]), EventGroup([e1, e2, e1]), EventGroup([e2, e1, e1]),
-                    EventGroup([e4, e1]), EventGroup([e1, e4]), EventGroup([e2, e2]), e3]
-        actual = to_n_length(4, [e1, e2, e3, e4], 3)
-        self.assertEqual(len(expected), len(actual))
 
     def test_to_n_length_opt(self):
         e1 = Event('t')

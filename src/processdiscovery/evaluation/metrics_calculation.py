@@ -111,7 +111,7 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
         if min_length <= n <= max_length:
             routes = gate.get_all_n_length_routes(n)
             if len(routes) > 10000:
-                print(10000)
+                print(len(routes))
             reset_executions(model_events_list)
             if routes is not None and not is_struct_empty(routes):
                 perfectly_aligned_logs = dict()

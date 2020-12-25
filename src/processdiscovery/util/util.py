@@ -38,9 +38,14 @@ def to_n_length(n, child_list, max_depth):
     while child_list:
         len_child = len(child_list[0])
         if len_child <= max_length:
-            [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
-                                                                            child_list[0], copy.copy(child_list_copy),
-                                                                            1, max_depth)]
+            if isinstance(child_list[0], list) and child_list[0]:
+                [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
+                                                                                [child_list[0][0]], copy.copy(child_list_copy),
+                                                                                1, max_depth)]
+            else:
+                [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
+                                                                                [child_list[0]], copy.copy(child_list_copy),
+                                                                                1, max_depth)]
         elif len_child == n:
             if isinstance(child_list[0], list):
                 global_result.append(child_list[0][0])
@@ -53,6 +58,52 @@ def to_n_length(n, child_list, max_depth):
 
 
 def to_n_length_inner(n, max_length, result, child_list, current_depth, max_depth):
+    child_list_copy = copy.copy(child_list)
+    while child_list and current_depth < max_depth:
+        len_child = len(child_list[0])
+        if len_child <= max_length:
+            if not isinstance(result, list):
+                result = [result]
+            if isinstance(child_list[0], list) and child_list[0]:
+                yield from to_n_length_inner(n-len_child, max_length-len_child, result + [child_list[0][0]],
+                                             copy.copy(child_list_copy), current_depth + 1, max_depth)
+            else:
+                yield from to_n_length_inner(n-len_child, max_length-len_child, result + [child_list[0]],
+                                             copy.copy(child_list_copy), current_depth + 1, max_depth)
+        elif len_child == n:
+            if not isinstance(result, list):
+                result = [result]
+            if isinstance(child_list[0], list):
+                yield result + [child_list[0][0]]
+                # possibly should be always list
+            else:
+                yield result + [child_list[0]]
+        child_list.remove(child_list[0])
+
+
+def to_n_length_old(n, child_list, max_depth):
+    min_length = min([len(x) for x in child_list])
+    max_length = n - min_length
+    global_result = []
+    child_list_copy = copy.copy(child_list)
+    while child_list:
+        len_child = len(child_list[0])
+        if len_child <= max_length:
+            [global_result.append(EventGroup(x)) for x in to_n_length_inner_old(n-len_child, max_length-len_child,
+                                                                            [child_list[0]], copy.copy(child_list_copy),
+                                                                            1, max_depth)]
+        elif len_child == n:
+            if isinstance(child_list[0], list):
+                global_result.append(child_list[0][0])
+                # possibly should be always list
+            else:
+                global_result.append(child_list[0])
+        child_list.remove(child_list[0])
+
+    return global_result
+
+
+def to_n_length_inner_old(n, max_length, result, child_list, current_depth, max_depth):
     global_result = []
     child_list_copy = copy.copy(child_list)
     while child_list and current_depth < max_depth:
