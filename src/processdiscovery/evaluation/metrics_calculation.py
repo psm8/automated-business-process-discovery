@@ -1,6 +1,6 @@
 from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment
-from processdiscovery.util.util import is_struct_empty
+from processdiscovery.util.util import is_struct_empty, get_event_names
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
 from processdiscovery.evaluation.precision_calculation import count_log_enabled
 
@@ -8,7 +8,7 @@ import math
 import csv
 
 MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.95
-MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.6
+MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.9
 BIG_PENALTY = -10000
 
 
@@ -90,8 +90,11 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
     return sum([x in model_event_names for x in log_unique_events])/len(log_unique_events)
 
 
-def check_route_with_log_events(route):
-    return MINIMAL_ALIGNMENT_ROUTE_WITH_LOG
+def check_route_with_log_events(route, log_unique_events):
+    route_event_names = set()
+    [route_event_names.add(x) for x in get_event_names(route)]
+
+    return sum([x in route_event_names for x in log_unique_events])/len(log_unique_events)
 
 
 def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_average_length, gate, min_length,
@@ -101,7 +104,6 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
     best_result = 0
     model_events_list_with_parents = gate.get_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
-    # model_parents_list = [x[0] for x in model_events_list_with_parents]
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_unique_events)
     if model_to_log_events_ratio < MINIMAL_ALIGNMENT_MODEL_WITH_LOG:
         return model_to_log_events_ratio/10
@@ -112,18 +114,25 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
             routes = gate.get_all_n_length_routes(n)
             if len(routes) > 10000:
                 print(len(routes))
+                n += (-i if i % 2 == 1 else i)
+                i += 1
+                continue
             reset_executions(model_events_list)
             if routes is not None and not is_struct_empty(routes):
                 perfectly_aligned_logs = dict()
+                events_global = []
                 best_local_error = 0
                 for elem in log.keys():
-                    min_local = 1023
+                    min_local = -1023
                     for event_group in routes:
+                        route_to_log_events_ratio = check_route_with_log_events(event_group, log_unique_events)
+                        if route_to_log_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
+                            continue
                         value, events = calculate_best_alignment(event_group, list(elem))
                         if value == 0:
                             perfectly_aligned_logs[tuple(events)] = log[elem]
                             break
-                        if value < min_local:
+                        if value > min_local:
                             min_local = value
                             events_global = events
                     add_executions(model_events_list, events_global)
@@ -136,11 +145,10 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
                 best_local_result = (best_local_alignment + best_local_generalization + best_local_precision +
                                      best_local_simplicity) / 4
                 if best_local_result > best_result:
+                    if best_local_result > 1:
+                        print(best_local_result)
                     best_result = best_local_result
-        if i % 2 == 1:
-            n -= i
-        else:
-            n += i
+        n += (-i if i % 2 == 1 else i)
         i += 1
     return best_result
 

@@ -1,5 +1,3 @@
-
-
 class BaseGroup:
 
     def __init__(self, events=None):
@@ -24,7 +22,3 @@ class BaseGroup:
         for event_local in event_group:
             self.events.append(event_local)
         return self
-
-    # def add_event_parallel(self):
-    #     event_group_parallel = EventGroupParallel()
-    #     return event_group_parallel.add_events(self, event)

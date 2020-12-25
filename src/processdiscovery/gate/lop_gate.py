@@ -5,6 +5,7 @@ from processdiscovery.event.event import Event
 
 
 class LopGate(Gate):
+    LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS = 32
     LOP_GATE_MAX_DEPTH = 3
 
     def __init__(self, elements=None):
@@ -39,8 +40,11 @@ class LopGate(Gate):
 
         if global_list:
             flattened_list = flatten_values(global_list)
-            results = [x for x in to_n_length(n, flattened_list, self.LOP_GATE_MAX_DEPTH)]
-            return results
+            if len(flattened_list) < self.LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS:
+                results = [x for x in to_n_length(n, flattened_list, self.LOP_GATE_MAX_DEPTH)]
+                return results
+            else:
+                return []
         else:
             return []
 

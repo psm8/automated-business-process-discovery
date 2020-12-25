@@ -1,10 +1,10 @@
 import copy
 
 from itertools import chain, combinations
+from processdiscovery.event.event import Event
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
-
-import numpy as np
+from processdiscovery.event.base_group import BaseGroup
 
 
 def string_to_dictionary(string: str):
@@ -30,31 +30,36 @@ def powerset(iterable):
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
 
+def get_event_names(event_group: BaseGroup):
+    for x in event_group.events:
+        if isinstance(x, Event):
+            yield x.name
+        else:
+            yield from get_event_names(x)
+
+
 def to_n_length(n, child_list, max_depth):
     min_length = min([len(x) for x in child_list])
     max_length = n - min_length
-    global_result = []
     child_list_copy = copy.copy(child_list)
     while child_list:
         len_child = len(child_list[0])
         if len_child <= max_length:
             if isinstance(child_list[0], list) and child_list[0]:
-                [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
-                                                                                [child_list[0][0]], copy.copy(child_list_copy),
-                                                                                1, max_depth)]
+                yield from [(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
+                                                                       [child_list[0][0]], copy.copy(child_list_copy),
+                                                                       1, max_depth)]
             else:
-                [global_result.append(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
-                                                                                [child_list[0]], copy.copy(child_list_copy),
-                                                                                1, max_depth)]
+                yield from [(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
+                                                                       [child_list[0]], copy.copy(child_list_copy),
+                                                                       1, max_depth)]
         elif len_child == n:
             if isinstance(child_list[0], list):
-                global_result.append(child_list[0][0])
+                yield child_list[0][0]
                 # possibly should be always list
             else:
-                global_result.append(child_list[0])
+                yield child_list[0]
         child_list.remove(child_list[0])
-
-    return global_result
 
 
 def to_n_length_inner(n, max_length, result, child_list, current_depth, max_depth):
