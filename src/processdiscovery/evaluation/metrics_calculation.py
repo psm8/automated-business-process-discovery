@@ -98,7 +98,7 @@ def check_route_with_log_events(route, log_unique_events):
 
 
 def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_average_length, gate, min_length,
-                      max_length):
+                      max_length, alignment_cache):
     n = round(process_average_length)
     i = 1
     best_result = 0
@@ -111,7 +111,7 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
     while not n < calculate_min_allowed_length(process_average_length) and \
             not n > calculate_max_allowed_length(process_average_length):
         if min_length <= n <= max_length:
-            routes = gate.get_all_n_length_routes(n)
+            routes = set(gate.get_all_n_length_routes(n))
             if len(routes) > 10000:
                 print(len(routes))
                 n += (-i if i % 2 == 1 else i)
@@ -128,7 +128,7 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
                         route_to_log_events_ratio = check_route_with_log_events(event_group, log_unique_events)
                         if route_to_log_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
                             continue
-                        value, events = calculate_best_alignment(event_group, list(elem))
+                        value, events = calculate_best_alignment(event_group, list(elem), alignment_cache)
                         if value == 0:
                             perfectly_aligned_logs[tuple(events)] = log[elem]
                             break
@@ -161,7 +161,7 @@ def calculate_min_allowed_length(log_average_length):
     return math.floor(0.5 * log_average_length)
 
 
-def evaluate_guess(guess):
+def evaluate_guess(guess, alignment_cache):
     log = get_event_log()
     sum_of_processes_length = get_sum_of_processes_length(log)
     process_average_length = sum_of_processes_length / sum([x for x in log.values()])
@@ -179,6 +179,6 @@ def evaluate_guess(guess):
         return BIG_PENALTY
     # length_metric = calculate_length_metric(guess, 50)
     fitness_metric = calculate_metrics(log, log_unique_events, sum_of_processes_length, process_average_length, gate,
-                                       min_length, max_length)
+                                       min_length, max_length, alignment_cache)
 
     return fitness_metric

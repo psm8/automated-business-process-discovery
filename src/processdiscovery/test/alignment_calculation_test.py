@@ -13,7 +13,8 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper(self):
         event_group = EventGroup(string_to_events('pqacezxys'))
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x'], dict())
         print(events_to_char_list(model_result))
         self.assertEqual(-8, result)
         self.assertCountEqual([x for x in ['a', 'c', 'e', 'z', 'x']], events_to_char_list(model_result))
@@ -22,7 +23,8 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper_parallel(self):
         event_group = EventGroupParallel(string_to_events('pqacezxys'))
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'k', 'l', 'm', 'n', 'o', 'z', 'x'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'k', 'l', 'm', 'n', 'o', 'z', 'x'], dict())
         print(events_to_char_list(model_result))
         self.assertEqual(-14, result)
         self.assertCountEqual([x for x in ['z', 'x']], events_to_char_list(model_result))
@@ -34,7 +36,8 @@ class AlignmentCalculationTest(unittest.TestCase):
             event_group_events.append(Event(x))
         event_group = EventGroup(event_group_events)
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x'])
+        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x'],
+                                                        dict())
         print(events_to_char_list(model_result))
         self.assertEqual(-11, result)
         self.assertCountEqual([x for x in ['a', 'c', 'e', 'z', 'x']], events_to_char_list(model_result))
@@ -47,7 +50,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         event_group = EventGroup(event_group_events)
 
         result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'a',
-                                                                      'b', 'c'])
+                                                                      'b', 'c'], dict())
         print(events_to_char_list(model_result))
         self.assertEqual(-11, result)
         self.assertCountEqual([x for x in ['a', 'c', 'e', 'z', 'x']], events_to_char_list(model_result))
@@ -56,7 +59,8 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper_parallel_inside(self):
         event_group = EventGroupParallel([Event('t'), EventGroupParallel(string_to_events('spqacezxy'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 't'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 't'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-7, result)
@@ -69,7 +73,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroup(string_to_events('acez')),
                                   EventGroupParallel(string_to_events('xys'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-10, result)
@@ -82,7 +87,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroupParallel(string_to_events('tpq')),
                                   EventGroupParallel(string_to_events('xys'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-11, result)
@@ -95,7 +101,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                           EventGroup(string_to_events('acez')),
                                           EventGroupParallel(string_to_events('xys'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-9, result)
@@ -106,7 +113,8 @@ class AlignmentCalculationTest(unittest.TestCase):
         event_group = EventGroup([EventGroupParallel(string_to_events('ac')),
                                   EventGroup(string_to_events('ez'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-6, result)
@@ -117,7 +125,7 @@ class AlignmentCalculationTest(unittest.TestCase):
         event_group = EventGroup([EventGroupParallel(string_to_events('ac')),
                                   EventGroup(string_to_events('ez'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-5, result)
@@ -127,7 +135,7 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper_parallel_inside_7(self):
         event_group = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
 
-        result, model_result = calculate_best_alignment(event_group, ['q'])
+        result, model_result = calculate_best_alignment(event_group, ['q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-2, result)
@@ -137,7 +145,8 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper_parallel_inside_72(self):
         event_group = EventGroup([Event('q'), EventGroupParallel(string_to_events('tp'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-11, result)
@@ -147,7 +156,8 @@ class AlignmentCalculationTest(unittest.TestCase):
     def test_nw_with_wrapper_parallel_inside_73(self):
         event_group = EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-11, result)
@@ -159,7 +169,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroup([EventGroupParallel(string_to_events('ac')),
                                               EventGroup(string_to_events('ez'))])])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-7, result)
@@ -173,7 +184,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroupParallel(string_to_events('xys')),
                                   EventGroupParallel([EventGroupParallel(string_to_events('tp')), Event('q')])])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-9, result)
@@ -187,7 +199,8 @@ class AlignmentCalculationTest(unittest.TestCase):
                                                       EventGroup(string_to_events('ez'))]),
                                           EventGroupParallel(string_to_events('xys'))])
 
-        result, model_result = calculate_best_alignment(event_group, ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'])
+        result, model_result = calculate_best_alignment(event_group,
+                                                        ['z', 'x', 'a', 'b', 'c', 'd', 'e', 'z', 'x', 'q'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-9, result)
@@ -200,7 +213,7 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   Event('b'),
                                   EventGroupParallel([EventGroupParallel(string_to_events('df')), Event('e')])])
 
-        result, model_result = calculate_best_alignment(event_group, ['a', 'c', 'b', 'd'])
+        result, model_result = calculate_best_alignment(event_group, ['a', 'c', 'b', 'd'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-6, result)
@@ -212,7 +225,7 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroup([EventGroupParallel([EventGroup([Event('a')]), Event('f')]), Event('b')]),
                                   Event('f')])
 
-        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f'])
+        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-5, result)
@@ -224,7 +237,7 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroup([EventGroupParallel([Event('a'), Event('f')]), Event('b')]),
                                   Event('f')])
 
-        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f'])
+        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-5, result)
@@ -238,7 +251,7 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   Event('b'),
                                   Event('c')])
 
-        result, model_result = calculate_best_alignment(event_group, ['a', 'c', 'b', 'd'])
+        result, model_result = calculate_best_alignment(event_group, ['a', 'c', 'b', 'd'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-7, result)
@@ -250,7 +263,7 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroupParallel([Event('a'), Event('b')]),
                                   Event('c')])
 
-        result, model_result = calculate_best_alignment(event_group, ['b', 'c', 'd'])
+        result, model_result = calculate_best_alignment(event_group, ['b', 'c', 'd'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-4, result)
@@ -263,7 +276,7 @@ class AlignmentCalculationTest(unittest.TestCase):
                                   EventGroupParallel(string_to_events('bec')),
                                   Event('d')])
 
-        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f'])
+        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(-2, result)
@@ -275,7 +288,7 @@ class AlignmentCalculationTest(unittest.TestCase):
                                           Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n')])
 
         result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                                                                      'k', 'l', 'm', 'n'])
+                                                                      'k', 'l', 'm', 'n'], dict())
         char_list = events_to_char_list(model_result)
         print(events_to_char_list(model_result))
         self.assertEqual(0, result)

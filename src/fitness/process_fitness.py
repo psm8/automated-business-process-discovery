@@ -4,6 +4,7 @@ from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 
 class process_fitness(base_ff):
     maximise = True
+    alignment_cache = dict()
 
     def __init__(self):
         # Initialise base fitness function class.
@@ -12,4 +13,4 @@ class process_fitness(base_ff):
     def evaluate(self, ind, **kwargs):
         guess = ind.phenotype
 
-        return evaluate_guess(guess)
+        return evaluate_guess(guess, self.alignment_cache)

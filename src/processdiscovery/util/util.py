@@ -19,7 +19,7 @@ def string_to_dictionary(string: str):
 def is_struct_empty(in_list) -> bool:
     if in_list is None:
         return True
-    if isinstance(in_list, list) or isinstance(in_list, tuple):
+    if isinstance(in_list, set):
         return all(map(is_struct_empty, in_list))
     return False
 
