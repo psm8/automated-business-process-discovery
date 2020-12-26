@@ -11,9 +11,12 @@
     Check with process list - done
     Check with result
     Consider adding unique to list
-    to_n_length is too slow - add exception when lop have too many children
+    to_n_length is too slow - add exception when lop have too many children - done
     add stop when calc n+i if result better than -i
-
+    don't unneceserly wrap single  events in groups
+    consider hash recognize eventGroup inside eventGroup
+    also maybe checking in constructor if event group added to eventgroup 
+    caching shold be done class higher possibly
 ### Simplicity
 
 ### Replay fitness

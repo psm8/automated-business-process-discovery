@@ -6,7 +6,7 @@ from processdiscovery.event.event import Event
 
 class LopGate(Gate):
     LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS = 32
-    LOP_GATE_MAX_DEPTH = 3
+    LOP_GATE_MAX_DEPTH = 4
 
     def __init__(self, elements=None):
         super().__init__("lop", elements)
@@ -14,7 +14,7 @@ class LopGate(Gate):
     def add_element(self, element):
         self.elements.append(element)
 
-    def get_all_n_length_routes(self, n: int) -> []:
+    def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
         min_lengths = self.get_children_min_length()
@@ -29,7 +29,7 @@ class LopGate(Gate):
                 upper_limit = self.get_goal_length_upper_range(n, global_list, min_lengths)
                 for i in range(1, upper_limit + 1):
                     try:
-                        child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                        child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
                     except ValueError:
                         return []
                     if child_all_n_length_routes is not None:
@@ -41,7 +41,7 @@ class LopGate(Gate):
         if global_list:
             flattened_list = flatten_values(global_list)
             if len(flattened_list) < self.LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS:
-                results = [x for x in to_n_length(n, flattened_list, self.LOP_GATE_MAX_DEPTH)]
+                results = [x for x in to_n_length(n, flattened_list, process, self.LOP_GATE_MAX_DEPTH)]
                 return results
             else:
                 return []

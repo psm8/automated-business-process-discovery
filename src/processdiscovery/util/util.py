@@ -24,12 +24,6 @@ def is_struct_empty(in_list) -> bool:
     return False
 
 
-def powerset(iterable):
-    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
-    s = list(iterable)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
-
-
 def get_event_names(event_group: BaseGroup):
     for x in event_group.events:
         if isinstance(x, Event):
@@ -38,102 +32,79 @@ def get_event_names(event_group: BaseGroup):
             yield from get_event_names(x)
 
 
-def to_n_length(n, child_list, max_depth):
+def to_n_length(n, child_list, process, max_depth):
+    child_list = [x[0] if isinstance(x, list) and x else x for x in child_list]
+    # child_list = filter_children_list([], child_list, process)
     min_length = min([len(x) for x in child_list])
     max_length = n - min_length
     child_list_copy = copy.copy(child_list)
     while child_list:
-        len_child = len(child_list[0])
+        child = child_list[0]
+        len_child = len(child)
         if len_child <= max_length:
-            if isinstance(child_list[0], list) and child_list[0]:
-                yield from [(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
-                                                                       [child_list[0][0]], copy.copy(child_list_copy),
-                                                                       1, max_depth)]
-            else:
-                yield from [(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child,
-                                                                       [child_list[0]], copy.copy(child_list_copy),
-                                                                       1, max_depth)]
+            yield from [(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child, [child],
+                                                                   copy.copy(child_list_copy), process, 1, max_depth)]
         elif len_child == n:
-            if isinstance(child_list[0], list):
-                yield child_list[0][0]
-                # possibly should be always list
-            else:
-                yield child_list[0]
+            yield child
         child_list.remove(child_list[0])
 
 
-def to_n_length_inner(n, max_length, result, child_list, current_depth, max_depth):
+def to_n_length_inner(n, max_length, result, child_list, process, current_depth, max_depth):
+    # child_list = filter_children_list(result, child_list, process)
     child_list_copy = copy.copy(child_list)
     while child_list and current_depth < max_depth:
-        len_child = len(child_list[0])
+        child = child_list[0]
+        len_child = len(child)
         if len_child <= max_length:
-            if not isinstance(result, list):
-                result = [result]
-            if isinstance(child_list[0], list) and child_list[0]:
-                yield from to_n_length_inner(n-len_child, max_length-len_child, result + [child_list[0][0]],
-                                             copy.copy(child_list_copy), current_depth + 1, max_depth)
-            else:
-                yield from to_n_length_inner(n-len_child, max_length-len_child, result + [child_list[0]],
-                                             copy.copy(child_list_copy), current_depth + 1, max_depth)
+            yield from to_n_length_inner(n-len_child, max_length-len_child, result + [child],
+                                         copy.copy(child_list_copy),  process, current_depth + 1, max_depth)
         elif len_child == n:
-            if not isinstance(result, list):
-                result = [result]
-            if isinstance(child_list[0], list):
-                yield result + [child_list[0][0]]
-                # possibly should be always list
-            else:
-                yield result + [child_list[0]]
+            yield result + [child]
         child_list.remove(child_list[0])
 
 
-def to_n_length_old(n, child_list, max_depth):
-    min_length = min([len(x) for x in child_list])
-    max_length = n - min_length
-    global_result = []
-    child_list_copy = copy.copy(child_list)
-    while child_list:
-        len_child = len(child_list[0])
-        if len_child <= max_length:
-            [global_result.append(EventGroup(x)) for x in to_n_length_inner_old(n-len_child, max_length-len_child,
-                                                                            [child_list[0]], copy.copy(child_list_copy),
-                                                                            1, max_depth)]
-        elif len_child == n:
-            if isinstance(child_list[0], list):
-                global_result.append(child_list[0][0])
-                # possibly should be always list
-            else:
-                global_result.append(child_list[0])
-        child_list.remove(child_list[0])
+def filter_children_list(result, all_children, log_events):
+    filtered = []
+    result_dict = events_count(get_event_names(result))
+    log_events_dict = events_count(log_events)
+    penalty = 0
+    for key in result_dict:
+        if key in result_dict:
+            result_dict
+    log_events_dict = log_events_dict
+    for child in all_children:
+        child_dict = events_count(get_event_names(child))
+        if check_route_with_log_process(child, [log_events.remove(x.name) for x in result]) > 0.7:
+            filtered.append(child)
 
-    return global_result
+    return filtered
 
 
-def to_n_length_inner_old(n, max_length, result, child_list, current_depth, max_depth):
-    global_result = []
-    child_list_copy = copy.copy(child_list)
-    while child_list and current_depth < max_depth:
-        len_child = len(child_list[0])
-        if len_child <= max_length:
-            if not isinstance(result, list):
-                result = [result]
-            xs = [x for x in to_n_length_inner(n-len_child, max_length-len_child, child_list[0],
-                                               copy.copy(child_list_copy), current_depth + 1, max_depth)]
-            local_results = [copy.copy(result) for _ in xs]
-            [local_results[i].append(x) for i in range(len(xs)) for x in xs[i]]
-            [global_result.append(local_result) for local_result in local_results]
-        elif len_child == n:
-            if not isinstance(result, list):
-                result = [result]
-            local_result = copy.copy(result)
-            if isinstance(child_list[0], list):
-                local_result.append(child_list[0][0])
-                # possibly should be always list
-            else:
-                local_result.append(child_list[0])
-            global_result.append(local_result)
-        child_list.remove(child_list[0])
+def check_route_with_log_process(route, log_process):
+    route_event_names = list(get_event_names(route))
 
-    return global_result
+    hits_sum = 0
+    for x in log_process:
+        if x in route_event_names:
+            hits_sum += 1
+            route_event_names.remove(x)
+
+    return hits_sum/len(log_process)
+
+
+def events_count(events):
+    result = dict()
+    for event in events:
+        if event in result:
+            result[event] += 1
+        else:
+            result[event] = 1
+
+    return result
+
+
+def possible_positions():
+    return 0
 
 
 def to_n_length_opt(n, child_list):

@@ -306,5 +306,5 @@ def get_worst_allowed_alignment(expression) -> int:
 
 
 def get_cache_id(model, log):
-    model = tuple(tuple(x) if isinstance(x, list) else x for x in model)
+    model = tuple(tuple(hash(y) for y in x) if isinstance(x, list) else hash(x) for x in model)
     return model, tuple(log)

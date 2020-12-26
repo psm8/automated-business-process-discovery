@@ -12,7 +12,7 @@ class XorGate(Gate):
         self.check_valid_before_appending(element)
         self.elements.append(element)
 
-    def get_all_n_length_routes(self, n: int) -> []:
+    def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
         if self.get_model_max_length() < n and n > 0:
@@ -27,7 +27,7 @@ class XorGate(Gate):
             else:
                 # possibly should add lower limit
                 try:
-                    child_all_n_length_routes = elem.get_all_n_length_routes(n)
+                    child_all_n_length_routes = elem.get_all_n_length_routes(n, process)
                 except ValueError:
                     return []
                 if child_all_n_length_routes is not None:

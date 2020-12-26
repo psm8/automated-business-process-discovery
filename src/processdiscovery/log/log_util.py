@@ -28,7 +28,7 @@ def get_sum_of_processes_length(log: dict) -> int:
 class LogInfo:
 
     def __init__(self, filename):
-        self.log = get_event_log()
+        self.log = get_event_log_csv(filename)
         self.log_unique_events = get_log_unique_events(self.log.keys())
         self.sum_of_processes_length = get_sum_of_processes_length(self.log)
         self.process_average_length = self.sum_of_processes_length / sum([x for x in self.log.values()])

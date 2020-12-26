@@ -282,6 +282,19 @@ class AlignmentCalculationTest(unittest.TestCase):
         self.assertEqual(-2, result)
         self.assertCountEqual([x for x in ['a', 'b', 'c', 'e', 'f']], char_list)
 
+    def test_cache(self):
+        event_group = [EventGroupParallel([Event('a'), Event('f'),
+                                          EventGroupParallel(string_to_events('bec')),
+                                          Event('d')])]
+        event_group2 = [EventGroupParallel([Event('a'), Event('f'),
+                                            EventGroupParallel(string_to_events('bec')),
+                                            Event('d')])]
+        log = ['a', 'b', 'c', 'd', 'e', 'f']
+        log2 = ['a', 'b', 'c', 'd', 'e', 'f']
+        cache1 = get_cache_id(event_group, log)
+        cache2 = get_cache_id(event_group2, log2)
+        self.assertEqual(cache1, cache2)
+
     def test_parallel_many_events(self):
         event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
                                           Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),

@@ -20,7 +20,7 @@ class OptGate(Gate):
         self.elements.append(element)
 
     @only_throws(ValueError)
-    def get_all_n_length_routes(self, n: int) -> []:
+    def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
         if self.get_model_max_length() < n:
@@ -40,7 +40,7 @@ class OptGate(Gate):
                 lower_limit = self.get_goal_length_lower_range(n, global_list, min_lengths, max_lengths)
                 for i in range(lower_limit, n + 1):
                     try:
-                        child_all_n_length_routes = elem.get_all_n_length_routes(i)
+                        child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
                     except ValueError:
                         return []
                     if child_all_n_length_routes is not None:

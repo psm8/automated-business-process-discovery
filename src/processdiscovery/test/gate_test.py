@@ -105,6 +105,12 @@ class GateTest(unittest.TestCase):
         all_length_8_routes = gate.get_all_n_length_routes(8)
         self.assertEqual(500, len(all_length_8_routes))
 
+    def test_97(self):
+        gate = SeqGate()
+        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
+        all_length_8_routes = gate.get_all_n_length_routes(12, '')
+        self.assertEqual(19100, len(all_length_8_routes))
+
     def test_number_of_combos_lop_opt(self):
         # assuming max lop gate length = 3
         gate = SeqGate()

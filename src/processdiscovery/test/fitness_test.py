@@ -1,7 +1,7 @@
 import unittest
 
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
-from processdiscovery.log.log_util import get_event_log_csv
+from processdiscovery.log.log_util import LogInfo
 
 
 class FitnessTest(unittest.TestCase):
@@ -33,7 +33,7 @@ class FitnessTest(unittest.TestCase):
 
     def test_legend(self):
 
-        actual = evaluate_guess('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})', get_event_log_csv('discovered-processes.csv'),
+        actual = evaluate_guess('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})', LogInfo('discovered-processes.csv'),
                                 dict())
 
         self.assertEqual(0.8, actual)

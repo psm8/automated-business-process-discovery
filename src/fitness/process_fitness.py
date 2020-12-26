@@ -6,11 +6,11 @@ from processdiscovery.log.log_util import LogInfo
 class process_fitness(base_ff):
     maximise = True
 
-
     def __init__(self):
         # Initialise base fitness function class.
         super().__init__()
         self.alignment_cache = dict()
+        self.routes_cache = dict()
         self.log_info = LogInfo('discovered-processes.csv')
 
     def evaluate(self, ind, **kwargs):
