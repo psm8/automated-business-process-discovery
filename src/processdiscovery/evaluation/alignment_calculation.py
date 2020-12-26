@@ -243,18 +243,6 @@ def get_all_tracebacks(al_mat, penalty_gap, model, log, model_results_local):
                       model_results_local) for i in range(len_log)]
 
 
-# def prepare_model_result(model_results_local, i, len_log):
-#     result = []
-#     for model_result_local in model_results_local:
-#         if model_result_local is not None:
-#             model_result_local = model_result_local[:i+1]
-#             result.append([x[len_log - (i + 1)] for x in model_result_local])
-#         else:
-#             result.append(model_result_local)
-#
-#     return result
-
-
 def get_not_none(model_result_local, log):
     return [x for x in model_result_local if x is not None and x.name in log]
 

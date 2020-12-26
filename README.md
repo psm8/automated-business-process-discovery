@@ -12,6 +12,7 @@
     Check with result
     Consider adding unique to list
     to_n_length is too slow - add exception when lop have too many children
+    add stop when calc n+i if result better than -i
 
 ### Simplicity
 

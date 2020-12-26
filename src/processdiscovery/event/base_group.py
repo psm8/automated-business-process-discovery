@@ -1,4 +1,7 @@
-class BaseGroup:
+from processdiscovery.event.comparable_event import ComparableEvent
+
+
+class BaseGroup(ComparableEvent):
 
     def __init__(self, events=None):
         if events is None:
@@ -22,3 +25,6 @@ class BaseGroup:
         for event_local in event_group:
             self.events.append(event_local)
         return self
+
+    def compare(self, other):
+        pass

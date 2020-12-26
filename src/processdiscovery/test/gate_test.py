@@ -5,8 +5,8 @@ from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
-from processdiscovery.test.util.test_util import string_to_events
 from processdiscovery.util.util import to_n_length_opt, flatten_values
+from processdiscovery.test.util.test_util import string_to_events, get_event_names, get_event_names2
 
 
 class GateTest(unittest.TestCase):
@@ -98,6 +98,12 @@ class GateTest(unittest.TestCase):
         gate.parse('lop(lop(seq(xor({d}{a})and(lop({c}){b})))and(lop({b}){e}))opt(xor(seq({b}{d})lop(opt({f}xor({a}{d})))))')
         all_length_6_routes = gate.get_all_n_length_routes(6)
         self.assertEqual([], all_length_6_routes)
+
+    def test_96(self):
+        gate = SeqGate()
+        gate.parse('and(and({f}opt(and({f}opt(and({e}{d})))))xor(opt({d})xor({b}xor({c}{a}{b}))))lop(xor({a}{c}opt(xor({f}{d}))xor({b}xor({c}{a}{b}))))')
+        all_length_8_routes = gate.get_all_n_length_routes(8)
+        self.assertEqual(500, len(all_length_8_routes))
 
     def test_number_of_combos_lop_opt(self):
         # assuming max lop gate length = 3
