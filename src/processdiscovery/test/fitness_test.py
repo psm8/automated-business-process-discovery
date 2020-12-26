@@ -1,9 +1,10 @@
 import unittest
 
-from fitness.process_fitness import evaluate_guess
+from processdiscovery.evaluation.metrics_calculation import evaluate_guess
+from processdiscovery.log.log_util import get_event_log_csv
 
 
-class AlignmentCalculationTest(unittest.TestCase):
+class FitnessTest(unittest.TestCase):
 
     def test_1(self):
         self.assertEqual(1.0, evaluate_guess('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})'))
@@ -29,6 +30,13 @@ class AlignmentCalculationTest(unittest.TestCase):
 
     def test_8(self):
         evaluate_guess('and({a}{f}opt(and({b}{e}lop({c}))){d})')
+
+    def test_legend(self):
+
+        actual = evaluate_guess('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})', get_event_log_csv('discovered-processes.csv'),
+                                dict())
+
+        self.assertEqual(0.8, actual)
 
 if __name__ == '__main__':
     unittest.main()

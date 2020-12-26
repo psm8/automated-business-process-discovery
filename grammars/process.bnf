@@ -20,4 +20,4 @@
 
 <anygatenosinglelop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <seqgate> | <optdoublegate> | {<event>}
 
-<event> ::= a | b | c | d | e | f
+<event> ::= a | b | c | d | e | f | g | h

@@ -3,37 +3,13 @@ from processdiscovery.evaluation.alignment_calculation import calculate_best_ali
 from processdiscovery.util.util import is_struct_empty, get_event_names
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
 from processdiscovery.evaluation.precision_calculation import count_log_enabled
+from processdiscovery.log.log_util import get_sum_of_processes_length
 
 import math
-import csv
 
 MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.95
-MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.9
+MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.7
 BIG_PENALTY = -10000
-
-
-def get_event_log_csv(filename) -> dict:
-    with open("datasets/" + filename, newline='') as csvfile:
-        data = csv.reader(csvfile, delimiter=',')
-        events = {}
-        for row in data:
-            count = row.pop(0)
-            events[tuple(row)] = int(count)
-    return events
-
-
-def get_event_log() -> dict:
-    return {("a", "b", "c", "d", "e", "f"): 1, ("a", "c", "b", "d", "e", "f"): 1}
-
-
-def get_log_unique_events(keys):
-    unique_events = set()
-    [unique_events.add(x) for key in keys for x in key]
-    return unique_events
-
-
-def get_sum_of_processes_length(log: dict) -> int:
-    return sum(len(key) * log[key] for key in log.keys())
 
 
 def calculate_length_metric(guess, goal_length):
@@ -97,19 +73,19 @@ def check_route_with_log_events(route, log_unique_events):
     return sum([x in route_event_names for x in log_unique_events])/len(log_unique_events)
 
 
-def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_average_length, gate, min_length,
+def calculate_metrics(log_info, gate, min_length,
                       max_length, alignment_cache):
-    n = round(process_average_length)
+    n = round(log_info.process_average_length)
     i = 1
     best_result = 0
     model_events_list_with_parents = gate.get_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
-    model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_unique_events)
+    model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
     if model_to_log_events_ratio < MINIMAL_ALIGNMENT_MODEL_WITH_LOG:
         return model_to_log_events_ratio/10
     # should be change later
-    while not n < calculate_min_allowed_length(process_average_length) and \
-            not n > calculate_max_allowed_length(process_average_length):
+    while not n < calculate_min_allowed_length(log_info.process_average_length) and \
+            not n > calculate_max_allowed_length(log_info.process_average_length):
         if min_length <= n <= max_length:
             routes = set(gate.get_all_n_length_routes(n))
             if len(routes) > 10000:
@@ -122,15 +98,15 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
                 perfectly_aligned_logs = dict()
                 events_global = []
                 best_local_error = 0
-                for elem in log.keys():
+                for elem in log_info.log.keys():
                     min_local = -1023
                     for event_group in routes:
-                        route_to_log_events_ratio = check_route_with_log_events(event_group, log_unique_events)
+                        route_to_log_events_ratio = check_route_with_log_events(event_group, log_info.log_unique_events)
                         if route_to_log_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
                             continue
                         value, events = calculate_best_alignment(event_group, list(elem), alignment_cache)
                         if value == 0:
-                            perfectly_aligned_logs[tuple(events)] = log[elem]
+                            perfectly_aligned_logs[tuple(events)] = log_info.log[elem]
                             break
                         if value > min_local:
                             min_local = value
@@ -138,10 +114,10 @@ def calculate_metrics(log, log_unique_events, sum_of_processes_length, process_a
                     add_executions(model_events_list, events_global)
                     best_local_error += min_local
 
-                best_local_alignment = calculate_fitness_metric(best_local_error, sum_of_processes_length, log, n)
+                best_local_alignment = calculate_fitness_metric(best_local_error, log_info.sum_of_processes_length, log_info.log, n)
                 best_local_generalization = calculate_generalization_metric(model_events_list)
                 best_local_precision = calculate_precision_metric(perfectly_aligned_logs, model_events_list_with_parents)
-                best_local_simplicity = calculate_simplicity_metric(model_events_list, log_unique_events)
+                best_local_simplicity = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
                 best_local_result = (best_local_alignment + best_local_generalization + best_local_precision +
                                      best_local_simplicity) / 4
                 if best_local_result > best_result:
@@ -161,24 +137,20 @@ def calculate_min_allowed_length(log_average_length):
     return math.floor(0.5 * log_average_length)
 
 
-def evaluate_guess(guess, alignment_cache):
-    log = get_event_log()
-    sum_of_processes_length = get_sum_of_processes_length(log)
-    process_average_length = sum_of_processes_length / sum([x for x in log.values()])
-    log_unique_events = get_log_unique_events(log.keys())
+def evaluate_guess(guess, log_info, alignment_cache):
     gate = SeqGate()
     try:
         gate.parse(guess)
     except ValueError:
         return BIG_PENALTY
     min_length = gate.get_model_min_length()
-    if min_length > calculate_max_allowed_length(process_average_length):
+    log_info.log
+    if min_length > calculate_max_allowed_length(log_info.process_average_length):
         return BIG_PENALTY
     max_length = gate.get_model_max_length()
-    if max_length < calculate_min_allowed_length(process_average_length):
+    if max_length < calculate_min_allowed_length(log_info.process_average_length):
         return BIG_PENALTY
     # length_metric = calculate_length_metric(guess, 50)
-    fitness_metric = calculate_metrics(log, log_unique_events, sum_of_processes_length, process_average_length, gate,
-                                       min_length, max_length, alignment_cache)
+    fitness_metric = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)
 
     return fitness_metric

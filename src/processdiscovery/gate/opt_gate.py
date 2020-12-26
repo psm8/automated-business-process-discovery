@@ -7,7 +7,7 @@ from processdiscovery.event.base_group import BaseGroup
 
 
 class OptGate(Gate):
-    OPT_GATE_MAX_NUMBER_OF_CHILDREN = 4
+    OPT_GATE_MAX_NUMBER_OF_CHILDREN = 5
 
     def __init__(self, elements=None):
         super().__init__("opt", elements)
