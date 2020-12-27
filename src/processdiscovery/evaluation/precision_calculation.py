@@ -22,7 +22,8 @@ def count_log_enabled(processes):
     for process in processes:
         for i in range(len(process)):
             if not process[:i] in unique_processes:
-                unique_processes[process[:i]] = set(process[i])
+                unique_processes[process[:i]] = set()
+                unique_processes[process[:i]].add(process[i])
             else:
                 unique_processes[process[:i]].add(process[i])
 

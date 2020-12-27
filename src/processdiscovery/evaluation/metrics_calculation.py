@@ -23,10 +23,11 @@ def calculate_simplicity_metric(model_events_list, log_unique_events):
 def calculate_precision_metric(log, model_parents_list):
     if log:
         # log = get_event_log_csv('discovered-processes.csv')
+        model_parents_list = [model_parents_list[x] for x in model_parents_list]
         sum_of_processes_length = get_sum_of_processes_length(log)
         log_count = count_log_enabled(log.keys())
         # model_count = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-        precision = 1 - sum([log[process] * (model_parents_list[x] - log_count[process[:x]])/(model_parents_list[x])
+        precision = 1 - sum([log[process] * (len(model_parents_list[x].elements) - log_count[process[:x]])/(len(model_parents_list[x].elements))
                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
 
         return precision
@@ -56,20 +57,20 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
 def calculate_metrics(guess, log_info, gate, min_length,
                       max_length, alignment_cache):
 
-    routes_cache = dict()
+    # routes_cache = dict()
     model_events_list_with_parents = gate.get_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
     if model_to_log_events_ratio < MINIMAL_ALIGNMENT_MODEL_WITH_LOG:
         return model_to_log_events_ratio/10
 
+    perfectly_aligned_logs = dict()
+    best_local_error = 0
     # reset_executions(model_events_list)
     for elem in log_info.log.keys():
         n = len(elem)
         i = 1
-        best_local_error = 0
         min_local = -2 * n
-        perfectly_aligned_logs = dict()
         events_global = []
         find = False
         # should be change later
@@ -78,12 +79,12 @@ def calculate_metrics(guess, log_info, gate, min_length,
             best_local_alignment = -1
             if min_length <= n <= max_length:
                 cache_id = guess + str(n)
-                if cache_id in routes_cache:
-                    routes = routes_cache[cache_id]
-                else:
-                    routes = set(gate.get_all_n_length_routes(n, elem))
-                    routes_cache[cache_id] = routes
-                if len(routes) > 350000:
+                # if cache_id in routes_cache:
+                #     routes = routes_cache[cache_id]
+                # else:
+                routes = set(gate.get_all_n_length_routes(n, elem))
+                    # routes_cache[cache_id] = routes
+                if len(routes) > 35000:
                     print(len(routes))
                     n += (-i if i % 2 == 1 else i)
                     i += 1

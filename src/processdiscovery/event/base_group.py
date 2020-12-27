@@ -28,3 +28,6 @@ class BaseGroup(ComparableEvent):
 
     def compare(self, other):
         pass
+
+    def get_event_names_hash(self):
+        pass

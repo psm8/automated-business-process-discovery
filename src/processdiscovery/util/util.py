@@ -1,6 +1,5 @@
 import copy
 
-from itertools import chain, combinations
 from processdiscovery.event.event import Event
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
@@ -24,17 +23,26 @@ def is_struct_empty(in_list) -> bool:
     return False
 
 
+def get_event_names_from_list(events):
+    for x in events:
+        yield from get_event_or_events_names(x)
+
+
 def get_event_names(event_group: BaseGroup):
     for x in event_group.events:
-        if isinstance(x, Event):
-            yield x.name
-        else:
-            yield from get_event_names(x)
+        yield from get_event_or_events_names(x)
+
+
+def get_event_or_events_names(event):
+    if isinstance(event, Event):
+        yield event.name
+    else:
+        yield from get_event_names(event)
 
 
 def to_n_length(n, child_list, process, max_depth):
     child_list = [x[0] if isinstance(x, list) and x else x for x in child_list]
-    # child_list = filter_children_list([], child_list, process)
+    child_list = filter_children_list([], child_list, process)
     min_length = min([len(x) for x in child_list])
     max_length = n - min_length
     child_list_copy = copy.copy(child_list)
@@ -50,7 +58,7 @@ def to_n_length(n, child_list, process, max_depth):
 
 
 def to_n_length_inner(n, max_length, result, child_list, process, current_depth, max_depth):
-    # child_list = filter_children_list(result, child_list, process)
+    child_list = filter_children_list(result, child_list, process)
     child_list_copy = copy.copy(child_list)
     while child_list and current_depth < max_depth:
         child = child_list[0]
@@ -65,19 +73,36 @@ def to_n_length_inner(n, max_length, result, child_list, process, current_depth,
 
 def filter_children_list(result, all_children, log_events):
     filtered = []
-    result_dict = events_count(get_event_names(result))
+
+    result_dict = events_count(get_event_names_from_list(result))
     log_events_dict = events_count(log_events)
     penalty = 0
     for key in result_dict:
-        if key in result_dict:
-            result_dict
-    log_events_dict = log_events_dict
+        if key in log_events_dict:
+            log_events_dict[key] -= result_dict[key]
+        else:
+            penalty -= result_dict[key]
+
     for child in all_children:
-        child_dict = events_count(get_event_names(child))
-        if check_route_with_log_process(child, [log_events.remove(x.name) for x in result]) > 0.7:
+        child_dict = events_count(get_event_or_events_names(child))
+        local_penalty = penalty + calc_error(child_dict, log_events_dict)
+        if local_penalty >= 0:
             filtered.append(child)
 
     return filtered
+
+
+def calc_error(child_dict, log_events_dict):
+    error = 0
+    for x in child_dict:
+        if x in log_events_dict:
+            local_error = log_events_dict[x] - child_dict[x]
+            if local_error < 0:
+                error += local_error
+        else:
+            error -= child_dict[x]
+
+    return error
 
 
 def check_route_with_log_process(route, log_process):

@@ -4,10 +4,10 @@ import math
 from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
-from processdiscovery.util.util import subset_sum, combinations
+from processdiscovery.util.util import subset_sum
 
 from copy import copy
-from itertools import permutations
+from itertools import permutations, combinations
 
 
 # -------------------------------------------------------
