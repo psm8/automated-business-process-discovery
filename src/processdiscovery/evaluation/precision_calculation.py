@@ -1,19 +1,4 @@
-def count_log_enabled_old(processes):
-    max_length = max([len(x) for x in processes])
-    unique_processes = dict()
-
-    for i in range(max_length):
-        unique_processes[i] = set()
-
-    for process in processes:
-        for i in range(len(process)):
-            unique_processes[i].add(process[i])
-
-    result = dict()
-    for i in unique_processes.keys():
-        result[i] = len(unique_processes[i])
-
-    return result
+from processdiscovery.gate.gate import Gate
 
 
 def count_log_enabled(processes):
@@ -34,5 +19,10 @@ def count_log_enabled(processes):
     return result
 
 
-def count_model_enabled():
-    return 0
+def count_model_enabled(previous_events_list: set, model_parents_list: dict):
+    result = dict()
+    for previous_events in previous_events_list:
+        event = previous_events
+        result[previous_events] = model_parents_list[event].get_next_possible_states(previous_events, event)
+
+    return result

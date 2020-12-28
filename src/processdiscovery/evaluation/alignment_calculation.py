@@ -45,8 +45,9 @@ def calculate_alignment_process_event_groups(model, log, alignment_cache):
             # change way permutations are calculated
             event_permutations = permutations(model.events)
 
-            result_x, model_results = get_maxes([calculate_alignment(resolve_event_group(list(events)), log, alignment_cache) for events
-                                                 in event_permutations])
+            result_x, model_results = get_maxes([calculate_alignment(resolve_event_group(list(events)), log,
+                                                                     alignment_cache)
+                                                 for events in event_permutations])
 
     return result_x, model_results
 
@@ -117,10 +118,12 @@ def calculate_alignment(model, log, alignment_cache):
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
             al_mat[i], model_results_local[i] = recurrent_alignment(al_mat[i - 1], model[i - 1],
-                                                                    [x for x in substrings_of_string_reversed(log)], i, alignment_cache)
+                                                                    [x for x in substrings_of_string_reversed(log)], i,
+                                                                    alignment_cache)
         elif len(model[i-1]) > 1:
             al_mat[i], model_results_local[i] = parallel_alignment(al_mat[i - 1], model[i - 1],
-                                                                   [x for x in substrings_of_string_reversed(log)], penalty, i)
+                                                                   [x for x in substrings_of_string_reversed(log)],
+                                                                   penalty, i)
         else:
             al_mat[i][0] = al_mat[i-1][0] + penalty['GAP']
             basic_alignment(al_mat, model[i - 1], log, penalty, i, n)
@@ -146,7 +149,8 @@ def recurrent_alignment(al_mat_x, model_events, logs, pos, alignment_cache):
     [model_results_local.append([]) for _ in range(len(result_x))]
 
     for i in range(len(logs)):
-        local_result_x, model_result_local = calculate_alignment_process_event_groups(model_events, logs[i], alignment_cache)
+        local_result_x, model_result_local = calculate_alignment_process_event_groups(model_events, logs[i],
+                                                                                      alignment_cache)
 
         [model_results_local[i].append([]) for _ in range(len(model_result_local))]
         for j in range(len(local_result_x)):

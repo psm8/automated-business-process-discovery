@@ -2,7 +2,7 @@ from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment
 from processdiscovery.util.util import is_struct_empty, check_route_with_log_process
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
-from processdiscovery.evaluation.precision_calculation import count_log_enabled
+from processdiscovery.evaluation.precision_calculation import count_log_enabled, count_model_enabled
 from processdiscovery.log.log_util import get_sum_of_processes_length
 
 import math
@@ -20,17 +20,20 @@ def calculate_simplicity_metric(model_events_list, log_unique_events):
                 (len(model_events_list) + len(log_unique_events)))
 
 
-def calculate_precision_metric(log, model_parents_list):
+def calculate_precision_metric(log, model, model_parents_list):
     if log:
-        # log = get_event_log_csv('discovered-processes.csv')
-        model_parents_list = [model_parents_list[x] for x in model_parents_list]
         sum_of_processes_length = get_sum_of_processes_length(log)
         log_count = count_log_enabled(log.keys())
-        # model_count = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-        precision = 1 - sum([log[process] * (len(model_parents_list[x].elements) - log_count[process[:x]])/(len(model_parents_list[x].elements))
+        # model_count = count_model_enabled(model, log_count.keys(), model_parents_list)
+        model_count2 = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+        precision = 1 - sum([log[process] * (len(model_parents_list[process[x]].elements) - log_count[process[:x]]) /
+                             (len(model_parents_list[process[x]].elements))
                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
-
+        precision2 = 1 - sum([log[process] * (model_count2[x] - log_count[process[:x]]) /
+                             model_count2[x]
+                            for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
         return precision
+        # compare_log_by_having_same_events
     else:
         return 0
 
@@ -115,8 +118,8 @@ def calculate_metrics(guess, log_info, gate, min_length,
         add_executions(model_events_list, events_global, log_info.log[elem])
         best_local_error += best_local_alignment * log_info.log[elem]
 
-    alignment = best_local_error/log_info.sum_of_processes_length
-    precision = calculate_precision_metric(perfectly_aligned_logs, model_events_list_with_parents)
+    alignment = 1 + best_local_error/log_info.sum_of_processes_length
+    precision = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
     generalization = calculate_generalization_metric(model_events_list)
     simplicity = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
     best_result = (alignment + generalization + precision + simplicity) / 4

@@ -295,25 +295,25 @@ class AlignmentCalculationTest(unittest.TestCase):
         cache2 = get_cache_id(event_group2, log2)
         self.assertEqual(cache1, cache2)
 
-    def test_parallel_many_events(self):
-        event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
-                                          Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
-                                          Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n')])
-
-        result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                                                                      'k', 'l', 'm', 'n'], dict())
-        char_list = events_to_char_list(model_result)
-        print(events_to_char_list(model_result))
-        self.assertEqual(0, result)
-        self.assertCountEqual([x for x in 'abcdefghijklmn'], char_list)
-
-    def test_parallel_event_permutations(self):
-        event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
-                                          Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
-                                          Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n'),
-                                          EventGroupParallel([Event('o'), Event('p'), Event('q')])])
-
-        expected = parallel_event_permutations(event_group)
+    # def test_parallel_many_events(self):
+    #     event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
+    #                                       Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
+    #                                       Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n')])
+    #
+    #     result, model_result = calculate_best_alignment(event_group, ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+    #                                                                   'k', 'l', 'm', 'n'], dict())
+    #     char_list = events_to_char_list(model_result)
+    #     print(events_to_char_list(model_result))
+    #     self.assertEqual(0, result)
+    #     self.assertCountEqual([x for x in 'abcdefghijklmn'], char_list)
+    #
+    # def test_parallel_event_permutations(self):
+    #     event_group = EventGroupParallel([EventGroupParallel([Event('a'), Event('b')]),
+    #                                       Event('c'), Event('d'), Event('e'), Event('f'), Event('g'), Event('h'),
+    #                                       Event('i'), Event('j'), Event('k'), Event('l'), Event('m'), Event('n'),
+    #                                       EventGroupParallel([Event('o'), Event('p'), Event('q')])])
+    #
+    #     expected = parallel_event_permutations(event_group)
 
 
 

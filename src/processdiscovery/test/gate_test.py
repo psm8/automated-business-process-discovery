@@ -6,7 +6,7 @@ from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.util.util import to_n_length_opt, flatten_values
-from processdiscovery.test.util.test_util import string_to_events, get_event_names, get_event_names2
+from processdiscovery.test.util.test_util import string_to_events
 
 
 class GateTest(unittest.TestCase):
@@ -15,8 +15,10 @@ class GateTest(unittest.TestCase):
         gate = SeqGate()
         gate.parse('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})')
         self.assertCountEqual([EventGroupMatcher(EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))]))],
-                              gate.get_all_n_length_routes(14))
-        self.assertEqual([], gate.get_all_n_length_routes(13))
+                              gate.get_all_n_length_routes(14, ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+                                                                'l', 'm', 'n')))
+        self.assertEqual([], gate.get_all_n_length_routes(13, ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+                                                               'l', 'm', 'n')))
 
     def test_2(self):
         gate = SeqGate()
