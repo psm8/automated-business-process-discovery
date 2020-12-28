@@ -9,8 +9,8 @@ from processdiscovery.event.base_group import BaseGroup
 class OptGate(Gate):
     OPT_GATE_MAX_NUMBER_OF_CHILDREN = 5
 
-    def __init__(self, elements=None):
-        super().__init__("opt", elements)
+    def __init__(self, parent=None, elements=None):
+        super().__init__("opt", parent, elements)
 
     @only_throws(ValueError)
     def add_element(self, element):
@@ -66,4 +66,19 @@ class OptGate(Gate):
 
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
+
+    def get_next_possible_states(self, previous_events, elem) -> set:
+        previous = self.previous(None)
+        not_enabled_yet = set(self.elements).difference(previous_events)
+        return set(x.get_next_possible_states(set()) if isinstance(x, Gate) else x for x in not_enabled_yet)
+
+    def previous(self, elem):
+        if elem is not None:
+            i = self.elements.index(elem)
+            if i >= 1:
+                return self.elements[i-1]
+            else:
+                return self.parent.previous(self)
+        else:
+            self.parent.previous(self)
 

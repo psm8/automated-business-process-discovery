@@ -6,8 +6,8 @@ from processdiscovery.exception.exception_decorator import only_throws
 
 
 class AndGate(Gate):
-    def __init__(self, elements=None):
-        super().__init__("and", elements)
+    def __init__(self, parent=None, elements=None):
+        super().__init__("and", parent, elements)
 
     @only_throws(ValueError)
     def add_element(self, element):
@@ -63,3 +63,15 @@ class AndGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
+    def get_next_possible_states(self, previous_events, elem) -> set:
+        not_enabled_yet = set(self.elements).difference(previous_events)
+        if len(not_enabled_yet) == len(not_enabled_yet):
+            return
+        else:
+            return set(x.get_next_possible_states(set()) if isinstance(x, Gate) else x for x in not_enabled_yet)
+
+    def previous(self, elem):
+        if elem is not None:
+            return [x for x in self.elements if x is not elem]
+        else:
+            self.parent.previous(self)

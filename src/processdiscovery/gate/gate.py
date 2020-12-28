@@ -22,12 +22,16 @@ def consume(iterator, n):
 
 class Gate:
 
-    def __init__(self, name: str, elements=None):
-        self.name = name[0:3]
+    def __init__(self, name: str, parent: Gate, elements=None):
+        self.name = name
+        self.parent = parent
         if elements is None:
             self.elements = []
         else:
             self.elements = elements
+
+    def add_element(self, element):
+        pass
 
     @only_throws(ValueError)
     def check_valid_for_get_n_length(self, elements_with_groups):
@@ -62,7 +66,7 @@ class Gate:
                 return i+1
             elif i+4 < len(expression):
                 gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
-                                     expression[i:i+3].capitalize() + "Gate")
+                                     expression[i:i+3].capitalize() + "Gate", self)
                 gate = gate_class()
                 consume(numbers, 3)
                 processed_characters = gate.parse(expression[i+4:])
@@ -130,3 +134,9 @@ class Gate:
                 nodes = dict(list(nodes.items()) + list(elem.get_events_with_parents().items()))
 
         return nodes
+
+    def get_next_possible_states(self, previous_events, elem) -> set:
+        pass
+
+    def previous(self, elem):
+        pass

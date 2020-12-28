@@ -4,8 +4,8 @@ from processdiscovery.exception.exception_decorator import only_throws
 
 
 class XorGate(Gate):
-    def __init__(self, elements=None):
-        super().__init__("xor", elements)
+    def __init__(self, parent=None, elements=None):
+        super().__init__("xor", parent, elements)
 
     @only_throws(ValueError)
     def add_element(self, element):
@@ -51,3 +51,14 @@ class XorGate(Gate):
 
     def get_model_max_length(self) -> int:
         return max(self.get_children_max_length())
+
+    def get_next_possible_states(self, previous_events, elem) -> set:
+        previous = self.previous(None)
+        if isinstance(previous, Event):
+            return set(x.get_next_possible_states(set()) if isinstance(x, Gate) else x for x in set(self.elements))
+        else:
+            return previous.get_next_possible_states().update(
+                set(x.get_next_possible_states(set()) if isinstance(x, Gate) else x for x in set(self.elements)))
+
+    def previous(self, elem):
+        self.parent.previous(self)

@@ -5,8 +5,8 @@ from processdiscovery.event.event_group import EventGroup
 
 
 class SeqGate(Gate):
-    def __init__(self, elements=None):
-        super().__init__("seq", elements)
+    def __init__(self, parent=None, elements=None):
+        super().__init__("seq", parent, elements)
 
     def add_element(self, element):
         self.elements.append(element)
@@ -54,3 +54,16 @@ class SeqGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
+    def get_next_possible_states(self, previous_events, elem) -> set:
+        previous = self.previous(None)
+        return set([elem]) if (isinstance(elem, Event)) else set()
+
+    def previous(self, elem):
+        if elem is not None:
+            i = self.elements.index(elem)
+            if i >= 1:
+                return self.elements[i-1]
+            else:
+                return self.parent.previous(self)
+        else:
+            self.parent.previous(self)
