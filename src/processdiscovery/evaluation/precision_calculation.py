@@ -6,11 +6,12 @@ def count_log_enabled(processes):
 
     for process in processes:
         for i in range(len(process)):
-            if not process[:i] in unique_processes:
-                unique_processes[process[:i]] = set()
-                unique_processes[process[:i]].add(process[i])
+            subprocess = process[:i]
+            if subprocess not in unique_processes:
+                unique_processes[subprocess] = set()
+                unique_processes[subprocess].add(process[i])
             else:
-                unique_processes[process[:i]].add(process[i])
+                unique_processes[subprocess].add(process[i])
 
     result = dict()
     for key in unique_processes.keys():

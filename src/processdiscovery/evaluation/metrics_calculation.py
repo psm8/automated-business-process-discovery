@@ -24,14 +24,15 @@ def calculate_precision_metric(log, model, model_parents_list):
     if log:
         sum_of_processes_length = get_sum_of_processes_length(log)
         log_count = count_log_enabled(log.keys())
-        # model_count = count_model_enabled(model, log_count.keys(), model_parents_list)
+        model_parents_list[()] = model
+        # model_count = count_model_enabled(log_count.keys(), model_parents_list)
         model_count2 = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
         precision = 1 - sum([log[process] * (len(model_parents_list[process[x]].elements) - log_count[process[:x]]) /
                              (len(model_parents_list[process[x]].elements))
                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
         precision2 = 1 - sum([log[process] * (model_count2[x] - log_count[process[:x]]) /
                              model_count2[x]
-                            for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
+                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
         return precision
         # compare_log_by_having_same_events
     else:

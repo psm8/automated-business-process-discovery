@@ -211,7 +211,8 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
             else:
                 for k in range(j):
                     processes = get_not_none(model_results_local[i][k][len(model_results_local[i][k]) - (j-k)], log)
-                    if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
+                    if array[i][j] == array[i - 1][k] + \
+                            (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
                         [model_result.append(x) for x in reversed(processes)]
                         for x in processes:
                             log.remove(x.name)
