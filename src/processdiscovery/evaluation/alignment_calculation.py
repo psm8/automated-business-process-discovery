@@ -11,7 +11,6 @@ from itertools import permutations, combinations
 
 
 # -------------------------------------------------------
-# This function returns to values for case of match or mismatch
 def diagonal(model, log, pt):
     if log == model.name:
         return pt['MATCH']
@@ -20,7 +19,6 @@ def diagonal(model, log, pt):
 
 
 # -------------------------------------------------------
-# This function returns to values for case of match or mismatch for parallel event group
 def diagonal_parallel(model, log, pt):
     # not sure if most efficient to unpack event here
     for event in model:
@@ -118,12 +116,12 @@ def calculate_alignment(model, log, alignment_cache):
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
             al_mat[i], model_results_local[i] = recurrent_alignment(al_mat[i - 1], model[i - 1],
-                                                                    [x for x in substrings_of_string_reversed(log)], i,
+                                                                    [x for x in substrings_of_string_reversed(log)],
                                                                     alignment_cache)
         elif len(model[i-1]) > 1:
             al_mat[i], model_results_local[i] = parallel_alignment(al_mat[i - 1], model[i - 1],
                                                                    [x for x in substrings_of_string_reversed(log)],
-                                                                   penalty, i)
+                                                                   penalty)
         else:
             al_mat[i][0] = al_mat[i-1][0] + penalty['GAP']
             basic_alignment(al_mat, model[i - 1], log, penalty, i, n)
@@ -142,7 +140,7 @@ def basic_alignment(al_mat, model_event, log, penalty, i, n):
         al_mat[i][j] = max(di, ho, ve)  # Fill the matrix with the maximal value.(based on the python default maximum)
 
 
-def recurrent_alignment(al_mat_x, model_events, logs, pos, alignment_cache):
+def recurrent_alignment(al_mat_x, model_events, logs, alignment_cache):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
     model_results_local = []
@@ -161,7 +159,7 @@ def recurrent_alignment(al_mat_x, model_events, logs, pos, alignment_cache):
     return result_x, model_results_local
 
 
-def parallel_alignment(al_mat_x, model_events, logs, pt, pos):
+def parallel_alignment(al_mat_x, model_events, logs, pt):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
     model_results = []
@@ -214,7 +212,7 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
                 for k in range(j):
                     processes = get_not_none(model_results_local[i][k][len(model_results_local[i][k]) - (j-k)], log)
                     if array[i][j] == array[i - 1][k] + (event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
-                        [model_result.append(x) for x in processes]
+                        [model_result.append(x) for x in reversed(processes)]
                         for x in processes:
                             log.remove(x.name)
                         [model_result.append(None) for _ in range(event_group_full_length - len(processes))]
@@ -242,7 +240,7 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
                 i -= 1
                 j -= 1
 
-    return model_result
+    return list(reversed(model_result))
 
 
 def get_all_tracebacks(al_mat, penalty_gap, model, log, model_results_local):
