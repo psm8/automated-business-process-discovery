@@ -53,7 +53,10 @@ def to_n_length(n, child_list, process, max_depth):
             yield from [EventGroup(x) for x in to_n_length_inner(n-len_child, max_allowed_length-len_child, child,
                                                                  copy.copy(child_list_copy), process, 1, max_depth)]
         elif len_child == n:
-            yield from child
+            if len(child) == 1:
+                yield child[0]
+            else:
+                yield EventGroup(child)
         child_list.pop(0)
 
 
