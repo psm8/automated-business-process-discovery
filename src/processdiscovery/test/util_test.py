@@ -4,7 +4,7 @@ from processdiscovery.event.event import Event
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.test.util.test_util import string_to_events
-from processdiscovery.util.util import flatten_values, event_list_length, subset_sum, to_n_length, to_n_length_old
+from processdiscovery.util.util import flatten_values, event_list_length, subset_sum, to_n_length, to_n_length_opt
 
 from itertools import product
 from copy import deepcopy
@@ -67,7 +67,7 @@ class UtilTest(unittest.TestCase):
 
         expected = [EventGroup([e1, e1, e2]), EventGroup([e1, e2, e1]), EventGroup([e2, e1, e1]),
                     EventGroup([e4, e1]), EventGroup([e1, e4]), EventGroup([e2, e2]), e3]
-        actual = list(to_n_length(4, [e1, e2, e3, e4], 3))
+        actual = list(to_n_length(4, [[e1, e2, e3, e4]], 'tttq', 3))
         self.assertEqual(len(expected), len(actual))
 
     def test_to_n_length_2(self):
@@ -95,21 +95,43 @@ class UtilTest(unittest.TestCase):
 
         start = timer()
         for i in range(100):
-            actual = to_n_length(4, [e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18,
-                                     e19, e20, e21], 4)
+            actual = to_n_length(4, [[e1], [e2], [e3], [e4], [e5], [e6], [e7], [e8], [e9], [e10], [e11], [e12], [e13],
+                                     [e14], [e15], [e16], [e17], [e18], [e19], [e20], [e21]], 'tqacezxyshij', 4)
         end = timer()
         print(end - start)
 
         self.assertEqual(22116, len(list(actual)))
 
-        start = timer()
-        for i in range(100):
-            actual_old = to_n_length_old(4, [e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17,
-                                             e18, e19, e20, e21], 4)
-        end = timer()
-        print(end - start)
+    def test_to_n_length_opt(self):
+        e1 = Event('t')
+        e2 = EventGroupParallel([EventGroupParallel(string_to_events('t')), Event('q')])
+        e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e4 = EventGroupParallel(string_to_events('xys'))
 
-        self.assertEqual(22116, len(actual_old))
+        expected = [EventGroupParallel([e1, e4]), e3]
+        self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3, e4])))
+
+    def test_to_n_length_opt2(self):
+        e1 = Event('e')
+        e2 = EventGroup([Event('f'), Event('f'), Event('f')])
+        e3 = EventGroup([Event('f'), Event('f'), Event('f'), Event('f')])
+
+        expected = [EventGroupParallel([e1, e2]), e3]
+        self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3])))
+
+    def test_to_n_length_opt3(self):
+        e1 = Event('t')
+        e2 = Event('q')
+        e3 = EventGroupParallel([EventGroupParallel(string_to_events('tq'))])
+        e4 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
+        e5 = EventGroupParallel(string_to_events('xys'))
+
+        expected = [EventGroupParallel([e1, e5]), EventGroupParallel([e2, e5]), e3]
+        flattened_list = flatten_values([[[e1, e2], [e3]], [[e4]], [[e5]]])
+        actual = []
+        for elem in flattened_list:
+            [actual.append(x) for x in to_n_length_opt(4, elem)]
+        self.assertEqual(len(expected), len(list(set(actual))))
 
     def test_subset_sum(self):
         v = [1, 1, 2, 3, 10]

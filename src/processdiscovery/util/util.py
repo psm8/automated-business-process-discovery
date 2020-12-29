@@ -41,34 +41,36 @@ def get_event_or_events_names(event):
 
 
 def to_n_length(n, child_list, process, max_depth):
-    child_list = [x[0] if isinstance(x, list) and x else x for x in child_list]
     child_list = filter_children_list([], child_list, process)
-    min_length = min([len(x) for x in child_list])
-    max_length = n - min_length
+    if not child_list:
+        return []
+    max_allowed_length = n - min([sum([len(y) for y in x]) for x in child_list])
     child_list_copy = copy.copy(child_list)
     while child_list:
         child = child_list[0]
-        len_child = len(child)
-        if len_child <= max_length:
-            yield from [(EventGroup(x)) for x in to_n_length_inner(n-len_child, max_length-len_child, [child],
-                                                                   copy.copy(child_list_copy), process, 1, max_depth)]
+        len_child = sum([len(x) for x in child])
+        if len_child <= max_allowed_length:
+            yield from [EventGroup(x) for x in to_n_length_inner(n-len_child, max_allowed_length-len_child, child,
+                                                                 copy.copy(child_list_copy), process, 1, max_depth)]
         elif len_child == n:
-            yield child
-        child_list.remove(child_list[0])
+            yield from child
+        child_list.pop(0)
 
 
-def to_n_length_inner(n, max_length, result, child_list, process, current_depth, max_depth):
+def to_n_length_inner(n, max_allowed_length, result, child_list, process, current_depth, max_depth):
     child_list = filter_children_list(result, child_list, process)
+    if not child_list:
+        return []
     child_list_copy = copy.copy(child_list)
     while child_list and current_depth < max_depth:
         child = child_list[0]
-        len_child = len(child)
-        if len_child <= max_length:
-            yield from to_n_length_inner(n-len_child, max_length-len_child, result + [child],
-                                         copy.copy(child_list_copy),  process, current_depth + 1, max_depth)
+        len_child = sum([len(x) for x in child])
+        if len_child <= max_allowed_length:
+            yield from to_n_length_inner(n-len_child, max_allowed_length-len_child, result + child,
+                                         copy.copy(child_list_copy), process, current_depth + 1, max_depth)
         elif len_child == n:
-            yield result + [child]
-        child_list.remove(child_list[0])
+            yield result + child
+        child_list.pop(0)
 
 
 def filter_children_list(result, all_children, log_events):
@@ -84,7 +86,7 @@ def filter_children_list(result, all_children, log_events):
             penalty -= result_dict[key]
 
     for child in all_children:
-        child_dict = events_count(get_event_or_events_names(child))
+        child_dict = events_count(get_event_names_from_list(child))
         local_penalty = penalty + calc_error(child_dict, log_events_dict)
         if local_penalty >= 0:
             filtered.append(child)

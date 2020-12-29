@@ -54,8 +54,7 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
     return sum([x in model_event_names for x in log_unique_events])/len(log_unique_events)
 
 
-def calculate_metrics(guess, log_info, gate, min_length,
-                      max_length, alignment_cache):
+def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_cache):
 
     # routes_cache = dict()
     model_events_list_with_parents = gate.get_events_with_parents()

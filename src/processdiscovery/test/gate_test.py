@@ -107,24 +107,24 @@ class GateTest(unittest.TestCase):
         all_length_8_routes = gate.get_all_n_length_routes(8)
         self.assertEqual(500, len(all_length_8_routes))
 
-    def test_97(self):
-        gate = SeqGate()
-        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
-        all_length_8_routes = gate.get_all_n_length_routes(5, ('a', 'c', 'e', 'd', 'h'))
-        self.assertEqual(19100, len(all_length_8_routes))
-
-    def test_98(self):
-        gate = SeqGate()
-        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
-        all_length_11_routes = gate.get_all_n_length_routes(11, ('a', 'c', 'd', 'e', 'f', 'b', 'd', 'e', 'f', 'd', 'b',
-                                                                 'e', 'g'))
-        self.assertEqual(19100, len(all_length_11_routes))
-
     def test_legend_1(self):
         gate = SeqGate()
         gate.parse('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
         all_length_9_routes = gate.get_all_n_length_routes(9, ('a', 'c', 'd', 'e', 'f', 'd', 'b', 'e', 'h'))
         self.assertEqual(8, len(all_length_9_routes))
+
+    def test_legend_3_1(self):
+        gate = SeqGate()
+        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
+        all_length_5_routes = gate.get_all_n_length_routes(5, ('a', 'c', 'e', 'd', 'h'))
+        self.assertEqual(19100, len(all_length_5_routes))
+
+    def test_legend_3_2(self):
+        gate = SeqGate()
+        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
+        all_length_11_routes = gate.get_all_n_length_routes(11, ('a', 'c', 'd', 'e', 'f', 'b', 'd', 'e', 'f', 'd', 'b',
+                                                                 'e', 'g'))
+        self.assertEqual(19100, len(all_length_11_routes))
 
     def test_number_of_combos_lop_opt(self):
         # assuming max lop gate length = 3
@@ -135,37 +135,6 @@ class GateTest(unittest.TestCase):
         # (3,0,2) 2^2 + (3,1,1) 2 * 2 + (3,2,0) 1
         # 8 + 16 + 4 + 8 + 8 + 2 + 4 + 4 + 1
         self.assertEqual(55, len(all_length_5_routes))
-
-    def test_to_n_length_opt(self):
-        e1 = Event('t')
-        e2 = EventGroupParallel([EventGroupParallel(string_to_events('t')), Event('q')])
-        e3 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
-        e4 = EventGroupParallel(string_to_events('xys'))
-
-        expected = [EventGroupParallel([e1, e4]), e3]
-        self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3, e4])))
-
-    def test_to_n_length_opt2(self):
-        e1 = Event('e')
-        e2 = EventGroup([Event('f'), Event('f'), Event('f')])
-        e3 = EventGroup([Event('f'), Event('f'), Event('f'), Event('f')])
-
-        expected = [EventGroupParallel([e1, e2]), e3]
-        self.assertEqual(len(expected), len(to_n_length_opt(4, [e1, e2, e3])))
-
-    def test_to_n_length_opt3(self):
-        e1 = Event('t')
-        e2 = Event('q')
-        e3 = EventGroupParallel([EventGroupParallel(string_to_events('tq'))])
-        e4 = EventGroup([EventGroupParallel(string_to_events('ac')), EventGroup(string_to_events('ez'))])
-        e5 = EventGroupParallel(string_to_events('xys'))
-
-        expected = [EventGroupParallel([e1, e5]), EventGroupParallel([e2, e5]), e3]
-        flattened_list = flatten_values([[[e1, e2], [e3]], [[e4]], [[e5]]])
-        actual = []
-        for elem in flattened_list:
-            [actual.append(x) for x in to_n_length_opt(4, elem)]
-        self.assertEqual(len(expected), len(list(set(actual))))
 
     def test_get_next_possible_states(self):
         gate = SeqGate()
