@@ -2,7 +2,7 @@ from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment
 from processdiscovery.util.util import is_struct_empty, check_route_with_log_process
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
-from processdiscovery.evaluation.precision_calculation import count_log_enabled, count_model_enabled
+from processdiscovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled
 from processdiscovery.log.log_util import get_sum_of_processes_length
 
 import math
@@ -23,18 +23,14 @@ def calculate_simplicity_metric(model_events_list, log_unique_events):
 def calculate_precision_metric(log, model, model_parents_list):
     if log:
         sum_of_processes_length = get_sum_of_processes_length(log)
-        log_count = count_log_enabled(log.keys())
-        model_parents_list[()] = model
-        # model_count = count_model_enabled(log_count.keys(), model_parents_list)
-        model_count2 = [1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-        precision = 1 - sum([log[process] * (len(model_parents_list[process[x]].elements) - log_count[process[:x]]) /
-                             (len(model_parents_list[process[x]].elements))
+        log_enabled = get_log_enabled(log.keys())
+        log_count = {key: len(log_enabled[key]) for key in log_enabled.keys()}
+        model_parents_list[None] = model
+        model_count = count_model_enabled(log_enabled, model_parents_list)
+        precision = 1 - sum([log[process] * (model_count[process[:x]] - log_count[process[:x]]) /
+                             model_count[process[:x]]
                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
-        precision2 = 1 - sum([log[process] * (model_count2[x] - log_count[process[:x]]) /
-                             model_count2[x]
-                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
         return precision
-        # compare_log_by_having_same_events
     else:
         return 0
 
@@ -82,7 +78,7 @@ def calculate_metrics(guess, log_info, gate, min_length,
                 not n > calculate_max_allowed_length(len(elem)):
             best_local_alignment = -1
             if min_length <= n <= max_length:
-                cache_id = guess + str(n)
+                # cache_id = guess + str(n)
                 # if cache_id in routes_cache:
                 #     routes = routes_cache[cache_id]
                 # else:

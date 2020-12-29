@@ -120,6 +120,12 @@ class GateTest(unittest.TestCase):
                                                                  'e', 'g'))
         self.assertEqual(19100, len(all_length_11_routes))
 
+    def test_legend_1(self):
+        gate = SeqGate()
+        gate.parse('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
+        all_length_9_routes = gate.get_all_n_length_routes(9, ('a', 'c', 'd', 'e', 'f', 'd', 'b', 'e', 'h'))
+        self.assertEqual(8, len(all_length_9_routes))
+
     def test_number_of_combos_lop_opt(self):
         # assuming max lop gate length = 3
         gate = SeqGate()
@@ -160,6 +166,38 @@ class GateTest(unittest.TestCase):
         for elem in flattened_list:
             [actual.append(x) for x in to_n_length_opt(4, elem)]
         self.assertEqual(len(expected), len(list(set(actual))))
+
+    def test_get_next_possible_states(self):
+        gate = SeqGate()
+        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
+        events_with_parents = gate.get_events_with_parents()
+        e1 = Event('a')
+        keys = [x for x in events_with_parents.keys()]
+        e2 = keys[1]
+        e3 = keys[2]
+        e4 = keys[3]
+
+        actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2), e3, e4)))
+        self.assertEqual(7, len(actual))
+
+    def test_get_next_possible_states_2(self):
+        gate = SeqGate()
+        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
+        events_with_parents = gate.get_events_with_parents()
+        e1 = gate.elements[0]
+        keys = [x for x in events_with_parents.keys()]
+        e2 = keys[1]
+
+        actual = set(list(events_with_parents[e1].get_next_possible_states((), e1, e2)))
+        self.assertEqual(7, len(actual))
+
+    def test_get_next_possible_states_3(self):
+        gate = SeqGate()
+        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
+        e1 = gate.elements[0]
+
+        actual = set(list(gate.get_next_possible_states((), None, e1)))
+        self.assertEqual(1, len(actual))
 
 
 class EventGroupMatcher:

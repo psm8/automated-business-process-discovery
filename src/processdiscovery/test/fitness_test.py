@@ -57,12 +57,12 @@ class FitnessTest(unittest.TestCase):
 
     def test_legend4(self):
 
-        actual = evaluate_guess('xor(seq({a}{c}{e}{d}{h})'
+        actual = evaluate_guess('xor(seq({a}{c}{d}{e}{h})'
                                 'seq({a}{b}{d}{e}{g})'
-                                'seq({a}{d}{c}{e}{h})'
                                 'seq({a}{d}{c}{e}{h})'
                                 'seq({a}{b}{d}{e}{h})'
                                 'seq({a}{c}{d}{e}{g})'
+                                'seq({a}{d}{c}{e}{g})'
                                 'seq({a}{d}{b}{e}{h})'
                                 'seq({a}{c}{d}{e}{f}{d}{b}{e}{h})'
                                 'seq({a}{d}{b}{e}{g})'
@@ -75,7 +75,7 @@ class FitnessTest(unittest.TestCase):
                                 'seq({a}{c}{d}{e}{f}{b}{d}{e}{f}{d}{b}{e}{g})'
                                 'seq({a}{d}{c}{e}{f}{d}{b}{e}{g})'
                                 'seq({a}{d}{c}{e}{f}{b}{d}{e}{f}{b}{d}{e}{g})'
-                                'seq({a}{d}{c}{e}{f}{d}{b}{e}{f}{b}{d}{e}{h })'
+                                'seq({a}{d}{c}{e}{f}{d}{b}{e}{f}{b}{d}{e}{h})'
                                 'seq({a}{d}{b}{e}{f}{b}{d}{e}{f}{d}{b}{e}{g})'
                                 'seq({a}{d}{c}{e}{f}{d}{b}{e}{f}{c}{d}{e}{f}{d}{b}{e}{g}))',
                                 LogInfo('discovered-processes.csv'), dict())

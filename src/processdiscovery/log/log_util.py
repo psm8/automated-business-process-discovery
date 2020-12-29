@@ -2,7 +2,7 @@ import csv
 
 
 def get_event_log_csv(filename) -> dict:
-    with open("datasets/" + filename, newline='') as csv_file:
+    with open("../datasets/" + filename, newline='') as csv_file:
         data = csv.reader(csv_file, delimiter=',')
         events = {}
         for row in data:

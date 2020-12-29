@@ -1,7 +1,7 @@
-from processdiscovery.gate.gate import Gate
+from processdiscovery.event.event import Event
 
 
-def count_log_enabled(processes):
+def get_log_enabled(processes):
     unique_processes = dict()
 
     for process in processes:
@@ -13,17 +13,18 @@ def count_log_enabled(processes):
             else:
                 unique_processes[subprocess].add(process[i])
 
+    return unique_processes
+
+
+def count_model_enabled(previous_events_dict: dict, model_parents_list: dict):
     result = dict()
-    for key in unique_processes.keys():
-        result[key] = len(unique_processes[key])
-
-    return result
-
-
-def count_model_enabled(previous_events_list: set, model_parents_list: dict):
-    result = dict()
-    for previous_events in previous_events_list:
-        event = previous_events
-        result[previous_events] = model_parents_list[event].get_next_possible_states(previous_events, event)
+    for previous_events in previous_events_dict:
+        if previous_events:
+            event = previous_events[-1]
+        else:
+            event = None
+        result[previous_events] = len(set(list(model_parents_list[event]
+                                               .get_next_possible_states(previous_events, event,
+                                                                         iter(previous_events_dict[previous_events])))))
 
     return result

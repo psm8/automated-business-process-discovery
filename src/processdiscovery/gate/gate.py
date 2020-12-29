@@ -66,8 +66,8 @@ class Gate:
                 return i+1
             elif i+4 < len(expression):
                 gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
-                                     expression[i:i+3].capitalize() + "Gate", self)
-                gate = gate_class()
+                                     expression[i:i+3].capitalize() + "Gate")
+                gate = gate_class(self)
                 consume(numbers, 3)
                 processed_characters = gate.parse(expression[i+4:])
                 self.add_element(gate)
@@ -135,8 +135,5 @@ class Gate:
 
         return nodes
 
-    def get_next_possible_states(self, previous_events, elem) -> set:
-        pass
-
-    def previous(self, elem):
+    def get_next_possible_states(self, previous_events, child_caller, next_event):
         pass
