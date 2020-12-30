@@ -4,13 +4,13 @@ import math
 from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
-from processdiscovery.util.util import subset_sum
+from processdiscovery.util.util import subset_sum, get_events
 
 from copy import copy
 from itertools import permutations, combinations
+from functools import reduce
 
 
-# -------------------------------------------------------
 def diagonal(model, log, pt):
     if log == model.name:
         return pt['MATCH']
@@ -18,7 +18,6 @@ def diagonal(model, log, pt):
         return pt['MISMATCH']
 
 
-# -------------------------------------------------------
 def diagonal_parallel(model, log, pt):
     # not sure if most efficient to unpack event here
     for event in model:
@@ -28,23 +27,24 @@ def diagonal_parallel(model, log, pt):
     return pt['MISMATCH'], None
 
 
-def calculate_best_alignment(model, log, alignment_cache):
-    result, model_result = calculate_alignment_process_event_groups(model, log, alignment_cache)
+def get_best_alignment(model, log, alignment_cache):
+    result, model_result = calculate_alignment_manager(model, log, alignment_cache)
     return result[len(result)-1], model_result[len(model_result)-1]
 
 
-def calculate_alignment_process_event_groups(model, log, alignment_cache):
+def calculate_alignment_manager(model, log, alignment_cache):
     if isinstance(model, EventGroup):
-        result_x, model_results = calculate_alignment(resolve_event_group(model.events), log, alignment_cache)
+        result_x, model_results = calculate_alignment_cache(resolve_event_group(model.events), log, alignment_cache)
     else:
         if are_all_events(model.events):
-            result_x, model_results = calculate_alignment([[event for event in model.events]], log, alignment_cache)
+            result_x, model_results = calculate_alignment_cache([[event for event in model.events]], log,
+                                                                alignment_cache)
         else:
             # change way permutations are calculated
             event_permutations = permutations(model.events)
 
-            result_x, model_results = get_maxes([calculate_alignment(resolve_event_group(list(events)), log,
-                                                                     alignment_cache)
+            result_x, model_results = get_maxes([calculate_alignment_cache(resolve_event_group(list(events)), log,
+                                                                           alignment_cache)
                                                  for events in event_permutations])
 
     return result_x, model_results
@@ -93,25 +93,32 @@ def parallel_event_permutations(events):
     return event_permutations
 
 
-#--------------------------------------------------------
-#This function creates the alignment and pointers matrices
-def calculate_alignment(model, log, alignment_cache):
+def calculate_alignment_cache(model, log, alignment_cache):
     cache_id = get_cache_id(model, log)
     if cache_id in alignment_cache:
         return alignment_cache[cache_id]
-    penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1} #A dictionary for all the penalty values.
-    m = len(model) + 1 #The dimension of the matrix rows.
+
+    result_x, model_results = calculate_alignment(model, log, alignment_cache)
+    alignment_cache[cache_id] = result_x, model_results
+
+    return result_x, model_results
+
+
+# This function creates the alignment and pointers matrices
+def calculate_alignment(model, log, alignment_cache):
+    penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1}  # A dictionary for all the penalty values.
+    m = len(model) + 1  # The dimension of the matrix rows.
     model_results_local = [None] * m
-    n = len(log) + 1 #The dimension of the matrix columns.
-    al_mat = np.zeros((m, n), dtype=int) #Initializes the alignment matrix with zeros.
-    #Scans all the first rows element in the matrix and fill it with "gap penalty"
+    n = len(log) + 1  # The dimension of the matrix columns.
+    al_mat = np.zeros((m, n), dtype=int)  # Initializes the alignment matrix with zeros.
+    # Scans all the first rows element in the matrix and fill it with "gap penalty"
     for i in range(m):
         al_mat[i][0] = penalty['GAP'] * i
-    #Scans all the first columns element in the matrix and fill it with "gap penalty"
+    # Scans all the first columns element in the matrix and fill it with "gap penalty"
     # possibly could be removed
     for j in range(n):
         al_mat[0][j] = penalty['GAP'] * j
-    #Fill the matrix with the correct values.
+    # Fill the matrix with the correct values.
 
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
@@ -128,7 +135,6 @@ def calculate_alignment(model, log, alignment_cache):
 
     model_results = get_all_tracebacks(al_mat, penalty['GAP'], model, log, model_results_local)
 
-    alignment_cache[cache_id] = al_mat[m-1], model_results
     return al_mat[m-1], model_results
 
 
@@ -147,8 +153,8 @@ def recurrent_alignment(al_mat_x, model_events, logs, alignment_cache):
     [model_results_local.append([]) for _ in range(len(result_x))]
 
     for i in range(len(logs)):
-        local_result_x, model_result_local = calculate_alignment_process_event_groups(model_events, logs[i],
-                                                                                      alignment_cache)
+        local_result_x, model_result_local = calculate_alignment_manager(model_events, logs[i],
+                                                                         alignment_cache)
 
         [model_results_local[i].append([]) for _ in range(len(model_result_local))]
         for j in range(len(local_result_x)):
@@ -185,11 +191,10 @@ def parallel_alignment(al_mat_x, model_events, logs, pt):
 
         for j in range(len(local_result_x)):
             penalty_for_skipped_model_events = get_penalty_for_model_skipped(model_events, j)
-            number_of_matches = (j + 1) - int(local_result_x[j]/pt["MISMATCH"])
             # +1 because al_mat have extra column
             if al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events >= result_x[j + i + 1]:
                 result_x[j + i + 1] = al_mat_x[i] + local_result_x[j] - penalty_for_skipped_model_events
-            model_results[i][j] = model_results_local[:(len(model_results_local) - j)] # + [None] * (j+1)
+            model_results[i][j] = model_results_local[:(len(model_results_local) - j)]  # + [None] * (j+1)
     return result_x, model_results
 
 
@@ -197,8 +202,8 @@ def traceback(al_mat, penalty_gap, model, log_global, model_results_local):
     array = copy(al_mat)
     log = copy(log_global)
     model_result = []
-    i = len(model)  #The dimension of the matrix rows.
-    j = len(log)  #The dimension of the matrix columns.
+    i = len(model)  # The dimension of the matrix rows.
+    j = len(log)  # The dimension of the matrix columns.
 
     while i != 0:
         event_group_full_length = len(model[i - 1])
@@ -311,3 +316,29 @@ def get_worst_allowed_alignment(expression) -> int:
 def get_cache_id(model, log):
     model = tuple(tuple(hash(y) for y in x) if isinstance(x, list) else hash(x) for x in model)
     return model, tuple(log)
+
+
+# def get_cache(model_results):
+#     return [[y.name if y is not None else None for y in x] for x in model_results]
+# 
+#
+# def map_cache_to_events(cache, events):
+#     events_local = []
+#     [events_local + x if isinstance(x, list) else events_local.append(x) for x in events]
+#     flat_events = list(get_events(events_local))
+#
+#     cache_results = cache[1]
+#     result = []
+#     for x in cache_results[-1]:
+#         if x is None:
+#             result.append(None)
+#         else:
+#             for event in flat_events:
+#                 if x.name == event.name:
+#                     result.append(event)
+#                     flat_events.remove(event)
+#                     break
+#
+#     mapped = cache_results[:-1]
+#     mapped.append(result)
+#     return cache[0], mapped

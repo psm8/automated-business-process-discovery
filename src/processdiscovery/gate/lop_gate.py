@@ -6,7 +6,7 @@ from processdiscovery.event.event import Event
 
 class LopGate(Gate):
     LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS = 32
-    LOP_GATE_MAX_DEPTH = 4
+    LOP_GATE_MAX_DEPTH = 3
 
     def __init__(self, parent=None, elements=None):
         super().__init__("lop", parent, elements)

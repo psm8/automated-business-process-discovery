@@ -1,5 +1,5 @@
 from processdiscovery.gate.seq_gate import SeqGate
-from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment
+from processdiscovery.evaluation.alignment_calculation import get_best_alignment
 from processdiscovery.util.util import is_struct_empty, check_route_with_log_process
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
 from processdiscovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled
@@ -36,12 +36,11 @@ def calculate_precision_metric(log, model, model_parents_list):
 
 
 def calculate_generalization_metric(model_events_list):
-    if any([model_event.no_visits == 0 for model_event in model_events_list]):
-        return 0
-    else:
-        return 1 - sum([math.pow(math.sqrt(model_event.no_visits), -1)
-                        if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / \
-               len(model_events_list)
+    # if any([model_event.no_visits == 0 for model_event in model_events_list]):
+    #     return 0
+    return 1 - sum([math.pow(math.sqrt(model_event.no_visits), -1)
+                    if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / \
+           len(model_events_list)
 
 
 def calculate_fitness_metric(best_local_error, len_elem, n):
@@ -71,6 +70,7 @@ def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_c
         i = 1
         min_local = -2 * n
         events_global = []
+        best_event_group = []
         find = False
         # should be change later
         while not n < calculate_min_allowed_length(len(elem)) and \
@@ -93,10 +93,11 @@ def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_c
                         route_to_process_events_ratio = check_route_with_log_process(event_group, elem)
                         if route_to_process_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
                             continue
-                        value, events = calculate_best_alignment(event_group, list(elem), alignment_cache)
+                        value, events = get_best_alignment(event_group, list(elem), alignment_cache)
                         if value > min_local:
                             min_local = value
                             events_global = events
+                            best_event_group = event_group
                         if value == 0:
                             perfectly_aligned_logs[tuple(events)] = log_info.log[elem]
                             find = True
@@ -115,7 +116,10 @@ def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_c
         best_local_error += best_local_alignment * log_info.log[elem]
 
     alignment = 1 + best_local_error/log_info.sum_of_processes_length
-    precision = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
+    try:
+        precision = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
+    except Exception:
+        raise Exception(guess)
     generalization = calculate_generalization_metric(model_events_list)
     simplicity = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
     best_result = (alignment + generalization + precision + simplicity) / 4

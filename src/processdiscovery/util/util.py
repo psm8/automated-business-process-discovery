@@ -40,6 +40,17 @@ def get_event_or_events_names(event):
         yield from get_event_names(event)
 
 
+def get_events(events):
+    if isinstance(events, list):
+        for x in events:
+            if isinstance(x, Event):
+                yield x
+            else:
+                yield from get_events(x)
+    else:
+        yield from get_events(events.events)
+
+
 def to_n_length(n, child_list, process, max_depth):
     child_list = filter_children_list([], child_list, process)
     if not child_list:

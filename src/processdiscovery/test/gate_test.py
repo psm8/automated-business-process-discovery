@@ -5,7 +5,7 @@ from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
-from processdiscovery.util.util import to_n_length_opt, flatten_values
+from processdiscovery.util.util import get_event_names
 from processdiscovery.test.util.test_util import string_to_events
 
 
@@ -97,13 +97,15 @@ class GateTest(unittest.TestCase):
 
     def test_95(self):
         gate = SeqGate()
-        gate.parse('lop(lop(seq(xor({d}{a})and(lop({c}){b})))and(lop({b}){e}))opt(xor(seq({b}{d})lop(opt({f}xor({a}{d})))))')
+        gate.parse('lop(lop(seq(xor({d}{a})and(lop({c}){b})))and(lop({b}){e}))'
+                   'opt(xor(seq({b}{d})lop(opt({f}xor({a}{d})))))')
         all_length_6_routes = gate.get_all_n_length_routes(6)
         self.assertEqual([], all_length_6_routes)
 
     def test_96(self):
         gate = SeqGate()
-        gate.parse('and(and({f}opt(and({f}opt(and({e}{d})))))xor(opt({d})xor({b}xor({c}{a}{b}))))lop(xor({a}{c}opt(xor({f}{d}))xor({b}xor({c}{a}{b}))))')
+        gate.parse('and(and({f}opt(and({f}opt(and({e}{d})))))xor(opt({d})xor({b}xor({c}{a}{b}))))'
+                   'lop(xor({a}{c}opt(xor({f}{d}))xor({b}xor({c}{a}{b}))))')
         all_length_8_routes = gate.get_all_n_length_routes(8)
         self.assertEqual(500, len(all_length_8_routes))
 
@@ -122,8 +124,12 @@ class GateTest(unittest.TestCase):
     def test_legend_3_2(self):
         gate = SeqGate()
         gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
-        all_length_11_routes = gate.get_all_n_length_routes(11, ('a', 'c', 'd', 'e', 'f', 'b', 'd', 'e', 'f', 'd', 'b',
+        all_length_11_routes = gate.get_all_n_length_routes(13, ('a', 'c', 'd', 'e', 'f', 'b', 'd', 'e', 'f', 'd', 'b',
                                                                  'e', 'g'))
+        # count = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0}
+        # for x in all_length_11_routes:
+        #     for y in get_event_names(x):
+        #         count[y] += 1
         self.assertEqual(19100, len(all_length_11_routes))
 
     def test_number_of_combos_lop_opt(self):

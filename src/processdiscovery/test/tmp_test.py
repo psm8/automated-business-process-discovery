@@ -1,4 +1,4 @@
-from processdiscovery.evaluation.alignment_calculation import calculate_best_alignment, parallel_event_permutations
+from processdiscovery.evaluation.alignment_calculation import get_best_alignment, parallel_event_permutations
 from processdiscovery.event.event import Event
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 

@@ -12,6 +12,7 @@ class process_fitness(base_ff):
         self.alignment_cache = dict()
         self.routes_cache = dict()
         self.log_info = LogInfo('discovered-processes.csv')
+        self.max_complexity = len(self.log_info.log) * 1000
 
     def evaluate(self, ind, **kwargs):
         guess = ind.phenotype
