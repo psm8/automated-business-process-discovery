@@ -268,21 +268,15 @@ def get_best_error_using_gap_move(model_events, al_mat_x):
 
 
 def should_go_recurrent(event):
-    if isinstance(event, Event) or isinstance(event, list):
-        return False
-    else:
-        return True
+    return not (isinstance(event, Event) or isinstance(event, list))
 
 
 def are_all_events(events):
-    for event in events:
-        if isinstance(event, BaseGroup):
-            return False
-    return True
+    return not any(isinstance(event, BaseGroup) for event in events)
 
 
 def substrings_of_string_reversed(string):
-    return [string[x:] for x in range(len(string))]
+    return (string[x:] for x in range(len(string)))
 
 
 def resolve_event_group(event_group_local):
@@ -305,10 +299,6 @@ def resolve_event_group(event_group_local):
     return model_list
 
 
-def get_best_case() -> int:
-    return 0
-
-
 def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
 
@@ -320,7 +310,7 @@ def get_cache_id(model, log):
 
 # def get_cache(model_results):
 #     return [[y.name if y is not None else None for y in x] for x in model_results]
-# 
+#
 #
 # def map_cache_to_events(cache, events):
 #     events_local = []

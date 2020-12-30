@@ -1,6 +1,6 @@
 import unittest
 
-from processdiscovery.evaluation.alignment_calculation import *
+from processdiscovery.evaluation.alignment_calculation.alignment_calculation import *
 from processdiscovery.event.event import Event
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
