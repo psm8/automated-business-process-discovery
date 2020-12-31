@@ -63,7 +63,10 @@ class SeqGate(Gate):
                 yield x
         else:
             if child_caller == self.elements[-1]:
-                yield from self.parent.get_next_possible_states(previous_events, self, None)
+                if self.parent is not None:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None)
+                else:
+                    return
             else:
                 i = self.elements.index(child_caller)
                 x = self.elements[i + 1]

@@ -28,7 +28,6 @@ class FitnessTest(unittest.TestCase):
                        dict())
 
     def test_7(self):
-        # 'and({d}{d})lop({b})'
         evaluate_guess('lop({c})', LogInfo('discovered-processes.csv'), dict())
 
     def test_8(self):
