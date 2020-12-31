@@ -11,7 +11,7 @@ import math
 
 MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.95
 MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.7
-BIG_PENALTY = -10000
+BIG_PENALTY = 0
 
 
 def calculate_complexity_metric(cumulated_average_error, model):
@@ -80,13 +80,9 @@ def calculate_metrics_for_single_process(elem, gate, min_length, max_length, ali
             # if cache_id in routes_cache:
             #     routes = routes_cache[cache_id]
             # else:
+            # test if set gives anything
             routes = set(gate.get_all_n_length_routes(n, elem))
             # routes_cache[cache_id] = routes
-            if len(routes) > 2100:
-                print(len(routes))
-                n += (-i if i % 2 == 1 else i)
-                i += 1
-                continue
             if routes is not None and not is_struct_empty(routes):
                 for event_group in routes:
                     route_to_process_events_ratio = check_route_with_log_process(event_group, elem)
