@@ -135,5 +135,11 @@ class Gate:
 
         return nodes
 
+    def get_all_n_length_routes(self, n: int, process) -> []:
+        pass
+
     def get_next_possible_states(self, previous_events, child_caller, next_event):
+        pass
+
+    def get_min_complexity(self):
         pass

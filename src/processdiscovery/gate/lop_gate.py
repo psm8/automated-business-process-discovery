@@ -3,10 +3,13 @@ from processdiscovery.util.util import to_n_length
 from processdiscovery.util.util import flatten_values
 from processdiscovery.event.event import Event
 
+from functools import reduce
+from math import pow
+
 
 class LopGate(Gate):
     LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS = 32
-    LOP_GATE_MAX_DEPTH = 4
+    LOP_GATE_MAX_DEPTH = 3
 
     def __init__(self, parent=None, elements=None):
         super().__init__("lop", parent, elements)
@@ -72,3 +75,8 @@ class LopGate(Gate):
                     yield from x.get_next_possible_states(set(), None, None)
                 else:
                     yield x
+
+    def get_min_complexity(self):
+        return pow(reduce(lambda x, y: x*y,
+                          [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]),
+                   self.LOP_GATE_MAX_DEPTH)

@@ -5,6 +5,9 @@ from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 from processdiscovery.event.base_group import BaseGroup
 
+from functools import reduce
+from math import factorial, comb
+
 
 class OptGate(Gate):
     OPT_GATE_MAX_NUMBER_OF_CHILDREN = 5
@@ -71,4 +74,7 @@ class OptGate(Gate):
         yield from (x.get_next_possible_states(set(), self, None) if isinstance(x, Gate) else x for x in self.elements)
         yield from self.parent.get_next_possible_states(previous_events, self, None)
 
-
+    def get_min_complexity(self):
+        n = len(self.elements)
+        return reduce(lambda x, y: x*y, [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * sum(factorial(i) * comb(n, i) for i in range(n + 1))

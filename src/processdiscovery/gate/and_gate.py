@@ -4,6 +4,9 @@ from processdiscovery.util.util import flatten_values
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.exception.exception_decorator import only_throws
 
+from functools import reduce
+from math import factorial
+
 
 class AndGate(Gate):
     def __init__(self, parent=None, elements=None):
@@ -73,3 +76,7 @@ class AndGate(Gate):
                 yield from not_enabled_yet
             else:
                 yield from self.parent.get_next_possible_states(previous_events, self, None)
+
+    def get_min_complexity(self):
+        return reduce(lambda x, y: x*y, [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * factorial(len(self.elements))

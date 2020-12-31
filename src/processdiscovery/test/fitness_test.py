@@ -93,5 +93,7 @@ class FitnessTest(unittest.TestCase):
         self.assertEqual(0.8, actual)
 
 
+
+
 if __name__ == '__main__':
     unittest.main()

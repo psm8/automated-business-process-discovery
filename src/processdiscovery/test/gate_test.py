@@ -5,8 +5,9 @@ from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
-from processdiscovery.util.util import get_event_names
 from processdiscovery.test.util.test_util import string_to_events
+
+from math import pow
 
 
 class GateTest(unittest.TestCase):
@@ -137,6 +138,50 @@ class GateTest(unittest.TestCase):
         #     for y in get_event_names(x):
         #         count[y] += 1
         self.assertEqual(19100, len(all_length_11_routes))
+
+    def test_get_min_complexity_legend(self):
+        gate = SeqGate()
+        gate.parse('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
+
+        self.assertEqual(512, gate.get_min_complexity())
+
+    def test_get_min_complexity_legend2(self):
+        gate = SeqGate()
+        gate.parse('{a}{c}{d}{e}{h}')
+
+        self.assertEqual(1, gate.get_min_complexity())
+
+    def test_get_min_complexity_legend3(self):
+        gate = SeqGate()
+        gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
+
+        self.assertEqual(pow(326, 3) * 2, gate.get_min_complexity())
+
+    def test_get_min_complexity_legend4(self):
+        gate = SeqGate()
+        gate.parse('xor(seq({a}{c}{d}{e}{h})'
+                   'seq({a}{b}{d}{e}{g})'
+                    'seq({a}{d}{c}{e}{h})'
+                    'seq({a}{b}{d}{e}{h})'
+                    'seq({a}{c}{d}{e}{g})'
+                    'seq({a}{d}{c}{e}{g})'
+                    'seq({a}{d}{b}{e}{h})'
+                    'seq({a}{c}{d}{e}{f}{d}{b}{e}{h})'
+                    'seq({a}{d}{b}{e}{g})'
+                    'seq({a}{c}{d}{e}{f}{b}{d}{e}{h})'
+                    'seq({a}{c}{d}{e}{f}{b}{d}{e}{g})'
+                    'seq({a}{c}{d}{e}{f}{d}{b}{e}{g})'
+                    'seq({a}{d}{c}{e}{f}{c}{d}{e}{h})'
+                    'seq({a}{d}{c}{e}{f}{d}{b}{e}{h})'
+                    'seq({a}{d}{c}{e}{f}{b}{d}{e}{g})'
+                    'seq({a}{c}{d}{e}{f}{b}{d}{e}{f}{d}{b}{e}{g})'
+                    'seq({a}{d}{c}{e}{f}{d}{b}{e}{g})'
+                    'seq({a}{d}{c}{e}{f}{b}{d}{e}{f}{b}{d}{e}{g})'
+                    'seq({a}{d}{c}{e}{f}{d}{b}{e}{f}{b}{d}{e}{h})'
+                    'seq({a}{d}{b}{e}{f}{b}{d}{e}{f}{d}{b}{e}{g})'
+                    'seq({a}{d}{c}{e}{f}{d}{b}{e}{f}{c}{d}{e}{f}{d}{b}{e}{g}))')
+
+        self.assertEqual(21, gate.get_min_complexity())
 
     def test_number_of_combos_lop_opt(self):
         # assuming max lop gate length = 3

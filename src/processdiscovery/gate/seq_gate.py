@@ -3,6 +3,8 @@ from processdiscovery.event.event import Event
 from processdiscovery.util.util import flatten_values
 from processdiscovery.event.event_group import EventGroup
 
+from functools import reduce
+
 
 class SeqGate(Gate):
     def __init__(self, parent=None, elements=None):
@@ -74,3 +76,6 @@ class SeqGate(Gate):
                     yield from x.get_next_possible_states(set(), None, None)
                 else:
                     yield x
+
+    def get_min_complexity(self):
+        return reduce(lambda x, y: x*y, [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements])

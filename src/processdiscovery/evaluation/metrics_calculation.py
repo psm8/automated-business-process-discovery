@@ -138,18 +138,24 @@ def calculate_min_allowed_length(log_length):
     return math.floor(0.9 * log_length)
 
 
-def evaluate_guess(guess, log_info, alignment_cache):
+def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     gate = SeqGate()
     try:
         gate.parse(guess)
     except ValueError:
         return BIG_PENALTY
+
     min_length = gate.get_model_min_length()
     if min_length > calculate_max_allowed_length(log_info.process_average_length):
         return BIG_PENALTY
+
     max_length = gate.get_model_max_length()
     if max_length < calculate_min_allowed_length(log_info.process_average_length):
         return BIG_PENALTY
+
+    if max_allowed_complexity < gate.get_min_complexity():
+        return BIG_PENALTY
+
     fitness_metric = calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_cache)
 
     return fitness_metric

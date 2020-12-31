@@ -2,6 +2,8 @@ from processdiscovery.gate.gate import Gate
 from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 
+from functools import reduce
+
 
 class XorGate(Gate):
     def __init__(self, parent=None, elements=None):
@@ -58,3 +60,5 @@ class XorGate(Gate):
         else:
             yield from (x.get_next_possible_states(set(), self, None) if isinstance(x, Gate) else x for x in self.elements)
 
+    def get_min_complexity(self):
+        return sum([x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements])
