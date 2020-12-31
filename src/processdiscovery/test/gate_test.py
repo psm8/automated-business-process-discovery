@@ -115,6 +115,12 @@ class GateTest(unittest.TestCase):
         all_length_9_routes = gate.get_all_n_length_routes(9, ('a', 'c', 'd', 'e', 'f', 'd', 'b', 'e', 'h'))
         self.assertEqual(8, len(all_length_9_routes))
 
+    def test_legend_1_2(self):
+        gate = SeqGate()
+        gate.parse('lop({f}and(xor({b}{c}){d}){e})')
+        all_length_4_routes = gate.get_all_n_length_routes(4, ('a', 'c', 'd', 'e', 'f', 'd', 'b', 'e', 'h'))
+        self.assertEqual(2, len(all_length_4_routes))
+
     def test_legend_3_1(self):
         gate = SeqGate()
         gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
