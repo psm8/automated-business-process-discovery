@@ -134,17 +134,17 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         cumulated_error += best_local_error * log_info.log[elem]
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
-    metrics['alignment'] = 1 + cumulated_average_error
+    metrics['alignment'] = (1 + cumulated_average_error, 3)
     # try:
-    metrics['precision'] = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
+    metrics['precision'] = (calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents), 2)
     # except Exception:
     #     raise Exception(guess)
-    metrics['generalization'] = calculate_generalization_metric(model_events_list)
-    metrics['simplicity'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events,
-                                                        gate.get_gates(LopGate))
-    metrics['complexity'] = calculate_complexity_metric(cumulated_average_error, gate)
-    best_result = (metrics['alignment'] + metrics['precision'] + metrics['generalization'] + metrics['simplicity'] +
-                   metrics['complexity']) / len(metrics)
+    metrics['generalization'] = (calculate_generalization_metric(model_events_list), 2)
+    metrics['simplicity'] = (calculate_simplicity_metric(model_events_list, log_info.log_unique_events,
+                                                         gate.get_gates(LopGate)), 1)
+    metrics['complexity'] = (calculate_complexity_metric(cumulated_average_error, gate), 2)
+    best_result = (metrics['alignment'][0] + metrics['precision'][0] + metrics['generalization'][0] +
+                   metrics['simplicity'][0] + metrics['complexity'][0]) / sum(x[1] for x in metrics.values())
 
     return best_result
 
