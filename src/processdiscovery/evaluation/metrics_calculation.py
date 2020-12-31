@@ -116,6 +116,7 @@ def calculate_metrics_for_single_process(elem, gate, min_length, max_length, ali
 def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
 
     metrics = dict()
+
     model_events_list_with_parents = gate.get_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
@@ -123,20 +124,20 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         return model_to_log_events_ratio/10
 
     perfectly_aligned_logs = dict()
-    best_local_error = 0
-    # reset_executions(model_events_list)
+    cumulated_error = 0
+
     for elem in log_info.log.keys():
-        best_local_alignment, events_global, best_event_group = \
+        best_local_error, events_global, best_event_group = \
             calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache)
 
         if any(event not in model_events_list for event in events_global):
-            min_local, events_global = get_best_alignment(best_event_group, list(elem), dict())
-        if best_local_alignment == 0:
+            _, events_global = get_best_alignment(best_event_group, list(elem), dict())
+        if best_local_error == 0:
             perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
         add_executions(model_events_list, events_global, log_info.log[elem])
-        best_local_error += best_local_alignment * log_info.log[elem]
+        cumulated_error += best_local_error * log_info.log[elem]
 
-    cumulated_average_error = best_local_error/log_info.sum_of_processes_length
+    cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
     metrics['alignment'] = 1 + cumulated_average_error
     # try:
     metrics['precision'] = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
