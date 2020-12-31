@@ -139,11 +139,17 @@ class GateTest(unittest.TestCase):
         #         count[y] += 1
         self.assertEqual(19100, len(all_length_11_routes))
 
+    def test_get_min_complexity_1(self):
+        gate = SeqGate()
+        gate.parse('and(and(seq({h}lop({e}{f}))xor(and(and(seq({a}{g}){d}){g})and(xor({g}{d}){b})))and({e}opt({c})))')
+
+        self.assertEqual(128, gate.get_min_complexity())
+
     def test_get_min_complexity_legend(self):
         gate = SeqGate()
         gate.parse('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
 
-        self.assertEqual(512, gate.get_min_complexity())
+        self.assertEqual(85 * 8, gate.get_min_complexity())
 
     def test_get_min_complexity_legend2(self):
         gate = SeqGate()
@@ -155,7 +161,7 @@ class GateTest(unittest.TestCase):
         gate = SeqGate()
         gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
 
-        self.assertEqual(pow(326, 3) * 2, gate.get_min_complexity())
+        self.assertEqual(sum(pow(326, i) for i in range(3+1)) * 2, gate.get_min_complexity())
 
     def test_get_min_complexity_legend4(self):
         gate = SeqGate()

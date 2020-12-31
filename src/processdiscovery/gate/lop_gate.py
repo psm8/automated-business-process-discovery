@@ -77,6 +77,6 @@ class LopGate(Gate):
                     yield x
 
     def get_min_complexity(self):
-        return pow(reduce(lambda x, y: x*y,
-                          [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]),
-                   self.LOP_GATE_MAX_DEPTH)
+        return sum(pow(reduce(lambda x, y: x*y,
+                              [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]),
+                       i) for i in range(self.LOP_GATE_MAX_DEPTH+1))
