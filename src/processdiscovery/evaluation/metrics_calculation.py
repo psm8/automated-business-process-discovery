@@ -54,9 +54,9 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
     return sum([x in model_event_names for x in log_unique_events])/len(log_unique_events)
 
 
-def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_cache):
+def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
 
-    # routes_cache = dict()
+    metrics = dict()
     model_events_list_with_parents = gate.get_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
@@ -119,14 +119,16 @@ def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_c
         add_executions(model_events_list, events_global, log_info.log[elem])
         best_local_error += best_local_alignment * log_info.log[elem]
 
-    alignment = 1 + best_local_error/log_info.sum_of_processes_length
+    metrics['alignment'] = 1 + best_local_error/log_info.sum_of_processes_length
     # try:
-    precision = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
+    metrics['precision'] = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
     # except Exception:
     #     raise Exception(guess)
-    generalization = calculate_generalization_metric(model_events_list)
-    simplicity = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
-    best_result = (alignment + generalization + precision + simplicity) / 4
+    metrics['generalization'] = calculate_generalization_metric(model_events_list)
+    metrics['simplicity'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
+    best_result = (metrics['alignment'] + metrics['precision'] + metrics['generalization'] + metrics['simplicity']) / \
+        len(metrics)
+    
     return best_result
 
 
@@ -156,6 +158,6 @@ def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     if max_allowed_complexity < gate.get_min_complexity():
         return BIG_PENALTY
 
-    fitness_metric = calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_cache)
+    fitness_metric = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)
 
     return fitness_metric
