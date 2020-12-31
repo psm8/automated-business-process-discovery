@@ -1,5 +1,5 @@
 from processdiscovery.gate.seq_gate import SeqGate
-from processdiscovery.evaluation.alignment_calculation import get_best_alignment
+from processdiscovery.evaluation.alignment_calculation.alignment_calculation import get_best_alignment
 from processdiscovery.util.util import is_struct_empty, check_route_with_log_process
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
 from processdiscovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled

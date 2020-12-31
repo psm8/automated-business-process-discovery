@@ -1,14 +1,14 @@
 import numpy as np
 import math
 
+from processdiscovery.evaluation.alignment_calculation.cache import cached
 from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
-from processdiscovery.util.util import subset_sum, get_events
+from processdiscovery.util.util import subset_sum
 
 from copy import copy
 from itertools import permutations, combinations
-from functools import reduce
 
 
 def diagonal(model, log, pt):
@@ -34,16 +34,16 @@ def get_best_alignment(model, log, alignment_cache):
 
 def calculate_alignment_manager(model, log, alignment_cache):
     if isinstance(model, EventGroup):
-        result_x, model_results = calculate_alignment_cache(resolve_event_group(model.events), log, alignment_cache)
+        result_x, model_results = calculate_alignment(resolve_event_group(model.events), log, alignment_cache)
     else:
         if are_all_events(model.events):
-            result_x, model_results = calculate_alignment_cache([[event for event in model.events]], log,
+            result_x, model_results = calculate_alignment([[event for event in model.events]], log,
                                                                 alignment_cache)
         else:
             # change way permutations are calculated
             event_permutations = permutations(model.events)
 
-            result_x, model_results = get_maxes([calculate_alignment_cache(resolve_event_group(list(events)), log,
+            result_x, model_results = get_maxes([calculate_alignment(resolve_event_group(list(events)), log,
                                                                            alignment_cache)
                                                  for events in event_permutations])
 
@@ -93,18 +93,8 @@ def parallel_event_permutations(events):
     return event_permutations
 
 
-def calculate_alignment_cache(model, log, alignment_cache):
-    cache_id = get_cache_id(model, log)
-    if cache_id in alignment_cache:
-        return alignment_cache[cache_id]
-
-    result_x, model_results = calculate_alignment(model, log, alignment_cache)
-    alignment_cache[cache_id] = result_x, model_results
-
-    return result_x, model_results
-
-
 # This function creates the alignment and pointers matrices
+@cached
 def calculate_alignment(model, log, alignment_cache):
     penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1}  # A dictionary for all the penalty values.
     m = len(model) + 1  # The dimension of the matrix rows.
@@ -301,34 +291,3 @@ def resolve_event_group(event_group_local):
 
 def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
-
-
-def get_cache_id(model, log):
-    model = tuple(tuple(hash(y) for y in x) if isinstance(x, list) else hash(x) for x in model)
-    return model, tuple(log)
-
-
-# def get_cache(model_results):
-#     return [[y.name if y is not None else None for y in x] for x in model_results]
-#
-#
-# def map_cache_to_events(cache, events):
-#     events_local = []
-#     [events_local + x if isinstance(x, list) else events_local.append(x) for x in events]
-#     flat_events = list(get_events(events_local))
-#
-#     cache_results = cache[1]
-#     result = []
-#     for x in cache_results[-1]:
-#         if x is None:
-#             result.append(None)
-#         else:
-#             for event in flat_events:
-#                 if x.name == event.name:
-#                     result.append(event)
-#                     flat_events.remove(event)
-#                     break
-#
-#     mapped = cache_results[:-1]
-#     mapped.append(result)
-#     return cache[0], mapped
