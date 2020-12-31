@@ -68,17 +68,25 @@ class LopGate(Gate):
     def get_model_max_length(self) -> int:
         return self.LOP_GATE_MAX_DEPTH * sum(self.get_children_max_length())
 
-    def get_next_possible_states(self, previous_events, child_caller, next_event) -> set:
+    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_parent_call=False) -> set:
         if child_caller is None:
             x = self.elements[0]
             if isinstance(x, Gate):
                 yield from x.get_next_possible_states(set(), None, None)
             else:
                 yield x
-            yield from self.parent.get_next_possible_states(previous_events, self, None)
+            if not blocked_parent_call:
+                yield from self.parent.get_next_possible_states(previous_events, self, None)
         else:
             if child_caller == self.elements[-1]:
-                yield from self.parent.get_next_possible_states(previous_events, self, None)
+                if not blocked_parent_call:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None)
+                x = self.elements[0]
+                if isinstance(x, Gate):
+                    yield from x.get_next_possible_states(set(), None, None, True)
+                else:
+                    yield x
+
             else:
                 i = self.elements.index(child_caller)
                 x = self.elements[i + 1]

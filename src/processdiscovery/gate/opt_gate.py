@@ -80,7 +80,7 @@ class OptGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
-    def get_next_possible_states(self, previous_events, elem, next_event) -> set:
+    def get_next_possible_states(self, previous_events, elem, next_event, blocked_parent_call=False) -> set:
         result = set()
         for x in self.elements:
             if isinstance(x, Gate):
@@ -90,7 +90,8 @@ class OptGate(Gate):
         not_enabled_yet = result.difference(previous_events)
         if not_enabled_yet:
             yield from not_enabled_yet
-        yield from self.parent.get_next_possible_states(previous_events, self, None)
+        if not blocked_parent_call:
+            yield from self.parent.get_next_possible_states(previous_events, self, None)
 
     def get_complexity(self):
         n = len(self.elements)

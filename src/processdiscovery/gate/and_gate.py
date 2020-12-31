@@ -76,9 +76,10 @@ class AndGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
-    def get_next_possible_states(self, previous_events, elem, next_event):
+    def get_next_possible_states(self, previous_events, elem, next_event, blocked_parent_call=False):
         if next_event is not None and next_event not in self.get_events():
-            yield from self.parent.get_next_possible_states(previous_events, self, None)
+            if not blocked_parent_call:
+                yield from self.parent.get_next_possible_states(previous_events, self, None)
         else:
             result = set()
             for x in self.elements:
@@ -90,7 +91,8 @@ class AndGate(Gate):
             if not_enabled_yet:
                 yield from not_enabled_yet
             else:
-                yield from self.parent.get_next_possible_states(previous_events, self, None)
+                if not blocked_parent_call:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None)
 
     def get_complexity(self):
         return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
