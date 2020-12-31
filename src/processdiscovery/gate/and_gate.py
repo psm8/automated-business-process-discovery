@@ -67,7 +67,7 @@ class AndGate(Gate):
         return sum(self.get_children_max_length())
 
     def get_next_possible_states(self, previous_events, elem, next_event):
-        if next_event is not None and next_event not in self.elements:
+        if next_event is not None and next_event not in self.get_events():
             yield from self.parent.get_next_possible_states(previous_events, self, None)
         else:
             result = {x.get_next_possible_states(set(), self, None) if isinstance(x, Gate) else x for x in self.elements}

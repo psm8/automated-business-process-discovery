@@ -22,6 +22,6 @@ def count_model_enabled(previous_events_dict: dict, model_parents_list: dict):
             event = None
         result[previous_events] = len(set(list(model_parents_list[event]
                                                .get_next_possible_states(previous_events, event,
-                                                                         iter(previous_events_dict[previous_events])))))
+                                                                         next(iter(previous_events_dict[previous_events]))))))
 
     return result

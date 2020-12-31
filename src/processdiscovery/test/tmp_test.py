@@ -1,9 +1,7 @@
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
-from processdiscovery.evaluation.alignment_calculation.alignment_calculation import get_best_alignment, parallel_event_permutations
-from processdiscovery.event.event import Event
-from processdiscovery.event.event_group_parallel import EventGroupParallel
 
-actual = evaluate_guess('lop(seq(lop({g}){a}))lop({f})opt({d})lop({d}){b}lop(opt({h}opt({e}{c})))',
-                        LogInfo('discovered-processes.csv'), dict())
+
+actual = evaluate_guess('xor(opt({f})and(and({h}and({d}{c}{e}))opt({b}){a})and(opt(and({h}and({b}{c}{a})){g}){a}))',
+                        LogInfo('discovered-processes.csv'), dict(), 21000)
 expected = 0

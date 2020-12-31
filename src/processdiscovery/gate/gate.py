@@ -124,6 +124,13 @@ class Gate:
 
         return lengths
 
+    def get_events(self):
+        for elem in self.elements:
+            if isinstance(elem, Event):
+                yield elem
+            else:
+                yield from elem.get_events()
+
     def get_events_with_parents(self) -> dict:
         nodes = dict()
 

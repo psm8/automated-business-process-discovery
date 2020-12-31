@@ -120,10 +120,10 @@ def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_c
         best_local_error += best_local_alignment * log_info.log[elem]
 
     alignment = 1 + best_local_error/log_info.sum_of_processes_length
-    try:
-        precision = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
-    except Exception:
-        raise Exception(guess)
+    # try:
+    precision = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
+    # except Exception:
+    #     raise Exception(guess)
     generalization = calculate_generalization_metric(model_events_list)
     simplicity = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
     best_result = (alignment + generalization + precision + simplicity) / 4
