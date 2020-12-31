@@ -80,7 +80,12 @@ class AndGate(Gate):
         if next_event is not None and next_event not in self.get_events():
             yield from self.parent.get_next_possible_states(previous_events, self, None)
         else:
-            result = {x.get_next_possible_states(set(), self, None) if isinstance(x, Gate) else x for x in self.elements}
+            result = set()
+            for x in self.elements:
+                if isinstance(x, Gate):
+                    [result.add(y) for y in x.get_next_possible_states(set(), self, None)]
+                else:
+                    result.add(x)
             not_enabled_yet = result.difference(previous_events)
             if not_enabled_yet:
                 yield from not_enabled_yet
