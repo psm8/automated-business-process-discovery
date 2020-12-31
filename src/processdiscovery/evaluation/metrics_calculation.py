@@ -143,8 +143,12 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     metrics['simplicity'] = (calculate_simplicity_metric(model_events_list, log_info.log_unique_events,
                                                          gate.get_gates(LopGate)), 1)
     metrics['complexity'] = (calculate_complexity_metric(cumulated_average_error, gate), 2)
-    best_result = (metrics['alignment'][0] + metrics['precision'][0] + metrics['generalization'][0] +
-                   metrics['simplicity'][0] + metrics['complexity'][0]) / sum(x[1] for x in metrics.values())
+    best_result = (metrics['alignment'][0] * metrics['alignment'][1] +
+                   metrics['precision'][0] * metrics['precision'][1] +
+                   metrics['generalization'][0] * metrics['generalization'][1] +
+                   metrics['simplicity'][0] * metrics['simplicity'][1] +
+                   metrics['complexity'][0] * metrics['complexity'][1]) \
+                  / sum(x[1] for x in metrics.values())
 
     return best_result
 
