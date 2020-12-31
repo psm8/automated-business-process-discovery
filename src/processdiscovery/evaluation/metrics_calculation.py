@@ -18,7 +18,7 @@ def calculate_complexity_metric(cumulated_average_error, model):
     if cumulated_average_error == 0:
         return 1
     complexity = model.get_complexity_for_metric()
-    return 1 - math.pow(math.sqrt(-cumulated_average_error * complexity), -1)
+    return math.pow(math.sqrt(1 - cumulated_average_error * math.sqrt(complexity)), -1)
 
 
 def calculate_simplicity_metric(model_events_list, log_unique_events, lop_gates):
