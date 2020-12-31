@@ -1,5 +1,6 @@
 from processdiscovery.gate.seq_gate import SeqGate
-from processdiscovery.evaluation.alignment_calculation.alignment_calculation import get_best_alignment
+from processdiscovery.evaluation.alignment_calculation.alignment_calculation import \
+    get_best_alignment, get_best_alignment_cached
 from processdiscovery.util.util import is_struct_empty, check_route_with_log_process
 from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
 from processdiscovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled
@@ -93,13 +94,12 @@ def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_c
                         route_to_process_events_ratio = check_route_with_log_process(event_group, elem)
                         if route_to_process_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
                             continue
-                        value, events = get_best_alignment(event_group, list(elem), alignment_cache)
+                        value, events = get_best_alignment_cached(event_group, list(elem), alignment_cache)
                         if value > min_local:
                             min_local = value
                             events_global = events
                             best_event_group = event_group
                         if value == 0:
-                            perfectly_aligned_logs[tuple(events)] = log_info.log[elem]
                             find = True
                             break
 
@@ -112,6 +112,10 @@ def calculate_metrics(guess, log_info, gate, min_length, max_length, alignment_c
             n += (-i if i % 2 == 1 else i)
             i += 1
 
+        if any(event not in model_events_list for event in events_global):
+            min_local, events_global = get_best_alignment(best_event_group, list(elem), dict())
+        if min_local == 0:
+            perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
         add_executions(model_events_list, events_global, log_info.log[elem])
         best_local_error += best_local_alignment * log_info.log[elem]
 
