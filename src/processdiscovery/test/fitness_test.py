@@ -46,34 +46,53 @@ class FitnessTest(unittest.TestCase):
 
     def test_9_2(self):
         actual = evaluate_guess('xor(opt({f})and(and({h}and({d}{c}{e}))opt({b}){a})and(opt(and({h}and({b}{c}{a})){g}){a}))',
-                                LogInfo('discovered-processes.csv'), dict(), 210000)
+                                LogInfo('discovered-processes.csv'), dict(), 2100)
         expected = 0
 
     def test_9_3(self):
         actual = evaluate_guess(
             'and(xor({b}seq(opt({h})opt({c})opt({f})){c}){e}seq(opt({h}){a}{b}{d}))opt({g})',
-            LogInfo('discovered-processes.csv'), dict(), 210000)
+            LogInfo('discovered-processes.csv'), dict(), 2100)
+        expected = 0
+
+    def test_9_4(self):
+        actual = evaluate_guess(
+            'and(xor({b}seq(opt({h})opt({c})opt({f})){c}){e}seq(opt({h}){a}{b}{d}))opt({g})',
+            LogInfo('discovered-processes.csv'), dict(), 2100)
         expected = 0
 
 
-    def test_legend(self):
+    def test_legend_1_1(self):
 
         actual = evaluate_guess('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})',
-                                LogInfo('discovered-processes.csv'), dict())
+                                LogInfo('discovered-processes.csv'), dict(), 2100)
+
+        self.assertEqual(0.8, actual)
+
+    def test_legend_1_2(self):
+
+        actual = evaluate_guess('{a}and(xor({b}{c}){d}){e}opt(seq({f}and(xor({b}{c}){d}){e}))xor({g}{h})',
+                                LogInfo('discovered-processes.csv'), dict(), 2100)
+
+        self.assertEqual(0.8, actual)
+
+    def test_legend_1_3(self):
+        actual = evaluate_guess('{a}lop(and(xor({b}{c}){d}){e}xor({f}))xor({g}{h})',
+                                LogInfo('discovered-processes.csv'), dict(), 2100)
 
         self.assertEqual(0.8, actual)
 
     def test_legend2(self):
 
         actual = evaluate_guess('{a}{c}{d}{e}{h}', LogInfo('discovered-processes.csv'),
-                                dict())
+                                dict(), 2100)
 
         self.assertEqual(0.8, actual)
 
     def test_legend3(self):
 
         actual = evaluate_guess('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})', LogInfo('discovered-processes.csv'),
-                                dict())
+                                dict(), 2100)
 
         self.assertEqual(0.8, actual)
 
@@ -100,7 +119,7 @@ class FitnessTest(unittest.TestCase):
                                 'seq({a}{d}{c}{e}{f}{d}{b}{e}{f}{b}{d}{e}{h})'
                                 'seq({a}{d}{b}{e}{f}{b}{d}{e}{f}{d}{b}{e}{g})'
                                 'seq({a}{d}{c}{e}{f}{d}{b}{e}{f}{c}{d}{e}{f}{d}{b}{e}{g}))',
-                                LogInfo('discovered-processes.csv'), dict())
+                                LogInfo('discovered-processes.csv'), dict(), 2100)
 
         self.assertEqual(0.8, actual)
 

@@ -10,6 +10,16 @@ class SeqGate(Gate):
     def __init__(self, parent=None, elements=None):
         super().__init__("seq", parent, elements)
 
+    def compare(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        if len(self) != len(other):
+            return False
+        for i in range(len(self.elements)):
+            if not self.elements[i].compare(other.elements[i]):
+                return False
+        return True
+
     def add_element(self, element):
         self.elements.append(element)
 
@@ -77,5 +87,5 @@ class SeqGate(Gate):
                 else:
                     yield x
 
-    def get_min_complexity(self):
-        return reduce(lambda x, y: x*y, [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements])
+    def get_complexity(self):
+        return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements])

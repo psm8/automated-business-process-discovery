@@ -67,7 +67,7 @@ class UtilTest(unittest.TestCase):
 
         expected = [EventGroup([e1, e1, e2]), EventGroup([e1, e2, e1]), EventGroup([e2, e1, e1]),
                     EventGroup([e4, e1]), EventGroup([e1, e4]), EventGroup([e2, e2]), e3]
-        actual = list(to_n_length(4, [[e1, e2, e3, e4]], 'tttq', 3))
+        actual = list(to_n_length(4, [[e1, e2, e3, e4]], 'tttq', 3, 0))
         self.assertEqual(len(expected), len(actual))
 
     def test_to_n_length_2(self):
@@ -96,7 +96,7 @@ class UtilTest(unittest.TestCase):
         start = timer()
         for i in range(100):
             actual = to_n_length(4, [[e1], [e2], [e3], [e4], [e5], [e6], [e7], [e8], [e9], [e10], [e11], [e12], [e13],
-                                     [e14], [e15], [e16], [e17], [e18], [e19], [e20], [e21]], 'tqacezxyshij', 4)
+                                     [e14], [e15], [e16], [e17], [e18], [e19], [e20], [e21]], 'tqacezxyshij', 4, 0)
         end = timer()
         print(end - start)
 

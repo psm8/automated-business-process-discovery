@@ -30,6 +30,17 @@ class Gate:
         else:
             self.elements = elements
 
+    def __len__(self):
+        return sum(len(x) for x in self.elements)
+
+    def __eq__(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        return self.compare(other)
+
+    def compare(self, other):
+        pass
+
     def add_element(self, element):
         pass
 
@@ -131,6 +142,15 @@ class Gate:
             else:
                 yield from elem.get_events()
 
+    def get_gates(self, gate_type):
+        for elem in self.elements:
+            if isinstance(elem, gate_type):
+                yield elem
+                yield from elem.get_gates(gate_type)
+            elif isinstance(elem, Gate):
+                yield from elem.get_gates(gate_type)
+
+
     def get_events_with_parents(self) -> dict:
         nodes = dict()
 
@@ -148,5 +168,5 @@ class Gate:
     def get_next_possible_states(self, previous_events, child_caller, next_event):
         pass
 
-    def get_min_complexity(self):
+    def get_complexity(self):
         pass

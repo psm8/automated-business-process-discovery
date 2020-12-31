@@ -12,6 +12,16 @@ class AndGate(Gate):
     def __init__(self, parent=None, elements=None):
         super().__init__("and", parent, elements)
 
+    def compare(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        if len(self) != len(other):
+            return False
+        for x in self.elements:
+            if not any([x.compare(y) for y in other.elements]):
+                return False
+        return True
+
     @only_throws(ValueError)
     def add_element(self, element):
         self.check_valid_before_appending(element)
@@ -77,6 +87,6 @@ class AndGate(Gate):
             else:
                 yield from self.parent.get_next_possible_states(previous_events, self, None)
 
-    def get_min_complexity(self):
-        return reduce(lambda x, y: x*y, [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
+    def get_complexity(self):
+        return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
                * factorial(len(self.elements))

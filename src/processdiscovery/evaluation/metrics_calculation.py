@@ -1,8 +1,9 @@
 from processdiscovery.gate.seq_gate import SeqGate
+from processdiscovery.gate.lop_gate import LopGate
 from processdiscovery.evaluation.alignment_calculation.alignment_calculation import \
     get_best_alignment, get_best_alignment_cached
 from processdiscovery.util.util import is_struct_empty, check_route_with_log_process
-from processdiscovery.evaluation.generalization_calculation import add_executions, reset_executions
+from processdiscovery.evaluation.generalization_calculation import add_executions
 from processdiscovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled
 from processdiscovery.log.log_util import get_sum_of_processes_length
 
@@ -13,12 +14,20 @@ MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.7
 BIG_PENALTY = -10000
 
 
-def calculate_simplicity_metric(model_events_list, log_unique_events):
+def calculate_complexity_metric(n, sum_of_processes_length):
+    if n == 0:
+        return 0
+    else:
+        return 1 / 2/sum_of_processes_length
+
+
+def calculate_simplicity_metric(model_events_list, log_unique_events, lop_gates):
+    lop_allowed_duplicates = sum(x.count_repeating_if_seq_parent() for x in lop_gates)
     model_unique_events = set()
     [model_unique_events.add(x.name) for x in model_events_list]
-    return 1 - (((len(model_events_list) - len(model_unique_events)) + (len(log_unique_events) -
-                                                                        len(model_unique_events))) /
-                (len(model_events_list) + len(log_unique_events)))
+    return 1 - (((len(model_events_list) - len(model_unique_events) - lop_allowed_duplicates) +
+                 (len(log_unique_events) - len(model_unique_events))) /
+                (len(model_events_list) - lop_allowed_duplicates + len(log_unique_events)))
 
 
 def calculate_precision_metric(log, model, model_parents_list):
@@ -54,6 +63,56 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
     return sum([x in model_event_names for x in log_unique_events])/len(log_unique_events)
 
 
+def calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache):
+    n = len(elem)
+    i = 1
+    min_local = -2 * n
+    events_global = []
+    best_event_group = []
+    find = False
+    # should be change later
+    # use alignment metric and error
+    while not n < calculate_min_allowed_length(len(elem)) and \
+            not n > calculate_max_allowed_length(len(elem)):
+        best_local_alignment = -1
+        if min_length <= n <= max_length:
+            # cache_id = guess + str(n)
+            # if cache_id in routes_cache:
+            #     routes = routes_cache[cache_id]
+            # else:
+            routes = set(gate.get_all_n_length_routes(n, elem))
+            # routes_cache[cache_id] = routes
+            if len(routes) > 2100:
+                print(len(routes))
+                n += (-i if i % 2 == 1 else i)
+                i += 1
+                continue
+            if routes is not None and not is_struct_empty(routes):
+                for event_group in routes:
+                    route_to_process_events_ratio = check_route_with_log_process(event_group, elem)
+                    if route_to_process_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
+                        continue
+                    value, events = get_best_alignment_cached(event_group, list(elem), alignment_cache)
+                    if value > min_local:
+                        min_local = value
+                        events_global = events
+                        best_event_group = event_group
+                    if value == 0:
+                        find = True
+                        break
+
+                local_alignment = calculate_fitness_metric(min_local, len(elem), n)
+                if local_alignment > best_local_alignment:
+                    best_local_alignment = local_alignment
+                if find:
+                    break
+
+        n += (-i if i % 2 == 1 else i)
+        i += 1
+
+    return best_local_alignment, events_global, best_event_group
+
+
 def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
 
     metrics = dict()
@@ -67,54 +126,12 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     best_local_error = 0
     # reset_executions(model_events_list)
     for elem in log_info.log.keys():
-        n = len(elem)
-        i = 1
-        min_local = -2 * n
-        events_global = []
-        best_event_group = []
-        find = False
-        # should be change later
-        while not n < calculate_min_allowed_length(len(elem)) and \
-                not n > calculate_max_allowed_length(len(elem)):
-            best_local_alignment = -1
-            if min_length <= n <= max_length:
-                # cache_id = guess + str(n)
-                # if cache_id in routes_cache:
-                #     routes = routes_cache[cache_id]
-                # else:
-                routes = set(gate.get_all_n_length_routes(n, elem))
-                    # routes_cache[cache_id] = routes
-                if len(routes) > 35000:
-                    print(len(routes))
-                    n += (-i if i % 2 == 1 else i)
-                    i += 1
-                    continue
-                if routes is not None and not is_struct_empty(routes):
-                    for event_group in routes:
-                        route_to_process_events_ratio = check_route_with_log_process(event_group, elem)
-                        if route_to_process_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
-                            continue
-                        value, events = get_best_alignment_cached(event_group, list(elem), alignment_cache)
-                        if value > min_local:
-                            min_local = value
-                            events_global = events
-                            best_event_group = event_group
-                        if value == 0:
-                            find = True
-                            break
-
-                    local_alignment = calculate_fitness_metric(min_local, len(elem), n)
-                    if local_alignment > best_local_alignment:
-                        best_local_alignment = local_alignment
-                    if find:
-                        break
-
-            n += (-i if i % 2 == 1 else i)
-            i += 1
+        best_local_alignment, events_global, best_event_group = \
+            calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache)
 
         if any(event not in model_events_list for event in events_global):
             min_local, events_global = get_best_alignment(best_event_group, list(elem), dict())
-        if min_local == 0:
+        if best_local_alignment == 0:
             perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
         add_executions(model_events_list, events_global, log_info.log[elem])
         best_local_error += best_local_alignment * log_info.log[elem]
@@ -125,10 +142,11 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     # except Exception:
     #     raise Exception(guess)
     metrics['generalization'] = calculate_generalization_metric(model_events_list)
-    metrics['simplicity'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
+    metrics['simplicity'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events,
+                                                        gate.get_gates(LopGate))
     best_result = (metrics['alignment'] + metrics['precision'] + metrics['generalization'] + metrics['simplicity']) / \
         len(metrics)
-    
+
     return best_result
 
 
@@ -155,7 +173,7 @@ def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     if max_length < calculate_min_allowed_length(log_info.process_average_length):
         return BIG_PENALTY
 
-    if max_allowed_complexity < gate.get_min_complexity():
+    if max_allowed_complexity < gate.get_complexity():
         return BIG_PENALTY
 
     fitness_metric = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)

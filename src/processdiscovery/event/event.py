@@ -9,7 +9,7 @@ class Event(ComparableEvent):
         self.no_visits = 0
 
     def __len__(self):
-        return len(self.name)
+        return 1
 
     def __hash__(self):
         return hash(id(self.name))

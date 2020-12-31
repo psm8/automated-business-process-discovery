@@ -1,4 +1,5 @@
 from processdiscovery.gate.gate import Gate
+from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.util.util import to_n_length
 from processdiscovery.util.util import flatten_values
 from processdiscovery.event.event import Event
@@ -16,6 +17,16 @@ class LopGate(Gate):
 
     def add_element(self, element):
         self.elements.append(element)
+
+    def compare(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        if len(self) != len(other):
+            return False
+        for i in range(len(self.elements)):
+            if not self.elements[i].compare(other.elements[i]):
+                return False
+        return True
 
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
@@ -44,7 +55,7 @@ class LopGate(Gate):
         if global_list:
             flattened_list = flatten_values(global_list)
             if len(flattened_list) < self.LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS:
-                results = [x for x in to_n_length(n, flattened_list, process, self.LOP_GATE_MAX_DEPTH)]
+                results = [x for x in to_n_length(n, flattened_list, process, self.LOP_GATE_MAX_DEPTH, 0)]
                 return results
             else:
                 return []
@@ -76,7 +87,27 @@ class LopGate(Gate):
                 else:
                     yield x
 
-    def get_min_complexity(self):
+    def get_complexity(self):
         return sum(pow(reduce(lambda x, y: x*y,
-                              [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]),
+                              [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]),
                        i) for i in range(self.LOP_GATE_MAX_DEPTH+1))
+
+    def count_repeating_if_seq_parent(self):
+        if isinstance(self.parent, SeqGate):
+            count = 0
+            i = self.parent.elements.index(self)
+            i -= 1
+            j = 1
+            while i >= 0 and j <= len(self.elements):
+                if isinstance(self.elements[-j], Event) and isinstance(self.parent.elements[i], Event) and self.elements[-j].name == self.parent.elements[i].name:
+                    count += 1
+                elif isinstance(self.elements[-j], Gate) and isinstance(self.parent.elements[i], Gate) and self.elements[-j] == self.parent.elements[i]:
+                    count += len(self.elements[-j])
+                else:
+                    break
+                i -= 1
+                j += 1
+
+            return count
+        else:
+            return 0

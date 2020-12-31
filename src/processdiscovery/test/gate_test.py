@@ -1,6 +1,7 @@
 import unittest
 
 from processdiscovery.gate.seq_gate import SeqGate
+from processdiscovery.gate.and_gate import AndGate
 from processdiscovery.event.event import Event
 from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.event.event_group import EventGroup
@@ -230,6 +231,76 @@ class GateTest(unittest.TestCase):
 
         actual = set(list(gate.get_next_possible_states((), None, e1)))
         self.assertEqual(1, len(actual))
+
+    def test_eq1(self):
+        gate1 = SeqGate()
+        gate1.parse('and(xor({b}{c}){d}){e})')
+        gate2 = SeqGate()
+        gate2.parse('and(xor({b}{c}){d}){e})')
+
+        self.assertTrue(gate1 == gate2)
+
+    def test_eq2(self):
+        gate1 = SeqGate()
+        gate1.parse('and({d}xor({b}{c})){e})')
+        gate2 = SeqGate()
+        gate2.parse('and(xor({b}{c}){d}){e})')
+
+        self.assertTrue(gate1 == gate2)
+
+    def test_eq3(self):
+        gate1 = SeqGate()
+        gate1.parse('and(xor({b}{c}){d}){e})')
+        gate2 = AndGate()
+        gate2.parse('and(xor({b}{c}){d}){e})')
+
+        self.assertFalse(gate1 == gate2)
+
+    def test_eq4(self):
+        gate1 = SeqGate()
+        gate1.parse('and(xor({b}{c}){d}){e})')
+        gate2 = SeqGate()
+        gate2.parse('and(opt({b}{c}){d}){e})')
+
+        self.assertFalse(gate1 == gate2)
+
+    def test_eq5(self):
+        gate1 = SeqGate()
+        gate1.parse('and(xor({b}{c}){d}){e})')
+        gate2 = SeqGate()
+        gate2.parse('and(xor({e}{c}){d}){e})')
+
+        self.assertFalse(gate1 == gate2)
+
+    def test_count_repeating_if_seq_parent_1(self):
+        gate = SeqGate()
+        gate.parse('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
+
+        self.assertEqual(4, gate.elements[3].count_repeating_if_seq_parent())
+
+    def test_count_repeating_if_seq_parent_2(self):
+        gate = SeqGate()
+        gate.parse('lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
+
+        self.assertEqual(0, gate.elements[0].count_repeating_if_seq_parent())
+
+    def test_count_repeating_if_seq_parent_3(self):
+        gate = SeqGate()
+        gate.parse('{a}{e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
+
+        self.assertEqual(1, gate.elements[2].count_repeating_if_seq_parent())
+
+    def test_count_repeating_if_seq_parent_4(self):
+        gate = SeqGate()
+        gate.parse('{a}and({d}xor({c}{b})){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
+
+        self.assertEqual(4, gate.elements[3].count_repeating_if_seq_parent())
+
+    def test_count_repeating_if_seq_parent_5(self):
+        gate = SeqGate()
+        gate.parse('and({a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h}))')
+
+        self.assertEqual(0, gate.elements[0].elements[3].count_repeating_if_seq_parent())
 
 
 class EventGroupMatcher:

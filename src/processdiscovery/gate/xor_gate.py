@@ -2,8 +2,6 @@ from processdiscovery.gate.gate import Gate
 from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 
-from functools import reduce
-
 
 class XorGate(Gate):
     def __init__(self, parent=None, elements=None):
@@ -13,6 +11,16 @@ class XorGate(Gate):
     def add_element(self, element):
         self.check_valid_before_appending(element)
         self.elements.append(element)
+
+    def compare(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        if len(self) != len(other):
+            return False
+        for x in self.elements:
+            if not any([x.compare(y) for y in other.elements]):
+                return False
+        return True
 
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
@@ -60,5 +68,5 @@ class XorGate(Gate):
         else:
             yield from (x.get_next_possible_states(set(), self, None) if isinstance(x, Gate) else x for x in self.elements)
 
-    def get_min_complexity(self):
-        return sum([x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements])
+    def get_complexity(self):
+        return sum([x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements])

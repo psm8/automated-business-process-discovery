@@ -15,6 +15,16 @@ class OptGate(Gate):
     def __init__(self, parent=None, elements=None):
         super().__init__("opt", parent, elements)
 
+    def compare(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        if len(self) != len(other):
+            return False
+        for x in self.elements:
+            if not any([x.compare(y) for y in other.elements]):
+                return False
+        return True
+
     @only_throws(ValueError)
     def add_element(self, element):
         self.check_valid_before_appending(element)
@@ -74,7 +84,7 @@ class OptGate(Gate):
         yield from (x.get_next_possible_states(set(), self, None) if isinstance(x, Gate) else x for x in self.elements)
         yield from self.parent.get_next_possible_states(previous_events, self, None)
 
-    def get_min_complexity(self):
+    def get_complexity(self):
         n = len(self.elements)
-        return reduce(lambda x, y: x*y, [x.get_min_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
+        return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
                * sum(factorial(i) * comb(n, i) for i in range(n + 1))
