@@ -1,6 +1,3 @@
-from processdiscovery.event.event import Event
-
-
 def get_log_enabled(processes):
     unique_processes = dict()
 

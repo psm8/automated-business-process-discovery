@@ -17,29 +17,3 @@ def cached(f):
 def get_cache_id(model, log):
     model = tuple(tuple(hash(y) for y in x) if isinstance(x, list) else hash(x) for x in model)
     return model, tuple(log)
-
-
-# def get_cache(model_results):
-#     return [[y.name if y is not None else None for y in x] for x in model_results]
-#
-#
-# def map_cache_to_events(cache, events):
-#     events_local = []
-#     [events_local + x if isinstance(x, list) else events_local.append(x) for x in events]
-#     flat_events = list(get_events(events_local))
-#
-#     cache_results = cache[1]
-#     result = []
-#     for x in cache_results[-1]:
-#         if x is None:
-#             result.append(None)
-#         else:
-#             for event in flat_events:
-#                 if x.name == event.name:
-#                     result.append(event)
-#                     flat_events.remove(event)
-#                     break
-#
-#     mapped = cache_results[:-1]
-#     mapped.append(result)
-#     return cache[0], mapped
