@@ -88,3 +88,8 @@ class OptGate(Gate):
         n = len(self.elements)
         return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
                * sum(factorial(i) * comb(n, i) for i in range(n + 1))
+
+    def get_complexity_for_metric(self):
+        n = len(self.elements)
+        return reduce(lambda x, y: x * y, [x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * sum(factorial(i) * comb(n, i) for i in range(n + 1))

@@ -14,11 +14,11 @@ MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.7
 BIG_PENALTY = -10000
 
 
-def calculate_complexity_metric(n, sum_of_processes_length):
-    if n == 0:
-        return 0
-    else:
-        return 1 / 2/sum_of_processes_length
+def calculate_complexity_metric(cumulated_average_error, model):
+    if cumulated_average_error == 0:
+        return 1
+    complexity = model.get_complexity_for_metric()
+    return 1 - math.pow(math.sqrt(-cumulated_average_error * complexity), -1)
 
 
 def calculate_simplicity_metric(model_events_list, log_unique_events, lop_gates):
@@ -136,7 +136,8 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         add_executions(model_events_list, events_global, log_info.log[elem])
         best_local_error += best_local_alignment * log_info.log[elem]
 
-    metrics['alignment'] = 1 + best_local_error/log_info.sum_of_processes_length
+    cumulated_average_error = best_local_error/log_info.sum_of_processes_length
+    metrics['alignment'] = 1 + cumulated_average_error
     # try:
     metrics['precision'] = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
     # except Exception:
@@ -144,8 +145,9 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     metrics['generalization'] = calculate_generalization_metric(model_events_list)
     metrics['simplicity'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events,
                                                         gate.get_gates(LopGate))
-    best_result = (metrics['alignment'] + metrics['precision'] + metrics['generalization'] + metrics['simplicity']) / \
-        len(metrics)
+    metrics['complexity'] = calculate_complexity_metric(cumulated_average_error, gate)
+    best_result = (metrics['alignment'] + metrics['precision'] + metrics['generalization'] + metrics['simplicity'] +
+                   metrics['complexity']) / len(metrics)
 
     return best_result
 

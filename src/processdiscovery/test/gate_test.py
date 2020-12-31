@@ -144,25 +144,29 @@ class GateTest(unittest.TestCase):
         gate = SeqGate()
         gate.parse('and(and(seq({h}lop({e}{f}))xor(and(and(seq({a}{g}){d}){g})and(xor({g}{d}){b})))and({e}opt({c})))')
 
-        self.assertEqual(128, gate.get_min_complexity())
+        self.assertEqual(512, gate.get_complexity())
 
     def test_get_min_complexity_legend(self):
         gate = SeqGate()
         gate.parse('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})')
 
-        self.assertEqual(85 * 8, gate.get_min_complexity())
+        self.assertEqual(85 * 8, gate.get_complexity())
+        self.assertEqual(5 * 8, gate.get_complexity_for_metric())
 
     def test_get_min_complexity_legend2(self):
         gate = SeqGate()
         gate.parse('{a}{c}{d}{e}{h}')
 
-        self.assertEqual(1, gate.get_min_complexity())
+        self.assertEqual(1, gate.get_complexity())
+        self.assertEqual(1, gate.get_complexity_for_metric())
 
     def test_get_min_complexity_legend3(self):
         gate = SeqGate()
         gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
 
-        self.assertEqual(sum(pow(326, i) for i in range(3+1)) * 2, gate.get_min_complexity())
+
+        self.assertEqual(sum(pow(326, i) for i in range(3+1)) * 2, gate.get_complexity())
+        self.assertEqual(sum(pow(326, i) for i in range(2+1)) * 2, gate.get_complexity_for_metric())
 
     def test_get_min_complexity_legend4(self):
         gate = SeqGate()

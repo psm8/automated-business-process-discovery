@@ -82,6 +82,12 @@ class FitnessTest(unittest.TestCase):
 
         self.assertEqual(0.8, actual)
 
+    def test_legend_1_4(self):
+        actual = evaluate_guess('{a}and(xor({b}{c}){d}){e}xor({f}{g}{h})',
+                                LogInfo('discovered-processes.csv'), dict(), 2100)
+
+        self.assertEqual(0.8, actual)
+
     def test_legend2(self):
 
         actual = evaluate_guess('{a}{c}{d}{e}{h}', LogInfo('discovered-processes.csv'),
@@ -122,8 +128,6 @@ class FitnessTest(unittest.TestCase):
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
 
         self.assertEqual(0.8, actual)
-
-
 
 
 if __name__ == '__main__':

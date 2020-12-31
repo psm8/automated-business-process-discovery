@@ -150,7 +150,6 @@ class Gate:
             elif isinstance(elem, Gate):
                 yield from elem.get_gates(gate_type)
 
-
     def get_events_with_parents(self) -> dict:
         nodes = dict()
 
@@ -169,4 +168,7 @@ class Gate:
         pass
 
     def get_complexity(self):
+        pass
+
+    def get_complexity_for_metric(self):
         pass

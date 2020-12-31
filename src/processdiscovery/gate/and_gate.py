@@ -90,3 +90,7 @@ class AndGate(Gate):
     def get_complexity(self):
         return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
                * factorial(len(self.elements))
+
+    def get_complexity_for_metric(self):
+        return reduce(lambda x, y: x*y, [x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * factorial(len(self.elements))

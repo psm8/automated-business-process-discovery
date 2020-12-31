@@ -88,9 +88,17 @@ class LopGate(Gate):
                     yield x
 
     def get_complexity(self):
+        n = self.LOP_GATE_MAX_DEPTH
         return sum(pow(reduce(lambda x, y: x*y,
                               [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]),
-                       i) for i in range(self.LOP_GATE_MAX_DEPTH+1))
+                       i) for i in range(n + 1))
+
+    def get_complexity_for_metric(self):
+        n = 2
+        divide_by_complexity = self.count_complexity_if_seq_parent()
+        return sum(pow(reduce(lambda x, y: x * y,
+                              [x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements]),
+                       i)/divide_by_complexity for i in range(1, n + 1))
 
     def count_repeating_if_seq_parent(self):
         if isinstance(self.parent, SeqGate):
@@ -99,9 +107,11 @@ class LopGate(Gate):
             i -= 1
             j = 1
             while i >= 0 and j <= len(self.elements):
-                if isinstance(self.elements[-j], Event) and isinstance(self.parent.elements[i], Event) and self.elements[-j].name == self.parent.elements[i].name:
+                if isinstance(self.elements[-j], Event) and isinstance(self.parent.elements[i], Event) and \
+                        self.elements[-j].name == self.parent.elements[i].name:
                     count += 1
-                elif isinstance(self.elements[-j], Gate) and isinstance(self.parent.elements[i], Gate) and self.elements[-j] == self.parent.elements[i]:
+                elif isinstance(self.elements[-j], Gate) and isinstance(self.parent.elements[i], Gate) and \
+                        self.elements[-j] == self.parent.elements[i]:
                     count += len(self.elements[-j])
                 else:
                     break
@@ -111,3 +121,26 @@ class LopGate(Gate):
             return count
         else:
             return 0
+
+    def count_complexity_if_seq_parent(self):
+        if isinstance(self.parent, SeqGate):
+            count = 1
+            i = self.parent.elements.index(self)
+            i -= 1
+            j = 1
+            while i >= 0 and j <= len(self.elements):
+                if isinstance(self.elements[-j], Event) and isinstance(self.parent.elements[i], Event) and \
+                        self.elements[-j].name == self.parent.elements[i].name:
+                    count *= 1
+                elif isinstance(self.elements[-j], Gate) and isinstance(self.parent.elements[i], Gate) and \
+                        self.elements[-j] == self.parent.elements[i]:
+                    count *= self.elements[-j].get_complexity_for_metric()
+                else:
+                    break
+                i -= 1
+                j += 1
+
+            return count
+        else:
+            return 1
+
