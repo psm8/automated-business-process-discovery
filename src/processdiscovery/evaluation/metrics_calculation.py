@@ -134,7 +134,7 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         cumulated_error += best_local_error * log_info.log[elem]
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
-    metrics['alignment'] = (1 + cumulated_average_error, 3)
+    metrics['alignment'] = (1 + cumulated_average_error, 7)
     # try:
     metrics['precision'] = (calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents), 2)
     # except Exception:

@@ -10,10 +10,12 @@ INITIALISATION:         PI_grow
 INVALID_SELECTION:      False
 MAX_INIT_TREE_DEPTH:    10
 MAX_TREE_DEPTH:         17
+MULTICORE:              True
 MUTATION:               int_flip_per_codon
 POPULATION_SIZE:        50
 FITNESS_FUNCTION:       process_fitness
 REPLACEMENT:            generational
+SAVE_STATE_STEP:        10
 SELECTION:              tournament
 TOURNAMENT_SIZE:        2
 VERBOSE:                True
