@@ -26,6 +26,7 @@ class process_fitness(base_ff, metaclass=Singleton):
         super().__init__()
         self.alignment_cache = dict()
         self.guess = ''
+        self.vars = LogInfo('discovered-processes.csv').log_unique_events
         self.log_info = LogInfo('discovered-processes.csv')
         self.max_allowed_complexity = len(self.log_info.log) * 100
 
