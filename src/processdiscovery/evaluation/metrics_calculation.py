@@ -143,6 +143,10 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     metrics['simplicity'] = (calculate_simplicity_metric(model_events_list, log_info.log_unique_events,
                                                          gate.get_gates(LopGate)), 1)
     metrics['complexity'] = (calculate_complexity_metric(cumulated_average_error, gate), 2)
+
+    if any(metrics[x][0] > 1.0000001 for x in metrics):
+        raise Exception
+
     best_result = (metrics['alignment'][0] * metrics['alignment'][1] +
                    metrics['precision'][0] * metrics['precision'][1] +
                    metrics['generalization'][0] * metrics['generalization'][1] +

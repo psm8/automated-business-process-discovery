@@ -4,6 +4,7 @@ from processdiscovery.log.log_util import LogInfo
 
 import pickle
 import os
+import logging
 
 
 class Singleton(type):
@@ -18,11 +19,13 @@ class Singleton(type):
 class process_fitness(base_ff, metaclass=Singleton):
     maximise = True
 
+
     def __init__(self):
         # self.handler = open("alignment" + str(id(self)), "wb")
         # Initialise base fitness function class.
         super().__init__()
         self.alignment_cache = dict()
+        self.guess = ''
         self.log_info = LogInfo('discovered-processes.csv')
         self.max_allowed_complexity = len(self.log_info.log) * 100
 
@@ -54,15 +57,18 @@ class process_fitness(base_ff, metaclass=Singleton):
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
             self.save_cache("alignment-cache" + str(id(self)) + ".pickle")
+            logging.info(self.guess)
+            logging.info(err)
+            print(self.guess)
             print(err)
             raise
 
         return fitness
 
     def evaluate(self, ind, **kwargs):
-        guess = ind.phenotype
+        self.guess = ind.phenotype
 
-        return evaluate_guess(guess, self.log_info, self.alignment_cache, self.max_allowed_complexity)
+        return evaluate_guess(self.guess, self.log_info, self.alignment_cache, self.max_allowed_complexity)
 
     def save_cache(self, path: str):
         with open("cache/" + path, 'wb') as f:
