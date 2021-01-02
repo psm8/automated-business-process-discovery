@@ -276,7 +276,7 @@ def index_by_is(obj, a_list):
 
 
 def in_by_is(obj, a_list):
-    for x in enumerate(a_list):
+    for x in a_list:
         if obj is x:
             return True
     return False
