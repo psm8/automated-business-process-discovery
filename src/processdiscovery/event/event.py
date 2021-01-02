@@ -7,6 +7,7 @@ class Event(ComparableEvent):
         self.name = name
         self.no_branches = 0
         self.no_visits = 0
+        self.event_lop_twin = None
 
     def __len__(self):
         return 1

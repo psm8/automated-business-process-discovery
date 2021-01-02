@@ -6,6 +6,7 @@ from processdiscovery.util.util import is_struct_empty, check_route_with_log_pro
 from processdiscovery.evaluation.generalization_calculation import add_executions
 from processdiscovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled
 from processdiscovery.log.log_util import get_sum_of_processes_length
+from processdiscovery.event.event import Event
 
 import math
 
@@ -21,8 +22,8 @@ def calculate_complexity_metric(cumulated_average_error, model):
     return math.pow(math.sqrt(1 - cumulated_average_error * math.sqrt(complexity)), -1)
 
 
-def calculate_simplicity_metric(model_events_list, log_unique_events, lop_gates):
-    lop_allowed_duplicates = sum(x.count_repeating_if_seq_parent() for x in lop_gates)
+def calculate_simplicity_metric(model_events_list, log_unique_events):
+    lop_allowed_duplicates = sum(x.event_lop_twin is not None for x in model_events_list)
     model_unique_events = set()
     [model_unique_events.add(x.name) for x in model_events_list]
     return 1 - (((len(model_events_list) - len(model_unique_events) - lop_allowed_duplicates) +
@@ -45,10 +46,8 @@ def calculate_precision_metric(log, model, model_parents_list):
         return 0
 
 
-def calculate_generalization_metric(model_events_list):
-    # if any([model_event.no_visits == 0 for model_event in model_events_list]):
-    #     return 0
-    return 1 - sum([math.pow(math.sqrt(model_event.no_visits), -1)
+def calculate_generalization_metric(model_events_list: [Event]):
+    return 1 - sum([math.pow(math.sqrt(model_event.no_visits if model_event.event_lop_twin is None else model_event.no_visits + model_event.event_lop_twin.no_visits), -1)
                     if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / \
            len(model_events_list)
 
@@ -135,13 +134,11 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
     metrics['alignment'] = (1 + cumulated_average_error, 7)
-    # try:
+    for x in gate.get_gates(LopGate):
+        x.set_event_lop_twin_and_count_complexity_if_seq_parent()
     metrics['precision'] = (calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents), 2)
-    # except Exception:
-    #     raise Exception(guess)
     metrics['generalization'] = (calculate_generalization_metric(model_events_list), 2)
-    metrics['simplicity'] = (calculate_simplicity_metric(model_events_list, log_info.log_unique_events,
-                                                         gate.get_gates(LopGate)), 1)
+    metrics['simplicity'] = (calculate_simplicity_metric(model_events_list, log_info.log_unique_events), 1)
     metrics['complexity'] = (calculate_complexity_metric(cumulated_average_error, gate), 2)
 
     if any(metrics[x][0] > 1.0000001 for x in metrics):

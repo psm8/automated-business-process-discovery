@@ -13,6 +13,7 @@ class LopGate(Gate):
 
     def __init__(self, parent=None, elements=None):
         super().__init__("lop", parent, elements)
+        self.complexity_if_seq_parent = 1
 
     def add_element(self, element):
         self.elements.append(element)
@@ -102,52 +103,28 @@ class LopGate(Gate):
 
     def get_complexity_for_metric(self):
         n = 2
-        divide_by_complexity = self.count_complexity_if_seq_parent()
+        divide_by_complexity = self.complexity_if_seq_parent
         return sum(pow(reduce(lambda x, y: x * y,
                               [x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements]),
                        i)/divide_by_complexity for i in range(1, n + 1))
 
-    def count_repeating_if_seq_parent(self):
+    def set_event_lop_twin_and_count_complexity_if_seq_parent(self):
         if isinstance(self.parent, SeqGate):
-            count = 0
             i = self.parent.elements.index(self)
             i -= 1
             j = 1
             while i >= 0 and j <= len(self.elements):
                 if isinstance(self.elements[-j], Event) and isinstance(self.parent.elements[i], Event) and \
                         self.elements[-j].name == self.parent.elements[i].name:
-                    count += 1
+                    self.elements[-j].event_lop_twin = self.parent.elements[i]
                 elif isinstance(self.elements[-j], Gate) and isinstance(self.parent.elements[i], Gate) and \
                         self.elements[-j] == self.parent.elements[i]:
-                    count += len(self.elements[-j])
+                    self.complexity_if_seq_parent *= self.elements[-j].get_complexity_for_metric()
+                    for x in self.elements[-j].get_events():
+                        for y in self.parent.elements[i].get_events():
+                            x.event_lop_twin = y
+                            break
                 else:
                     break
                 i -= 1
                 j += 1
-
-            return count
-        else:
-            return 0
-
-    def count_complexity_if_seq_parent(self):
-        if isinstance(self.parent, SeqGate):
-            count = 1
-            i = self.parent.elements.index(self)
-            i -= 1
-            j = 1
-            while i >= 0 and j <= len(self.elements):
-                if isinstance(self.elements[-j], Event) and isinstance(self.parent.elements[i], Event) and \
-                        self.elements[-j].name == self.parent.elements[i].name:
-                    count *= 1
-                elif isinstance(self.elements[-j], Gate) and isinstance(self.parent.elements[i], Gate) and \
-                        self.elements[-j] == self.parent.elements[i]:
-                    count *= self.elements[-j].get_complexity_for_metric()
-                else:
-                    break
-                i -= 1
-                j += 1
-
-            return count
-        else:
-            return 1
-

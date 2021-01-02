@@ -25,7 +25,6 @@ def set_params(command_line_args, create_files=True):
     from utilities.fitness.math_functions import return_one_percent
     from utilities.algorithm.command_line_parser import parse_cmd_args
     from utilities.stats import trackers, clean_stats
-    from representation import grammar
 
     cmd_args, unknown = parse_cmd_args(command_line_args)
 
