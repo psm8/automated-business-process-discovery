@@ -1,7 +1,7 @@
 from fitness.base_ff_classes.base_ff import base_ff
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
-
+from processdiscovery.exception.exception_decorator import timeout, TimeoutException
 import pickle
 import os
 import logging
@@ -57,8 +57,8 @@ class process_fitness(base_ff, metaclass=Singleton):
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
             self.save_cache("alignment-cache" + str(id(self)) + ".pickle")
-            logging.info(self.guess)
-            logging.info(err)
+            logging.error(self.guess)
+            logging.error(err)
             print(self.guess)
             print(err)
             raise
@@ -68,7 +68,13 @@ class process_fitness(base_ff, metaclass=Singleton):
     def evaluate(self, ind, **kwargs):
         self.guess = ind.phenotype
 
-        return evaluate_guess(self.guess, self.log_info, self.alignment_cache, self.max_allowed_complexity)
+        try:
+            fitness = timeout(4)(evaluate_guess)(self.guess, self.log_info, self.alignment_cache,
+                                                 self.max_allowed_complexity)
+        except TimeoutException:
+            logging.error("TimeoutException: " + self.guess)
+            return 0
+        return fitness
 
     def save_cache(self, path: str):
         with open("cache/" + path, 'wb') as f:
