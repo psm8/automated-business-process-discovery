@@ -5,6 +5,7 @@ from processdiscovery.log.log_util import LogInfo
 import pickle
 import os
 
+
 class Singleton(type):
     _instances = {}
 
@@ -21,7 +22,7 @@ class process_fitness(base_ff, metaclass=Singleton):
         # self.handler = open("alignment" + str(id(self)), "wb")
         # Initialise base fitness function class.
         super().__init__()
-        self.alignment_cache = self.load_caches()
+        self.alignment_cache = dict()
         self.log_info = LogInfo('discovered-processes.csv')
         self.max_allowed_complexity = len(self.log_info.log) * 100
 
@@ -52,8 +53,8 @@ class process_fitness(base_ff, metaclass=Singleton):
         except Exception as err:
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
+            self.save_cache("alignment-cache" + str(id(self)) + ".pickle")
             print(err)
-            self.save_cache("alignment" + str(id(self)) + ".pickle")
             raise
 
         return fitness
