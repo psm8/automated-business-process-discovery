@@ -214,7 +214,7 @@ class GateTest(unittest.TestCase):
         e3 = keys[2]
         e4 = keys[3]
 
-        actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2), e3, e4)))
+        actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2, e3), e3, e4)))
         self.assertEqual(7, len(actual))
 
     def test_get_next_possible_states_2(self):
@@ -225,7 +225,7 @@ class GateTest(unittest.TestCase):
         keys = [x for x in events_with_parents.keys()]
         e2 = keys[1]
 
-        actual = set(list(events_with_parents[e1].get_next_possible_states((), e1, e2)))
+        actual = set(list(events_with_parents[e1].get_next_possible_states((e1, ), e1, e2)))
         self.assertEqual(7, len(actual))
 
     def test_get_next_possible_states_3(self):
@@ -235,6 +235,33 @@ class GateTest(unittest.TestCase):
 
         actual = set(list(gate.get_next_possible_states((), None, e1)))
         self.assertEqual(1, len(actual))
+
+    def test_get_next_possible_states4(self):
+        gate = SeqGate()
+        gate.parse('{a}and(seq(xor(seq(lop({c})opt({c})){b}){d})lop(seq({f}{d})))xor({e}seq({e}{g}))')
+        events_with_parents = gate.get_events_with_parents()
+        e1 = Event('a')
+        keys = [x for x in events_with_parents.keys()]
+        e2 = keys[2]
+        e4 = keys[4]
+        e8 = keys[8]
+
+        actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2, e4), e4, e8)))
+        self.assertEqual(3, len(actual))
+
+    def test_get_next_possible_states5(self):
+        gate = SeqGate()
+        gate.parse('{a}and(seq(xor(seq(lop({c})opt({c})){b}){d})lop(seq({f}{d})))xor({e}seq({e}{g}))')
+        events_with_parents = gate.get_events_with_parents()
+        e1 = Event('a')
+        keys = [x for x in events_with_parents.keys()]
+        e3 = keys[3]
+        e4 = keys[4]
+        e8 = keys[8]
+
+        actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e3, e4), e4, e8)))
+        self.assertEqual(3, len(actual))
+
 
     def test_eq1(self):
         gate1 = SeqGate()

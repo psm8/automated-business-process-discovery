@@ -280,3 +280,25 @@ def in_by_is(obj, a_list):
         if obj is x:
             return True
     return False
+
+
+def is_any_parent_optional(event, gate):
+    for elem in gate.elements:
+        if isinstance(elem, Event):
+            if event is elem:
+                if gate.get_model_min_length() == 0:
+                    return True
+                else:
+                    return False
+        else:
+            is_optional = is_any_parent_optional(event, elem)
+            if is_optional is not None:
+                if is_optional:
+                    return True
+                else:
+                    if gate.get_model_min_length() == 0:
+                        return True
+                    else:
+                        return False
+    return None
+

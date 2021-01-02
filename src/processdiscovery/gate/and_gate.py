@@ -1,6 +1,6 @@
 from processdiscovery.gate.gate import Gate
 from processdiscovery.event.event import Event
-from processdiscovery.util.util import flatten_values, in_by_is
+from processdiscovery.util.util import flatten_values, in_by_is, is_any_parent_optional
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.exception.exception_decorator import only_throws
 
@@ -90,7 +90,12 @@ class AndGate(Gate):
                     result.add(x)
             not_enabled_yet = result.difference(previous_events)
             if not_enabled_yet:
-                yield from not_enabled_yet
+                if all([is_any_parent_optional(x, self) for x in not_enabled_yet]):
+                    yield from not_enabled_yet
+                    if not blocked_parent_call:
+                        yield from self.parent.get_next_possible_states(previous_events, self, None)
+                else:
+                    yield from not_enabled_yet
             else:
                 if not blocked_parent_call:
                     yield from self.parent.get_next_possible_states(previous_events, self, None)
