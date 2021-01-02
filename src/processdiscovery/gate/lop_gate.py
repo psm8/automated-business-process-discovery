@@ -1,7 +1,6 @@
 from processdiscovery.gate.gate import Gate
 from processdiscovery.gate.seq_gate import SeqGate
-from processdiscovery.util.util import to_n_length
-from processdiscovery.util.util import flatten_values
+from processdiscovery.util.util import to_n_length, flatten_values, index_by_is
 from processdiscovery.event.event import Event
 
 from functools import reduce
@@ -78,7 +77,7 @@ class LopGate(Gate):
             if not blocked_parent_call:
                 yield from self.parent.get_next_possible_states(previous_events, self, None)
         else:
-            if child_caller == self.elements[-1]:
+            if child_caller is self.elements[-1]:
                 if not blocked_parent_call:
                     yield from self.parent.get_next_possible_states(previous_events, self, None)
                 x = self.elements[0]
@@ -88,7 +87,7 @@ class LopGate(Gate):
                     yield x
 
             else:
-                i = self.elements.index(child_caller)
+                i = index_by_is(child_caller, self.elements)
                 x = self.elements[i + 1]
                 if isinstance(x, Gate):
                     yield from x.get_next_possible_states(set(), None, None)

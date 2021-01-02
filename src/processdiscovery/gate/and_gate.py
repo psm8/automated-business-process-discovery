@@ -1,6 +1,6 @@
 from processdiscovery.gate.gate import Gate
 from processdiscovery.event.event import Event
-from processdiscovery.util.util import flatten_values
+from processdiscovery.util.util import flatten_values, in_by_is
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.exception.exception_decorator import only_throws
 
@@ -77,7 +77,7 @@ class AndGate(Gate):
         return sum(self.get_children_max_length())
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_parent_call=False):
-        if next_event is not None and next_event not in self.get_events():
+        if next_event is not None and not in_by_is(next_event, self.get_events()):
             if not blocked_parent_call:
                 yield from self.parent.get_next_possible_states(previous_events, self, None)
         else:

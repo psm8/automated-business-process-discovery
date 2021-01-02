@@ -2,6 +2,7 @@ from processdiscovery.gate.gate import Gate
 from processdiscovery.event.event import Event
 from processdiscovery.util.util import flatten_values
 from processdiscovery.event.event_group import EventGroup
+from processdiscovery.util.util import index_by_is
 
 from functools import reduce
 
@@ -74,14 +75,14 @@ class SeqGate(Gate):
             else:
                 yield x
         else:
-            if child_caller == self.elements[-1]:
+            if child_caller is self.elements[-1]:
                 if self.parent is not None:
                     if not blocked_parent_call:
                         yield from self.parent.get_next_possible_states(previous_events, self, None)
                 else:
                     return
             else:
-                i = self.elements.index(child_caller)
+                i = index_by_is(child_caller, self.elements)
                 x = self.elements[i + 1]
                 if isinstance(x, Gate):
                     yield from x.get_next_possible_states(set(), None, None)

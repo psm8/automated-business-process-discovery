@@ -1,6 +1,7 @@
 from processdiscovery.gate.gate import Gate
 from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
+from processdiscovery.util.util import in_by_is
 
 
 class XorGate(Gate):
@@ -63,7 +64,7 @@ class XorGate(Gate):
         return max(self.get_children_max_length())
 
     def get_next_possible_states(self, previous_events, caller_child, next_event, blocked_parent_call=False):
-        if caller_child in self.elements:
+        if in_by_is(caller_child, self.elements):
             if not blocked_parent_call:
                 yield from self.parent.get_next_possible_states(previous_events, self, None)
         else:

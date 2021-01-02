@@ -13,7 +13,7 @@ if __name__ == "__main__":
                         filemode='a',
                         format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                         datefmt='%H:%M:%S',
-                        level=logging.DEBUG)
+                        level=logging.ERROR)
 
     set_params(sys.argv[1:])  # exclude the ponyge.py arg itself
     mane()

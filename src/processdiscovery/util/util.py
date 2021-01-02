@@ -266,3 +266,17 @@ def subset_sum(numbers, target, max_len, current_len=0, partial=[], partial_sum=
         return
     for i, n in enumerate(numbers):
         yield from subset_sum(numbers, target, max_len, current_len + 1, partial + [n], partial_sum + n)
+
+
+def index_by_is(obj, a_list):
+    for i, x in enumerate(a_list):
+        if obj is x:
+            return i
+    raise Exception
+
+
+def in_by_is(obj, a_list):
+    for x in enumerate(a_list):
+        if obj is x:
+            return True
+    return False
