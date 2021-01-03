@@ -113,6 +113,7 @@ class FitnessTest(unittest.TestCase):
 
         actual = evaluate_guess('{a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h})',
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
+        self.assertTrue(actual > 0.985)
 
     def test_legend_1_2(self):
 
