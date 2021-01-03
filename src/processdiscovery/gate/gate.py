@@ -8,6 +8,8 @@ from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 from processdiscovery.util.util import event_list_length
 
+from functools import cached_property
+
 
 def consume(iterator, n):
     "Advance the iterator n-steps ahead. If n is none, consume entirely."
@@ -37,6 +39,22 @@ class Gate:
         if not isinstance(other, type(self)):
             return False
         return self.compare(other)
+
+    @cached_property
+    def get_model_min_length(self) -> int:
+        raise NotImplemented
+
+    @cached_property
+    def get_model_max_length(self) -> int:
+        raise NotImplemented
+
+    @cached_property
+    def get_complexity(self):
+        raise NotImplemented
+
+    @cached_property
+    def get_complexity_for_metric(self):
+        raise NotImplemented
 
     def compare(self, other):
         pass
@@ -175,10 +193,4 @@ class Gate:
         pass
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
-        pass
-
-    def get_complexity(self):
-        pass
-
-    def get_complexity_for_metric(self):
         pass

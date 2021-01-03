@@ -23,6 +23,18 @@ class OptGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
+    @cached_property
+    def get_complexity(self):
+        n = len(self.elements)
+        return reduce(lambda x, y: x*y, [x.get_complexity if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * sum(factorial(i) * comb(n, i) for i in range(n + 1))
+
+    @cached_property
+    def get_complexity_for_metric(self):
+        n = len(self.elements)
+        return reduce(lambda x, y: x * y, [x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * sum(factorial(i) * comb(n, i) for i in range(n + 1))
+
     def compare(self, other):
         if not isinstance(other, type(self)):
             return False
@@ -95,13 +107,3 @@ class OptGate(Gate):
             yield from not_enabled_yet
         if self.parent not in blocked_calls_to:
             yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
-
-    def get_complexity(self):
-        n = len(self.elements)
-        return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
-               * sum(factorial(i) * comb(n, i) for i in range(n + 1))
-
-    def get_complexity_for_metric(self):
-        n = len(self.elements)
-        return reduce(lambda x, y: x * y, [x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements]) \
-               * sum(factorial(i) * comb(n, i) for i in range(n + 1))

@@ -20,6 +20,16 @@ class AndGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
+    @cached_property
+    def get_complexity(self) -> int:
+        return reduce(lambda x, y: x*y, [x.get_complexity if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * factorial(len(self.elements))
+
+    @cached_property
+    def get_complexity_for_metric(self) -> int:
+        return reduce(lambda x, y: x*y, [x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements]) \
+               * factorial(len(self.elements))
+
     def compare(self, other):
         if not isinstance(other, type(self)):
             return False
@@ -99,10 +109,3 @@ class AndGate(Gate):
                 if self.parent not in blocked_calls_to:
                     yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
 
-    def get_complexity(self):
-        return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \
-               * factorial(len(self.elements))
-
-    def get_complexity_for_metric(self):
-        return reduce(lambda x, y: x*y, [x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements]) \
-               * factorial(len(self.elements))

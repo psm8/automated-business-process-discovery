@@ -18,6 +18,15 @@ class XorGate(Gate):
     def get_model_max_length(self) -> int:
         return max(self.get_children_max_length())
 
+    @cached_property
+    def get_complexity(self):
+        return sum([x.get_complexity if isinstance(x, Gate) else 1 for x in self.elements])
+
+    @cached_property
+    def get_complexity_for_metric(self):
+        return sum([x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
+
+
     @only_throws(ValueError)
     def add_element(self, element):
         self.check_valid_before_appending(element)
@@ -77,9 +86,3 @@ class XorGate(Gate):
                     yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
                 else:
                     yield x
-
-    def get_complexity(self):
-        return sum([x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements])
-
-    def get_complexity_for_metric(self):
-        return sum([x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements])

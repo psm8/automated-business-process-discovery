@@ -19,6 +19,14 @@ class SeqGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
+    @cached_property
+    def get_complexity(self):
+        return reduce(lambda x, y: x*y, [x.get_complexity if isinstance(x, Gate) else 1 for x in self.elements])
+
+    @cached_property
+    def get_complexity_for_metric(self):
+        return reduce(lambda x, y: x*y, [x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
+
     def compare(self, other):
         if not isinstance(other, type(self)):
             return False
@@ -89,9 +97,3 @@ class SeqGate(Gate):
                     yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
                 else:
                     yield x
-
-    def get_complexity(self):
-        return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements])
-
-    def get_complexity_for_metric(self):
-        return reduce(lambda x, y: x*y, [x.get_complexity_for_metric() if isinstance(x, Gate) else 1 for x in self.elements])
