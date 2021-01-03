@@ -81,11 +81,8 @@ class AndGate(Gate):
             result = self.get_children_next_possible_states(child_caller)
             if all([is_any_parent_optional(x, self, previous_events) for x in result]):
                 yield from result
-                if self.parent not in blocked_calls_to:
-                    yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
-            else:
-                if self.parent not in blocked_calls_to:
-                    yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
+            if self.parent not in blocked_calls_to:
+                yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
         else:
             result = self.get_children_next_possible_states(child_caller)
             not_enabled_yet = result.difference(previous_events[-len(result):])
