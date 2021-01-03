@@ -15,6 +15,14 @@ class OptGate(Gate):
     def __init__(self, parent=None, elements=None):
         super().__init__("opt", parent, elements)
 
+    @cached_property
+    def get_model_min_length(self) -> int:
+        return 0
+
+    @cached_property
+    def get_model_max_length(self) -> int:
+        return sum(self.get_children_max_length())
+
     def compare(self, other):
         if not isinstance(other, type(self)):
             return False
@@ -73,14 +81,6 @@ class OptGate(Gate):
             return results
         else:
             return []
-
-    @cached_property
-    def get_model_min_length(self) -> int:
-        return 0
-
-    @cached_property
-    def get_model_max_length(self) -> int:
-        return sum(self.get_children_max_length())
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]) -> set:
         result = set()

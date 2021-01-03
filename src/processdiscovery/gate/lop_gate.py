@@ -15,6 +15,14 @@ class LopGate(Gate):
         super().__init__("lop", parent, elements)
         self.complexity_if_seq_parent = 1
 
+    @cached_property
+    def get_model_min_length(self) -> int:
+        return 0
+
+    @cached_property
+    def get_model_max_length(self) -> int:
+        return self.LOP_GATE_MAX_DEPTH * sum(self.get_children_max_length())
+
     def add_element(self, element):
         self.elements.append(element)
 
@@ -63,14 +71,6 @@ class LopGate(Gate):
                 return []
         else:
             return []
-
-    @cached_property
-    def get_model_min_length(self) -> int:
-        return 0
-
-    @cached_property
-    def get_model_max_length(self) -> int:
-        return self.LOP_GATE_MAX_DEPTH * sum(self.get_children_max_length())
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]) -> set:
         if child_caller is None:

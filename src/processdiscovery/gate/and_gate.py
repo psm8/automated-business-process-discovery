@@ -12,6 +12,14 @@ class AndGate(Gate):
     def __init__(self, parent=None, elements=None):
         super().__init__("and", parent, elements)
 
+    @cached_property
+    def get_model_min_length(self) -> int:
+        return sum(self.get_children_min_length())
+
+    @cached_property
+    def get_model_max_length(self) -> int:
+        return sum(self.get_children_max_length())
+
     def compare(self, other):
         if not isinstance(other, type(self)):
             return False
@@ -69,14 +77,6 @@ class AndGate(Gate):
                         result.append(EventGroupParallel(elem))
 
         return result
-
-    @cached_property
-    def get_model_min_length(self) -> int:
-        return sum(self.get_children_min_length())
-
-    @cached_property
-    def get_model_max_length(self) -> int:
-        return sum(self.get_children_max_length())
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         if next_event is not None and not in_by_is(next_event, self.get_events()):

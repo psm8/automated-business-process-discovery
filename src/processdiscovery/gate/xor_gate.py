@@ -10,6 +10,14 @@ class XorGate(Gate):
     def __init__(self, parent=None, elements=None):
         super().__init__("xor", parent, elements)
 
+    @cached_property
+    def get_model_min_length(self) -> int:
+        return min(self.get_children_min_length())
+
+    @cached_property
+    def get_model_max_length(self) -> int:
+        return max(self.get_children_max_length())
+
     @only_throws(ValueError)
     def add_element(self, element):
         self.check_valid_before_appending(element)
@@ -58,14 +66,6 @@ class XorGate(Gate):
             return local_list
 
         return result
-
-    @cached_property
-    def get_model_min_length(self) -> int:
-        return min(self.get_children_min_length())
-
-    @cached_property
-    def get_model_max_length(self) -> int:
-        return max(self.get_children_max_length())
 
     def get_next_possible_states(self, previous_events, caller_child, next_event, blocked_calls_to=[]):
         if in_by_is(caller_child, self.elements):
