@@ -70,22 +70,22 @@ class LopGate(Gate):
     def get_model_max_length(self) -> int:
         return self.LOP_GATE_MAX_DEPTH * sum(self.get_children_max_length())
 
-    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_parent_call=False) -> set:
+    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]) -> set:
         if child_caller is None:
             x = self.elements[0]
             if isinstance(x, Gate):
-                yield from x.get_next_possible_states(set(), None, None)
+                yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
             else:
                 yield x
-            if not blocked_parent_call:
-                yield from self.parent.get_next_possible_states(previous_events, self, None)
+            if self.parent not in blocked_calls_to:
+                yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
         else:
             if child_caller is self.elements[-1]:
-                if not blocked_parent_call:
-                    yield from self.parent.get_next_possible_states(previous_events, self, None)
+                if self.parent not in blocked_calls_to:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
                 x = self.elements[0]
                 if isinstance(x, Gate):
-                    yield from x.get_next_possible_states(set(), None, None, True)
+                    yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to + [self])
                 else:
                     yield x
 
@@ -93,7 +93,7 @@ class LopGate(Gate):
                 i = index_by_is(child_caller, self.elements)
                 x = self.elements[i + 1]
                 if isinstance(x, Gate):
-                    yield from x.get_next_possible_states(set(), None, None)
+                    yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
                 else:
                     yield x
 

@@ -282,23 +282,26 @@ def in_by_is(obj, a_list):
     return False
 
 
-def is_any_parent_optional(event, gate):
+def is_any_parent_optional(event, gate, previous_events):
     for elem in gate.elements:
         if isinstance(elem, Event):
             if event is elem:
-                if gate.get_model_min_length() == 0:
+                children_next_possible_states = gate.get_children_next_possible_states(elem)
+                if gate.get_model_min_length() <= sum(in_by_is(x, children_next_possible_states)
+                                                      for x in previous_events[-len(children_next_possible_states):]):
                     return True
                 else:
                     return False
         else:
-            is_optional = is_any_parent_optional(event, elem)
+            is_optional = is_any_parent_optional(event, elem, previous_events)
             if is_optional is not None:
                 if is_optional:
                     return True
                 else:
-                    if gate.get_model_min_length() == 0:
+                    children_next_possible_states = gate.get_children_next_possible_states(elem)
+                    if gate.get_model_min_length() <= sum(in_by_is(x, children_next_possible_states)
+                                                          for x in previous_events[-len(children_next_possible_states):]):
                         return True
                     else:
                         return False
     return None
-

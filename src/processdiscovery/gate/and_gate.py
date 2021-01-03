@@ -76,42 +76,29 @@ class AndGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
-    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_parent_call=False):
+    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         if next_event is not None and not in_by_is(next_event, self.get_events()):
-            if not blocked_parent_call:
-                result = set()
-                for x in self.elements:
-                    if isinstance(x, Gate):
-                        if x is not child_caller:
-                            [result.add(y) for y in x.get_next_possible_states(set(), None, None, True)]
-                    else:
-                        result.add(x)
-                result.remove(child_caller)
-                if all([is_any_parent_optional(x, self) for x in result]):
-                    yield from result
-                    if not blocked_parent_call:
-                        yield from self.parent.get_next_possible_states(previous_events, self, None)
-                else:
-                    yield from self.parent.get_next_possible_states(previous_events, self, None)
+            result = self.get_children_next_possible_states(child_caller)
+            if all([is_any_parent_optional(x, self, previous_events) for x in result]):
+                yield from result
+                if self.parent not in blocked_calls_to:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
+            else:
+                if self.parent not in blocked_calls_to:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
         else:
-            result = set()
-            for x in self.elements:
-                if isinstance(x, Gate):
-                    if x is not child_caller:
-                        [result.add(y) for y in x.get_next_possible_states(set(), None, None, True)]
-                else:
-                    result.add(x)
-            not_enabled_yet = result.difference(previous_events)
+            result = self.get_children_next_possible_states(child_caller)
+            not_enabled_yet = result.difference(previous_events[-len(result):])
             if not_enabled_yet:
-                if all([is_any_parent_optional(x, self) for x in not_enabled_yet]):
+                if all([is_any_parent_optional(x, self, previous_events) for x in not_enabled_yet]):
                     yield from not_enabled_yet
-                    if not blocked_parent_call:
-                        yield from self.parent.get_next_possible_states(previous_events, self, None)
+                    if self.parent not in blocked_calls_to:
+                        yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
                 else:
                     yield from not_enabled_yet
             else:
-                if not blocked_parent_call:
-                    yield from self.parent.get_next_possible_states(previous_events, self, None)
+                if self.parent not in blocked_calls_to:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
 
     def get_complexity(self):
         return reduce(lambda x, y: x*y, [x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements]) \

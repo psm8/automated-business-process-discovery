@@ -63,12 +63,16 @@ class XorGate(Gate):
     def get_model_max_length(self) -> int:
         return max(self.get_children_max_length())
 
-    def get_next_possible_states(self, previous_events, caller_child, next_event, blocked_parent_call=False):
+    def get_next_possible_states(self, previous_events, caller_child, next_event, blocked_calls_to=[]):
         if in_by_is(caller_child, self.elements):
-            if not blocked_parent_call:
-                yield from self.parent.get_next_possible_states(previous_events, self, None)
+            if self.parent not in blocked_calls_to:
+                yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
         else:
-            yield from (x.get_next_possible_states(set(), self, None) if isinstance(x, Gate) else x for x in self.elements)
+            for x in self.elements:
+                if isinstance(x, Gate):
+                    yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
+                else:
+                    yield x
 
     def get_complexity(self):
         return sum([x.get_complexity() if isinstance(x, Gate) else 1 for x in self.elements])

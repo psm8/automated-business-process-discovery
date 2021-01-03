@@ -67,25 +67,25 @@ class SeqGate(Gate):
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
-    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_parent_call=False):
+    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         if child_caller is None:
             x = self.elements[0]
             if isinstance(x, Gate):
-                yield from x.get_next_possible_states(set(), None, None)
+                yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
             else:
                 yield x
         else:
             if child_caller is self.elements[-1]:
                 if self.parent is not None:
-                    if not blocked_parent_call:
-                        yield from self.parent.get_next_possible_states(previous_events, self, None)
+                    if self.parent not in blocked_calls_to:
+                        yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
                 else:
                     return
             else:
                 i = index_by_is(child_caller, self.elements)
                 x = self.elements[i + 1]
                 if isinstance(x, Gate):
-                    yield from x.get_next_possible_states(set(), None, None)
+                    yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
                 else:
                     yield x
 

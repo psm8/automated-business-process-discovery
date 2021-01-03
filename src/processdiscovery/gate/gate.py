@@ -161,10 +161,20 @@ class Gate:
 
         return nodes
 
+    def get_children_next_possible_states(self, child_caller):
+        result = set()
+        for x in self.elements:
+            if x is not child_caller:
+                if isinstance(x, Gate):
+                    [result.add(y) for y in x.get_next_possible_states(tuple(), None, None, [self])]
+                else:
+                    result.add(x)
+        return result
+
     def get_all_n_length_routes(self, n: int, process) -> []:
         pass
 
-    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_parent_call=False):
+    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         pass
 
     def get_complexity(self):
