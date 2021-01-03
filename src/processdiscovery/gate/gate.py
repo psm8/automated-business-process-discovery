@@ -120,7 +120,7 @@ class Gate:
             if isinstance(elem, Event):
                 lengths.append(1)
             else:
-                lengths.append(elem.get_model_min_length())
+                lengths.append(elem.get_model_min_length)
 
         return lengths
 
@@ -131,7 +131,7 @@ class Gate:
             if isinstance(elem, Event):
                 lengths.append(1)
             else:
-                lengths.append(elem.get_model_max_length())
+                lengths.append(elem.get_model_max_length)
 
         return lengths
 

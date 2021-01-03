@@ -4,7 +4,7 @@ from processdiscovery.util.util import flatten_values, in_by_is, is_any_parent_o
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 from processdiscovery.exception.exception_decorator import only_throws
 
-from functools import reduce
+from functools import reduce, cached_property
 from math import factorial
 
 
@@ -31,7 +31,7 @@ class AndGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length() < n or n < self.get_model_min_length():
+        if self.get_model_max_length < n or n < self.get_model_min_length:
             return None
 
         min_lengths = self.get_children_min_length()
@@ -70,9 +70,11 @@ class AndGate(Gate):
 
         return result
 
+    @cached_property
     def get_model_min_length(self) -> int:
         return sum(self.get_children_min_length())
 
+    @cached_property
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 

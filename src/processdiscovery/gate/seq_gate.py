@@ -4,7 +4,7 @@ from processdiscovery.util.util import flatten_values
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.util.util import index_by_is
 
-from functools import reduce
+from functools import reduce, cached_property
 
 
 class SeqGate(Gate):
@@ -27,7 +27,7 @@ class SeqGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length() < n or n < self.get_model_min_length():
+        if self.get_model_max_length < n or n < self.get_model_min_length:
             return None
 
         min_lengths = self.get_children_min_length()
@@ -61,9 +61,11 @@ class SeqGate(Gate):
 
         return result
 
+    @cached_property
     def get_model_min_length(self) -> int:
         return sum(self.get_children_min_length())
 
+    @cached_property
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
@@ -76,9 +78,8 @@ class SeqGate(Gate):
                 yield x
         else:
             if child_caller is self.elements[-1]:
-                if self.parent is not None:
-                    if self.parent not in blocked_calls_to:
-                        yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
+                if self.parent is not None and self.parent not in blocked_calls_to:
+                    yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
                 else:
                     return
             else:

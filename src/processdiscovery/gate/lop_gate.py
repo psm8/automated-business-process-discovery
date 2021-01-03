@@ -3,7 +3,7 @@ from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.util.util import to_n_length, flatten_values, index_by_is
 from processdiscovery.event.event import Event
 
-from functools import reduce
+from functools import reduce, cached_property
 from math import pow
 
 
@@ -43,7 +43,7 @@ class LopGate(Gate):
                 min_lengths.pop(0)
             else:
                 upper_limit = self.get_goal_length_upper_range(n, global_list, min_lengths)
-                for i in range(max(1, elem.get_model_min_length()), upper_limit + 1):
+                for i in range(max(1, elem.get_model_min_length), upper_limit + 1):
                     try:
                         child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
                     except ValueError:
@@ -64,9 +64,11 @@ class LopGate(Gate):
         else:
             return []
 
+    @cached_property
     def get_model_min_length(self) -> int:
         return 0
 
+    @cached_property
     def get_model_max_length(self) -> int:
         return self.LOP_GATE_MAX_DEPTH * sum(self.get_children_max_length())
 

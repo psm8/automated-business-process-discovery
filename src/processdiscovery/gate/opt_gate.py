@@ -5,7 +5,7 @@ from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 from processdiscovery.event.base_group import BaseGroup
 
-from functools import reduce
+from functools import reduce, cached_property
 from math import factorial, comb
 
 
@@ -36,7 +36,7 @@ class OptGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length() < n:
+        if self.get_model_max_length < n:
             return None
 
         min_lengths = self.get_children_min_length()
@@ -74,9 +74,11 @@ class OptGate(Gate):
         else:
             return []
 
+    @cached_property
     def get_model_min_length(self) -> int:
         return 0
 
+    @cached_property
     def get_model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 

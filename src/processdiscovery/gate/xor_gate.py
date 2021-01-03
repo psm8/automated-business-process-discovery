@@ -3,6 +3,8 @@ from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 from processdiscovery.util.util import in_by_is
 
+from functools import cached_property
+
 
 class XorGate(Gate):
     def __init__(self, parent=None, elements=None):
@@ -26,7 +28,7 @@ class XorGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length() < n or n < self.get_model_min_length():
+        if self.get_model_max_length < n or n < self.get_model_min_length:
             return None
 
         local_list = []
@@ -57,9 +59,11 @@ class XorGate(Gate):
 
         return result
 
+    @cached_property
     def get_model_min_length(self) -> int:
         return min(self.get_children_min_length())
 
+    @cached_property
     def get_model_max_length(self) -> int:
         return max(self.get_children_max_length())
 
