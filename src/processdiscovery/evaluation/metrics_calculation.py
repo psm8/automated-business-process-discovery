@@ -87,7 +87,7 @@ def calculate_metrics_for_single_process(elem, gate, min_length, max_length, ali
                     route_to_process_events_ratio = check_route_with_log_process(event_group, elem)
                     if route_to_process_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
                         continue
-                    value, events = get_best_alignment_cached(event_group, list(elem), alignment_cache)
+                    value, events = get_best_alignment(event_group, list(elem), alignment_cache)
                     if value > min_local:
                         min_local = value
                         events_global = events
@@ -125,8 +125,8 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         best_local_error, events_global, best_event_group = \
             calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache)
 
-        if any(event not in model_events_list for event in events_global):
-            _, events_global = get_best_alignment(best_event_group, list(elem), dict())
+        if any(event is not None and event not in model_events_list for event in events_global):
+            _, events_global = get_best_alignment_cached(best_event_group, list(elem), dict())
         if best_local_error == 0:
             perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
         add_executions(model_events_list, events_global, log_info.log[elem])

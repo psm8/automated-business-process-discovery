@@ -17,6 +17,7 @@
     consider hash recognize eventGroup inside eventGroup
     also maybe checking in constructor if event group added to eventgroup 
     caching shold be done class higher possibly
+    return None instead of empty list if empty imposible always chec with min length becaouse gate could have optinal inside
 ### Simplicity
 
 ### Replay fitness

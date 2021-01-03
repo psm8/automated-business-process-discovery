@@ -70,7 +70,7 @@ class process_fitness(base_ff, metaclass=Singleton):
         self.guess = ind.phenotype
 
         try:
-            fitness = timeout(4)(evaluate_guess)(self.guess, self.log_info, self.alignment_cache,
+            fitness = timeout(5)(evaluate_guess)(self.guess, self.log_info, self.alignment_cache,
                                                  self.max_allowed_complexity)
         except TimeoutException:
             logging.error("TimeoutException: " + self.guess)

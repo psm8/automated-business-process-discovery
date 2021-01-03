@@ -26,7 +26,7 @@ class XorGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length() < n and n > 0:
+        if self.get_model_max_length() < n or n < self.get_model_min_length():
             return None
 
         local_list = []
