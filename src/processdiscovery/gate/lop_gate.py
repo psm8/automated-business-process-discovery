@@ -113,7 +113,6 @@ class LopGate(Gate):
         else:
             return None
 
-
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]) -> set:
         if child_caller is None:
             x = self.elements[0]
