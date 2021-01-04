@@ -93,7 +93,7 @@ class LopGate(Gate):
                     try:
                         child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
                     except ValueError:
-                        return []
+                        return None
                     if child_all_n_length_routes is not None:
                         local_list.append(child_all_n_length_routes)
 
@@ -104,11 +104,15 @@ class LopGate(Gate):
             flattened_list = flatten_values(global_list)
             if len(flattened_list) < self.LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS:
                 results = [x for x in to_n_length(n, flattened_list, process, self.LOP_GATE_MAX_DEPTH, 0)]
-                return results
+                if results:
+                    return results
+                else:
+                    return None
             else:
-                return []
+                return None
         else:
-            return []
+            return None
+
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]) -> set:
         if child_caller is None:

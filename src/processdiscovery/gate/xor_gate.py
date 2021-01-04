@@ -51,6 +51,8 @@ class XorGate(Gate):
                 self.elements[i].set_children_boundaries()
 
     def get_all_n_length_routes(self, n: int, process) -> []:
+        if n == 0:
+            return []
         if self.get_model_max_length < n or n < self.get_model_min_length:
             return None
 
@@ -65,7 +67,7 @@ class XorGate(Gate):
                 try:
                     child_all_n_length_routes = elem.get_all_n_length_routes(n, process)
                 except ValueError:
-                    return []
+                    return None
                 if child_all_n_length_routes is not None:
                     local_list.append(child_all_n_length_routes)
 
@@ -77,10 +79,11 @@ class XorGate(Gate):
                 else:
                     if len(elem) == n:
                         result.append(elem)
-        else:
-            return local_list
 
-        return result
+        if result:
+            return result
+        else:
+            return None
 
     def get_next_possible_states(self, previous_events, caller_child, next_event, blocked_calls_to=[]):
         if in_by_is(caller_child, self.elements):

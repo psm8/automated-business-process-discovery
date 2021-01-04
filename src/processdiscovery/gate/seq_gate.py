@@ -64,6 +64,8 @@ class SeqGate(Gate):
                 self.elements[i].set_children_boundaries()
 
     def get_all_n_length_routes(self, n: int, process) -> []:
+        if n == 0:
+            return []
         if self.get_model_max_length < n or n < self.get_model_min_length:
             return None
 
@@ -83,7 +85,7 @@ class SeqGate(Gate):
                     try:
                         child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
                     except ValueError:
-                        return []
+                        return None
                     if child_all_n_length_routes is not None:
                         local_list.append(child_all_n_length_routes)
 
@@ -96,7 +98,10 @@ class SeqGate(Gate):
                 if self.check_length(n, elem):
                     result.append(EventGroup(elem))
 
-        return result
+        if result:
+            return result
+        else:
+            return None
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         if child_caller is None:

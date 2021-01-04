@@ -88,24 +88,26 @@ class OptGate(Gate):
                     try:
                         child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
                     except ValueError:
-                        return []
+                        return None
                     if child_all_n_length_routes is not None:
                         local_list.append(child_all_n_length_routes)
 
             if local_list:
                 global_list.append(local_list)
 
+        results = []
         if global_list:
             flattened_list = flatten_values(global_list)
-            results = []
             for elem in flattened_list:
                 [results.append(x) for x in to_n_length_opt(n, elem)]
             for result in list(set(results)):
                 if isinstance(result, BaseGroup):
                     self.check_valid_for_get_n_length(result.events)
+
+        if results:
             return results
         else:
-            return []
+            return None
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         result = set()

@@ -81,9 +81,10 @@ def calculate_metrics_for_single_process(elem, model, min_length, max_length, al
             model.min_end = n
             model.max_end = n
             model.set_children_boundaries()
-            routes = set(model.get_all_n_length_routes(n, elem))
+            routes = model.get_all_n_length_routes(n, elem)
 
             if routes is not None and not is_struct_empty(routes):
+                routes = set(routes)
                 route_and_process_events_ratios = []
                 for event_group in routes:
                     ratio = check_route_with_log_process(event_group, elem)
