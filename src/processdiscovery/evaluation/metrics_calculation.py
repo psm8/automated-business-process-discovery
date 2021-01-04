@@ -9,6 +9,7 @@ from processdiscovery.log.log_util import get_sum_of_processes_length
 from processdiscovery.event.event import Event
 
 import math
+import logging
 
 MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.95
 MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.7
@@ -149,7 +150,12 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     metrics['complexity'] = (calculate_complexity_metric(cumulated_average_error, gate), 2)
 
     if any(metrics[x][0] > 1.0000001 for x in metrics):
-        raise Exception
+        logging.error([x.no_visits for x in model_events_list])
+        logging.error(perfectly_aligned_logs)
+        logging.error(len(alignment_cache))
+        logging.error(model_events_list_with_parents)
+        logging.error(metrics)
+        raise Exception(metrics)
 
     best_result = (metrics['alignment'][0] * metrics['alignment'][1] +
                    metrics['precision'][0] * metrics['precision'][1] +

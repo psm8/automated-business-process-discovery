@@ -2,7 +2,7 @@ import unittest
 
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
-
+from fitness.process_fitness import process_fitness
 
 class FitnessTest(unittest.TestCase):
 
@@ -127,6 +127,18 @@ class FitnessTest(unittest.TestCase):
         actual = evaluate_guess(
             '{h}{d}{g}{c}xor(opt({e}){f})xor({a}and(lop(seq(opt({c})opt({b})))opt({d})))',
             LogInfo('discovered-processes.csv'), dict(), 2100)
+        expected = 0
+
+    def test_9_9_7(self):
+        actual = evaluate_guess(
+            '{a}xor(and({g}and({e}{f}))xor(and({g}and({e}{c}))and(seq(xor({f}{h}){d}{b}){h})))',
+            LogInfo('discovered-processes.csv'), process_fitness().load_caches(), 2100)
+        expected = 0
+
+    def test_9_9_8(self):
+        actual = evaluate_guess(
+            '{a}{c}{d}and(seq(xor(opt({c})seq({b}{e}){e}xor(xor({f}{h}){g})){e})opt(lop({a})))',
+            LogInfo('discovered-processes.csv'), process_fitness().load_caches(), 2100)
         expected = 0
 
     def test_legend_1_1(self):

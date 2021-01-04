@@ -110,8 +110,6 @@ class Gate:
                 consume(numbers, processed_characters)
             else:
                 raise Exception
-        for event in locally_added_events:
-            event.no_branches += 1
 
     def get_goal_length_lower_range(self, n, global_list, min_lengths, max_lengths):
         min_length_local = min_lengths.pop(0)

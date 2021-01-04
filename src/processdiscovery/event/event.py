@@ -7,7 +7,6 @@ class Event(ComparableEvent):
 
     def __init__(self, name: str):
         self.name = name
-        self.no_branches = 0
         self.no_visits = 0
         self.event_lop_twin = None
         self.min_start = -1
