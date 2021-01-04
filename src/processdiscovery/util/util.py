@@ -287,8 +287,8 @@ def is_any_parent_optional(event, gate, previous_events):
         if isinstance(elem, Event):
             if event is elem:
                 children_next_possible_states = gate.get_children_next_possible_states(elem)
-                if gate.get_model_min_length <= sum(in_by_is(x, children_next_possible_states)
-                                                    for x in previous_events[-len(children_next_possible_states):]):
+                if gate.model_min_length <= sum(in_by_is(x, children_next_possible_states)
+                                                for x in previous_events[-len(children_next_possible_states):]):
                     return True
                 else:
                     return False
@@ -299,8 +299,8 @@ def is_any_parent_optional(event, gate, previous_events):
                     return True
                 else:
                     children_next_possible_states = gate.get_children_next_possible_states(elem)
-                    if gate.get_model_min_length <= sum(in_by_is(x, children_next_possible_states)
-                                                        for x in previous_events[-len(children_next_possible_states):]):
+                    if gate.model_min_length <= sum(in_by_is(x, children_next_possible_states)
+                                                    for x in previous_events[-len(children_next_possible_states):]):
                         return True
                     else:
                         return False

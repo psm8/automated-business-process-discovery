@@ -15,11 +15,11 @@ class Event(ComparableEvent):
         self.max_end = -1
 
     @cached_property
-    def get_model_min_length(self) -> int:
+    def model_min_length(self) -> int:
         return 1
 
     @cached_property
-    def get_model_max_length(self) -> int:
+    def model_max_length(self) -> int:
         return 1
 
     def __len__(self):

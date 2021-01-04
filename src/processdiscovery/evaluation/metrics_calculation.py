@@ -19,7 +19,7 @@ BIG_PENALTY = 0
 def calculate_complexity_metric(cumulated_average_error, model):
     if cumulated_average_error == 0:
         return 1
-    complexity = model.get_complexity_for_metric
+    complexity = model.complexity_for_metric
     return math.pow(math.sqrt(1 - cumulated_average_error * math.sqrt(complexity)), -1)
 
 
@@ -182,15 +182,15 @@ def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     except ValueError:
         return BIG_PENALTY
 
-    min_length = gate.get_model_min_length
+    min_length = gate.model_min_length
     if min_length > calculate_max_allowed_length(log_info.process_average_length):
         return BIG_PENALTY
 
-    max_length = gate.get_model_max_length
+    max_length = gate.model_max_length
     if max_length < calculate_min_allowed_length(log_info.process_average_length):
         return BIG_PENALTY
 
-    if max_allowed_complexity < gate.get_complexity:
+    if max_allowed_complexity < gate.complexity:
         return BIG_PENALTY
 
     fitness_metric = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)

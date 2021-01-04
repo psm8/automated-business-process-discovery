@@ -11,20 +11,20 @@ class XorGate(Gate):
         super().__init__("xor", parent, elements)
 
     @cached_property
-    def get_model_min_length(self) -> int:
+    def model_min_length(self) -> int:
         return min(self.get_children_min_length())
 
     @cached_property
-    def get_model_max_length(self) -> int:
+    def model_max_length(self) -> int:
         return max(self.get_children_max_length())
 
     @cached_property
-    def get_complexity(self):
-        return sum([x.get_complexity if isinstance(x, Gate) else 1 for x in self.elements])
+    def complexity(self):
+        return sum([x.complexity if isinstance(x, Gate) else 1 for x in self.elements])
 
     @cached_property
-    def get_complexity_for_metric(self):
-        return sum([x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
+    def complexity_for_metric(self):
+        return sum([x.complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
 
     @only_throws(ValueError)
     def add_element(self, element):
@@ -45,15 +45,15 @@ class XorGate(Gate):
         for i in range(len(self.elements)):
             self.elements[i].min_start = self.min_start
             self.elements[i].max_start = self.max_start
-            self.elements[i].min_end = self.elements[i].min_start + self.elements[i].get_model_min_length
-            self.elements[i].max_end = self.elements[i].max_start + self.elements[i].get_model_max_length
+            self.elements[i].min_end = self.elements[i].min_start + self.elements[i].model_min_length
+            self.elements[i].max_end = self.elements[i].max_start + self.elements[i].model_max_length
             if isinstance(self.elements[i], Gate):
                 self.elements[i].set_children_boundaries()
 
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length < n or n < self.get_model_min_length:
+        if self.model_max_length < n or n < self.model_min_length:
             return None
 
         local_list = []

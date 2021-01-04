@@ -16,23 +16,23 @@ class OptGate(Gate):
         super().__init__("opt", parent, elements)
 
     @cached_property
-    def get_model_min_length(self) -> int:
+    def model_min_length(self) -> int:
         return 0
 
     @cached_property
-    def get_model_max_length(self) -> int:
+    def model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
     @cached_property
-    def get_complexity(self):
+    def complexity(self):
         n = len(self.elements)
-        return reduce(lambda x, y: x*y, [x.get_complexity if isinstance(x, Gate) else 1 for x in self.elements]) \
+        return reduce(lambda x, y: x*y, [x.complexity if isinstance(x, Gate) else 1 for x in self.elements]) \
                * sum(factorial(i) * comb(n, i) for i in range(n + 1))
 
     @cached_property
-    def get_complexity_for_metric(self):
+    def complexity_for_metric(self):
         n = len(self.elements)
-        return reduce(lambda x, y: x * y, [x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements]) \
+        return reduce(lambda x, y: x * y, [x.complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements]) \
                * sum(factorial(i) * comb(n, i) for i in range(n + 1))
 
     def compare(self, other):
@@ -50,10 +50,10 @@ class OptGate(Gate):
 
         for i in range(len(self.elements)):
             self.elements[i].min_start = self.min_start
-            self.elements[i].max_start = min(self.max_start + (sum(max_lengths) - self.elements[i].get_model_max_length),
-                                             self.max_end - self.elements[i].get_model_min_length)
-            self.elements[i].min_end = max(self.min_start + self.elements[i].get_model_min_length,
-                                           self.min_end - (sum(max_lengths) - self.elements[i].get_model_max_length))
+            self.elements[i].max_start = min(self.max_start + (sum(max_lengths) - self.elements[i].model_max_length),
+                                             self.max_end - self.elements[i].model_min_length)
+            self.elements[i].min_end = max(self.min_start + self.elements[i].model_min_length,
+                                           self.min_end - (sum(max_lengths) - self.elements[i].model_max_length))
             self.elements[i].max_end = self.max_end
             if isinstance(self.elements[i], Gate):
                 self.elements[i].set_children_boundaries()
@@ -69,7 +69,7 @@ class OptGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length < n or n < min(self.get_children_min_length()):
+        if self.model_max_length < n or n < min(self.get_children_min_length()):
             return None
 
         min_lengths = self.get_children_min_length()

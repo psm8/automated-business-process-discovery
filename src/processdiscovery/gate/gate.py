@@ -37,19 +37,19 @@ class Gate:
         self.max_end = -1
 
     @cached_property
-    def get_model_min_length(self) -> int:
+    def model_min_length(self) -> int:
         raise NotImplemented
 
     @cached_property
-    def get_model_max_length(self) -> int:
+    def model_max_length(self) -> int:
         raise NotImplemented
 
     @cached_property
-    def get_complexity(self):
+    def complexity(self):
         raise NotImplemented
 
     @cached_property
-    def get_complexity_for_metric(self):
+    def complexity_for_metric(self):
         raise NotImplemented
 
     def __len__(self):
@@ -143,7 +143,7 @@ class Gate:
             if isinstance(elem, Event):
                 lengths.append(1)
             else:
-                lengths.append(elem.get_model_min_length)
+                lengths.append(elem.model_min_length)
 
         return lengths
 
@@ -154,7 +154,7 @@ class Gate:
             if isinstance(elem, Event):
                 lengths.append(1)
             else:
-                lengths.append(elem.get_model_max_length)
+                lengths.append(elem.model_max_length)
 
         return lengths
 

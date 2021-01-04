@@ -12,20 +12,20 @@ class SeqGate(Gate):
         super().__init__("seq", parent, elements)
 
     @cached_property
-    def get_model_min_length(self) -> int:
+    def model_min_length(self) -> int:
         return sum(self.get_children_min_length())
 
     @cached_property
-    def get_model_max_length(self) -> int:
+    def model_max_length(self) -> int:
         return sum(self.get_children_max_length())
 
     @cached_property
-    def get_complexity(self):
-        return reduce(lambda x, y: x*y, [x.get_complexity if isinstance(x, Gate) else 1 for x in self.elements])
+    def complexity(self):
+        return reduce(lambda x, y: x*y, [x.complexity if isinstance(x, Gate) else 1 for x in self.elements])
 
     @cached_property
-    def get_complexity_for_metric(self):
-        return reduce(lambda x, y: x*y, [x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
+    def complexity_for_metric(self):
+        return reduce(lambda x, y: x*y, [x.complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
 
     def compare(self, other):
         if not isinstance(other, type(self)):
@@ -46,9 +46,9 @@ class SeqGate(Gate):
 
         self.elements[0].min_start = self.min_start
         self.elements[0].max_start = self.max_start
-        self.elements[0].min_end = max(self.elements[0].min_start + self.elements[0].get_model_min_length,
+        self.elements[0].min_end = max(self.elements[0].min_start + self.elements[0].model_min_length,
                                        self.min_end - sum(max_lengths[1:]))
-        self.elements[0].max_end = min(self.elements[0].max_start + self.elements[0].get_model_max_length,
+        self.elements[0].max_end = min(self.elements[0].max_start + self.elements[0].model_max_length,
                                        self.max_end - sum(min_lengths[1:]))
         if isinstance(self.elements[0], Gate):
             self.elements[0].set_children_boundaries()
@@ -56,9 +56,9 @@ class SeqGate(Gate):
         for i in range(1, len(self.elements)):
             self.elements[i].min_start = self.elements[i-1].min_end
             self.elements[i].max_start = self.elements[i-1].max_end
-            self.elements[i].min_end = max(self.elements[i].min_start + self.elements[i].get_model_min_length,
+            self.elements[i].min_end = max(self.elements[i].min_start + self.elements[i].model_min_length,
                                            self.min_end - sum(max_lengths[i+1:]))
-            self.elements[i].max_end = min(self.elements[i].max_start + self.elements[i].get_model_max_length,
+            self.elements[i].max_end = min(self.elements[i].max_start + self.elements[i].model_max_length,
                                            self.max_end - sum(min_lengths[i+1:]))
             if isinstance(self.elements[i], Gate):
                 self.elements[i].set_children_boundaries()
@@ -66,7 +66,7 @@ class SeqGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length < n or n < self.get_model_min_length:
+        if self.model_max_length < n or n < self.model_min_length:
             return None
 
         min_lengths = self.get_children_min_length()
