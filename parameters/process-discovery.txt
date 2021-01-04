@@ -1,6 +1,6 @@
 CACHE:                  True
 CODON_SIZE:             100000
-CORES:                  16
+CORES:                  30
 CROSSOVER:              variable_onepoint
 CROSSOVER_PROBABILITY:  0.75
 DEBUG:                  False
