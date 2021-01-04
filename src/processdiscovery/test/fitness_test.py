@@ -126,7 +126,7 @@ class FitnessTest(unittest.TestCase):
     def test_legend_1_2(self):
 
         actual = evaluate_guess('{a}and(xor({b}{c}){d}){e}opt(seq({f}and(xor({b}{c}){d}){e}))xor({g}{h})',
-                                LogInfo('discovered-processes.csv'), dict(), 2100)
+                                LogInfo('discovered-processes.csv'), dict(), 21000000)
 
     def test_legend_1_3(self):
         actual = evaluate_guess('{a}lop(and(xor({b}{c}){d}){e}xor({f}))xor({g}{h})',
@@ -136,6 +136,24 @@ class FitnessTest(unittest.TestCase):
         actual = evaluate_guess('{a}and(xor({b}{c}){d}){e}opt({f})xor({g}{h})',
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
 
+    def test_legend_1_5(self):
+
+        actual = evaluate_guess('and({a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h}))',
+                                LogInfo('discovered-processes.csv'), dict(), 2100000)
+        self.assertTrue(actual > 0.985)
+
+    def test_legend_1_6(self):
+
+        actual = evaluate_guess('opt({a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h}))',
+                                LogInfo('discovered-processes.csv'), dict(), 2100000)
+        self.assertTrue(actual > 0.985)
+
+    def test_legend_1_7(self):
+
+        actual = evaluate_guess('xor({a}and(xor({b}{c}){d}){e}lop({f}and(xor({b}{c}){d}){e})xor({g}{h}))',
+                                LogInfo('discovered-processes.csv'), dict(), 2100000)
+        self.assertTrue(actual > 0.985)
+
     def test_legend2(self):
 
         actual = evaluate_guess('{a}{c}{d}{e}{h}', LogInfo('discovered-processes.csv'),
@@ -144,7 +162,7 @@ class FitnessTest(unittest.TestCase):
     def test_legend3(self):
 
         actual = evaluate_guess('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})', LogInfo('discovered-processes.csv'),
-                                dict(), 2100)
+                                dict(), 2100000000000)
 
     def test_legend4(self):
 

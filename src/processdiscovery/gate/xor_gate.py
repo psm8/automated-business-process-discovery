@@ -26,7 +26,6 @@ class XorGate(Gate):
     def get_complexity_for_metric(self):
         return sum([x.get_complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
 
-
     @only_throws(ValueError)
     def add_element(self, element):
         self.check_valid_before_appending(element)
@@ -42,9 +41,16 @@ class XorGate(Gate):
                 return False
         return True
 
+    def set_children_boundaries(self):
+        for i in range(len(self.elements)):
+            self.elements[i].min_start = self.min_start
+            self.elements[i].max_start = self.max_start
+            self.elements[i].min_end = self.elements[i].min_start + self.elements[i].get_model_min_length
+            self.elements[i].max_end = self.elements[i].max_start + self.elements[i].get_model_max_length
+            if isinstance(self.elements[i], Gate):
+                self.elements[i].set_children_boundaries()
+
     def get_all_n_length_routes(self, n: int, process) -> []:
-        if n == 0:
-            return []
         if self.get_model_max_length < n or n < self.get_model_min_length:
             return None
 

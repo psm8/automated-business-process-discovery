@@ -62,8 +62,9 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
     return sum([x in model_event_names for x in log_unique_events])/len(log_unique_events)
 
 
-def calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache):
-    n = len(elem)
+def calculate_metrics_for_single_process(elem, model, min_length, max_length, alignment_cache):
+    len_elem = len(elem)
+    n = len_elem
     i = 1
     min_local = -2 * n
     events_global = []
@@ -71,27 +72,32 @@ def calculate_metrics_for_single_process(elem, gate, min_length, max_length, ali
     find = False
     # should be change later
     # use alignment metric and error
-    while not n < calculate_min_allowed_length(len(elem)) and \
-            not n > calculate_max_allowed_length(len(elem)):
+    while not n <= max(calculate_min_allowed_length(len_elem), len_elem + min_local) and \
+            not n >= min(calculate_max_allowed_length(len(elem)), len_elem - min_local):
         best_local_alignment = -1
         if min_length <= n <= max_length:
-            # cache_id = guess + str(n)
-            # if cache_id in routes_cache:
-            #     routes = routes_cache[cache_id]
-            # else:
-            # test if set gives anything
-            routes = set(gate.get_all_n_length_routes(n, elem))
-            # routes_cache[cache_id] = routes
+            model.min_start = 0
+            model.max_start = 0
+            model.min_end = n
+            model.max_end = n
+            model.set_children_boundaries()
+            routes = set(model.get_all_n_length_routes(n, elem))
+
             if routes is not None and not is_struct_empty(routes):
+                route_and_process_events_ratios = []
                 for event_group in routes:
-                    route_to_process_events_ratio = check_route_with_log_process(event_group, elem)
-                    if route_to_process_events_ratio < MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
-                        continue
-                    value, events = get_best_alignment_cached(event_group, list(elem), alignment_cache)
+                    ratio = check_route_with_log_process(event_group, elem)
+                    if ratio >= MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
+                        route_and_process_events_ratios.append((event_group, ratio))
+                sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
+                for event_group_and_ratios in sorted_routes_and_ratios:
+                    if event_group_and_ratios[1] <= 1 + min_local/len_elem:
+                        break
+                    value, events = get_best_alignment_cached(event_group_and_ratios[0], list(elem), alignment_cache)
                     if value > min_local:
                         min_local = value
                         events_global = events
-                        best_event_group = event_group
+                        best_event_group = event_group_and_ratios[0]
                     if value == 0:
                         find = True
                         break

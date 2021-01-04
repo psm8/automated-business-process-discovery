@@ -40,9 +40,30 @@ class SeqGate(Gate):
     def add_element(self, element):
         self.elements.append(element)
 
+    def set_children_boundaries(self):
+        min_lengths = self.get_children_min_length()
+        max_lengths = self.get_children_max_length()
+
+        self.elements[0].min_start = self.min_start
+        self.elements[0].max_start = self.max_start
+        self.elements[0].min_end = max(self.elements[0].min_start + self.elements[0].get_model_min_length,
+                                       self.min_end - sum(max_lengths[1:]))
+        self.elements[0].max_end = min(self.elements[0].max_start + self.elements[0].get_model_max_length,
+                                       self.max_end - sum(min_lengths[1:]))
+        if isinstance(self.elements[0], Gate):
+            self.elements[0].set_children_boundaries()
+
+        for i in range(1, len(self.elements)):
+            self.elements[i].min_start = self.elements[i-1].min_end
+            self.elements[i].max_start = self.elements[i-1].max_end
+            self.elements[i].min_end = max(self.elements[i].min_start + self.elements[i].get_model_min_length,
+                                           self.min_end - sum(max_lengths[i+1:]))
+            self.elements[i].max_end = min(self.elements[i].max_start + self.elements[i].get_model_max_length,
+                                           self.max_end - sum(min_lengths[i+1:]))
+            if isinstance(self.elements[i], Gate):
+                self.elements[i].set_children_boundaries()
+
     def get_all_n_length_routes(self, n: int, process) -> []:
-        if n == 0:
-            return []
         if self.get_model_max_length < n or n < self.get_model_min_length:
             return None
 

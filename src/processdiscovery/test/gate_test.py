@@ -138,8 +138,8 @@ class GateTest(unittest.TestCase):
     def test_legend_3_2(self):
         gate = SeqGate()
         gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
-        all_length_11_routes = gate.get_all_n_length_routes(13, ('a', 'c', 'd', 'e', 'f', 'b', 'd', 'e', 'f', 'd', 'b',
-                                                                 'e', 'g'))
+        all_length_11_routes = gate.get_all_n_length_routes(15, ('a', 'd', 'c', 'e', 'f', 'd', 'b', 'e', 'f', 'c' ,'d' ,
+                                                                 'e', 'f', 'd', 'b', 'e', 'g'))
         # count = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0}
         # for x in all_length_11_routes:
         #     for y in get_event_names(x):

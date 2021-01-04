@@ -31,14 +31,10 @@ class Gate:
             self.elements = []
         else:
             self.elements = elements
-
-    def __len__(self):
-        return sum(len(x) for x in self.elements)
-
-    def __eq__(self, other):
-        if not isinstance(other, type(self)):
-            return False
-        return self.compare(other)
+        self.min_start = -1
+        self.max_start = -1
+        self.min_end = -1
+        self.max_end = -1
 
     @cached_property
     def get_model_min_length(self) -> int:
@@ -56,10 +52,21 @@ class Gate:
     def get_complexity_for_metric(self):
         raise NotImplemented
 
+    def __len__(self):
+        return sum(len(x) for x in self.elements)
+
+    def __eq__(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        return self.compare(other)
+
     def compare(self, other):
         pass
 
     def add_element(self, element):
+        pass
+
+    def set_children_boundaries(self):
         pass
 
     @only_throws(ValueError)

@@ -45,6 +45,19 @@ class OptGate(Gate):
                 return False
         return True
 
+    def set_children_boundaries(self):
+        max_lengths = self.get_children_max_length()
+
+        for i in range(len(self.elements)):
+            self.elements[i].min_start = self.min_start
+            self.elements[i].max_start = min(self.max_start + (sum(max_lengths) - self.elements[i].get_model_max_length),
+                                             self.max_end - self.elements[i].get_model_min_length)
+            self.elements[i].min_end = max(self.min_start + self.elements[i].get_model_min_length,
+                                           self.min_end - (sum(max_lengths) - self.elements[i].get_model_max_length))
+            self.elements[i].max_end = self.max_end
+            if isinstance(self.elements[i], Gate):
+                self.elements[i].set_children_boundaries()
+
     @only_throws(ValueError)
     def add_element(self, element):
         self.check_valid_before_appending(element)
@@ -56,7 +69,7 @@ class OptGate(Gate):
     def get_all_n_length_routes(self, n: int, process) -> []:
         if n == 0:
             return []
-        if self.get_model_max_length < n:
+        if self.get_model_max_length < n or n < min(self.get_children_min_length()):
             return None
 
         min_lengths = self.get_children_min_length()
@@ -94,7 +107,7 @@ class OptGate(Gate):
         else:
             return []
 
-    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]) -> set:
+    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         result = set()
         for x in self.elements:
             if isinstance(x, Gate):
