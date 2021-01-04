@@ -7,18 +7,18 @@ class EventGroup(BaseGroup):
         super().__init__(events)
 
     def __hash__(self):
-        return zlib.adler32(self.get_event_names_hash())
+        return zlib.adler32(self.to_bytes())
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
             return NotImplemented
         return self.compare(other)
 
-    def get_event_names_hash(self):
+    def to_bytes(self):
         result = b'0'
         for x in self.events:
             if isinstance(x, BaseGroup):
-                result += bytes(x.get_event_names_hash())
+                result += bytes(x.to_bytes())
             else:
                 result += x.name.encode('utf-8')
 
