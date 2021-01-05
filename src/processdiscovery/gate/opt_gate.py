@@ -1,6 +1,5 @@
 from processdiscovery.gate.gate import Gate
-from processdiscovery.util.util import to_n_length_opt
-from processdiscovery.util.util import flatten_values
+from processdiscovery.util.util import to_n_length_opt, flatten_values
 from processdiscovery.event.event import Event
 from processdiscovery.exception.exception_decorator import only_throws
 from processdiscovery.event.base_group import BaseGroup

@@ -19,16 +19,16 @@
 \contentsline {subsection}{\numberline {2.5.1}BNF}{9}% 
 \contentsline {subsection}{\numberline {2.5.2}Mo\IeC {\.z}liwe problemy przy tworzeniu gramatyki}{9}% 
 \contentsline {section}{\numberline {2.6}Metryki}{9}% 
-\contentsline {subsection}{\numberline {2.6.1}Stopie\IeC {\'n} z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{9}% 
-\contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{9}% 
-\contentsline {subsection}{\numberline {2.6.3}Precyzja}{9}% 
-\contentsline {subsection}{\numberline {2.6.4}Generalizacja}{9}% 
+\contentsline {subsection}{\numberline {2.6.1}Stopie\IeC {\'n} z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{10}% 
+\contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{10}% 
+\contentsline {subsection}{\numberline {2.6.3}Precyzja}{10}% 
+\contentsline {subsection}{\numberline {2.6.4}Generalizacja}{10}% 
 \contentsline {chapter}{\numberline {3}Projekt i implementacja}{11}% 
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{11}% 
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{11}% 
 \contentsline {subsection}{\numberline {3.1.2}PonyGE2}{11}% 
-\contentsline {section}{\numberline {3.2}Projekt systemu}{11}% 
-\contentsline {section}{\numberline {3.3}Tworzenie gramatyki procesu biznesowego}{11}% 
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{11}% 
+\contentsline {section}{\numberline {3.3}Projekt systemu}{13}% 
 \contentsline {section}{\numberline {3.4}Implementacja}{13}% 
 \contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{13}% 
 \contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{15}% 

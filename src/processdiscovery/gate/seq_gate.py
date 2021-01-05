@@ -1,3 +1,4 @@
+from processdiscovery.event.base_group import BaseGroup
 from processdiscovery.gate.gate import Gate
 from processdiscovery.event.event import Event
 from processdiscovery.util.util import flatten_values
@@ -20,14 +21,14 @@ class SeqGate(Gate):
         return sum(self.get_children_max_length())
 
     @cached_property
-    def complexity(self):
+    def complexity(self) -> int:
         return reduce(lambda x, y: x*y, [x.complexity if isinstance(x, Gate) else 1 for x in self.elements])
 
     @cached_property
-    def complexity_for_metric(self):
+    def complexity_for_metric(self) -> int:
         return reduce(lambda x, y: x*y, [x.complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
 
-    def compare(self, other):
+    def compare(self, other) -> bool:
         if not isinstance(other, type(self)):
             return False
         if len(self) != len(other):
@@ -37,10 +38,10 @@ class SeqGate(Gate):
                 return False
         return True
 
-    def add_element(self, element):
+    def add_element(self, element) -> None:
         self.elements.append(element)
 
-    def set_children_boundaries(self):
+    def set_children_boundaries(self) -> None:
         min_lengths = self.get_children_min_length()
         max_lengths = self.get_children_max_length()
 
@@ -63,7 +64,7 @@ class SeqGate(Gate):
             if isinstance(self.elements[i], Gate):
                 self.elements[i].set_children_boundaries()
 
-    def get_all_n_length_routes(self, n: int, process) -> []:
+    def get_all_n_length_routes(self, n: int, process) -> [BaseGroup]:
         if n == 0:
             return []
         if self.model_max_length < n or n < self.model_min_length:

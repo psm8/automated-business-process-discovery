@@ -213,7 +213,7 @@ class GateTest(unittest.TestCase):
     def test_get_next_possible_states(self):
         gate = SeqGate()
         gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
-        events_with_parents = gate.get_events_with_parents()
+        events_with_parents = gate.get_all_child_events_with_parents()
         e1 = Event('a')
         keys = [x for x in events_with_parents.keys()]
         e2 = keys[1]
@@ -226,7 +226,7 @@ class GateTest(unittest.TestCase):
     def test_get_next_possible_states_2(self):
         gate = SeqGate()
         gate.parse('{a}lop(opt({b}{c}{d}{e}{f}))xor({g}{h})')
-        events_with_parents = gate.get_events_with_parents()
+        events_with_parents = gate.get_all_child_events_with_parents()
         e1 = gate.elements[0]
         keys = [x for x in events_with_parents.keys()]
         e2 = keys[1]
@@ -245,7 +245,7 @@ class GateTest(unittest.TestCase):
     def test_get_next_possible_states4(self):
         gate = SeqGate()
         gate.parse('{a}and(seq(xor(seq(lop({c})opt({c})){b}){d})lop(seq({f}{d})))xor({e}seq({e}{g}))')
-        events_with_parents = gate.get_events_with_parents()
+        events_with_parents = gate.get_all_child_events_with_parents()
         e1 = Event('a')
         keys = [x for x in events_with_parents.keys()]
         e2 = keys[2]
@@ -258,7 +258,7 @@ class GateTest(unittest.TestCase):
     def test_get_next_possible_states5(self):
         gate = SeqGate()
         gate.parse('{a}and(seq(xor(seq(lop({c})opt({c})){b}){d})lop(seq({f}{d})))xor({e}seq({e}{g}))')
-        events_with_parents = gate.get_events_with_parents()
+        events_with_parents = gate.get_all_child_events_with_parents()
         e1 = Event('a')
         keys = [x for x in events_with_parents.keys()]
         e3 = keys[3]

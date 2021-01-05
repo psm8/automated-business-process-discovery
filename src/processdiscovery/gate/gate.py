@@ -5,10 +5,13 @@ import collections
 import importlib
 
 from processdiscovery.event.event import Event
+from processdiscovery.event.base_group import BaseGroup
+from processdiscovery.event.comparable_event import ComparableEvent
 from processdiscovery.exception.exception_decorator import only_throws
 from processdiscovery.util.util import event_list_length
 
 from functools import cached_property
+from typing import Generator
 
 
 def consume(iterator, n):
@@ -22,7 +25,7 @@ def consume(iterator, n):
         next(islice(iterator, n, n), None)
 
 
-class Gate:
+class Gate(ComparableEvent):
 
     def __init__(self, name: str, parent: Gate, elements=None):
         self.name = name
@@ -45,11 +48,11 @@ class Gate:
         raise NotImplemented
 
     @cached_property
-    def complexity(self):
+    def complexity(self) -> int:
         raise NotImplemented
 
     @cached_property
-    def complexity_for_metric(self):
+    def complexity_for_metric(self) -> int:
         raise NotImplemented
 
     def __len__(self):
@@ -60,32 +63,21 @@ class Gate:
             return False
         return self.compare(other)
 
-    def compare(self, other):
+    def compare(self, other) -> bool:
         pass
 
-    def add_element(self, element):
+    def add_element(self, element) -> None:
         pass
 
-    def set_children_boundaries(self):
+    def set_children_boundaries(self) -> None:
         pass
 
-    @only_throws(ValueError)
-    def check_valid_for_get_n_length(self, elements_with_groups):
-        elements = []
-        for elem in elements_with_groups:
-            if isinstance(elem, Event):
-                elements.append(elem)
-        for i in range(len(elements)):
-            for j in range(i + 1, len(elements)):
-                if elements[i].name == elements[j].name:
-                    raise ValueError
+    def get_all_n_length_routes(self, n: int, process) -> [BaseGroup]:
+        pass
 
-    @only_throws(ValueError)
-    def check_valid_before_appending(self, element):
-        for elem in self.elements:
-            if isinstance(elem, Event):
-                if element.name == elem.name:
-                    raise ValueError
+    def get_next_possible_states(self, previous_events, child_caller, next_event,
+                                 blocked_calls_to=[]) -> Generator[Event, None, None]:
+        pass
 
     @only_throws(ValueError)
     def parse(self, expression: str) -> int:
@@ -111,19 +103,71 @@ class Gate:
             else:
                 raise Exception
 
+    def get_all_child_events(self) -> Generator[Event, None, None]:
+        for elem in self.elements:
+            if isinstance(elem, Event):
+                yield elem
+            else:
+                yield from elem.get_all_child_events()
+
+    def get_all_child_gates(self, gate_type) -> Generator[Gate, None, None]:
+        for elem in self.elements:
+            if isinstance(elem, gate_type):
+                yield elem
+                yield from elem.get_all_child_gates(gate_type)
+            elif isinstance(elem, Gate):
+                yield from elem.get_all_child_gates(gate_type)
+
+    def get_all_child_events_with_parents(self) -> {Event: Gate}:
+        nodes = dict()
+
+        for elem in self.elements:
+            if isinstance(elem, Event):
+                nodes[elem] = self
+            else:
+                nodes = dict(list(nodes.items()) + list(elem.get_all_child_events_with_parents().items()))
+
+        return nodes
+
+    def get_children_next_possible_states(self, child_caller):
+        result = set()
+        for x in self.elements:
+            if x is not child_caller:
+                if isinstance(x, Gate):
+                    [result.add(y) for y in x.get_next_possible_states(tuple(), None, None, [self])]
+                else:
+                    result.add(x)
+        return result
+
+    @only_throws(ValueError)
+    def check_valid_for_get_n_length(self, elements_with_groups):
+        elements = []
+        for elem in elements_with_groups:
+            if isinstance(elem, Event):
+                elements.append(elem)
+        for i in range(len(elements)):
+            for j in range(i + 1, len(elements)):
+                if elements[i].name == elements[j].name:
+                    raise ValueError
+
+    @only_throws(ValueError)
+    def check_valid_before_appending(self, element):
+        for elem in self.elements:
+            if isinstance(elem, Event):
+                if element.name == elem.name:
+                    raise ValueError
+
     def get_goal_length_lower_range(self, n, global_list, min_lengths, max_lengths):
         min_length_local = min_lengths.pop(0)
         max_lengths.pop(0)
         max_lengths_sum = sum(max_lengths)
         return max(min_length_local, n - (max_lengths_sum + event_list_length(global_list, max)))
 
-    # could add max lengths
     def get_goal_length_upper_range(self, n, global_list, min_lengths):
         min_lengths.pop(0)
         min_lengths_sum = sum(min_lengths)
         return n - (min_lengths_sum + event_list_length(global_list, min))
 
-    # could add max lengths
     def get_goal_length_range(self, n, global_list, min_lengths, max_lengths):
         min_length_local = min_lengths.pop(0)
         max_lengths.pop(0)
@@ -132,7 +176,6 @@ class Gate:
         return max(min_length_local, n - (max_lengths_sum + event_list_length(global_list, max))),\
             n - (min_lengths_sum + event_list_length(global_list, min))
 
-    # should i use it everywhere??????????????????
     def check_length(self, n, global_list) -> bool:
         return sum([len(x) for x in global_list]) == n
 
@@ -158,44 +201,3 @@ class Gate:
 
         return lengths
 
-    def get_events(self):
-        for elem in self.elements:
-            if isinstance(elem, Event):
-                yield elem
-            else:
-                yield from elem.get_events()
-
-    def get_gates(self, gate_type):
-        for elem in self.elements:
-            if isinstance(elem, gate_type):
-                yield elem
-                yield from elem.get_gates(gate_type)
-            elif isinstance(elem, Gate):
-                yield from elem.get_gates(gate_type)
-
-    def get_events_with_parents(self) -> dict:
-        nodes = dict()
-
-        for elem in self.elements:
-            if isinstance(elem, Event):
-                nodes[elem] = self
-            else:
-                nodes = dict(list(nodes.items()) + list(elem.get_events_with_parents().items()))
-
-        return nodes
-
-    def get_children_next_possible_states(self, child_caller):
-        result = set()
-        for x in self.elements:
-            if x is not child_caller:
-                if isinstance(x, Gate):
-                    [result.add(y) for y in x.get_next_possible_states(tuple(), None, None, [self])]
-                else:
-                    result.add(x)
-        return result
-
-    def get_all_n_length_routes(self, n: int, process) -> []:
-        pass
-
-    def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
-        pass

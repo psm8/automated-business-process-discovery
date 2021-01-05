@@ -120,7 +120,7 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
 
     metrics = dict()
 
-    model_events_list_with_parents = gate.get_events_with_parents()
+    model_events_list_with_parents = gate.get_all_child_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
     if model_to_log_events_ratio < MINIMAL_ALIGNMENT_MODEL_WITH_LOG:
@@ -142,7 +142,7 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
     metrics['alignment'] = (1 + cumulated_average_error, 7)
-    for x in gate.get_gates(LopGate):
+    for x in gate.get_all_child_gates(LopGate):
         x.set_event_lop_twin_and_count_complexity_if_seq_parent()
     metrics['precision'] = (calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents), 2)
     metrics['generalization'] = (calculate_generalization_metric(model_events_list), 2)

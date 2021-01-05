@@ -10,7 +10,6 @@ PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w jezyku Pyth
 	\centering{\includegraphics{PonyGE2-search-loop.jpg}}
 	\caption{\label{fig:subcaption_example}Petla wyszukiwania}
 \end{figure}
-\section{Projekt systemu}
 
 \section{Tworzenie gramatyki procesu biznesowego}
 
@@ -55,6 +54,13 @@ Zapis GE{\_}RANGE:dataset{\_}n{\_}vars jest rozszerzenie do gramatyki zapewniany
 Przykład wygenerowanej gramatyki:
 and(\{d\}opt(\{f\})and(\{a\}\{c\})lop(seq(lop(\{a\})\{e\})))
 \clearpage
+
+\section{Projekt systemu}
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.5]{EventUML.png}}
+	\caption{\label{fig:subcaption_example}Event UML}
+\end{figure}
 
 \section{Implementacja}
 
@@ -241,5 +247,5 @@ def znajdz_sciezke(macierz_rozwiazan, model, log, rozwiazania_podmodeli):
 \end{lstlisting}
 \end{figure}
 
-
+\subsubsection(Caching)
 \section{Wybór parametrów algorytmu}

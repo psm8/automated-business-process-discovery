@@ -19,11 +19,11 @@ class XorGate(Gate):
         return max(self.get_children_max_length())
 
     @cached_property
-    def complexity(self):
+    def complexity(self) -> int:
         return sum([x.complexity if isinstance(x, Gate) else 1 for x in self.elements])
 
     @cached_property
-    def complexity_for_metric(self):
+    def complexity_for_metric(self) -> int:
         return sum([x.complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements])
 
     @only_throws(ValueError)
@@ -63,7 +63,6 @@ class XorGate(Gate):
                 if n == 1:
                     local_list.append([elem])
             else:
-                # possibly should add lower limit
                 try:
                     child_all_n_length_routes = elem.get_all_n_length_routes(n, process)
                 except ValueError:

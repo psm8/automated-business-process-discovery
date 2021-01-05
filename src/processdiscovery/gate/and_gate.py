@@ -104,7 +104,7 @@ class AndGate(Gate):
             return None
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
-        if next_event is not None and not in_by_is(next_event, self.get_events()):
+        if next_event is not None and not in_by_is(next_event, self.get_all_child_events()):
             result = self.get_children_next_possible_states(child_caller)
             if all([is_any_parent_optional(x, self, previous_events) for x in result]):
                 yield from result

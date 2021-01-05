@@ -19,7 +19,6 @@ class Singleton(type):
 class process_fitness(base_ff, metaclass=Singleton):
     maximise = True
 
-
     def __init__(self):
         # self.handler = open("alignment" + str(id(self)), "wb")
         # Initialise base fitness function class.
@@ -78,13 +77,13 @@ class process_fitness(base_ff, metaclass=Singleton):
         return fitness
 
     def save_cache(self, path: str):
-        with open("cache/" + path, 'wb') as f:
+        with open("../cache/" + path, 'wb') as f:
             pickle.dump(self.alignment_cache, f)
 
     def load_caches(self):
         full_cache = dict()
         for filename in os.listdir("../cache"):
-            with open(filename, 'rb') as f:
+            with open("../cache" + filename, 'rb') as f:
                 partial_cache = pickle.load(f)
 
             full_cache = {**full_cache, **partial_cache}
