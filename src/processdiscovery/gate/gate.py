@@ -129,12 +129,12 @@ class Gate(ComparableEvent):
 
         return nodes
 
-    def get_children_next_possible_states(self, child_caller):
+    def get_children_next_possible_states(self, child_caller, blocked_calls_to):
         result = set()
         for x in self.elements:
             if x is not child_caller:
                 if isinstance(x, Gate):
-                    [result.add(y) for y in x.get_next_possible_states(tuple(), None, None, [self])]
+                    [result.add(y) for y in x.get_next_possible_states(tuple(), None, None, blocked_calls_to + [self])]
                 else:
                     result.add(x)
         return result

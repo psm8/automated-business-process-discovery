@@ -109,14 +109,14 @@ class OptGate(Gate):
             return None
 
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
-        result = set()
-        for x in self.elements:
-            if isinstance(x, Gate):
-                if x is not child_caller:
-                    [result.add(y) for y in x.get_next_possible_states(tuple(), None, None, blocked_calls_to + [self])]
-            else:
-                result.add(x)
-        not_enabled_yet = result.difference(previous_events[-len(result):])
+        result = self.get_children_next_possible_states(child_caller, blocked_calls_to)
+        if child_caller is None:
+            len_child_caller = 0
+        elif isinstance(child_caller, Event):
+            len_child_caller = 1
+        else:
+            len_child_caller = len(list(child_caller.get_all_child_events()))
+        not_enabled_yet = result.difference(previous_events[-(len(result) + len_child_caller):])
         if not_enabled_yet:
             yield from not_enabled_yet
         if self.parent not in blocked_calls_to:

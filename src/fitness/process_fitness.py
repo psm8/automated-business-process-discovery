@@ -56,11 +56,11 @@ class process_fitness(base_ff, metaclass=Singleton):
         except Exception as err:
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
-            self.save_cache("alignment-cache" + str(id(self)) + ".pickle")
             logging.error(self.guess)
             logging.error(err)
             print(self.guess)
             print(err)
+            self.save_cache("alignment-cache" + str(id(self)) + ".pickle")
             raise
 
         return fitness
@@ -83,7 +83,7 @@ class process_fitness(base_ff, metaclass=Singleton):
     def load_caches(self):
         full_cache = dict()
         for filename in os.listdir("../cache"):
-            with open("../cache" + filename, 'rb') as f:
+            with open("../cache/" + filename, 'rb') as f:
                 partial_cache = pickle.load(f)
 
             full_cache = {**full_cache, **partial_cache}
