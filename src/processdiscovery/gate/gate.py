@@ -93,11 +93,22 @@ class Gate(ComparableEvent):
             elif expression[i] == ")":
                 return i+1
             elif i+4 < len(expression):
-                gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
-                                     expression[i:i+3].capitalize() + "Gate")
-                gate = gate_class(self)
-                consume(numbers, 3)
-                processed_characters = gate.parse(expression[i+4:])
+                if expression[i:i+2] == 'lo' and expression[i:i+3] != 'lop':
+                    gate_class = getattr(importlib.import_module("processdiscovery.gate.lop_gate"),
+                                         "LopGate")
+                    gate = gate_class(self)
+                    consume(numbers, 3)
+                    processed_characters = gate.parse(expression[i + 4:])
+                    child_number = len(gate.elements)
+                    if int(expression[2]) < child_number:
+                        for x in gate.elements[(child_number - int(expression[2]) - 1):]:
+                            self.add_element(x)
+                else:
+                    gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
+                                         expression[i:i+3].capitalize() + "Gate")
+                    gate = gate_class(self)
+                    consume(numbers, 3)
+                    processed_characters = gate.parse(expression[i+4:])
                 self.add_element(gate)
                 consume(numbers, processed_characters)
             else:
