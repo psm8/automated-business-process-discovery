@@ -14,7 +14,7 @@ MAX_INIT_TREE_DEPTH:    10
 MAX_TREE_DEPTH:         17
 MULTICORE:              True
 MUTATION:               int_flip_per_codon
-POPULATION_SIZE:        500
+POPULATION_SIZE:        3000
 FITNESS_FUNCTION:       process_fitness
 REPLACEMENT:            generational
 SAVE_STATE_STEP:        10
