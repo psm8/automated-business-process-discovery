@@ -177,6 +177,15 @@ class FitnessTest(unittest.TestCase):
             LogInfo('discovered-processes.csv'), dict(), 2100)
         expected = 0
 
+    def test_9_9_9_5(self):
+        actual = evaluate_guess(
+            'xor({f}{a})xor({e}seq({g}opt({b}){h})and(opt({e})seq({b}{d})))'
+            'xor(seq({h}opt(xor(seq({f}{g})seq({h}{c}{d}))))'
+            'seq(xor(seq({b}{d}){e}opt({d}))xor(and(lop({e}{d}){e}){g})))',
+            LogInfo('discovered-processes.csv'), dict(), 2100)
+        expected = 0
+
+
     def test_legend_1_0(self):
         actual = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})xor({g}{h})',
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
