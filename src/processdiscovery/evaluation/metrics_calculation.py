@@ -71,8 +71,7 @@ def calculate_metrics_for_single_process(elem, model, min_length, max_length, al
     events_global = []
     best_event_group = []
     find = False
-    # should be change later
-    # use alignment metric and error
+
     while not n <= max(calculate_min_allowed_length(len_elem), len_elem + min_local) and \
             not n >= min(calculate_max_allowed_length(len(elem)), len_elem - min_local):
         best_local_alignment = -1
