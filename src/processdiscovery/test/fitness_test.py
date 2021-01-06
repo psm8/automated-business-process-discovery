@@ -156,7 +156,13 @@ class FitnessTest(unittest.TestCase):
     def test_9_9_9_1(self):
         actual = evaluate_guess(
             '{a}xor(and(and(xor(and({b}{e})and({b}and({b}{f})))and({h}and({a}{c}))){g})seq({h}and({f}{d}){c}))',
-            LogInfo('discovered-processes.csv'), process_fitness().load_caches(), 2100)
+            LogInfo('discovered-processes.csv'), dict(), 2100)
+        expected = 0
+
+    def test_9_9_9_2(self):
+        actual = evaluate_guess(
+            'lo0(xor(and({e}seq({d}{b}{c}))seq({f}{g}{d}{h}{a}and({f}{e}))))',
+            LogInfo('discovered-processes.csv'), dict(), 2100)
         expected = 0
 
     def test_legend_1_1(self):

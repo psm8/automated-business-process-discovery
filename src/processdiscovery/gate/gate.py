@@ -12,7 +12,7 @@ from processdiscovery.util.util import event_list_length
 
 from functools import cached_property
 from typing import Generator
-
+from copy import deepcopy
 
 def consume(iterator, n):
     "Advance the iterator n-steps ahead. If n is none, consume entirely."
@@ -102,7 +102,7 @@ class Gate(ComparableEvent):
                     child_number = len(gate.elements)
                     if int(expression[2]) < child_number:
                         for x in gate.elements[(child_number - int(expression[2]) - 1):]:
-                            self.add_element(x)
+                            self.add_element(deepcopy(x))
                 else:
                     gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
                                          expression[i:i+3].capitalize() + "Gate")
