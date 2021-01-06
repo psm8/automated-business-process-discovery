@@ -144,7 +144,7 @@ class LopGate(Gate):
                     yield x
 
     def set_event_lop_twin_and_count_complexity_if_seq_parent(self):
-        if isinstance(self.parent, SeqGate):
+        if isinstance(self.parent, SeqGate) or isinstance(self.parent, LopGate):
             i = self.parent.elements.index(self)
             i -= 1
             j = 1

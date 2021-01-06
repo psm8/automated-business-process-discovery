@@ -24,4 +24,4 @@
 
 <event> ::= GE_RANGE:dataset_vars
 
-<0_9> ::= 0|1|2|3
+<0_9> ::= 0|1|2
