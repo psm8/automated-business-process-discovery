@@ -134,8 +134,7 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
 
         if any(event is not None and event not in model_events_list for event in events_global):
             value, events_global = get_best_alignment(best_event_group, list(elem), dict())
-            if value != 0:
-                best_local_error = calculate_fitness_metric(value, len(elem), len(best_event_group))
+            best_local_error = calculate_fitness_metric(value, len(elem), len(best_event_group))
         if best_local_error == 0:
             perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
         add_executions(model_events_list, events_global, log_info.log[elem])
