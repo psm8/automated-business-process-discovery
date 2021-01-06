@@ -143,7 +143,7 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
     metrics['alignment'] = (1 + cumulated_average_error, 7)
     for x in gate.get_all_child_gates(LopGate):
-        x.set_event_lop_twin_and_count_complexity_if_seq_parent()
+        x.set_twin_events_and_complexity()
     metrics['precision'] = (calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents), 2)
     metrics['generalization'] = (calculate_generalization_metric(model_events_list), 2)
     metrics['simplicity'] = (calculate_simplicity_metric(model_events_list, log_info.log_unique_events), 1)

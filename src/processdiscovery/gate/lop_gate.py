@@ -14,7 +14,7 @@ class LopGate(Gate):
 
     def __init__(self, parent=None, elements=None):
         super().__init__("lop", parent, elements)
-        self.complexity_if_seq_parent = 1
+        self.twin_complexity = 1
 
     @cached_property
     def model_min_length(self) -> int:
@@ -34,13 +34,10 @@ class LopGate(Gate):
     @cached_property
     def complexity_for_metric(self) -> int:
         n = 2
-        divide_by_complexity = self.complexity_if_seq_parent
+        divide_by_complexity = self.twin_complexity
         return sum(pow(reduce(lambda x, y: x * y,
                               [x.complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements]),
                        i)/divide_by_complexity for i in range(1, n + 1))
-
-    def add_element(self, element) -> None:
-        self.elements.append(element)
 
     def compare(self, other) -> bool:
         if not isinstance(other, type(self)):
@@ -51,6 +48,9 @@ class LopGate(Gate):
             if not self.elements[i].compare(other.elements[i]):
                 return False
         return True
+
+    def add_element(self, element) -> None:
+        self.elements.append(element)
 
     def set_children_boundaries(self):
         min_lengths = self.get_children_min_length()
@@ -143,7 +143,7 @@ class LopGate(Gate):
                 else:
                     yield x
 
-    def set_event_lop_twin_and_count_complexity_if_seq_parent(self):
+    def set_twin_events_and_complexity(self):
         if isinstance(self.parent, SeqGate) or isinstance(self.parent, LopGate):
             i = self.parent.elements.index(self)
             i -= 1
@@ -154,7 +154,7 @@ class LopGate(Gate):
                     self.elements[-j].event_lop_twin = self.parent.elements[i]
                 elif isinstance(self.elements[-j], Gate) and isinstance(self.parent.elements[i], Gate) and \
                         self.elements[-j] == self.parent.elements[i]:
-                    self.complexity_if_seq_parent *= self.elements[-j].complexity_for_metric
+                    self.twin_complexity *= self.elements[-j].complexity_for_metric
                     for x in self.elements[-j].get_all_child_events():
                         for y in self.parent.elements[i].get_all_child_events():
                             x.event_lop_twin = y

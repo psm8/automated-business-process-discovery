@@ -23,18 +23,18 @@ class OptGate(Gate):
         return sum(self.get_children_max_length())
 
     @cached_property
-    def complexity(self):
+    def complexity(self) -> int:
         n = len(self.elements)
         return reduce(lambda x, y: x*y, [x.complexity if isinstance(x, Gate) else 1 for x in self.elements]) \
                * sum(factorial(i) * comb(n, i) for i in range(n + 1))
 
     @cached_property
-    def complexity_for_metric(self):
+    def complexity_for_metric(self) -> int:
         n = len(self.elements)
         return reduce(lambda x, y: x * y, [x.complexity_for_metric if isinstance(x, Gate) else 1 for x in self.elements]) \
                * sum(factorial(i) * comb(n, i) for i in range(n + 1))
 
-    def compare(self, other):
+    def compare(self, other) -> bool:
         if not isinstance(other, type(self)):
             return False
         if len(self) != len(other):
@@ -43,6 +43,13 @@ class OptGate(Gate):
             if not any([x.compare(y) for y in other.elements]):
                 return False
         return True
+
+    @only_throws(ValueError)
+    def add_element(self, element) -> None:
+        self.check_valid_before_appending(element)
+        if len(self.elements) >= self.OPT_GATE_MAX_NUMBER_OF_CHILDREN:
+            raise ValueError
+        self.elements.append(element)
 
     def set_children_boundaries(self):
         max_lengths = self.get_children_max_length()
@@ -56,13 +63,6 @@ class OptGate(Gate):
             self.elements[i].max_end = self.max_end
             if isinstance(self.elements[i], Gate):
                 self.elements[i].set_children_boundaries()
-
-    @only_throws(ValueError)
-    def add_element(self, element):
-        self.check_valid_before_appending(element)
-        if len(self.elements) >= self.OPT_GATE_MAX_NUMBER_OF_CHILDREN:
-            raise ValueError
-        self.elements.append(element)
 
     @only_throws(ValueError)
     def get_all_n_length_routes(self, n: int, process) -> []:
