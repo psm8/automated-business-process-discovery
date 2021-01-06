@@ -30,7 +30,6 @@ def calculate_alignment_manager(model, log, alignment_cache, calculate_alignment
             result_x, model_results = calculate_alignment_method([model.events], log, alignment_cache,
                                                                  calculate_alignment_method)
         else:
-            # change way permutations are calculated
             event_permutations = permutations(model.events)
 
             result_x, model_results = get_maxes([calculate_alignment_method(resolve_event_group(list(events)), log,

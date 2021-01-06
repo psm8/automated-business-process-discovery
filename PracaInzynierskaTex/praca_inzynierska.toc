@@ -15,6 +15,9 @@
 \contentsline {subsubsection}{\numberline {2.3.0.3}Heuristic Miner}{9}% 
 \contentsline {subsubsection}{\numberline {2.3.0.4}Multi-phase Miner}{9}% 
 \contentsline {section}{\numberline {2.4}Ewolucja genetyczna}{9}% 
+\contentsline {subsection}{\numberline {2.4.1}Algorytmy genetyczne}{9}% 
+\contentsline {subsection}{\numberline {2.4.2}Ewolucja genetyczna a inne algorytmy uczenia maszynowego}{9}% 
+\contentsline {subsection}{\numberline {2.4.3}Ewolucja gramatyczna}{9}% 
 \contentsline {section}{\numberline {2.5}Gramatyka}{9}% 
 \contentsline {subsection}{\numberline {2.5.1}BNF}{9}% 
 \contentsline {subsection}{\numberline {2.5.2}Mo\IeC {\.z}liwe problemy przy tworzeniu gramatyki}{9}% 
@@ -31,15 +34,16 @@
 \contentsline {section}{\numberline {3.3}Projekt systemu}{13}% 
 \contentsline {section}{\numberline {3.4}Implementacja}{13}% 
 \contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{13}% 
-\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{15}% 
-\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{15}% 
-\contentsline {subsubsection}{\numberline {3.4.0.4}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{15}% 
-\contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie dopasowania}{15}% 
-\contentsline {subsubsection}{\numberline {3.4.0.6}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{16}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{16}% 
-\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{19}% 
-\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{19}% 
-\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{19}% 
-\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{19}% 
-\contentsline {section}{\numberline {4.4}Wnioski}{19}% 
-\contentsline {chapter}{\numberline {5}Podsumowanie}{21}% 
+\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{16}% 
+\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{16}% 
+\contentsline {subsubsection}{\numberline {3.4.0.4}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{16}% 
+\contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie dopasowania}{16}% 
+\contentsline {subsubsection}{\numberline {3.4.0.6}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.0.7}(}{17}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{18}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{21}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{21}% 
+\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{21}% 
+\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{21}% 
+\contentsline {section}{\numberline {4.4}Wnioski}{21}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{23}% 

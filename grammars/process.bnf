@@ -16,12 +16,12 @@
 
 <anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <lopgate> | {<event>}
 
-<lopgate> ::= lop(<anygatenosinglelopandseq>)
+<lopgate> ::= lop(<anygatenosingleseqandlop>)
 
-<longate> ::= lo<0_9>(<anygatenosinglelopandseq>)
+<longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
 
-<anygatenosinglelopandseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <optdoublegate> | {<event>}
+<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <optdoublegate> | {<event>}
 
 <event> ::= GE_RANGE:dataset_vars
 
-<0_9> ::= 0|1|2
+<0_n> ::= GE_RANGE:2

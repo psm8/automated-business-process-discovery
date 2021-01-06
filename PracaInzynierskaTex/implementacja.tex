@@ -16,7 +16,8 @@ PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w jezyku Pyth
 Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
 gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przenalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
 
-Zapis GE{\_}RANGE:dataset{\_}n{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych odpowiadajacej ich ilosci w zbiorze danych.
+Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych, czyli GE_RANGE:2 oznacza 0|1|2.
+Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych odpowiadajacej ich ilosci w zbiorze danych.
 \begin{figure}[!ht]
 \lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
 \lstset{label=src:grammar, frame=single}
@@ -42,12 +43,16 @@ Zapis GE{\_}RANGE:dataset{\_}n{\_}vars jest rozszerzenie do gramatyki zapewniany
 <anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | 
 <lopgate> | {<event>}
 
-<lopgate> ::= lop(<anygatenosinglelop>)
+<lopgate> ::= lop(<anygatenosingleseqandlop>)
 
-<anygatenosinglelop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | 
-<xorgate> | <seqgate> | <optdoublegate> | {<event>}
+<longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
 
-<event> ::= GE_RANGE:dataset_n_vars
+<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | 
+<xorgate> | <optdoublegate> | {<event>}
+
+<event> ::= GE_RANGE:dataset_vars
+
+<0_n> ::= GE_RANGE:2
 \end{lstlisting}
 \end{figure}
 
@@ -61,6 +66,14 @@ and(\{d\}opt(\{f\})and(\{a\}\{c\})lop(seq(lop(\{a\})\{e\})))
 	\centering{\includegraphics[scale=0.5]{EventUML.png}}
 	\caption{\label{fig:subcaption_example}Event UML}
 \end{figure}
+
+Gate costam
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.5]{GateUML.png}}
+	\caption{\label{fig:subcaption_example}Gate UML}
+\end{figure}
+
 
 \section{Implementacja}
 
@@ -80,11 +93,9 @@ Parsując korzystamy z faktu, że przy projektowaniu gramtyki wszyskie bramki lo
 \begin{lstlisting}
     def parsuj(wyrażenie: str) -> int:
 
-        lokalnie_dodane_zdarzenia = []
         for i w zakresie długość_wyrażenia:
             if wyrażenia[i] == "{":
                 zdarzenie := Event(wyrażenia[i + 1])
-                dodaj zdarzenie do lokalnie_dodane_zdarzenia
                 dodaj zdarzenie do aktualnie parsowanej bramki 
                 i += 2
             elif wyrażenia[i] == ")":
@@ -97,8 +108,6 @@ Parsując korzystamy z faktu, że przy projektowaniu gramtyki wszyskie bramki lo
                 i += ilość_przeparsowanych_znaków
             else:
                 wyrzuć wyjątek
-        for zdarzenie w lokalnie_dodane_zdarzenia:
-            zdarzenie.ilość_dzieci += 1
 \end{lstlisting}
 \end{figure}
 

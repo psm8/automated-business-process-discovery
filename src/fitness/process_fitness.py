@@ -81,7 +81,7 @@ class process_fitness(base_ff, metaclass=Singleton):
             pickle.dump(self.alignment_cache, f)
 
     def load_caches(self):
-        full_cache = cachetools.LRUCache(128 * 1024)
+        full_cache = cachetools.LRUCache(32 * 1024)
         for filename in os.listdir("../cache"):
             with open("../cache/" + filename, 'rb') as f:
                 partial_cache = pickle.load(f)
