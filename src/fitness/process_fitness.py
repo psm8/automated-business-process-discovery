@@ -58,8 +58,6 @@ class process_fitness(base_ff, metaclass=Singleton):
             # an unprotected operator) so user would prefer to see them.
             logging.error(self.guess)
             logging.error(err)
-            print(self.guess)
-            print(err)
             self.save_cache("alignment-cache" + str(id(self)) + ".pickle")
             raise
 

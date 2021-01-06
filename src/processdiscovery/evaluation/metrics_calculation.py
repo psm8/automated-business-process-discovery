@@ -48,7 +48,8 @@ def calculate_precision_metric(log, model, model_parents_list):
 
 
 def calculate_generalization_metric(model_events_list: [Event]):
-    return 1 - sum([math.pow(math.sqrt(model_event.no_visits if model_event.event_lop_twin is None else model_event.no_visits + model_event.event_lop_twin.no_visits), -1)
+    return 1 - sum([math.pow(math.sqrt(model_event.no_visits if model_event.event_lop_twin is None
+                                       else model_event.no_visits + model_event.event_lop_twin.no_visits), -1)
                     if model_event.no_visits != 0 else 1 for model_event in model_events_list]) / \
            len(model_events_list)
 
@@ -141,7 +142,7 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         cumulated_error += best_local_error * log_info.log[elem]
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
-    metrics['alignment'] = (1 + cumulated_average_error, 7)
+    metrics['alignment'] = (1 + cumulated_average_error, 4)
     for x in gate.get_all_child_gates(LopGate):
         x.set_event_lop_twin_and_count_complexity_if_seq_parent()
     metrics['precision'] = (calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents), 2)
