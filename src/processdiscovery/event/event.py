@@ -26,7 +26,10 @@ class Event(ComparableEvent):
         return 1
 
     def __hash__(self):
-        return hash(id(self.name))
+        hsh = ''
+        for x in self.name:
+            hsh += str(ord(x))
+        return int(hsh)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
