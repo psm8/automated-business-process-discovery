@@ -2,6 +2,8 @@ from fitness.base_ff_classes.base_ff import base_ff
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
 from processdiscovery.exception.exception_decorator import timeout, TimeoutException
+
+import cachetools
 import pickle
 import os
 import logging
@@ -20,10 +22,8 @@ class process_fitness(base_ff, metaclass=Singleton):
     maximise = True
 
     def __init__(self):
-        # self.handler = open("alignment" + str(id(self)), "wb")
-        # Initialise base fitness function class.
         super().__init__()
-        self.alignment_cache = dict()
+        self.alignment_cache = self.load_caches()
         self.guess = ''
         self.vars = LogInfo('discovered-processes.csv').log_unique_events
         self.log_info = LogInfo('discovered-processes.csv')
@@ -81,11 +81,10 @@ class process_fitness(base_ff, metaclass=Singleton):
             pickle.dump(self.alignment_cache, f)
 
     def load_caches(self):
-        full_cache = dict()
+        full_cache = cachetools.LRUCache(32 * 1024)
         for filename in os.listdir("../cache"):
             with open("../cache/" + filename, 'rb') as f:
                 partial_cache = pickle.load(f)
-
-            full_cache = {**full_cache, **partial_cache}
-
+                for x in partial_cache:
+                    full_cache[x] = partial_cache[x]
         return full_cache
