@@ -82,12 +82,10 @@ class Gate(ComparableEvent):
     @only_throws(ValueError)
     def parse(self, expression: str) -> int:
 
-        locally_added_events = []
         numbers = iter(range(len(expression)))
         for i in numbers:
             if expression[i] == "{":
                 event = Event(expression[i + 1])
-                locally_added_events.append(event)
                 self.add_element(event)
                 consume(numbers, 2)
             elif expression[i] == ")":
@@ -100,9 +98,12 @@ class Gate(ComparableEvent):
                     consume(numbers, 3)
                     processed_characters = gate.parse(expression[i + 4:])
                     child_number = len(gate.elements)
-                    if int(expression[2]) < child_number:
-                        for x in gate.elements[(child_number - int(expression[2]) - 1):]:
-                            self.add_element(deepcopy(x))
+                    if int(expression[i+2]) < child_number:
+                        for x in gate.elements[(child_number - int(expression[i+2]) - 1):]:
+                            to_add = deepcopy(x)
+                            to_add.parent = self
+                            self.add_element(to_add)
+
                 else:
                     gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
                                          expression[i:i+3].capitalize() + "Gate")
