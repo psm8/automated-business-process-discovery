@@ -116,8 +116,7 @@ def set_params(command_line_args, create_files=True):
                     raise Exception(s)
 
         # Parse grammar file and set grammar class.
-        params['BNF_GRAMMAR'] = CustomGrammar(path.join("..", "grammars",
-                                                         params['GRAMMAR_FILE']))
+        params['BNF_GRAMMAR'] = CustomGrammar(path.join("..", "grammars", params['GRAMMAR_FILE']))
 
         # Population loading for seeding runs (if specified)
         if params['TARGET_SEED_FOLDER']:
@@ -137,3 +136,5 @@ def set_params(command_line_args, create_files=True):
 
             # Parse seed individual and store in params.
             params['SEED_INDIVIDUALS'] = [GE_LR_parser.main()]
+
+# def set_params_ext():

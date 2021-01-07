@@ -1,5 +1,0 @@
-<e> ::= <somethingnoseq>
-
-<somethingnoseq> ::= <somethingnoseq><somethingnoseq> | {<process>}
-
-<process> ::= a | b | c | d | e | f | GE_RANGE:6

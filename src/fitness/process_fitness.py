@@ -2,6 +2,7 @@ from fitness.base_ff_classes.base_ff import base_ff
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
 from processdiscovery.exception.exception_decorator import timeout, TimeoutException
+from algorithm.parameters import params
 
 import cachetools
 import pickle
@@ -25,9 +26,9 @@ class process_fitness(base_ff, metaclass=Singleton):
         super().__init__()
         self.alignment_cache = self.load_caches()
         self.guess = ''
-        self.vars = LogInfo('discovered-processes.csv').log_unique_events
-        self.log_info = LogInfo('discovered-processes.csv')
-        self.max_allowed_complexity = len(self.log_info.log) * 100
+        self.vars = LogInfo(params["DATASET"]).log_unique_events
+        self.log_info = LogInfo(params["DATASET"])
+        self.max_allowed_complexity = len(self.log_info.log) * params["MAX_ALLOWED_COMPLEXITY_FACTOR"]
 
     def __call__(self, ind, **kwargs):
         """
@@ -67,8 +68,8 @@ class process_fitness(base_ff, metaclass=Singleton):
         self.guess = ind.phenotype
 
         try:
-            fitness = timeout(5)(evaluate_guess)(self.guess, self.log_info, self.alignment_cache,
-                                                 self.max_allowed_complexity)
+            fitness = timeout(params["TIMEOUT"])(evaluate_guess)(self.guess, self.log_info, self.alignment_cache,
+                                                                 self.max_allowed_complexity)
         except TimeoutException:
             logging.error("TimeoutException: " + self.guess)
             return 0
@@ -79,7 +80,7 @@ class process_fitness(base_ff, metaclass=Singleton):
             pickle.dump(self.alignment_cache, f)
 
     def load_caches(self):
-        full_cache = cachetools.LRUCache(24 * 1024)
+        full_cache = cachetools.LRUCache(params["ALIGNMENT_CACHE_SIZE"])
         for filename in os.listdir("../cache"):
             with open("../cache/" + filename, 'rb') as f:
                 partial_cache = pickle.load(f)
