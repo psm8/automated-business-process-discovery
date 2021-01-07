@@ -1,3 +1,4 @@
+from algorithm.parameters import params
 from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.gate.lop_gate import LopGate
 from processdiscovery.evaluation.alignment_calculation.alignment_calculation import \
@@ -39,6 +40,10 @@ def calculate_precision_metric(log, model, model_parents_list):
         log_count = {key: len(log_enabled[key]) for key in log_enabled.keys()}
         model_parents_list[None] = model
         model_count = count_model_enabled(log_enabled, model_parents_list)
+        if any(log_count[x] > model_count[x] for x in log_count):
+            logging.error(log_count)
+            logging.error(model_count)
+            raise Exception
         precision = 1 - sum([log[process] * (model_count[process[:x]] - log_count[process[:x]]) /
                              model_count[process[:x]]
                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
@@ -142,15 +147,15 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         cumulated_error += best_local_error * log_info.log[elem]
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
-    metrics['alignment'] = (1 + cumulated_average_error, 4)
+    metrics['ALIGNMENT'] = 1 + cumulated_average_error
     for x in gate.get_all_child_gates(LopGate):
         x.set_twin_events_and_complexity()
-    metrics['precision'] = (calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents), 2)
-    metrics['generalization'] = (calculate_generalization_metric(model_events_list), 2)
-    metrics['simplicity'] = (calculate_simplicity_metric(model_events_list, log_info.log_unique_events), 1)
-    metrics['complexity'] = (calculate_complexity_metric(cumulated_average_error, gate), 2)
+    metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
+    metrics['GENERALIZATION'] = calculate_generalization_metric(model_events_list)
+    metrics['SIMPLICITY'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
+    metrics['COMPLEXITY'] = calculate_complexity_metric(cumulated_average_error, gate)
 
-    if any(metrics[x][0] > 1.0000001 for x in metrics):
+    if any(metrics[x] > 1.0000001 for x in metrics):
         logging.error([x.no_visits for x in model_events_list])
         logging.error(perfectly_aligned_logs)
         logging.error(len(alignment_cache))
@@ -158,19 +163,19 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
         logging.error(metrics)
         raise Exception(metrics)
 
-    best_result = (metrics['alignment'][0] * metrics['alignment'][1] +
-                   metrics['precision'][0] * metrics['precision'][1] +
-                   metrics['generalization'][0] * metrics['generalization'][1] +
-                   metrics['simplicity'][0] * metrics['simplicity'][1] +
-                   metrics['complexity'][0] * metrics['complexity'][1]) \
-                  / sum(x[1] for x in metrics.values())
+    best_result = (metrics['ALIGNMENT'] * params['WEIGHT_ALIGNMENT'] +
+                   metrics['PRECISION'] * params['WEIGHT_PRECISION'] +
+                   metrics['GENERALIZATION'] * params['WEIGHT_GENERALIZATION'] +
+                   metrics['SIMPLICITY'] * params['WEIGHT_SIMPLICITY'] +
+                   metrics['COMPLEXITY'] * params['WEIGHT_COMPLEXITY']) /\
+                  (params['WEIGHT_ALIGNMENT'] + params['WEIGHT_PRECISION'] + params['WEIGHT_GENERALIZATION'] +
+                   params['WEIGHT_SIMPLICITY'] + params['WEIGHT_COMPLEXITY'])
 
     return best_result
 
 
 def calculate_max_allowed_length(log_length):
     return math.ceil(1.1 * log_length)
-
 
 def calculate_min_allowed_length(log_length):
     return math.floor(0.9 * log_length)
