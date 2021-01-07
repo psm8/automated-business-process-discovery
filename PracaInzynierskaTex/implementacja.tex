@@ -14,10 +14,11 @@ PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w jezyku Pyth
 \section{Tworzenie gramatyki procesu biznesowego}
 
 Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
-gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przenalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
+gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przenalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętlexe lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
 
-Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych, czyli GE_RANGE:2 oznacza 0|1|2.
+Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych, czyli GE{\_}RANGE:2 oznacza 0|1|2.
 Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych odpowiadajacej ich ilosci w zbiorze danych.
+
 \begin{figure}[!ht]
 \lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
 \lstset{label=src:grammar, frame=single}
@@ -58,6 +59,21 @@ Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramat
 
 Przykład wygenerowanej gramatyki:
 and(\{d\}opt(\{f\})and(\{a\}\{c\})lop(seq(lop(\{a\})\{e\})))
+
+Wszystkie bramki mają nazwy tej samej długości - 3 znaki, co pozwoli na łatwiejsze parsowanie gramatyki.
+
+longate - oznacza pętle 
+Poniższy przykład pokazuje gramatykę, którą ciężko opisać przy pomocy podstawowych bramek logicznych: 
+\begin{figure}[h]
+	\centering{\includegraphics{Grammar-lop-example.png}}
+	\caption{\label{fig:subcaption_example}Przykład problemu}
+\end{figure}
+
+Jest to możliwe za pomocą notacji: 
+\{a\}and(xor(\{b\}\{c\})\{d\})\{e\}lop(\{f\}and(xor(\{b\}\{c\})\{d\})\{e\})xor(\{g\}\{h\})
+
+Użycie powyższej notacji rodzi jednak kilka problemów, Musimy mieć produkcje 
+\{a\}lo1(\{f\}and(xor(\{b\}\{c\})\{d\})\{e\})xor(\{g\}\{h\})
 \clearpage
 
 \section{Projekt systemu}
@@ -74,19 +90,20 @@ Gate costam
 	\caption{\label{fig:subcaption_example}Gate UML}
 \end{figure}
 
-
 \section{Implementacja}
 
 \subsubsection{Ogólny schemat blokowy}
+\clearpage
+
 \begin{figure}[!ht]
 	\centering{\includegraphics{Overall-flow-chart.png}}
 	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
 \end{figure}
-\clearpage
 
 \subsubsection{Parsowanie gramatyki}
-Parser pozwala na przedtworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
-Parsując korzystamy z faktu, że przy projektowaniu gramtyki wszyskie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
+Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
+Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
+
 \begin{figure}[!ht]
 \lstset{caption=Parser gramatyki, captionpos=b}
 \lstset{label=src:passive, frame=single}
@@ -256,5 +273,5 @@ def znajdz_sciezke(macierz_rozwiazan, model, log, rozwiazania_podmodeli):
 \end{lstlisting}
 \end{figure}
 
-\subsubsection(Caching)
+\subsubsection{Cache}
 \section{Wybór parametrów algorytmu}

@@ -22,24 +22,25 @@
 \contentsline {subsection}{\numberline {2.5.1}BNF}{9}% 
 \contentsline {subsection}{\numberline {2.5.2}Mo\IeC {\.z}liwe problemy przy tworzeniu gramatyki}{9}% 
 \contentsline {section}{\numberline {2.6}Metryki}{9}% 
-\contentsline {subsection}{\numberline {2.6.1}Stopie\IeC {\'n} z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{10}% 
+\contentsline {subsection}{\numberline {2.6.1}Prostota}{10}% 
 \contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{10}% 
 \contentsline {subsection}{\numberline {2.6.3}Precyzja}{10}% 
 \contentsline {subsection}{\numberline {2.6.4}Generalizacja}{10}% 
+\contentsline {subsection}{\numberline {2.6.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{10}% 
 \contentsline {chapter}{\numberline {3}Projekt i implementacja}{11}% 
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{11}% 
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{11}% 
 \contentsline {subsection}{\numberline {3.1.2}PonyGE2}{11}% 
 \contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{11}% 
-\contentsline {section}{\numberline {3.3}Projekt systemu}{13}% 
-\contentsline {section}{\numberline {3.4}Implementacja}{13}% 
-\contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{13}% 
-\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{16}% 
-\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{16}% 
-\contentsline {subsubsection}{\numberline {3.4.0.4}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{16}% 
-\contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie dopasowania}{16}% 
+\contentsline {section}{\numberline {3.3}Projekt systemu}{14}% 
+\contentsline {section}{\numberline {3.4}Implementacja}{14}% 
+\contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{14}% 
+\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.0.4}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie dopasowania}{17}% 
 \contentsline {subsubsection}{\numberline {3.4.0.6}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{17}% 
-\contentsline {subsubsection}{\numberline {3.4.0.7}(}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.0.7}Cache}{18}% 
 \contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{18}% 
 \contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{21}% 
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{21}% 
