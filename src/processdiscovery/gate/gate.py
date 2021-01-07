@@ -123,6 +123,14 @@ class Gate(ComparableEvent):
             else:
                 yield from elem.get_all_child_events()
 
+    def get_all_child_events_except(self, element) -> Generator[Event, None, None]:
+        for elem in self.elements:
+            if elem is not element:
+                if isinstance(elem, Event):
+                    yield elem
+                else:
+                    yield from elem.get_all_child_events()
+
     def get_all_child_gates(self, gate_type) -> Generator[Gate, None, None]:
         for elem in self.elements:
             if isinstance(elem, gate_type):
