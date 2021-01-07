@@ -1,4 +1,6 @@
 from processdiscovery.gate.gate import Gate
+from processdiscovery.gate.opt_gate import OptGate
+from processdiscovery.gate.lop_gate import LopGate
 from processdiscovery.event.event import Event
 from processdiscovery.util.util import flatten_values, in_by_is, is_any_parent_optional
 from processdiscovery.event.event_group_parallel import EventGroupParallel
@@ -106,8 +108,11 @@ class AndGate(Gate):
     def get_next_possible_states(self, previous_events, child_caller, next_event, blocked_calls_to=[]):
         if next_event is not None and not in_by_is(next_event, self.get_all_child_events()):
             result = self.get_children_next_possible_states(child_caller, blocked_calls_to)
-            if all([is_any_parent_optional(x, self, previous_events) for x in result]):
-                yield from result
+            not_enabled = result.difference(previous_events[-(len(list(self.get_all_child_events()))):])
+            events_with_parents = self.get_all_child_events_with_parents()
+            for x in not_enabled:
+                if isinstance(events_with_parents[x], OptGate) or (isinstance(events_with_parents[x], LopGate) and sum(events_with_parents[x].get_children_min_length()) == 1):
+                    yield from not_enabled
             if self.parent not in blocked_calls_to:
                 yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
         else:
