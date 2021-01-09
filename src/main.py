@@ -1,9 +1,9 @@
-from utilities.algorithm.general import check_python_version
+from ponyGE2.src.utilities.algorithm.general import check_python_version
 
 check_python_version()
 
 from wrapper.custom_set_params import set_params
-from ponyge import mane
+from ponyGE2.src.ponyge import mane
 import logging
 import sys
 

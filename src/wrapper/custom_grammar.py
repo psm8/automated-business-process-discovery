@@ -1,9 +1,9 @@
-from representation.grammar import Grammar
+from ponyGE2.src.representation.grammar import Grammar
 
 from re import match, finditer, DOTALL, MULTILINE
 from sys import maxsize
 
-from algorithm.parameters import params
+from ponyGE2.src.algorithm.parameters import params
 
 
 class CustomGrammar(Grammar):
