@@ -1,22 +1,16 @@
-<e> ::= <anygateexceptseq>
-
-<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <optgate> | <longate> | {<event>}
-
-<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | {<event>}
+<e> ::= <anygate>
 
 <andgate> ::= and(<anygate><anygate>)
 
 <xorgate> ::= xor(<anygate><anygate>)
 
-<seqgate> ::= seq(<anygateexceptseq><anygateexceptseq>)
+<seqgate> ::= seq(<anygate><anygate>)
 
-<optgate> ::= opt(<anygatenosingleopt>)
+<optgate> ::= opt(<anygate><anygate>) | opt(<andgate>) | opt(<xorgate>) | opt(<seqgate>) | opt(<longate>) | opt({<event>})
 
-<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <longate>| {<event>}
+<longate> ::= lo<0_n>(<anygate><anygate>) | lo<0_n>(<andgate>) | lo<0_n>(<xorgate>) | lo<0_n>(<seqgate>) | lo<0_n>(<optgate>) | lo<0_n>({<event>})
 
-<longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
-
-<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <optgate> | {<event>}
+<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | {<event>}
 
 <event> ::= GE_RANGE:dataset_vars
 
