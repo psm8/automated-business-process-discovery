@@ -9,7 +9,7 @@ import logging
 import sys
 
 
-def mane():
+def main():
     """ Run program """
 
     # Run evolution
@@ -17,6 +17,7 @@ def mane():
 
     # Print final review
     get_stats(individuals, end=True)
+
 
 if __name__ == "__main__":
     logging.basicConfig(filename='process-discovery-log.txt',
@@ -26,4 +27,4 @@ if __name__ == "__main__":
                         level=logging.ERROR)
 
     set_params(sys.argv[1:])  # exclude the ponyge.py arg itself
-    mane()
+    main()
