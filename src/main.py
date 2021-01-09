@@ -1,11 +1,22 @@
-from ponyGE2.src.utilities.algorithm.general import check_python_version
+from utilities.algorithm.general import check_python_version
 
 check_python_version()
 
 from wrapper.custom_set_params import set_params
-from ponyGE2.src.ponyge import mane
+from stats.stats import get_stats
+from algorithm.parameters import params
 import logging
 import sys
+
+
+def mane():
+    """ Run program """
+
+    # Run evolution
+    individuals = params['SEARCH_LOOP']()
+
+    # Print final review
+    get_stats(individuals, end=True)
 
 if __name__ == "__main__":
     logging.basicConfig(filename='process-discovery-log.txt',

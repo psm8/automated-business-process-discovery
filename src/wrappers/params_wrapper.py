@@ -5,9 +5,9 @@ hostname = gethostname().split('.')
 machine_name = hostname[0]
 
 import importlib
-from ponyGE2.src.algorithm.parameters import params, load_params
-from wrapper.custom_grammar import CustomGrammar
-from ponyGE2.src.utilities.algorithm.initialise_run import return_attr_from_module, get_fit_func_imports
+from algorithm.parameters import params, load_params
+from wrappers.grammar_wrapper import CustomGrammar
+from utilities.algorithm.initialise_run import return_attr_from_module, get_fit_func_imports
 
 
 def set_params(command_line_args, create_files=True):
@@ -269,6 +269,7 @@ def set_param_imports():
                         params[op] = return_attr_from_module(module_name,
                                                              attr_name)
 
+
 def get_fit_func_imports():
     """
     Special handling needs to be done for fitness function imports,
@@ -328,7 +329,7 @@ def get_fit_func_imports():
         attr_name = split_name[-1]
 
         # Get module name.
-        module_name = ".".join(["fitness_custom", params[op]])
+        module_name = ".".join(["fitness_functions", params[op]])
 
         # Import module and attribute and save.
 
@@ -343,7 +344,7 @@ def get_fit_func_imports():
 
         try:
             # Import specified attribute and return.
-            params[op] =  getattr(module, attr_name)
+            params[op] = getattr(module, attr_name)
 
         except AttributeError:
             s = "utilities.algorithm.initialise_run.return_attr_from_module\n" \

@@ -1,8 +1,8 @@
-from ponyGE2.src.fitness.base_ff_classes.base_ff import base_ff
+from fitness.base_ff_classes.base_ff import base_ff
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
 from processdiscovery.exception.exception_decorator import timeout, TimeoutException
-from ponyGE2.src.algorithm.parameters import params
+from algorithm.parameters import params
 
 import cachetools
 import pickle
@@ -10,16 +10,16 @@ import os
 import logging
 
 
-# class Singleton(type):
-#     _instances = {}
-#
-#     def __call__(cls, *args, **kwargs):
-#         if cls not in cls._instances:
-#             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-#         return cls._instances[cls]
-#
+class Singleton(type):
+    _instances = {}
 
-class process_fitness(base_ff):
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+
+class process_fitness(base_ff, metaclass=Singleton):
     maximise = True
 
     def __init__(self):
