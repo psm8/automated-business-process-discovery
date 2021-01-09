@@ -16,8 +16,9 @@ from process_discovery.evaluation.generalization_calculation.generalization_metr
 import math
 import logging
 
-MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 0.95
-MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 0.7
+MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 1 - params['RESULT_TOLERANCE_PERCENT']/100
+MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100
+MAX_ALLOWED_LENGTH_FACTOR = 1 - 2 * params['RESULT_TOLERANCE_PERCENT']/100
 BIG_PENALTY = 0
 
 
@@ -40,6 +41,9 @@ def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
         return BIG_PENALTY
 
     fitness_metric = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)
+
+    if params['MINIMIZE_SOLUTION_LENGTH']:
+        fitness_metric -= minimize_solution_length_factor(guess)
 
     return fitness_metric
 
@@ -149,6 +153,10 @@ def calculate_metrics_for_single_process(elem, model, min_length, max_length, al
     return best_local_alignment, events_global, best_event_group
 
 
+def minimize_solution_length_factor(guess):
+    return len(guess) * 10e-16
+
+
 def compare_model_with_log_events(model_events_list, log_unique_events):
     model_event_names = set()
     [model_event_names.add(x.name) for x in model_events_list]
@@ -156,11 +164,11 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
 
 
 def calculate_max_allowed_length(log_length):
-    return math.ceil(1.1 * log_length)
+    return math.ceil((1 + MAX_ALLOWED_LENGTH_FACTOR) * log_length)
 
 
 def calculate_min_allowed_length(log_length):
-    return math.floor(0.9 * log_length)
+    return math.floor((1 - MAX_ALLOWED_LENGTH_FACTOR) * log_length)
 
 
 

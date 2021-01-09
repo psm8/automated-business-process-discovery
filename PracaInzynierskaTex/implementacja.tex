@@ -100,6 +100,11 @@ Gate costam
 	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
 \end{figure}
 
+\begin{figure}[!ht]
+	\centering{\includegraphics{Modules.png}}
+	\caption{\label{fig:flow_chart}Podział na moduły}
+\end{figure}
+
 \subsubsection{Parsowanie gramatyki}
 Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
 Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.

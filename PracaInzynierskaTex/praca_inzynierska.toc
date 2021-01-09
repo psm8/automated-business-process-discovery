@@ -38,13 +38,13 @@
 \contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{17}% 
 \contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{17}% 
 \contentsline {subsubsection}{\numberline {3.4.0.4}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{17}% 
-\contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie dopasowania}{17}% 
-\contentsline {subsubsection}{\numberline {3.4.0.6}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie dopasowania}{18}% 
+\contentsline {subsubsection}{\numberline {3.4.0.6}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{18}% 
 \contentsline {subsubsection}{\numberline {3.4.0.7}Cache}{18}% 
 \contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{18}% 
-\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{21}% 
-\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{21}% 
-\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{21}% 
-\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{21}% 
-\contentsline {section}{\numberline {4.4}Wnioski}{21}% 
-\contentsline {chapter}{\numberline {5}Podsumowanie}{23}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{23}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{23}% 
+\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{23}% 
+\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{23}% 
+\contentsline {section}{\numberline {4.4}Wnioski}{23}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{25}% 
