@@ -16,29 +16,24 @@ from process_discovery.evaluation.generalization_calculation.generalization_metr
 import math
 import logging
 
-MINIMAL_ALIGNMENT_MODEL_WITH_LOG = 1 - params['RESULT_TOLERANCE_PERCENT']/100
-MINIMAL_ALIGNMENT_ROUTE_WITH_LOG = 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100
-MAX_ALLOWED_LENGTH_FACTOR = 1 - 2 * params['RESULT_TOLERANCE_PERCENT']/100
-BIG_PENALTY = 0
-
 
 def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     gate = SeqGate()
     try:
         gate.parse(guess)
     except ValueError:
-        return BIG_PENALTY
+        return 0
 
     min_length = gate.model_min_length
     if min_length > calculate_max_allowed_length(log_info.process_average_length):
-        return BIG_PENALTY
+        return 0
 
     max_length = gate.model_max_length
     if max_length < calculate_min_allowed_length(log_info.process_average_length):
-        return BIG_PENALTY
+        return 0
 
     if max_allowed_complexity < gate.complexity:
-        return BIG_PENALTY
+        return 0
 
     fitness_metric = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)
 
@@ -55,7 +50,7 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     model_events_list_with_parents = gate.get_all_child_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
-    if model_to_log_events_ratio < MINIMAL_ALIGNMENT_MODEL_WITH_LOG:
+    if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
         return model_to_log_events_ratio/10
 
     perfectly_aligned_logs = dict()
@@ -126,7 +121,7 @@ def calculate_metrics_for_single_process(elem, model, min_length, max_length, al
                 route_and_process_events_ratios = []
                 for event_group in routes:
                     ratio = check_route_with_log_process(event_group, elem)
-                    if ratio >= MINIMAL_ALIGNMENT_ROUTE_WITH_LOG:
+                    if ratio >= 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100:
                         route_and_process_events_ratios.append((event_group, ratio))
                 sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
                 for event_group_and_ratios in sorted_routes_and_ratios:
@@ -164,11 +159,11 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
 
 
 def calculate_max_allowed_length(log_length):
-    return math.ceil((1 + MAX_ALLOWED_LENGTH_FACTOR) * log_length)
+    return math.ceil((1 + 2 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 
 
 def calculate_min_allowed_length(log_length):
-    return math.floor((1 - MAX_ALLOWED_LENGTH_FACTOR) * log_length)
+    return math.floor((1 - 2 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 
 
 
