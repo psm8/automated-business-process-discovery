@@ -329,7 +329,7 @@ def get_fit_func_imports():
         attr_name = split_name[-1]
 
         # Get module name.
-        module_name = ".".join(["fitnessfunctions", params[op]])
+        module_name = ".".join(["fitness_functions", params[op]])
 
         # Import module and attribute and save.
 
