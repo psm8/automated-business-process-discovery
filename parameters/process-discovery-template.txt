@@ -24,7 +24,7 @@ VERBOSE:                        True
 MAX_WRAPS:                      3
 ALIGNMENT_CACHE_SIZE:           24*1024
 DATASET:                        discovered-processes.csv
-MAX_ALLOWED_COMPLEXITY_FACTOR:  50
+MAX_ALLOWED_COMPLEXITY_FACTOR:  100
 MINIMIZE_SOLUTION_LENGTH:       True
 RESULT_TOLERANCE_PERCENT:       5
 TIMEOUT:                        5

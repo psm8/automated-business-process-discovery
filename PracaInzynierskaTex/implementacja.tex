@@ -78,6 +78,15 @@ Użycie powyższej notacji rodzi jednak kilka problemów, Musimy mieć produkcje
 
 \section{Projekt systemu}
 
+\subsubsection{Podział na moduły}
+
+\begin{figure}[!ht]
+	\centering{\includegraphics{Modules.png}}
+	\caption{\label{fig:flow_chart}Podział na moduły}
+\end{figure}
+
+\subsubsection{Model}
+
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{EventUML.png}}
 	\caption{\label{fig:subcaption_example}Event UML}
@@ -90,6 +99,7 @@ Gate costam
 	\caption{\label{fig:subcaption_example}Gate UML}
 \end{figure}
 
+
 \section{Implementacja}
 
 \subsubsection{Ogólny schemat blokowy}
@@ -98,11 +108,6 @@ Gate costam
 \begin{figure}[!ht]
 	\centering{\includegraphics{Overall-flow-chart.png}}
 	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
-\end{figure}
-
-\begin{figure}[!ht]
-	\centering{\includegraphics{Modules.png}}
-	\caption{\label{fig:flow_chart}Podział na moduły}
 \end{figure}
 
 \subsubsection{Parsowanie gramatyki}
@@ -139,14 +144,47 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-def oblicz_metryki(log, długość_logu, średnia_długość_procesu_w_logu, model, 
-				   najkrótsza_dozwolona_długość, 
+
+    metrics = dict()
+
+    model_events_list_with_parents = gate.get_all_child_events_with_parents()
+    model_events_list = list(model_events_list_with_parents.keys())
+    model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
+    if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
+        return model_to_log_events_ratio/10
+
+    perfectly_aligned_logs = dict()
+    cumulated_error = 0
+
+    for elem in log_info.log.keys():
+        best_local_error, events_global, best_event_group = \
+            calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache)
+
+        if any(event is not None and event not in model_events_list for event in events_global):
+            value, events_global = get_best_alignment(best_event_group, list(elem), dict())
+            best_local_error = calculate_alignment_metric(value, len(elem), len(best_event_group))
+        if best_local_error == 0:
+            perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
+        add_executions(model_events_list, events_global, log_info.log[elem])
+        cumulated_error += best_local_error * log_info.log[elem]
+
+    return best_result
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}[!ht]
+\lstset{caption=Obliczanie metryk, captionpos=b}
+\lstset{label=src:best_result, frame=single}
+\begin{lstlisting}
+
+def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
 				   najdłuższa_dozwolona_długość) -> int:
-    n = zaokrąglij(średnia_długość_process_w_logu)
-    i = 1
-    najlepszy_wynik = 0
-    while n znajduje się pomiędzy największą i najmienjszą 
-    	  dopuszczalną długością logu:
+	
+	ilość_wspólnych_zdarzeń_w_logu_i_modelu = 			   
+	if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
+        return model_to_log_events_ratio/10
+	for elem w log:
+		
         if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
             procesy_o_dlugosci_n = model.wyszukaj_procesy_o_określonej_długości(n)
             wszystkie_procesy = model.wyszukaj_wszystkie_procesy
@@ -165,18 +203,15 @@ def oblicz_metryki(log, długość_logu, średnia_długość_procesu_w_logu, mod
                najlepszy_wynik_lokalny = suma_obliczonych_metryk / liczba_metryk
                if najlepszy_wynik_lokalny > najlepszy_wynik:
                    najlepszy_wynik = najlepszy_wynik_lokalny
-        if i % 2 == 1:
-            n -= i
-        else:
-            n += i
-        i += 1
+	oblicz metryki 
+	najlepsz_ wynik = średnia ważona metryk
     return najlepszy_wynik
 \end{lstlisting}
 \end{figure}
 
 \subsubsection{Wyszukiwanie w modelu procesów o określonej długości}
 
-Algorytm rekurencyjny. Implementacja rózni się w zależności od przeszukiwanej branki logicznej.
+Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej branki logicznej.
 \begin{figure}[!ht]
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
@@ -198,7 +233,7 @@ def oblicz_dopasowanie(model, log):
         macierz_rozwiazan[i][0] = kara['PRZERWA'] * i
     for j in range(n):
         macierz_rozwiazan[0][j] = kara['PRZERWA'] * j
-    #Wypelnij osie macierzy wlasciwymi wartosciami
+    # Wypelnij osie macierzy wlasciwymi wartosciami
 
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
@@ -210,10 +245,10 @@ def oblicz_dopasowanie(model, log):
             parallel_alignment(al_mat[i - 1], model[i - 1],
                               [x for x in substrings_of_string_reversed(log)], kara, i)
         else:
-            al_mat[i][0] = al_mat[i-1][0] + penalty['GAP']
+            al_mat[i][0] = al_mat[i-1][0] + penalty['PRZERWA']
             basic_alignment(al_mat, model[i - 1], log, kara, i, n)
 
-    model_results = get_all_tracebacks(al_mat, penalty['GAP'], model, 
+    model_results = get_all_tracebacks(al_mat, penalty['PRZERWA'], model, 
     log, model_results_local)
 
     return macierz_rozwiazan[m-1] #ostatnia linijka, model_results
@@ -221,7 +256,7 @@ def oblicz_dopasowanie(model, log):
 \end{figure}
 
 \subsubsection{Znajdowanie ścieżki w modelu}
-Potrzebne do obliczenia precyzji oraz generazlizacji.
+Potrzebne do obliczenia precyzji oraz generalizacji.
 \begin{figure}[!ht]
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
