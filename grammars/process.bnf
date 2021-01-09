@@ -2,7 +2,7 @@
 
 <anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <optgate> | <longate> | {<event>}
 
-<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <lopgate> | {<event>}
+<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | {<event>}
 
 <andgate> ::= and(<anygate><anygate>)
 
@@ -12,9 +12,7 @@
 
 <optgate> ::= opt(<anygatenosingleopt>)
 
-<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <lopgate> | {<event>}
-
-<lopgate> ::= lop(<anygatenosingleseqandlop>)
+<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <longate>| {<event>}
 
 <longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
 

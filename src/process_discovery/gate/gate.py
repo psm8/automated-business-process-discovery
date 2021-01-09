@@ -98,12 +98,13 @@ class Gate(ComparableEvent):
                     gate = gate_class(self)
                     consume(numbers, 3)
                     processed_characters = gate.parse(expression[i + 4:])
-                    child_number = len(gate.elements)
-                    if int(expression[i+2]) < child_number:
-                        for x in gate.elements[(child_number - int(expression[i+2]) - 1):]:
-                            to_add = deepcopy(x)
-                            to_add.parent = self
-                            self.add_element(to_add)
+                    if self.name == "seq" or self.name == "lop":
+                        child_number = len(gate.elements)
+                        if int(expression[i+2]) < child_number:
+                            for x in gate.elements[(child_number - int(expression[i+2]) - 1):]:
+                                to_add = deepcopy(x)
+                                to_add.parent = self
+                                self.add_element(to_add)
 
                 else:
                     gate_class = getattr(importlib.import_module("process_discovery.gate." + expression[i:i+3] + "_gate"),
