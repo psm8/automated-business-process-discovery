@@ -1,11 +1,11 @@
 import numpy as np
 import math
 
-from processdiscovery.evaluation.alignment_calculation.cache import cached
-from processdiscovery.event.event import Event
-from processdiscovery.event.base_group import BaseGroup
-from processdiscovery.event.event_group import EventGroup
-from processdiscovery.util.util import subset_sum
+from process_discovery.evaluation.alignment_calculation.cache import cached
+from process_discovery.event.event import Event
+from process_discovery.event.base_group import BaseGroup
+from process_discovery.event.event_group import EventGroup
+from process_discovery.util.util import subset_sum
 
 from copy import copy
 from itertools import permutations, combinations

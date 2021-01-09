@@ -1,8 +1,8 @@
-from processdiscovery.gate.gate import Gate
-from processdiscovery.gate.seq_gate import SeqGate
-from processdiscovery.util.util import to_n_length, flatten_values, index_by_is
-from processdiscovery.event.event import Event
-from processdiscovery.event.base_group import BaseGroup
+from process_discovery.gate.gate import Gate
+from process_discovery.gate.seq_gate import SeqGate
+from process_discovery.util.util import to_n_length, flatten_values, index_by_is
+from process_discovery.event.event import Event
+from process_discovery.event.base_group import BaseGroup
 
 from functools import reduce, cached_property
 from math import pow

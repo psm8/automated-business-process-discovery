@@ -1,11 +1,11 @@
 import unittest
 
-from processdiscovery.gate.seq_gate import SeqGate
-from processdiscovery.gate.and_gate import AndGate
-from processdiscovery.event.event import Event
-from processdiscovery.event.base_group import BaseGroup
-from processdiscovery.event.event_group import EventGroup
-from processdiscovery.event.event_group_parallel import EventGroupParallel
+from process_discovery.gate.seq_gate import SeqGate
+from process_discovery.gate.and_gate import AndGate
+from process_discovery.event.event import Event
+from process_discovery.event.base_group import BaseGroup
+from process_discovery.event.event_group import EventGroup
+from process_discovery.event.event_group_parallel import EventGroupParallel
 from test.util.test_util import string_to_events
 
 from math import pow

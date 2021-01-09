@@ -1,5 +1,5 @@
-from processdiscovery.evaluation.metrics_calculation import evaluate_guess
-from processdiscovery.log.log_util import LogInfo
+from process_discovery.evaluation.metrics_calculation import evaluate_guess
+from process_discovery.log.log_util import LogInfo
 
 actual = evaluate_guess(
     'seq({a}xor(and({d}{c})seq({b}xor({d}{g})))){e}{h}opt(seq({f}{d}lo2({f}{d})))',

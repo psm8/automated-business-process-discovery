@@ -1,7 +1,7 @@
 from fitness.base_ff_classes.base_ff import base_ff
-from processdiscovery.evaluation.metrics_calculation import evaluate_guess
-from processdiscovery.log.log_util import LogInfo
-from processdiscovery.exception.timout_exception import timeout, TimeoutException
+from process_discovery.evaluation.metrics_calculation import evaluate_guess
+from process_discovery.log.log_util import LogInfo
+from process_discovery.exception.timout_exception import timeout, TimeoutException
 from algorithm.parameters import params
 
 import cachetools

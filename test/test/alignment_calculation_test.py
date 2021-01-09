@@ -1,10 +1,10 @@
 import unittest
 
-from processdiscovery.evaluation.alignment_calculation.alignment_calculation import *
-from processdiscovery.evaluation.alignment_calculation.cache import *
-from processdiscovery.event.event import Event
-from processdiscovery.event.event_group import EventGroup
-from processdiscovery.event.event_group_parallel import EventGroupParallel
+from process_discovery.evaluation.alignment_calculation.alignment_calculation import *
+from process_discovery.evaluation.alignment_calculation.cache import *
+from process_discovery.event.event import Event
+from process_discovery.event.event_group import EventGroup
+from process_discovery.event.event_group_parallel import EventGroupParallel
 
 from test.util.test_util import string_to_events, events_to_char_list
 

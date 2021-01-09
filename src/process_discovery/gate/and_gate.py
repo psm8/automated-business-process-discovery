@@ -1,10 +1,10 @@
-from processdiscovery.gate.gate import Gate
-from processdiscovery.gate.opt_gate import OptGate
-from processdiscovery.gate.lop_gate import LopGate
-from processdiscovery.event.event import Event
-from processdiscovery.util.util import flatten_values, in_by_is, is_any_parent_optional
-from processdiscovery.event.event_group_parallel import EventGroupParallel
-from processdiscovery.exception.exception_decorator import only_throws
+from process_discovery.gate.gate import Gate
+from process_discovery.gate.opt_gate import OptGate
+from process_discovery.gate.lop_gate import LopGate
+from process_discovery.event.event import Event
+from process_discovery.util.util import flatten_values, in_by_is, is_any_parent_optional
+from process_discovery.event.event_group_parallel import EventGroupParallel
+from process_discovery.exception.exception_decorator import only_throws
 
 from functools import reduce, cached_property
 from math import factorial

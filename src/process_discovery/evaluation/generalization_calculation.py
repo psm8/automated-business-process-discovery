@@ -1,4 +1,4 @@
-from processdiscovery.event.event import Event
+from process_discovery.event.event import Event
 
 
 def add_executions(model_events_list: [Event], events: [Event], n: int):

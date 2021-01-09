@@ -1,4 +1,4 @@
-from processdiscovery.event.comparable_event import ComparableEvent
+from process_discovery.event.comparable_event import ComparableEvent
 
 
 class BaseGroup(ComparableEvent):

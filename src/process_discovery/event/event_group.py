@@ -1,4 +1,4 @@
-from processdiscovery.event.base_group import BaseGroup
+from process_discovery.event.base_group import BaseGroup
 import zlib
 
 

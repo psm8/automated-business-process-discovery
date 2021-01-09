@@ -4,11 +4,11 @@ from itertools import islice
 import collections
 import importlib
 
-from processdiscovery.event.event import Event
-from processdiscovery.event.base_group import BaseGroup
-from processdiscovery.event.comparable_event import ComparableEvent
-from processdiscovery.exception.exception_decorator import only_throws
-from processdiscovery.util.util import event_list_length
+from process_discovery.event.event import Event
+from process_discovery.event.base_group import BaseGroup
+from process_discovery.event.comparable_event import ComparableEvent
+from process_discovery.exception.exception_decorator import only_throws
+from process_discovery.util.util import event_list_length
 
 from functools import cached_property
 from typing import Generator
@@ -93,7 +93,7 @@ class Gate(ComparableEvent):
                 return i+1
             elif i+4 < len(expression):
                 if expression[i:i+2] == 'lo' and expression[i:i+3] != 'lop':
-                    gate_class = getattr(importlib.import_module("processdiscovery.gate.lop_gate"),
+                    gate_class = getattr(importlib.import_module("process_discovery.gate.lop_gate"),
                                          "LopGate")
                     gate = gate_class(self)
                     consume(numbers, 3)
@@ -106,7 +106,7 @@ class Gate(ComparableEvent):
                             self.add_element(to_add)
 
                 else:
-                    gate_class = getattr(importlib.import_module("processdiscovery.gate." + expression[i:i+3] + "_gate"),
+                    gate_class = getattr(importlib.import_module("process_discovery.gate." + expression[i:i+3] + "_gate"),
                                          expression[i:i+3].capitalize() + "Gate")
                     gate = gate_class(self)
                     consume(numbers, 3)

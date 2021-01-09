@@ -1,13 +1,13 @@
 from algorithm.parameters import params
-from processdiscovery.gate.seq_gate import SeqGate
-from processdiscovery.gate.lop_gate import LopGate
-from processdiscovery.evaluation.alignment_calculation.alignment_calculation import \
+from process_discovery.gate.seq_gate import SeqGate
+from process_discovery.gate.lop_gate import LopGate
+from process_discovery.evaluation.alignment_calculation.alignment_calculation import \
     get_best_alignment, get_best_alignment_cached
-from processdiscovery.util.util import is_struct_empty, check_route_with_log_process
-from processdiscovery.evaluation.generalization_calculation import add_executions
-from processdiscovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled
-from processdiscovery.log.log_util import get_sum_of_processes_length
-from processdiscovery.event.event import Event
+from process_discovery.util.util import is_struct_empty, check_route_with_log_process
+from process_discovery.evaluation.generalization_calculation import add_executions
+from process_discovery.evaluation.precision_calculation import get_log_enabled, count_model_enabled
+from process_discovery.log.log_util import get_sum_of_processes_length
+from process_discovery.event.event import Event
 
 import math
 import logging

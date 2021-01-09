@@ -1,9 +1,9 @@
-from processdiscovery.event.base_group import BaseGroup
-from processdiscovery.gate.gate import Gate
-from processdiscovery.event.event import Event
-from processdiscovery.util.util import flatten_values
-from processdiscovery.event.event_group import EventGroup
-from processdiscovery.util.util import index_by_is
+from process_discovery.event.base_group import BaseGroup
+from process_discovery.gate.gate import Gate
+from process_discovery.event.event import Event
+from process_discovery.util.util import flatten_values
+from process_discovery.event.event_group import EventGroup
+from process_discovery.util.util import index_by_is
 
 from functools import reduce, cached_property
 

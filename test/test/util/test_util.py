@@ -1,5 +1,5 @@
-from processdiscovery.event.event import Event
-from processdiscovery.event.base_group import BaseGroup
+from process_discovery.event.event import Event
+from process_discovery.event.base_group import BaseGroup
 
 
 def string_to_events(string: str):

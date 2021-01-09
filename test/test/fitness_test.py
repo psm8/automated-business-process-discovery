@@ -1,7 +1,7 @@
 import unittest
 
-from processdiscovery.evaluation.metrics_calculation import evaluate_guess
-from processdiscovery.log.log_util import LogInfo
+from process_discovery.evaluation.metrics_calculation import evaluate_guess
+from process_discovery.log.log_util import LogInfo
 from fitness_functions.process_fitness import process_fitness
 
 class FitnessTest(unittest.TestCase):

@@ -1,7 +1,7 @@
-from processdiscovery.gate.gate import Gate
-from processdiscovery.event.event import Event
-from processdiscovery.exception.exception_decorator import only_throws
-from processdiscovery.util.util import in_by_is
+from process_discovery.gate.gate import Gate
+from process_discovery.event.event import Event
+from process_discovery.exception.exception_decorator import only_throws
+from process_discovery.util.util import in_by_is
 
 from functools import cached_property
 
