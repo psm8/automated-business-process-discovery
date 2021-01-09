@@ -129,3 +129,4 @@ dmypy.json
 results/*
 cache/*
 parameters/*
+!parameters/process-discovery-template.txt
