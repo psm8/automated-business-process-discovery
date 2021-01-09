@@ -1,10 +1,10 @@
 <e> ::= <anygate>
 
-<andgate> ::= and(<anygate><anygate>) | {<event>}
+<andgate> ::= and(<anygate><anygate>)
 
-<xorgate> ::= xor(<anygate><anygate>) | {<event>}
+<xorgate> ::= xor(<anygate><anygate>)
 
-<seqgate> ::= seq(<anygate><anygate>) | {<event>}
+<seqgate> ::= seq(<anygate><anygate>)
 
 <optgate> ::= opt(<anygate><anygate>) | opt(<andgate>) | opt(<xorgate>) | opt(<seqgate>) | opt(<longate>) | opt({<event>})
 
