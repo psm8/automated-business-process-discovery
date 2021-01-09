@@ -1,6 +1,6 @@
 import unittest
 
-from fitness.process_fitness import evaluate_guess
+from fitness_functions.process_fitness import evaluate_guess
 
 
 class MetricsCalculationTest(unittest.TestCase):

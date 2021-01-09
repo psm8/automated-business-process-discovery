@@ -6,7 +6,7 @@ from processdiscovery.event.event import Event
 from processdiscovery.event.event_group import EventGroup
 from processdiscovery.event.event_group_parallel import EventGroupParallel
 
-from processdiscovery.test.util.test_util import string_to_events, events_to_char_list
+from test.util.test_util import string_to_events, events_to_char_list
 
 
 class AlignmentCalculationTest(unittest.TestCase):

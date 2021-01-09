@@ -2,7 +2,7 @@ import unittest
 
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
-from fitness.process_fitness import process_fitness
+from fitness_functions.process_fitness import process_fitness
 
 class FitnessTest(unittest.TestCase):
 
