@@ -3,7 +3,7 @@ from representation.grammar import Grammar
 from re import match, finditer, DOTALL, MULTILINE
 from sys import maxsize
 
-from algorithm.parameters import params
+from algorithm import params
 
 
 class CustomGrammar(Grammar):
