@@ -1,10 +1,10 @@
-from utilities import check_python_version
+from utilities.algorithm.general import check_python_version
 
 check_python_version()
 
 from wrappers.params_wrapper import set_params
-from stats import get_stats
-from algorithm import params
+from stats.stats import get_stats
+from algorithm.parameters import params
 import logging
 import sys
 

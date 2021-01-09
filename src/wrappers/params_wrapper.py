@@ -5,9 +5,9 @@ hostname = gethostname().split('.')
 machine_name = hostname[0]
 
 import importlib
-from algorithm import params, load_params
+from algorithm.parameters import params, load_params
 from wrappers.grammar_wrapper import CustomGrammar
-from utilities import return_attr_from_module, get_fit_func_imports
+from utilities.algorithm.initialise_run import return_attr_from_module, get_fit_func_imports
 
 
 def set_params(command_line_args, create_files=True):
@@ -22,9 +22,9 @@ def set_params(command_line_args, create_files=True):
     :return: Nothing.
     """
 
-    from utilities import initialise_run_params
-    from utilities import return_one_percent
-    from utilities import parse_cmd_args
+    from utilities.algorithm.initialise_run import initialise_run_params
+    from utilities.fitness.math_functions import return_one_percent
+    from utilities.algorithm.command_line_parser import parse_cmd_args
     from utilities.stats import trackers
     from utilities.stats import clean_stats
 
@@ -313,7 +313,7 @@ def get_fit_func_imports():
             params[op][i] = return_attr_from_module(module_path, attr)
 
         # Import base multi-objective fitness function class.
-        from fitness.base_ff_classes import moo_ff
+        from fitness.base_ff_classes.moo_ff import moo_ff
 
         # Set main fitness function as base multi-objective fitness
         # function class.

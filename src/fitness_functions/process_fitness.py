@@ -1,8 +1,8 @@
-from fitness.base_ff_classes import base_ff
+from fitness.base_ff_classes.base_ff import base_ff
 from processdiscovery.evaluation.metrics_calculation import evaluate_guess
 from processdiscovery.log.log_util import LogInfo
 from processdiscovery.exception.timout_exception import timeout, TimeoutException
-from algorithm import params
+from algorithm.parameters import params
 
 import cachetools
 import pickle

@@ -1,4 +1,4 @@
-from algorithm import params
+from algorithm.parameters import params
 from processdiscovery.gate.seq_gate import SeqGate
 from processdiscovery.gate.lop_gate import LopGate
 from processdiscovery.evaluation.alignment_calculation.alignment_calculation import \
