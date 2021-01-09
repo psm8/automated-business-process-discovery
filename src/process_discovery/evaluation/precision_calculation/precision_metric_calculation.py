@@ -1,3 +1,27 @@
+from process_discovery.log.log_util import get_sum_of_processes_length
+
+import logging
+
+
+def calculate_precision_metric(log, model, model_parents_list):
+    if log:
+        sum_of_processes_length = get_sum_of_processes_length(log)
+        log_enabled = get_log_enabled(log.keys())
+        log_count = {key: len(log_enabled[key]) for key in log_enabled.keys()}
+        model_parents_list[None] = model
+        model_count = count_model_enabled(log_enabled, model_parents_list)
+        if any(log_count[x] > model_count[x] for x in log_count):
+            logging.error(log_count)
+            logging.error(model_count)
+            raise Exception
+        precision = 1 - sum([log[process] * (model_count[process[:x]] - log_count[process[:x]]) /
+                             model_count[process[:x]]
+                            for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
+        return precision
+    else:
+        return 0
+
+
 def get_log_enabled(processes):
     unique_processes = dict()
 
