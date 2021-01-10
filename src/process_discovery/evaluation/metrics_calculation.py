@@ -43,11 +43,10 @@ def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     return fitness_metric
 
 
-def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
-
+def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
     metrics = dict()
 
-    model_events_list_with_parents = gate.get_all_child_events_with_parents()
+    model_events_list_with_parents = model.get_all_child_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
     if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
@@ -57,25 +56,25 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     cumulated_error = 0
 
     for process in log_info.log.keys():
-        best_local_error, events_global, best_event_group = \
-            calculate_metrics_for_single_process(process, gate, min_length, max_length, alignment_cache)
+        best_local_error, best_aligned_process, best_event_group = \
+            calculate_metrics_for_single_process(process, model, min_length, max_length, alignment_cache)
 
-        if any(event is not None and event not in model_events_list for event in events_global):
-            value, events_global = get_best_alignment(best_event_group, list(process), dict())
+        if any(event is not None and event not in model_events_list for event in best_aligned_process):
+            value, best_aligned_process = get_best_alignment(best_event_group, list(process), dict())
             best_local_error = calculate_alignment_metric(value, len(process), len(best_event_group))
         if best_local_error == 0:
-            perfectly_aligned_logs[tuple(events_global)] = log_info.log[process]
-        add_executions(model_events_list, events_global, log_info.log[process])
+            perfectly_aligned_logs[tuple(best_aligned_process)] = log_info.log[process]
+        add_executions(model_events_list, best_aligned_process, log_info.log[process])
         cumulated_error += best_local_error * log_info.log[process]
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
     metrics['ALIGNMENT'] = 1 + cumulated_average_error
-    for x in gate.get_all_child_gates(LopGate):
+    for x in model.get_all_child_gates(LopGate):
         x.set_twin_events_and_complexity()
-    metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, gate, model_events_list_with_parents)
+    metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, model, model_events_list_with_parents)
     metrics['GENERALIZATION'] = calculate_generalization_metric(model_events_list)
     metrics['SIMPLICITY'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
-    metrics['COMPLEXITY'] = calculate_complexity_metric(cumulated_average_error, gate)
+    metrics['COMPLEXITY'] = calculate_complexity_metric(cumulated_average_error, model)
 
     if any(metrics[x] > 1.0000001 for x in metrics):
         logging.error([x.no_visits for x in model_events_list])
@@ -100,20 +99,16 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
     len_process = len(process)
     n = len_process
     i = 1
-    min_local = -2 * n
-    events_global = []
+    min_error_local = -2 * n
+    best_aligned_process = []
     best_event_group = []
     find = False
 
-    while not n <= max(calculate_min_allowed_length(len_process), len_process + min_local) and \
-            not n >= min(calculate_max_allowed_length(len_process), len_process - min_local):
+    while not n <= calculate_min_allowed_length(len_process, min_error_local) and \
+            not n >= calculate_max_allowed_length(len_process, min_error_local):
         best_local_alignment = -1
         if min_length <= n <= max_length:
-            model.min_start = 0
-            model.max_start = 0
-            model.min_end = n
-            model.max_end = n
-            model.set_children_boundaries()
+            set_model_children_boundaries(model, n)
             routes = model.get_all_n_length_routes(n, process)
 
             if routes is not None and not is_struct_empty(routes):
@@ -125,18 +120,19 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         route_and_process_events_ratios.append((event_group, ratio))
                 sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
                 for event_group_and_ratios in sorted_routes_and_ratios:
-                    if event_group_and_ratios[1] <= 1 + min_local/len_process:
+                    if event_group_and_ratios[1] <= 1 + min_error_local/len_process:
                         break
-                    value, events = get_best_alignment_cached(event_group_and_ratios[0], list(process), alignment_cache)
-                    if value > min_local:
-                        min_local = value
-                        events_global = events
+                    value, best_aligned_process_local = get_best_alignment_cached(event_group_and_ratios[0],
+                                                                                  list(process), alignment_cache)
+                    if value > min_error_local:
+                        min_error_local = value
+                        best_aligned_process = best_aligned_process_local
                         best_event_group = event_group_and_ratios[0]
                     if value == 0:
                         find = True
                         break
 
-                local_alignment = calculate_alignment_metric(min_local, len_process, n)
+                local_alignment = calculate_alignment_metric(min_error_local, len_process, n)
                 if local_alignment > best_local_alignment:
                     best_local_alignment = local_alignment
                 if find:
@@ -145,11 +141,19 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
         n += (-i if i % 2 == 1 else i)
         i += 1
 
-    return best_local_alignment, events_global, best_event_group
+    return best_local_alignment, best_aligned_process, best_event_group
 
 
 def minimize_solution_length_factor(guess):
     return len(guess) * 10e-16
+
+
+def set_model_children_boundaries(model, n):
+    model.min_start = 0
+    model.max_start = 0
+    model.min_end = n
+    model.max_end = n
+    model.set_children_boundaries()
 
 
 def compare_model_with_log_events(model_events_list, log_unique_events):
@@ -158,12 +162,14 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
     return sum([x in model_event_names for x in log_unique_events])/len(log_unique_events)
 
 
-def calculate_max_allowed_length(log_length):
-    return math.ceil((1 + 2 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
+def calculate_max_allowed_length(len_process, min_error_local):
+    return max(math.ceil((1 + 2 * params['RESULT_TOLERANCE_PERCENT']/100) * len_process),
+               len_process + min_error_local)
 
 
-def calculate_min_allowed_length(log_length):
-    return math.floor((1 - 2 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
+def calculate_min_allowed_length(len_process, min_error_local):
+    return min(math.floor((1 - 2 * params['RESULT_TOLERANCE_PERCENT']/100) * len_process),
+               len_process - min_error_local)
 
 
 

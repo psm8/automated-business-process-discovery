@@ -23,33 +23,22 @@ Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramat
 \lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
 \lstset{label=src:grammar, frame=single}
 \begin{lstlisting}
-<e> ::= <anygateexceptseq>
+<e> ::= <anygate>
 
-<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | 
-<xorgate> | <optgate> | <lopgate> | {<event>}
+<andgate> ::= and(<anygate><anygate>) | and(<anygate>)
+
+<xorgate> ::= xor(<anygate><anygate>) | xor(<anygate>)
+
+<seqgate> ::= seq(<anygate><anygate>) | seq(<anygate>)
+
+<optgate> ::= opt(<anygate><anygate>) | opt(<andgate>) | opt(<xorgate>) | 
+	      opt(<seqgate>) | opt(<longate>) | opt({<event>})
+
+<longate> ::= lo<0_n>(<anygate><anygate>) | lo<0_n>(<andgate>) |
+              lo<0_n>(<xorgate>) | lo<0_n>(<optgate>) | lo<0_n>({<event>})
 
 <anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | 
-<lopgate> | {<event>}
-
-<andgate> ::= and(<anygate><anygate>)
-
-<xorgate> ::= xor(<anygate><anygate>)
-
-<seqgate> ::= seq(<anygateexceptseq><anygateexceptseq>)
-
-<optgate> ::= opt(<anygatenosingleopt>)
-
-<optdoublegate> ::= opt(<anygate><anygate>)
-
-<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | 
-<lopgate> | {<event>}
-
-<lopgate> ::= lop(<anygatenosingleseqandlop>)
-
-<longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
-
-<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | 
-<xorgate> | <optdoublegate> | {<event>}
+               <longate> | {<event>}
 
 <event> ::= GE_RANGE:dataset_vars
 
@@ -80,12 +69,13 @@ Użycie powyższej notacji rodzi jednak kilka problemów, Musimy mieć produkcje
 
 \subsubsection{Podział na moduły}
 
-Implementację podzielone na następujące moduły
+Implementację podzielone na następujące moduły:
 \begin{itemize}
-  \item wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego żeby oddzielić kod PonyGE2 od naszego kodu należało rozszerzyć lub nadpisać cześć z modułów PonyGE2. Moduły, które nadpisano to params, który zawiera konfigurację applikacji oraz grammar, gdzie dodano zmiany w jaki sposób parsowana jest podana gramatyka. 
-  \item fitness_functions - zawiera klasę bazowy moduł, gdzie znajduje się bazowa klasa dla obliczania metryk
-  \item process_discovery - moduł zawiera całą logikę obliczenia metryk
+    \item wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego żeby oddzielić kod PonyGE2 od naszego kodu należało rozszerzyć lub nadpisać cześć z modułów PonyGE2. Moduły, które nadpisano to params, który zawiera konfigurację aplikacji oraz grammar, gdzie dodano zmiany w jaki sposób parsowana jest podana gramatyka. 
+  \item fitness{\_}functions - zawiera klasę bazowy moduł, gdzie znajduje się bazowa klasa dla obliczania metryk
+  \item process{\_}discovery - moduł zawiera całą logikę obliczenia metryk
 \end{itemize}
+
 
 \begin{figure}[!ht]
 	\centering{\includegraphics{Modules.png}}
@@ -94,16 +84,20 @@ Implementację podzielone na następujące moduły
 
 \subsubsection{Model}
 
-\begin{figure}[h]
-	\centering{\includegraphics[scale=0.5]{EventUML.png}}
-	\caption{\label{fig:subcaption_example}Event UML}
-\end{figure}
+Podział na dwie klasy przydatne na różnym etapie procesowania:
 
-Gate costam
+Gate:
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{GateUML.png}}
 	\caption{\label{fig:subcaption_example}Gate UML}
+\end{figure}
+
+Event group:
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.5]{EventUML.png}}
+	\caption{\label{fig:subcaption_example}Event UML}
 \end{figure}
 
 
@@ -147,18 +141,11 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
 
 \subsubsection{Obliczanie metryk}
 
+W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metryki są obliczane dla najlepiej dopasowanej gramatyki 
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-
-    metrics = dict()
-
-    model_events_list_with_parents = gate.get_all_child_events_with_parents()
-    model_events_list = list(model_events_list_with_parents.keys())
-    model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
-    if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
-        return model_to_log_events_ratio/10
 
     perfectly_aligned_logs = dict()
     cumulated_error = 0
@@ -187,7 +174,85 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
 def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
 				   najdłuższa_dozwolona_długość, cache) -> int:
 	
-	ilość_wspólnych_zdarzeń_w_logu_i_modelu = 			   
+	stosunek_wspólnych_zdarzeń_w_logu_i_modelu := oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
+	if stosunek_wspólnych_zdarzeń_w_logu_i_modelu < MINIMALNY_STOSUNUK_WSPÓLNYCH_ZDARZEŃ_W_LOGU_I_MODELU:
+        return stosunek_wspólnych_zdarzeń_w_logu_i_modelu/10
+        
+    idealnie_dopasowane_logi := słownik()
+    skumulowany_błąd := 0
+    
+	for proces w log:
+      	błąd_lokalny, ścieżka = oblicz_dopasowanie(event_group, elem)
+      			if błąd_lokalny < minimalny_błąd_lokalny:
+          			minimalny_błąd_lokalny = błąd_lokalny
+          			najlpesza_ścieżka = ścieżka
+  				najlepszy_błąd_lokalny += minimalny_błąd_lokalny
+               oblicz metryki odwzorowanie, precyzja, generalizacja, prostota 
+               najlepszy_wynik_lokalny = suma_obliczonych_metryk / liczba_metryk
+               if najlepszy_wynik_lokalny > najlepszy_wynik:
+                   najlepszy_wynik = najlepszy_wynik_lokalny
+	metryki := oblicz metryki 
+	najlepszy_wynik := średnia ważona metryk
+    return najlepszy_wynik
+\end{lstlisting}
+\end{figure}
+
+\subsubsection{Obliczanie metryk dla jednego procesu}
+
+\begin{figure}[!ht]
+\lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
+\lstset{label=src:best_result, frame=single}
+\begin{lstlisting}
+
+def oblicz_metryki_dla_jednego_procesu(process, model, najkrótsza_dozwolona_długość, 
+				   najdłuższa_dozwolona_długość, cache):
+    len_process = len(process)
+    n = len_process
+    i = 1
+    min_local = -2 * n
+    events_global = []
+    best_event_group = []
+    find = False
+
+    while not n <= oblicz_minimalną_dozwoloną_długość(len_process, min_error_local) and \
+            not n >= oblicz_maksymalną_dozwoloną_długość(len_process, min_error_local):
+        best_local_alignment = -1
+        if min_length <= n <= max_length:
+            set_model_children_boundaries(model, n)
+            routes = model.get_all_n_length_routes(n, process)
+
+            if routes is not None and not is_struct_empty(routes):
+                routes = set(routes)
+                route_and_process_events_ratios = []
+                for event_group in routes:
+                    ratio = check_route_with_log_process(event_group, process)
+                    if ratio >= 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100:
+                        route_and_process_events_ratios.append((event_group, ratio))
+                sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
+                for event_group_and_ratios in sorted_routes_and_ratios:
+                    if event_group_and_ratios[1] <= 1 + min_local/len_process:
+                        break
+                    value, events = get_best_alignment_cached(event_group_and_ratios[0], list(process), cache)
+                    if value > min_local:
+                        min_local = value
+                        events_global = events
+                        best_event_group = event_group_and_ratios[0]
+                    if value == 0:
+                        find = True
+                        break
+
+                local_alignment = calculate_alignment_metric(min_local, len_process, n)
+                if local_alignment > best_local_alignment:
+                    best_local_alignment = local_alignment
+                if find:
+                    break
+
+        n += (-i if i % 2 == 1 else i)
+        i += 1
+
+    return best_local_alignment, events_global, best_event_group
+    
+    	ilość_wspólnych_zdarzeń_w_logu_i_modelu = 			   
 	if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
         return model_to_log_events_ratio/10
 	for elem w log:
@@ -213,67 +278,6 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 	metryki := oblicz metryki 
 	najlepszy_wynik := średnia ważona metryk
     return najlepszy_wynik
-\end{lstlisting}
-\end{figure}
-
-\subsubsection{Obliczanie metryk dla jednego procesu}
-
-\begin{figure}[!ht]
-\lstset{caption=Obliczanie metryk, captionpos=b}
-\lstset{label=src:best_result, frame=single}
-\begin{lstlisting}
-
-def oblicz_metryki_dla_jednego_procesu(process, model, najkrótsza_dozwolona_długość, 
-				   najdłuższa_dozwolona_długość,, cache):
-    len_elem = len(elem)
-    n = len_elem
-    i = 1
-    min_local = -2 * n
-    events_global = []
-    best_event_group = []
-    find = False
-
-    while not n <= max(calculate_min_allowed_length(len_elem), len_elem + min_local) and \
-            not n >= min(calculate_max_allowed_length(len(elem)), len_elem - min_local):
-        best_local_alignment = -1
-        if min_length <= n <= max_length:
-            model.min_start = 0
-            model.max_start = 0
-            model.min_end = n
-            model.max_end = n
-            model.set_children_boundaries()
-            routes = model.get_all_n_length_routes(n, elem)
-
-            if routes is not None and not is_struct_empty(routes):
-                routes = set(routes)
-                route_and_process_events_ratios = []
-                for event_group in routes:
-                    ratio = check_route_with_log_process(event_group, elem)
-                    if ratio >= 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100:
-                        route_and_process_events_ratios.append((event_group, ratio))
-                sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
-                for event_group_and_ratios in sorted_routes_and_ratios:
-                    if event_group_and_ratios[1] <= 1 + min_local/len_elem:
-                        break
-                    value, events = get_best_alignment_cached(event_group_and_ratios[0], list(elem), alignment_cache)
-                    if value > min_local:
-                        min_local = value
-                        events_global = events
-                        best_event_group = event_group_and_ratios[0]
-                    if value == 0:
-                        find = True
-                        break
-
-                local_alignment = calculate_alignment_metric(min_local, len(elem), n)
-                if local_alignment > best_local_alignment:
-                    best_local_alignment = local_alignment
-                if find:
-                    break
-
-        n += (-i if i % 2 == 1 else i)
-        i += 1
-
-    return best_local_alignment, events_global, best_event_group
 \end{lstlisting}
 \end{figure}
 
