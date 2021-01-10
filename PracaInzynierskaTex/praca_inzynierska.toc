@@ -20,7 +20,7 @@
 \contentsline {subsection}{\numberline {2.4.3}Ewolucja gramatyczna}{9}% 
 \contentsline {section}{\numberline {2.5}Gramatyka}{9}% 
 \contentsline {subsection}{\numberline {2.5.1}BNF}{9}% 
-\contentsline {subsection}{\numberline {2.5.2}Mo\IeC {\.z}liwe problemy przy tworzeniu gramatyki}{9}% 
+\contentsline {subsection}{\numberline {2.5.2}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{9}% 
 \contentsline {section}{\numberline {2.6}Metryki}{9}% 
 \contentsline {subsection}{\numberline {2.6.1}Prostota}{10}% 
 \contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{10}% 
@@ -33,15 +33,17 @@
 \contentsline {subsection}{\numberline {3.1.2}PonyGE2}{11}% 
 \contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{11}% 
 \contentsline {section}{\numberline {3.3}Projekt systemu}{14}% 
+\contentsline {subsubsection}{\numberline {3.3.0.1}Podzia\IeC {\l } na modu\IeC {\l }y}{14}% 
+\contentsline {subsubsection}{\numberline {3.3.0.2}Model}{14}% 
 \contentsline {section}{\numberline {3.4}Implementacja}{14}% 
 \contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{14}% 
-\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{17}% 
-\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{17}% 
-\contentsline {subsubsection}{\numberline {3.4.0.4}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{17}% 
+\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{18}% 
+\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{18}% 
+\contentsline {subsubsection}{\numberline {3.4.0.4}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{18}% 
 \contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie dopasowania}{18}% 
 \contentsline {subsubsection}{\numberline {3.4.0.6}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{18}% 
-\contentsline {subsubsection}{\numberline {3.4.0.7}Cache}{18}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{18}% 
+\contentsline {subsubsection}{\numberline {3.4.0.7}Cache}{19}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{19}% 
 \contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{23}% 
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{23}% 
 \contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{23}% 

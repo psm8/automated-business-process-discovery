@@ -56,17 +56,17 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     perfectly_aligned_logs = dict()
     cumulated_error = 0
 
-    for elem in log_info.log.keys():
+    for process in log_info.log.keys():
         best_local_error, events_global, best_event_group = \
-            calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache)
+            calculate_metrics_for_single_process(process, gate, min_length, max_length, alignment_cache)
 
         if any(event is not None and event not in model_events_list for event in events_global):
-            value, events_global = get_best_alignment(best_event_group, list(elem), dict())
-            best_local_error = calculate_alignment_metric(value, len(elem), len(best_event_group))
+            value, events_global = get_best_alignment(best_event_group, list(process), dict())
+            best_local_error = calculate_alignment_metric(value, len(process), len(best_event_group))
         if best_local_error == 0:
-            perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
-        add_executions(model_events_list, events_global, log_info.log[elem])
-        cumulated_error += best_local_error * log_info.log[elem]
+            perfectly_aligned_logs[tuple(events_global)] = log_info.log[process]
+        add_executions(model_events_list, events_global, log_info.log[process])
+        cumulated_error += best_local_error * log_info.log[process]
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
     metrics['ALIGNMENT'] = 1 + cumulated_average_error
@@ -96,17 +96,17 @@ def calculate_metrics(log_info, gate, min_length, max_length, alignment_cache):
     return best_result
 
 
-def calculate_metrics_for_single_process(elem, model, min_length, max_length, alignment_cache):
-    len_elem = len(elem)
-    n = len_elem
+def calculate_metrics_for_single_process(process, model, min_length, max_length, alignment_cache):
+    len_process = len(process)
+    n = len_process
     i = 1
     min_local = -2 * n
     events_global = []
     best_event_group = []
     find = False
 
-    while not n <= max(calculate_min_allowed_length(len_elem), len_elem + min_local) and \
-            not n >= min(calculate_max_allowed_length(len(elem)), len_elem - min_local):
+    while not n <= max(calculate_min_allowed_length(len_process), len_process + min_local) and \
+            not n >= min(calculate_max_allowed_length(len_process), len_process - min_local):
         best_local_alignment = -1
         if min_length <= n <= max_length:
             model.min_start = 0
@@ -114,20 +114,20 @@ def calculate_metrics_for_single_process(elem, model, min_length, max_length, al
             model.min_end = n
             model.max_end = n
             model.set_children_boundaries()
-            routes = model.get_all_n_length_routes(n, elem)
+            routes = model.get_all_n_length_routes(n, process)
 
             if routes is not None and not is_struct_empty(routes):
                 routes = set(routes)
                 route_and_process_events_ratios = []
                 for event_group in routes:
-                    ratio = check_route_with_log_process(event_group, elem)
+                    ratio = check_route_with_log_process(event_group, process)
                     if ratio >= 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100:
                         route_and_process_events_ratios.append((event_group, ratio))
                 sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
                 for event_group_and_ratios in sorted_routes_and_ratios:
-                    if event_group_and_ratios[1] <= 1 + min_local/len_elem:
+                    if event_group_and_ratios[1] <= 1 + min_local/len_process:
                         break
-                    value, events = get_best_alignment_cached(event_group_and_ratios[0], list(elem), alignment_cache)
+                    value, events = get_best_alignment_cached(event_group_and_ratios[0], list(process), alignment_cache)
                     if value > min_local:
                         min_local = value
                         events_global = events
@@ -136,7 +136,7 @@ def calculate_metrics_for_single_process(elem, model, min_length, max_length, al
                         find = True
                         break
 
-                local_alignment = calculate_alignment_metric(min_local, len(elem), n)
+                local_alignment = calculate_alignment_metric(min_local, len_process, n)
                 if local_alignment > best_local_alignment:
                     best_local_alignment = local_alignment
                 if find:

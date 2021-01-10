@@ -203,8 +203,8 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
                najlepszy_wynik_lokalny = suma_obliczonych_metryk / liczba_metryk
                if najlepszy_wynik_lokalny > najlepszy_wynik:
                    najlepszy_wynik = najlepszy_wynik_lokalny
-	oblicz metryki 
-	najlepsz_ wynik = średnia ważona metryk
+	metryki := oblicz metryki 
+	najlepszy_wynik := średnia ważona metryk
     return najlepszy_wynik
 \end{lstlisting}
 \end{figure}
@@ -314,4 +314,8 @@ def znajdz_sciezke(macierz_rozwiazan, model, log, rozwiazania_podmodeli):
 \end{figure}
 
 \subsubsection{Cache}
+
+Wiele obliczeń się powtarza, dlatego żeby przyspieszyć działanie rezultaty są cachowane w dwóch miejscach:
+Cache genotypów, dostarczane przez 
+Cache obliczeń dopasowanie, które jest najbardziej kosztownym obliczeniem. Wybrane metodę cachowania LRU.  
 \section{Wybór parametrów algorytmu}
