@@ -1,19 +1,21 @@
 <e> ::= <anygateexceptseq>
-<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate> | <optgate> | <longate> | {<event>}
-<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | {<event>}
-<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <seqgate> | <longate>| {<event>}
-<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate> | <optgate> | <xorgate> |{<event>}
+<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <eventwrapped>| <optgate> | <longate> | <eventwrapped>
+<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | <eventwrapped>
+<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <eventwrapped> | <longate>| <eventwrapped>
+<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <eventwrapped> | <optgate> | <eventwrapped> | <eventwrapped>
+<eventchain> ::= <eventchain><eventchain> |
 <andgate> ::= an<d>(<anygate>)
 <xorgate> ::= xo<r>(<anygate>)
 <seqgate> ::= se<q>(<anygateexceptseq>)
 <optgate> ::= op<t>(<anygatenosingleopt>)
 <longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
+<eventwrapped> ::= <{><event>}
 
 <d> ::= d
 <r> ::= r
 <q> ::= q
 <t> ::= t
-
+<{> ::= {
 
 <andxorseqoptlop> ::= <andxorseqoptlopname> | <andxorseqoptlopname>(<andxorseqoptlop>) | <andxorseqoptlopname>(<andxorseqoptlop>)
 
