@@ -142,15 +142,11 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
 \subsubsection{Obliczanie metryk}
 
 W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metryki są obliczane dla najlepiej dopasowanej gramatyki 
+\clearpage
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-
-    perfectly_aligned_logs = dict()
-    cumulated_error = 0
-
-    for elem in log_info.log.keys():
         best_local_error, events_global, best_event_group = \
             calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache)
 
@@ -178,19 +174,19 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 	if stosunek_wspólnych_zdarzeń_w_logu_i_modelu < MINIMALNY_STOSUNUK_WSPÓLNYCH_ZDARZEŃ_W_LOGU_I_MODELU:
         return stosunek_wspólnych_zdarzeń_w_logu_i_modelu/10
         
-    idealnie_dopasowane_logi := słownik()
+    idealnie_dopasowane_logi := pusty_słownik
     skumulowany_błąd := 0
     
 	for proces w log:
-      	błąd_lokalny, ścieżka = oblicz_dopasowanie(event_group, elem)
-      			if błąd_lokalny < minimalny_błąd_lokalny:
-          			minimalny_błąd_lokalny = błąd_lokalny
-          			najlpesza_ścieżka = ścieżka
-  				najlepszy_błąd_lokalny += minimalny_błąd_lokalny
-               oblicz metryki odwzorowanie, precyzja, generalizacja, prostota 
-               najlepszy_wynik_lokalny = suma_obliczonych_metryk / liczba_metryk
-               if najlepszy_wynik_lokalny > najlepszy_wynik:
-                   najlepszy_wynik = najlepszy_wynik_lokalny
+      	najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_process := oblicz_metryki_dla_jednego_procesu(proces, model, minimalna_długość, maksymalna_długość, cache)
+    	if jakikolwiek proces w najlepiej_dopasowanej_ścieżce nie znajduje się w modelu:
+            value, best_aligned_process = obilcz_dopasowanie_nie_korzystając_z_cache(best_event_group, list(process), dict())
+            best_local_error = calculate_alignment_metric(value, len(process), len(best_event_group))
+        if najlepszy_błąd_lokalny == 0:
+            idealnie_dopasowane_logi.dodaj()[tuple(best_aligned_process)] = log_info.log[process]
+        add_executions(model_events_list, best_aligned_process, log_info.log[process])
+        skumulowany_błąd += najlepszy_błąd_lokalny * ilość_wystąpień_w_logu
+
 	metryki := oblicz metryki 
 	najlepszy_wynik := średnia ważona metryk
     return najlepszy_wynik
