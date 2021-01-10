@@ -1,16 +1,33 @@
-<e> ::= <anygate>
+<e> ::= <anygateexceptseq>
+<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate> | <optgate> | <longate> | {<event>}
+<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | {<event>}
+<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <seqgate> | <longate>| {<event>}
+<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate> | <optgate> | <xorgate> |{<event>}
+<andgate> ::= an<d>(<anygate>)
+<xorgate> ::= xo<r>(<anygate>)
+<seqgate> ::= se<q>(<anygateexceptseq>)
+<optgate> ::= op<t>(<anygatenosingleopt>)
+<longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
 
-<andgate> ::= and(<anygate><anygate>) | and(<anygate>) | <anygate><anygate> | <anygate>
+<d> ::= d
+<r> ::= r
+<q> ::= q
+<t> ::= t
 
-<xorgate> ::= xor(<anygate><anygate>) | xor(<anygate>) | <anygate><anygate> | <anygate>
 
-<seqgate> ::= seq(<anygate><anygate>) | seq(<anygate>) | <anygate><anygate> | <anygate>
+<andxorseqoptlop> ::= <andxorseqoptlopname> | <andxorseqoptlopname>(<andxorseqoptlop>) | <andxorseqoptlopname>(<andxorseqoptlop>)
 
-<optgate> ::= opt(<anygate><anygate>) | opt(<andgate>) | opt(<xorgate>) | opt(<seqgate>) | opt(<longate>) | opt({<event>}) | <anygate><anygate> | <andgate> | <xorgate> | <seqgate> |<longate> | {<event>}
+<andxorseqopt> ::= <andxorseqoptname> | <andxorseqoptlopname>(<andxorseqopt>) | <andxorseqlopname>(<andxorseqopt>)
 
-<longate> ::= lo<0_n>(<anygate><anygate>) | lo<0_n>(<andgate>) | lo<0_n>(<xorgate>) | lo<0_n>(<optgate>) | lo<0_n>({<event>}) | <anygate><anygate> | <andgate> | <xorgate> | <optgate> | {<event>}
+<andxorseqlop> ::= <andxorseqlopname> | <andxorseqoptlopname>(<andxorseqlop>) | <andxorseqoptname>(<andxorseqlop>)
 
-<anygate> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | {<event>}
+<andxorseqoptlopname> ::= and | xor | seq | opt | lo<0_n>
+
+<andxorseqoptname> ::= and | xor | seq | opt
+
+<andxorseqlopname> ::= and | xor | seq | lo<0_n>
+
+<events> ::= <events><events> | <andxorseqoptlop>(<events>) | <andxorseqopt>(<events>) | <andxorseqlop>(<events>) | <event>
 
 <event> ::= GE_RANGE:dataset_vars
 
