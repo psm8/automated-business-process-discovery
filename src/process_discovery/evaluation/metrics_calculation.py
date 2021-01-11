@@ -121,7 +121,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                 route_and_process_events_ratios = []
                 for event_group in routes:
                     ratio = check_route_with_log_process(event_group, process)
-                    if ratio >= 1 - 10 * params['RESULT_TOLERANCE_PERCENT']/100:
+                    if ratio >= 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100:
                         route_and_process_events_ratios.append((event_group, ratio))
                 sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
                 for event_group_and_ratios in sorted_routes_and_ratios:
@@ -159,11 +159,11 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
 
 
 def calculate_max_allowed_length(log_length):
-    return math.ceil((1 + 10 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
+    return math.ceil((1 + 2 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 
 
 def calculate_min_allowed_length(log_length):
-    return math.floor((1 - 10 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
+    return math.floor((1 - 5 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 
 
 
