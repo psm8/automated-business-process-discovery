@@ -105,9 +105,20 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
     best_event_group = []
     find = False
     best_local_alignment = -1
+    lower_limit_reached = False
+    higher_limit_reached = False
 
-    while not n <= max(calculate_min_allowed_length(len_process), len_process + min_local) and \
-            not n >= min(calculate_max_allowed_length(len_process), len_process - min_local):
+    while not (lower_limit_reached and higher_limit_reached):
+        if n >= min(calculate_max_allowed_length(len_process), len_process - min_local):
+            higher_limit_reached = True
+            n += (-i if i % 2 == 1 else i)
+            i += 1
+            continue
+        if n <= max(calculate_min_allowed_length(len_process), len_process + min_local):
+            lower_limit_reached = True
+            n += (-i if i % 2 == 1 else i)
+            i += 1
+            continue
         if min_length <= n <= max_length:
             model.min_start = 0
             model.max_start = 0
@@ -121,7 +132,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                 route_and_process_events_ratios = []
                 for event_group in routes:
                     ratio = check_route_with_log_process(event_group, process)
-                    if ratio >= 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100:
+                    if ratio >= 1 - 10 * params['RESULT_TOLERANCE_PERCENT']/100:
                         route_and_process_events_ratios.append((event_group, ratio))
                 sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
                 for event_group_and_ratios in sorted_routes_and_ratios:
@@ -136,7 +147,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         find = True
                         break
 
-                local_alignment = calculate_alignment_metric(min_local, len_process, n)
+                local_alignment = calculate_alignment_metric(min_local, len_process, model.model_min_length)
                 if local_alignment > best_local_alignment:
                     best_local_alignment = local_alignment
                 if find:
@@ -159,11 +170,11 @@ def compare_model_with_log_events(model_events_list, log_unique_events):
 
 
 def calculate_max_allowed_length(log_length):
-    return math.ceil((1 + 2 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
+    return math.ceil((1 + 1 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 
 
 def calculate_min_allowed_length(log_length):
-    return math.floor((1 - 3 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
+    return math.floor((1 - 7 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 
 
 
