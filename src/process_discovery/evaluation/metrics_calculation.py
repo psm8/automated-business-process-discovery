@@ -108,12 +108,12 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
     higher_limit_reached = False
 
     while not (lower_limit_reached and higher_limit_reached):
-        if n >= min(calculate_max_allowed_length(len_process), len_process - min_local):
+        if n >= min(calculate_max_allowed_length(len_process), len_process - min_error_local):
             higher_limit_reached = True
             n += (-i if i % 2 == 1 else i)
             i += 1
             continue
-        if n <= max(calculate_min_allowed_length(len_process), len_process + min_local):
+        if n <= max(calculate_min_allowed_length(len_process), len_process + min_error_local):
             lower_limit_reached = True
             n += (-i if i % 2 == 1 else i)
             i += 1
@@ -143,7 +143,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         find = True
                         break
 
-                local_alignment = calculate_alignment_metric(min_local, len_process, model.model_min_length)
+                local_alignment = calculate_alignment_metric(min_error_local, len_process, model.model_min_length)
                 if local_alignment > best_local_alignment:
                     best_local_alignment = local_alignment
                 if find:
