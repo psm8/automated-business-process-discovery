@@ -1,5 +1,5 @@
 <e> ::= <anygate>
-<anygate> ::=  <anygate><anygate> | an<d>(<anygate>) | xo<r>(<anygate>) |se<q>(<anygate>) | op<t>(<anygate>) | lo<0_n>(<anygate>) | <{><event>}
+<anygate> ::=  <anygate><anygate> | an<d>(<anygate>) | xo<r>(<anygate>) |se<q>(<anygate>) | op<t>(<anygate>) | lo<0_n>(<anygate>) | <{><event>} | <{><event>} | <{><event>} | <{><event>} | <{><event>}  | <{><event>}
 <eventchain> ::= <anygate><eventwrapped> | <eventwrapped>
 <andgate> ::= an<d>(<anygate>)
 <xorgate> ::= xo<r>(<anygate>)
@@ -7,7 +7,7 @@
 <optgate> ::= op<t>(<anygate>)
 <longate> ::= lo<0_n>(<anygate>)
 <eventwrapped> ::= <{><event>}
-
+<slots> ::=
 <andname> ::= an<d>
 <xorname> ::= xo<r>
 <seqname> ::= se<q>
