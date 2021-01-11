@@ -1,15 +1,22 @@
 <e> ::= <anygateexceptseq>
-<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <eventwrapped>| <optgate> | <longate> | <eventwrapped>
+<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate>| <optgate> | <longate> | <eventwrapped>
 <anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | <eventwrapped>
-<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <eventwrapped> | <longate>| <eventwrapped>
-<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <eventwrapped> | <optgate> | <eventwrapped> | <eventwrapped>
-<eventchain> ::= <eventchain><eventchain> |
+<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <xorgate> | <longate>| <eventwrapped>
+<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate> | <optgate> | <xorgate> | <eventwrapped>
+<eventchain> ::= <anygate><eventwrapped> | <eventwrapped>
 <andgate> ::= an<d>(<anygate>)
 <xorgate> ::= xo<r>(<anygate>)
 <seqgate> ::= se<q>(<anygateexceptseq>)
 <optgate> ::= op<t>(<anygatenosingleopt>)
 <longate> ::= lo<0_n>(<anygatenosingleseqandlop>)
 <eventwrapped> ::= <{><event>}
+
+<andname> ::= an<d>
+<xorname> ::= xo<r>
+<seqname> ::= se<q>
+<optname> ::= op<t>
+<lonname> ::= lo<0_n>
+<eventname> ::= <{>
 
 <d> ::= d
 <r> ::= r

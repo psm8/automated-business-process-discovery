@@ -92,7 +92,7 @@ class Gate(ComparableEvent):
             elif expression[i] == ")":
                 return i+1
             elif i+4 < len(expression):
-                if expression[i:i + 3] == "seq" and self.name == "seq" or self.name == "lop":
+                if expression[i:i + 3] == "seq" and (self.name == "seq" or self.name == "lop"):
                     consume(numbers, 3)
                     processed_characters = self.parse(expression[i + 4:])
                     consume(numbers, processed_characters)
@@ -110,15 +110,16 @@ class Gate(ComparableEvent):
                                     to_add = deepcopy(x)
                                     to_add.parent = self
                                     self.add_element(to_add)
-
+                        self.add_element(gate)
+                        consume(numbers, processed_characters)
                     else:
                         gate_class = getattr(importlib.import_module("process_discovery.gate." + expression[i:i+3] + "_gate"),
                                              expression[i:i+3].capitalize() + "Gate")
                         gate = gate_class(self)
                         consume(numbers, 3)
                         processed_characters = gate.parse(expression[i+4:])
-                    self.add_element(gate)
-                    consume(numbers, processed_characters)
+                        self.add_element(gate)
+                        consume(numbers, processed_characters)
             else:
                 raise Exception
 
