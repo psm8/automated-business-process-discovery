@@ -58,10 +58,9 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
     for process in log_info.log.keys():
         best_local_error, best_aligned_process, best_event_group = \
             calculate_metrics_for_single_process(process, model, min_length, max_length, alignment_cache)
-
         if any(event is not None and event not in model_events_list for event in best_aligned_process):
-            value, best_aligned_process = get_best_alignment(best_event_group, list(process), dict())
-            best_local_error = calculate_alignment_metric(value, len(process), len(best_event_group))
+            best_local_error, best_aligned_process = get_best_alignment(best_event_group, list(process), dict())
+        best_local_error = calculate_alignment_metric(best_local_error, len(process), model.model_min_length)
         if best_local_error == 0:
             perfectly_aligned_logs[tuple(best_aligned_process)] = log_info.log[process]
         add_executions(model_events_list, best_aligned_process, log_info.log[process])
@@ -99,11 +98,11 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
     len_process = len(process)
     n = len_process
     i = 1
-    min_error_local = -2 * n
+    min_error_local = -(len_process + model.model_min_length)
     best_aligned_process = []
     best_event_group = []
     find = False
-    best_local_alignment = -1
+    best_error_local = -(len_process + model.model_min_length)
     lower_limit_reached = False
     higher_limit_reached = False
 
@@ -143,16 +142,15 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         find = True
                         break
 
-                local_alignment = calculate_alignment_metric(min_error_local, len_process, model.model_min_length)
-                if local_alignment > best_local_alignment:
-                    best_local_alignment = local_alignment
+                if min_error_local > best_error_local:
+                    best_error_local = min_error_local
                 if find:
                     break
 
         n += (-i if i % 2 == 1 else i)
         i += 1
 
-    return best_local_alignment, best_aligned_process, best_event_group
+    return best_error_local, best_aligned_process, best_event_group
 
 
 def minimize_solution_length_factor(guess):
@@ -178,6 +176,5 @@ def calculate_max_allowed_length(log_length):
 
 
 def calculate_min_allowed_length(log_length):
-    return math.floor((1 - 7 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
-
+    return math.floor((1 - 11 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 

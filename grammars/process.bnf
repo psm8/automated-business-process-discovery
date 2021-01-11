@@ -1,20 +1,7 @@
 <e> ::= <slot><slot><anygate><slot><slot>
-<anygate> ::=  <anygate><anygate> | an<d>(<slots>) | xo<r>(<slots>) |se<q>(<slots>) | op<t>(<slots>) | lo<0_n>(<slots>) | <{><event>} | <{><event>} | <{><event>} | <{><event>} | <{><event>} | <{><event>}
-<eventchain> ::= <anygate><eventwrapped> | <eventwrapped>
-<andgate> ::= an<d>(<anygate>)
-<xorgate> ::= xo<r>(<anygate>)
-<seqgate> ::= se<q>(<anygate>)
-<optgate> ::= op<t>(<anygate>)
-<longate> ::= lo<0_n>(<anygate>)
-<eventwrapped> ::= <{><event>}
-<slot> ::= <anygate> | '' | '' | '' | ''
+<anygate> ::=  <anygate><anygate> | an<d>(<slots>) | xo<r>(<slots>) |se<q>(<slots>) | op<t>(<slots>) | lo<0_n>(<slots>) | <{><event>} | <{><event>} | <{><event>}
+<slot> ::= <anygate> | '' | '' | '' | '' | '' | '' | '' | ''
 <slots> ::= <slot><slot><anygate><slot><slot>
-<andname> ::= an<d>
-<xorname> ::= xo<r>
-<seqname> ::= se<q>
-<optname> ::= op<t>
-<lonname> ::= lo<0_n>
-<eventname> ::= <{>
 
 <d> ::= d
 <r> ::= r
