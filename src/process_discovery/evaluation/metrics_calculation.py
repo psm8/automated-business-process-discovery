@@ -163,7 +163,7 @@ def calculate_max_allowed_length(log_length):
 
 
 def calculate_min_allowed_length(log_length):
-    return math.floor((1 - 5 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
+    return math.floor((1 - 3 * params['RESULT_TOLERANCE_PERCENT']/100) * log_length)
 
 
 
