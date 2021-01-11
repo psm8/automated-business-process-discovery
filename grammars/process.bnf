@@ -1,8 +1,8 @@
 <e> ::= <anygateexceptseq>
-<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate>| <optgate> | <longate> | <eventwrapped>
+<anygateexceptseq> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <andgate> | <optgate> | <longate> | <eventwrapped>
 <anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | <longate> | <eventwrapped>
-<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <xorgate> | <longate>| <eventwrapped>
-<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <xorgate> | <xorgate> | <optgate> | <xorgate> | <eventwrapped>
+<anygatenosingleopt> ::= <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <andgate> | <longate>| <eventwrapped>
+<anygatenosingleseqandlop> ::= <anygateexceptseq><anygateexceptseq> | <andgate> | <andgate> | <xorgate> | <optgate> | <andgate> | <eventwrapped>
 <eventchain> ::= <anygate><eventwrapped> | <eventwrapped>
 <andgate> ::= an<d>(<anygate>)
 <xorgate> ::= xo<r>(<anygate>)
