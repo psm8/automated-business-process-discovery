@@ -105,8 +105,8 @@ class Gate(ComparableEvent):
                         processed_characters = gate.parse(expression[i + 4:])
                         if self.name == "seq" or self.name == "lop":
                             child_number = len(gate.elements)
-                            if int(expression[i+2]) < child_number:
-                                for x in gate.elements[(child_number - int(expression[i+2]) - 1):]:
+                            if int(expression[i+2]) <= child_number:
+                                for x in gate.elements[(child_number - int(expression[i+2])):]:
                                     to_add = deepcopy(x)
                                     to_add.parent = self
                                     self.add_element(to_add)
