@@ -1,5 +1,6 @@
 from process_discovery.event.event import Event
 from process_discovery.event.base_group import BaseGroup
+from algorithm.parameters import params
 
 
 def string_to_events(string: str):
@@ -37,3 +38,12 @@ def get_event_names2(event_group: BaseGroup):
             [result.append(y) for y in get_event_names2(x)]
 
     return result
+
+def set_params():
+    params['RESULT_TOLERANCE_PERCENT'] = 5
+    params['WEIGHT_ALIGNMENT'] = 6
+    params['WEIGHT_COMPLEXITY'] = 2
+    params['WEIGHT_GENERALIZATION'] = 2
+    params['WEIGHT_PRECISION'] = 2
+    params['WEIGHT_SIMPLICITY'] = 2
+    params['MINIMIZE_SOLUTION_LENGTH'] = True

@@ -19,7 +19,7 @@ class GateTest(unittest.TestCase):
         self.assertCountEqual([EventGroupMatcher(EventGroup([EventGroupParallel(string_to_events('abcdefghijklmn'))]))],
                               gate.get_all_n_length_routes(14, ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
                                                                 'l', 'm', 'n')))
-        self.assertEqual([], gate.get_all_n_length_routes(13, ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+        self.assertEqual(None, gate.get_all_n_length_routes(13, ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
                                                                'l', 'm', 'n')))
 
     def test_2(self):
@@ -352,7 +352,7 @@ class GateTest(unittest.TestCase):
         e5 = keys[18]
 
         actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2, e3, e4), e4, e5)))
-        self.assertEqual(1, len(actual))
+        self.assertEqual(2, len(actual))
 
     def test_get_next_possible_states_6_6(self):
         gate = SeqGate()
@@ -370,6 +370,39 @@ class GateTest(unittest.TestCase):
 
         actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2, e3, e4), e4, e5)))
         self.assertEqual(3, len(actual))
+
+    def test_get_next_possible_states_7(self):
+        gate = SeqGate()
+        gate.parse('and(seq({a}seq(xor({f}opt(lo1({c})))))seq(lo1({f}{b}{d}{e})))xor({g}{h})')
+
+        events_with_parents = gate.get_all_child_events_with_parents()
+        keys = [x for x in events_with_parents.keys()]
+
+        e1 = keys[0]
+        e2 = keys[2]
+        e3 = keys[3]
+        e4 = keys[4]
+        e5 = keys[10]
+
+        actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2, e3, e4), e4, e5)))
+        self.assertEqual(3, len(actual))
+
+    def test_get_next_possible_states_8(self):
+        gate = SeqGate()
+        gate.parse('{a}{c}and({d})and(lo1({f}{d}{b}{e}){e})xor(xor({g}){h})')
+
+        events_with_parents = gate.get_all_child_events_with_parents()
+        keys = [x for x in events_with_parents.keys()]
+
+        e1 = keys[0]
+        e2 = keys[1]
+        e3 = keys[2]
+        e4 = keys[7]
+        e5 = keys[9]
+
+        actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2, e3, e4), e4, e5)))
+        self.assertEqual(3, len(actual))
+
 
     def test_eq1(self):
         gate1 = SeqGate()

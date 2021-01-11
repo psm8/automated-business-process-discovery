@@ -108,7 +108,7 @@ class SeqGate(Gate):
         if child_caller is None:
             x = self.elements[0]
             if isinstance(x, Gate):
-                yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
+                yield from x.get_next_possible_states(previous_events, None, None, blocked_calls_to)
             else:
                 yield x
         else:
@@ -121,6 +121,6 @@ class SeqGate(Gate):
                 i = index_by_is(child_caller, self.elements)
                 x = self.elements[i + 1]
                 if isinstance(x, Gate):
-                    yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
+                    yield from x.get_next_possible_states(previous_events, None, None, blocked_calls_to)
                 else:
                     yield x

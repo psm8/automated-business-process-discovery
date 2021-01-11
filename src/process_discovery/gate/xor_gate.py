@@ -91,6 +91,6 @@ class XorGate(Gate):
         else:
             for x in self.elements:
                 if isinstance(x, Gate):
-                    yield from x.get_next_possible_states(tuple(), None, None, blocked_calls_to)
+                    yield from x.get_next_possible_states(previous_events, None, None, blocked_calls_to)
                 else:
                     yield x
