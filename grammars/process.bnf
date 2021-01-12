@@ -9,7 +9,8 @@
 <t> ::= t
 <{> ::= {
 
-<empty> ::= ''
+<empty> ::= <empty2>
+<empty2> ::= ''
 
 <event> ::= GE_RANGE:dataset_vars
 
