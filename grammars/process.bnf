@@ -1,5 +1,5 @@
 <e> ::= <slot><slot><anygate><slot><slot>
-<anygate> ::=  <anygate><anygate> | an<d>(<slots>) | xo<r>(<slots>) |se<q>(<slots>) | op<t>(<slots>) | lo<0_n>(<slots>) | {<event>} | {<event>} | {<event>} | {<event>} | {<event>} | {<event>} | {<event>} | {<event>}
+<anygate> ::=  <anygate><anygate> | name(<slots>) | name(<slots>) name(<slots>) | name(<slots>) | name(<slots>) | {<event>} | {<event>} | {<event>} | {<event>} | {<event>} | {<event>} | {<event>} | {<event>}
 <slot> ::= <anygate> | '' | '' | '' | '' | '' | '' | '' | '' | ''
 <slots> ::= <slot><slot><anygate><slot><slot>
 
@@ -9,6 +9,7 @@
 <t> ::= t
 <{> ::= {
 
+name ::= and | xor | seq | opt | lo<0_n>
 <empty> ::= <empty2>
 <empty2> ::= ''
 
