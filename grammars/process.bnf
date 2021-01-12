@@ -1,6 +1,6 @@
 <e> ::= <slot><slot><anygate><slot><slot>
 <anygate> ::=  <anygate><anygate> | an<d>(<slots>) | xo<r>(<slots>) |se<q>(<slots>) | op<t>(<slots>) | lo<0_n>(<slots>) | {<event>}
-<slot> ::= <anygate> | '' | '' | '' | '' | '' | '' | '' | '' | ''
+<slot> ::= <anygate> | <empty> | <empty> | <empty> | <empty> | <empty> | <empty> | <empty> | <empty> | <empty>
 <slots> ::= <slot><slot><anygate><slot><slot>
 
 <d> ::= d
@@ -9,8 +9,7 @@
 <t> ::= t
 <{> ::= {
 
-<empty> ::= <emptychild><emptychild>
-<emptychild> ::= ''
+<empty> ::= ''
 
 <event> ::= GE_RANGE:dataset_vars
 
