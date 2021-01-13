@@ -49,7 +49,7 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
     model_events_list_with_parents = model.get_all_child_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
-    if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
+    if model_to_log_events_ratio < 1 - 3 * params['RESULT_TOLERANCE_PERCENT']/100:
         return model_to_log_events_ratio/10
 
     perfectly_aligned_logs = dict()

@@ -41,9 +41,9 @@ def get_event_names2(event_group: BaseGroup):
 
 def set_params():
     params['RESULT_TOLERANCE_PERCENT'] = 5
-    params['WEIGHT_ALIGNMENT'] = 6
-    params['WEIGHT_COMPLEXITY'] = 2
-    params['WEIGHT_GENERALIZATION'] = 2
-    params['WEIGHT_PRECISION'] = 2
-    params['WEIGHT_SIMPLICITY'] = 2
+    params['WEIGHT_ALIGNMENT'] = 12
+    params['WEIGHT_COMPLEXITY'] = 4
+    params['WEIGHT_GENERALIZATION'] = 4
+    params['WEIGHT_PRECISION'] = 1
+    params['WEIGHT_SIMPLICITY'] = 4
     params['MINIMIZE_SOLUTION_LENGTH'] = True

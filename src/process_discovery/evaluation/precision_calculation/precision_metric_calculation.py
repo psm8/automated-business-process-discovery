@@ -1,7 +1,7 @@
 from process_discovery.log.log_util import get_sum_of_processes_length
 
 import logging
-
+import math
 
 def calculate_precision_metric(log, model, model_parents_list):
     if log:
@@ -17,7 +17,7 @@ def calculate_precision_metric(log, model, model_parents_list):
         precision = 1 - sum([log[process] * (model_count[process[:x]] - log_count[process[:x]]) /
                              model_count[process[:x]]
                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
-        return precision
+        return math.pow(precision, 1/3)
     else:
         return 0
 
