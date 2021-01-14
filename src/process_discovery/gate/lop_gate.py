@@ -156,9 +156,12 @@ class LopGate(Gate):
                         self.elements[-j] == self.parent.elements[i]:
                     self.twin_complexity *= self.elements[-j].complexity_for_metric
                     for x in self.elements[-j].get_all_child_events():
-                        for y in self.parent.elements[i].get_all_child_events():
-                            x.event_lop_twin = y
-                            break
+                        children = list(self.parent.elements[i].get_all_child_events())
+                        for y in children:
+                            if y.name == x.name:
+                                x.event_lop_twin = y
+                                children.remove(y)
+                                break
                 else:
                     break
                 i -= 1

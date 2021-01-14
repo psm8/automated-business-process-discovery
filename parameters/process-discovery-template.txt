@@ -34,5 +34,5 @@ TIMEOUT:                        5
 WEIGHT_ALIGNMENT:               8
 WEIGHT_COMPLEXITY:              2
 WEIGHT_GENERALIZATION:          2
-WEIGHT_PRECISION:               1
+WEIGHT_PRECISION:               2
 WEIGHT_SIMPLICITY:              2
