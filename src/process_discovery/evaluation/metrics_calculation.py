@@ -48,6 +48,13 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
 
     model_events_list_with_parents = model.get_all_child_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
+
+    for x in model.get_all_child_gates(LopGate):
+        x.set_twin_events_and_complexity()
+    metrics['SIMPLICITY'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
+    if metrics['SIMPLICITY'] < 0.5:
+        return 0
+
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
     if model_to_log_events_ratio < 1 - 3 * params['RESULT_TOLERANCE_PERCENT']/100:
         return model_to_log_events_ratio/10
@@ -68,11 +75,8 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
     metrics['ALIGNMENT'] = 1 + cumulated_average_error
-    for x in model.get_all_child_gates(LopGate):
-        x.set_twin_events_and_complexity()
     metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, model, model_events_list_with_parents)
     metrics['GENERALIZATION'] = calculate_generalization_metric(model_events_list)
-    metrics['SIMPLICITY'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
     metrics['COMPLEXITY'] = calculate_complexity_metric(cumulated_average_error, model)
 
     if any(metrics[x] > 1.0000001 for x in metrics):

@@ -3,7 +3,15 @@
 <slot> ::= <anygate> | '' | '' | '' | '' | '' | '' | '' | '' | ''
 <slots> ::= <slot><slot><anygate><slot><slot>
 
+<d> ::= d
+<r> ::= r
+<q> ::= q
+<t> ::= t
+<{> ::= {
+
 <name> ::= and | xor | seq | opt | lo<0_n>
+<empty> ::= <empty2>
+<empty2> ::= ''
 
 <event> ::= GE_RANGE:dataset_vars
 

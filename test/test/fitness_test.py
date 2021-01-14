@@ -276,17 +276,38 @@ class FitnessTest(unittest.TestCase):
             LogInfo('discovered-processes-simple.csv'), dict(), 2100)
         expected = 0
 
+    def test_9_9_9_9_4(self):
+        set_params()
+        actual = evaluate_guess(
+            '{a}opt(seq(and(and({e})opt({c}))){d}){h}xor(seq(xor(and({e}{c}){c}))seq(opt(xor(and({a}))lo2({g})))xor(xor({d}{g}and({e}))opt({b}){g}{c}opt({b})opt({e}{d}){h}))',
+            LogInfo('discovered-processes-simple.csv'), dict(), 2100)
+        expected = 0
+
+    def test_9_9_9_9_5(self):
+        set_params()
+        actual = evaluate_guess(
+            '{a}and({d})xor({b})xor(xor(opt(seq(seq({a}xor({a}seq({h}))and({h}{f})){h}))){h}{a}seq(opt({h})xor({c})and(and({h})opt({h}))){g}and(xor(lo2(and(and({g})))){e}))opt({h})',
+            LogInfo('discovered-processes-simple.csv'), dict(), 2100)
+        expected = 0
+
+    def test_9_9_9_9_6(self):
+        set_params()
+        actual = evaluate_guess(
+            'seq({a})xor({b}{f}{c}){d}and(xor({h}xor(and(xor(and({c})))lo0(xor({b}{f}{d}{g})))){e})opt({h})',
+            LogInfo('discovered-processes-simple.csv'), dict(), 2100)
+        expected = 0
+
     def test_legend_1_0_1(self):
         set_params()
-        actual = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})xor({g}{h})',
+        actual = evaluate_guess('{a}lo2({f}and(xor({b}{c}){d}){e})xor({g}{h})',
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
         self.assertTrue(actual > 0.985)
 
     def test_legend_1_0_2(self):
         set_params()
-        actual1 = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})xor({g}{h})',
+        actual1 = evaluate_guess('{a}lo2({f}and(xor({b}{c}){d}){e})xor({g}{h})',
                                 LogInfo('discovered-processes.csv'), dict(), 6300)
-        actual2 = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})opt({h})opt({g})',
+        actual2 = evaluate_guess('{a}lo2({f}and(xor({b}{c}){d}){e})opt({h})opt({g})',
                                 LogInfo('discovered-processes.csv'), dict(), 6300)
         self.assertTrue(actual1 > actual2)
 
