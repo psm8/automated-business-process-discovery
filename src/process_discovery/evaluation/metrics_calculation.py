@@ -140,6 +140,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         value, best_aligned_process_local = get_best_alignment_cached(event_group_and_ratios[0],
                                                                                       list(process), alignment_cache)
                     except KeyError:
+                        logging.error("KeyError was raised")
                         value, best_aligned_process_local = get_best_alignment(event_group_and_ratios[0],
                                                                                list(process), alignment_cache)
                     if value > min_error_local:

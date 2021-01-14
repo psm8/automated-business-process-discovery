@@ -3,6 +3,7 @@ from process_discovery.log.log_util import get_sum_of_processes_length
 import logging
 import math
 
+
 def calculate_precision_metric(log, model, model_parents_list):
     if log:
         sum_of_processes_length = get_sum_of_processes_length(log)
