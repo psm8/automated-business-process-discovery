@@ -136,8 +136,12 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                 for event_group_and_ratios in sorted_routes_and_ratios:
                     if event_group_and_ratios[1] <= 1 + min_error_local/len_process:
                         break
-                    value, best_aligned_process_local = get_best_alignment_cached(event_group_and_ratios[0],
-                                                                                  list(process), alignment_cache)
+                    try:
+                        value, best_aligned_process_local = get_best_alignment_cached(event_group_and_ratios[0],
+                                                                                      list(process), alignment_cache)
+                    except KeyError:
+                        value, best_aligned_process_local = get_best_alignment(event_group_and_ratios[0],
+                                                                               list(process), alignment_cache)
                     if value > min_error_local:
                         min_error_local = value
                         best_aligned_process = best_aligned_process_local
