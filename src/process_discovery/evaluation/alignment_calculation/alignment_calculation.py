@@ -11,29 +11,36 @@ from copy import copy
 from itertools import permutations, combinations
 
 
-def get_best_alignment(model, log, alignment_cache):
-    result, model_result = calculate_alignment_manager(model, log, alignment_cache, calculate_alignment)
-    return result[len(result)-1], model_result[len(model_result)-1]
+class BestAlignment:
+
+    def get_best_alignment(self, model, log, alignment_cache):
+        result, model_result = calculate_alignment_manager(model, log, alignment_cache, calculate_alignment)
+        return result[len(result)-1], model_result[len(model_result)-1]
 
 
-def get_best_alignment_cached(model, log, alignment_cache):
-    result, model_result = calculate_alignment_manager(model, log, alignment_cache, cached(calculate_alignment))
-    return result[len(result)-1], model_result[len(model_result)-1]
+class BestAlignmentCached:
+    from_cache = False
+
+    def get_best_alignment(self, model, log, alignment_cache):
+        result, model_result = calculate_alignment_manager(model, log, alignment_cache, cached(calculate_alignment),
+                                                           self)
+        return result[len(result)-1], model_result[len(model_result)-1]
 
 
-def calculate_alignment_manager(model, log, alignment_cache, calculate_alignment_method):
+def calculate_alignment_manager(model, log, alignment_cache, calculate_alignment_method, alignment_class=None):
     if isinstance(model, EventGroup):
         result_x, model_results = calculate_alignment_method(resolve_event_group(model.events), log, alignment_cache,
-                                                             calculate_alignment_method)
+                                                             calculate_alignment_method, alignment_class)
     else:
         if are_all_events(model.events):
             result_x, model_results = calculate_alignment_method([model.events], log, alignment_cache,
-                                                                 calculate_alignment_method)
+                                                                 calculate_alignment_method, alignment_class)
         else:
             event_permutations = permutations(model.events)
 
             result_x, model_results = get_maxes([calculate_alignment_method(resolve_event_group(list(events)), log,
-                                                                            alignment_cache, calculate_alignment_method)
+                                                                            alignment_cache, calculate_alignment_method,
+                                                                            alignment_class)
                                                  for events in event_permutations])
 
     return result_x, model_results
@@ -99,7 +106,7 @@ def diagonal_parallel(model, log, pt):
 
 
 # This function creates the alignment and pointers matrices
-def calculate_alignment(model, log, alignment_cache, calculate_alignment_method):
+def calculate_alignment(model, log, alignment_cache, calculate_alignment_method, alignment_class):
     penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1}  # A dictionary for all the penalty values.
     m = len(model) + 1  # The dimension of the matrix rows.
     model_results_local = [None] * m
@@ -118,7 +125,8 @@ def calculate_alignment(model, log, alignment_cache, calculate_alignment_method)
         if should_go_recurrent(model[i-1]):
             al_mat[i], model_results_local[i] = recurrent_alignment(al_mat[i - 1], model[i - 1],
                                                                     [x for x in substrings_of_string_reversed(log)],
-                                                                    alignment_cache, calculate_alignment_method)
+                                                                    alignment_cache, calculate_alignment_method,
+                                                                    alignment_class)
         elif len(model[i-1]) > 1:
             al_mat[i], model_results_local[i] = parallel_alignment(al_mat[i - 1], model[i - 1],
                                                                    [x for x in substrings_of_string_reversed(log)],
@@ -140,7 +148,7 @@ def basic_alignment(al_mat, model_event, log, penalty, i, n):
         al_mat[i][j] = max(di, ho, ve)  # Fill the matrix with the maximal value.(based on the python default maximum)
 
 
-def recurrent_alignment(al_mat_x, model_events, logs, alignment_cache, calculate_alignment_method):
+def recurrent_alignment(al_mat_x, model_events, logs, alignment_cache, calculate_alignment_method, alignment_class):
     # could add some stop improvements
     result_x = get_best_error_using_gap_move(model_events, al_mat_x)
     model_results_local = []
@@ -148,7 +156,8 @@ def recurrent_alignment(al_mat_x, model_events, logs, alignment_cache, calculate
 
     for i in range(len(logs)):
         local_result_x, model_result_local = calculate_alignment_manager(model_events, logs[i],
-                                                                         alignment_cache, calculate_alignment_method)
+                                                                         alignment_cache, calculate_alignment_method,
+                                                                         alignment_class)
 
         [model_results_local[i].append([]) for _ in range(len(model_result_local))]
         for j in range(len(local_result_x)):

@@ -3,11 +3,12 @@ from functools import wraps
 
 def cached(f):
     @wraps(f)
-    def wrapped(model, log, alignment_cache, calculate_alignment_method):
+    def wrapped(model, log, alignment_cache, calculate_alignment_method, alignment_class):
         cache_id = get_cache_id(model, log)
         if cache_id in alignment_cache:
+            alignment_class.from_cache = True
             return alignment_cache[cache_id]
-        result_x, model_results = f(model, log, alignment_cache, calculate_alignment_method)
+        result_x, model_results = f(model, log, alignment_cache, calculate_alignment_method, alignment_class)
         alignment_cache[cache_id] = result_x, model_results
 
         return result_x, model_results

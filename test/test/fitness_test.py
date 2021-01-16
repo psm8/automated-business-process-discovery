@@ -2,7 +2,6 @@ import unittest
 
 from process_discovery.evaluation.metrics_calculation import evaluate_guess
 from process_discovery.log.log_util import LogInfo
-from fitness_functions.process_fitness import process_fitness
 from test.util.test_util import set_params
 
 
@@ -13,54 +12,51 @@ class FitnessTest(unittest.TestCase):
         self.assertEqual(1.0, evaluate_guess('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})',
                                              LogInfo('discovered-processes.csv'), dict(), 2100000000000000000))
 
-    def test_2(self):
+    def test_no_exceptions_2(self):
         set_params()
         evaluate_guess('{f}xor({d}and({b}lop({b})opt({a})))', LogInfo('discovered-processes.csv'), dict(), 2100)
 
-    def test_3(self):
+    def test_no_exceptions_3(self):
         set_params()
         evaluate_guess('lop(opt(seq(xor({e}{c})lop({d}))){f})', LogInfo('discovered-processes.csv'), dict(), 2100)
 
-    def test_4(self):
+    def test_no_exceptions_4(self):
         set_params()
         evaluate_guess('and(lop(opt(seq(xor({e}{c})lop({d}))){f}){a})and({d}{a})', LogInfo('discovered-processes.csv'),
                        dict(), 2100)
 
-    def test_5(self):
+    def test_no_exceptions_5(self):
         set_params()
         evaluate_guess('lop(xor({b}xor({a}{e}{d})){e})', LogInfo('discovered-processes.csv'), dict(), 2100)
 
-    def test_6(self):
+    def test_no_exceptions_6(self):
         set_params()
         evaluate_guess('xor(and({c}and(and({c}{b}and({d}{f})){b}{e})){e}{e})', LogInfo('discovered-processes.csv'),
                        dict(), 2100)
 
-    def test_7(self):
+    def test_no_exceptions_7(self):
         set_params()
         evaluate_guess('lop({c})', LogInfo('discovered-processes.csv'), dict(), 2100)
 
-    def test_8(self):
+    def test_no_exceptions_8(self):
         set_params()
         evaluate_guess('and({a}{f}opt(and({b}{e}lop({c}))){d})', LogInfo('discovered-processes.csv'), dict(), 2100)
 
-    def test_9(self):
+    def test_no_exceptions_9(self):
         set_params()
-        actual = evaluate_guess('and(xor({a}{f}{g}and({b}and(and({d}{c}){e}{f})))opt({d}))'
-                                'and(xor(opt({f}{h})and(and({d}{g})and({b}opt({e})))){h})',
-                                LogInfo('discovered-processes.csv'), dict(), 2100)
-        expected = 0
+        evaluate_guess('and(xor({a}{f}{g}and({b}and(and({d}{c}){e}{f})))opt({d}))'
+                       'and(xor(opt({f}{h})and(and({d}{g})and({b}opt({e})))){h})',
+                        LogInfo('discovered-processes.csv'), dict(), 2100)
 
     def test_9_1(self):
         set_params()
         actual = evaluate_guess('lop(seq(lop({g}){a}))lop({f})opt({d})lop({d}){b}lop(opt({h}opt({e}{c})))',
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
-        expected = 0
 
     def test_9_2(self):
         actual = evaluate_guess('xor(opt({f})and(and({h}and({d}{c}{e}))opt({b}){a})'
                                 'and(opt(and({h}and({b}{c}{a})){g}){a}))',
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
-        expected = 0
 
     def test_9_3(self):
         set_params()
