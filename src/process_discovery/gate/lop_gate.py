@@ -11,6 +11,7 @@ from math import pow
 class LopGate(Gate):
     LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS = 32
     LOP_GATE_MAX_DEPTH = 3
+    LOP_GATE_MAX_ERROR = 1
 
     def __init__(self, parent=None, elements=None):
         super().__init__("lop", parent, elements)
@@ -107,7 +108,7 @@ class LopGate(Gate):
             flattened_list = flatten_values(global_list)
             if len(flattened_list) < self.LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS:
                 results = [x for x in to_n_length(n, flattened_list, process[self.min_start:self.max_end],
-                                                  self.LOP_GATE_MAX_DEPTH, 0)]
+                                                  self.LOP_GATE_MAX_DEPTH, self.LOP_GATE_MAX_ERROR)]
                 if results:
                     return results
                 else:
