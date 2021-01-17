@@ -106,7 +106,8 @@ class LopGate(Gate):
         if global_list:
             flattened_list = flatten_values(global_list)
             if len(flattened_list) < self.LOP_GATE_MAX_NUMBER_OF_CHILDREN_COMBINATIONS:
-                results = [x for x in to_n_length(n, flattened_list, process, self.LOP_GATE_MAX_DEPTH, 0)]
+                results = [x for x in to_n_length(n, flattened_list, process[self.min_start:self.max_end],
+                                                  self.LOP_GATE_MAX_DEPTH, 0)]
                 if results:
                     return results
                 else:

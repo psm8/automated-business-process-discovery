@@ -295,15 +295,15 @@ class FitnessTest(unittest.TestCase):
 
     def test_legend_1_0_1(self):
         set_params()
-        actual = evaluate_guess('{a}lo2({f}and(xor({b}{c}){d}){e})xor({g}{h})',
+        actual = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})xor({g}{h})',
                                 LogInfo('discovered-processes.csv'), dict(), 2100)
         self.assertTrue(actual > 0.985)
 
     def test_legend_1_0_2(self):
         set_params()
-        actual1 = evaluate_guess('{a}lo2({f}and(xor({b}{c}){d}){e})xor({g}{h})',
+        actual1 = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})xor({g}{h})',
                                 LogInfo('discovered-processes.csv'), dict(), 6300)
-        actual2 = evaluate_guess('{a}lo2({f}and(xor({b}{c}){d}){e})opt({h})opt({g})',
+        actual2 = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})opt({h})opt({g})',
                                 LogInfo('discovered-processes.csv'), dict(), 6300)
         self.assertTrue(actual1 > actual2)
 
