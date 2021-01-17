@@ -153,8 +153,8 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                             best_alignment.get_best_alignment(event_group_and_ratios[0], list(process), alignment_cache)
                         is_from_cache = False
                     except RuntimeError as e:
-                        if e.args[0] == 'RuntimeError: OrderedDict mutated during iteration':
-                            logging.error("KeyError was raised. Recreating cache.")
+                        if e.args[0] == 'OrderedDict mutated during iteration':
+                            logging.error("OrderedDict mutated during iteration error was raised. Recreating cache.")
                             params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                             best_alignment = BestAlignment()
                             value, best_aligned_process_local = \

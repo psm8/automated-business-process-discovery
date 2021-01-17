@@ -109,8 +109,8 @@ def diagonal_parallel(model, log, pt):
 def calculate_alignment(model, log, alignment_cache, calculate_alignment_method, alignment_class):
     penalty = {'MATCH': 0, 'MISMATCH': -2, 'GAP': -1}  # A dictionary for all the penalty values.
     m = len(model) + 1  # The dimension of the matrix rows.
-    model_results_local = [None] * m
     n = len(log) + 1  # The dimension of the matrix columns.
+    model_results_local = [None] * m
     al_mat = np.zeros((m, n), dtype=int)  # Initializes the alignment matrix with zeros.
     for j in range(n):
         al_mat[0][j] = penalty['GAP'] * j

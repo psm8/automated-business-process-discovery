@@ -32,7 +32,7 @@ MINIMIZE_SOLUTION_LENGTH:       True
 RESULT_TOLERANCE_PERCENT:       5
 TIMEOUT:                        5
 WEIGHT_ALIGNMENT:               8
-WEIGHT_COMPLEXITY:              4
+WEIGHT_COMPLEXITY:              2
 WEIGHT_GENERALIZATION:          2
 WEIGHT_PRECISION:               2
 WEIGHT_SIMPLICITY:              2
