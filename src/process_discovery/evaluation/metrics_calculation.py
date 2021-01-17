@@ -76,7 +76,7 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
         cumulated_error += best_local_error * log_info.log[process]
 
     cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
-    metrics['ALIGNMENT'] = math.pow(1 + cumulated_average_error, 2)
+    metrics['ALIGNMENT'] = math.pow(1 + cumulated_average_error, 4)
     metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, model, model_events_list_with_parents)
     metrics['GENERALIZATION'] = calculate_generalization_metric(model_events_list)
     metrics['COMPLEXITY'] = calculate_complexity_metric(cumulated_average_error, model)

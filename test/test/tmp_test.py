@@ -4,6 +4,6 @@ from test.util.test_util import set_params
 
 set_params()
 actual = evaluate_guess(
-    '{a}opt(opt({c}{f}{d})seq({b})){e}xor({g}{h})',
+    '{a}and(xor(opt({c}){b}){d})lo2({f}{d}{e})xor({h}{g})',
     LogInfo('discovered-processes.csv'), dict(), 6300)
 expected = 0
