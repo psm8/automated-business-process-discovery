@@ -151,6 +151,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         best_alignment = BestAlignment()
                         value, best_aligned_process_local = \
                             best_alignment.get_best_alignment(event_group_and_ratios[0], list(process), alignment_cache)
+                        is_from_cache = False
                     if value > min_error_local:
                         min_error_local = value
                         best_aligned_process = best_aligned_process_local
