@@ -111,7 +111,8 @@ class AndGate(Gate):
             not_enabled = result.difference(previous_events[-(len(list(self.get_all_child_events()))):])
             events_with_parents = self.get_all_child_events_with_parents()
             for x in not_enabled:
-                if isinstance(events_with_parents[x], OptGate) or isinstance(events_with_parents[x], LopGate) or is_any_parent_optional(x, self, previous_events, 1):
+                if isinstance(events_with_parents[x], OptGate) or isinstance(events_with_parents[x], LopGate) or \
+                        is_any_parent_optional(x, self, previous_events, 1):
                     yield from not_enabled
             if self.parent not in blocked_calls_to:
                 yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
