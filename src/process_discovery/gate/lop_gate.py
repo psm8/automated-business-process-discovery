@@ -30,7 +30,7 @@ class LopGate(Gate):
         n = self.LOP_GATE_MAX_DEPTH
         return sum(pow(reduce(lambda x, y: x*y,
                               [x.complexity if isinstance(x, Gate) else 1 for x in self.elements]),
-                       i) for i in range(n + 1))
+                       i) for i in range(n))
 
     @cached_property
     def complexity_for_metric(self) -> int:
