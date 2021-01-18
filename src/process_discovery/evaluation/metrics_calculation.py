@@ -139,7 +139,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         break
                     try:
                         best_alignment_cached = BestAlignmentCached()
-                        alignment_error, best_aligned_process_local = \
+                        alignment_error, aligned_events = \
                             best_alignment_cached.get_best_alignment(event_group_and_ratios[0],
                                                                      list(process), alignment_cache)
                         is_from_cache = best_alignment_cached.from_cache
@@ -147,7 +147,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         logging.error("KeyError was raised. Check if you have enough RAM. Recreating cache.")
                         params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                         best_alignment = BestAlignment()
-                        alignment_error, best_aligned_process_local = \
+                        alignment_error, aligned_events = \
                             best_alignment.get_best_alignment(event_group_and_ratios[0], list(process))
                         is_from_cache = False
                     except RuntimeError as e:
@@ -155,21 +155,21 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                             logging.error("OrderedDict mutated during iteration error was raised. Recreating cache.")
                             params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                             best_alignment = BestAlignment()
-                            alignment_error, best_aligned_process_local = \
+                            alignment_error, aligned_events = \
                                 best_alignment.get_best_alignment(event_group_and_ratios[0], list(process))
                             is_from_cache = False
                     if alignment_error > min_alignment_error_local:
                         min_alignment_error_local = alignment_error
-                        best_aligned_process = best_aligned_process_local
+                        best_aligned_events = aligned_events
                         best_event_group = event_group_and_ratios[0]
                         is_best_from_cache = is_from_cache
                     if alignment_error == 0:
-                        return min_alignment_error_local, best_aligned_process, best_event_group, is_best_from_cache
+                        return min_alignment_error_local, best_aligned_events, best_event_group, is_best_from_cache
 
         n += (-i if i % 2 == 1 else i)
         i += 1
 
-    return min_alignment_error_local, best_aligned_process, best_event_group, is_best_from_cache
+    return min_alignment_error_local, best_aligned_events, best_event_group, is_best_from_cache
 
 
 def minimize_solution_length_factor(guess):

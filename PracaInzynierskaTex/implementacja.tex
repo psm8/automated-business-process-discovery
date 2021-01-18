@@ -212,7 +212,7 @@ def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_dłu
             continue
         if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
             set_model_children_boundaries(model, n)
-            ścieżki = model.get_all_n_length_routes(n, proces)
+            ścieżki = model.znajdź_wszystkie_ścieżki_długości_n(n, proces)
             if ścieżki istnieją:
                 for event_group in routes:
                     ratio = check_route_with_log_process(event_group, proces)
@@ -222,20 +222,19 @@ def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_dłu
                 for event_group_and_ratios in sorted_routes_and_ratios:
                     if event_group_and_ratios[1] <= 1 + minimalny_błąd_dopasowania/dłogość_procesu:
                         break
-                    błąd_dopasowania, best_aligned_process_local = \
-                        best_alignment_cached.get_best_alignment(event_group_and_ratios[0],
-                                                                 proces), alignment_cache)
-                        is_from_cache = best_alignment_cached.from_cache
-                    if błąd_dopasowania > best_alignment_error_local:
+                    błąd_dopasowania, najlepsze_dopasowane_zdarzenia, jest_z_cache :=
+                        oblicz_najlepsze_dopasowanie_z_cache(ścieżka, proces, cache)
+                    if błąd_dopasowania > minimalny_błąd_dopasowania:
                         minimalny_błąd_dopasowania = błąd_dopasowania
-                        best_aligned_process = minimalny_błąd_dopasowania
-                        best_event_group = event_group_and_ratios[0]
-                        is_best_from_cache = is_from_cache
-                    if alignment_error == 0:
-                        return minimalny_błąd_dopasowania, best_aligned_process, best_event_group, is_best_from_cache
+                        najlepsze_dopasowane_zdarzenia = dopasowane_zdarzenia
+                        najlepsza_ścieżka = scieżka
+                        jest_najlepszy_z_cache = jest_z_cache
+                    if błąd_dopasowania == 0:
+                        return minimalny_błąd_dopasowania, najlepsze_dopasowane_zdarzenia, 
+                            najlepsza_ścieżka, jest_najlepszy_z_cache
         n += (-i if i % 2 == 1 else i)
         i += 1
-    return minimalny_błąd_dopasowania, events_global, best_event_group, is_best_from_cache
+    return minimalny_błąd_dopasowania, najlepsze_dopasowane_zdarzenia, najlepsza_ścieżka, jest_najlepszy_z_cache
 \end{lstlisting}
 \end{figure}
 
@@ -246,7 +245,7 @@ Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwan
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}
-def get_all_n_length_routes(self, n: int, process) -> []:
+def znajdź_wszystkie_ścieżki_długości_n(n: int, proces) -> []:
     if n == 0:
         return []
     if self.model_max_length < n or n < self.model_min_length:
