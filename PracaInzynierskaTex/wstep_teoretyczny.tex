@@ -46,10 +46,10 @@
 \subsection{Prostota}
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
 \subsection{Odwzorowanie}
-$M_o = 1 - \sum_{n=-\infty}^{+\infty} \frac{blad\ odwzorowania\ logu\ w\ modelu}{długosc\ sciezki\ w\ modelu}  $
+$M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
 \subsection{Precyzja}
-$M_{pre} = 1 - \sum_{n=-\infty}^{+\infty} \sqrt{2} $
+$M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
 \subsection{Generalizacja}
-$M_g = 1 - \sum_{n=-\infty}^{+\infty} \sqrt{2} $
+$M_g = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc wystapien zdarzenia}})/ ilosc\ zdarzen\ w\ logu $
 \subsection{Złożoność}
-$M_z = 1 - \sum_{n=-\infty}^{+\infty} \sqrt{2} $
+$M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $

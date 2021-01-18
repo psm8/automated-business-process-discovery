@@ -115,18 +115,23 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
     def parsuj(wyrażenie: str) -> int:
 
         for i w zakresie długość_wyrażenia:
-            if wyrażenia[i] == "{":
+            if wyrażenie[i] == "{":
                 zdarzenie := Event(wyrażenia[i + 1])
                 dodaj zdarzenie do aktualnie parsowanej bramki 
                 i += 2
-            elif wyrażenia[i] == ")":
+            elif wyrażenie[i] == ")":
                 return i+1
             elif i+4 < długość_wyrażenia:
-                bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
-                i += 3
-                przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
-                dodaj zdarzenie do aktualnie parsowanej bramki 
-                i += ilość_przeparsowanych_znaków
+                if wyrażenie[i:i + 3] == "seq" and (self.name == "seq" or self.name == "lop"):
+                    usuń_niepotrzebe_bramki
+                else:
+                    if wyrażenie[i:i+2] == 'lo' and wyrażenie[i:i+3] != 'lop':
+                    
+                	    bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
+                	    i += 3
+                	    przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
+                	    dodaj zdarzenie do aktualnie parsowanej bramki 
+                	    i += ilość_przeparsowanych_znaków
             else:
                 wyrzuć wyjątek
 \end{lstlisting}
@@ -147,7 +152,6 @@ W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metry
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-
 def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
                    najdłuższa_dozwolona_długość, cache) -> int:
                    
@@ -177,7 +181,6 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
             idealnie_dopasowane_logi.dodaj()[tuple(best_aligned_process)] = 
             log_info.log[process]
         add_executions(model_events_list, best_aligned_process, log_info.log[process])
-        skumulowany_błąd += najlepszy_błąd_lokalny * ilość_wystąpień_w_logu
 
 	metryki := oblicz_metryki 
 	najlepszy_wynik := oblicz_średnią_ważoną_metryk
@@ -191,91 +194,101 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-
-def oblicz_metryki_dla_jednego_procesu(process, model, najkrótsza_dozwolona_długość, 
-				   najdłuższa_dozwolona_długość, cache):
-    len_process = len(process)
-    n = len_process
-    i = 1
-    min_local = -2 * n
-    events_global = []
-    best_event_group = []
-    find = False
-
-    while not n <= oblicz_minimalną_dozwoloną_długość(len_process, min_error_local) and \
-            not n >= oblicz_maksymalną_dozwoloną_długość(len_process, min_error_local):
-        best_local_alignment = -1
-        if min_length <= n <= max_length:
+def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_długość, 
+				               najdłuższa_dozwolona_długość, cache):
+    dłogość_procesu := len(proces)
+    n := dłogość_procesu; i := 1
+    minimalny_błąd_dopasowania := -(dłogość_procesu + model.model_min_length)
+	while not (dolny_limit_osiągnięty and górny_limit_osiągnięty):
+        if n >= min(oblicz_maksymalną_dozwoloną_długość(dłogość_procesu), 
+                    dłogość_procesu - minimalny_błąd_dopasowania):
+            górny_limit_osiągnięty := True
+            n += (-i if i % 2 == 1 else i); i += 1
+            continue
+        if n <= max(oblicz_minimalną_dozwoloną_długość(dłogość_procesu), 
+                    dłogość_procesu + minimalny_błąd_dopasowania):
+            dolny_limit_osiągnięty := True
+            n += (-i if i % 2 == 1 else i); i += 1
+            continue
+        if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
             set_model_children_boundaries(model, n)
-            routes = model.get_all_n_length_routes(n, process)
-
-            if routes is not None and not is_struct_empty(routes):
-                routes = set(routes)
-                route_and_process_events_ratios = []
+            ścieżki = model.get_all_n_length_routes(n, proces)
+            if ścieżki istnieją:
                 for event_group in routes:
-                    ratio = check_route_with_log_process(event_group, process)
-                    if ratio >= 1 - 6 * params['RESULT_TOLERANCE_PERCENT']/100:
+                    ratio = check_route_with_log_process(event_group, proces)
+                    if ratio >= 1 - 10 * params['RESULT_TOLERANCE_PERCENT']/100:
                         route_and_process_events_ratios.append((event_group, ratio))
                 sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
                 for event_group_and_ratios in sorted_routes_and_ratios:
-                    if event_group_and_ratios[1] <= 1 + min_local/len_process:
+                    if event_group_and_ratios[1] <= 1 + minimalny_błąd_dopasowania/dłogość_procesu:
                         break
-                    value, events = get_best_alignment_cached(event_group_and_ratios[0], list(process), cache)
-                    if value > min_local:
-                        min_local = value
-                        events_global = events
+                    błąd_dopasowania, best_aligned_process_local = \
+                        best_alignment_cached.get_best_alignment(event_group_and_ratios[0],
+                                                                 proces), alignment_cache)
+                        is_from_cache = best_alignment_cached.from_cache
+                    if błąd_dopasowania > best_alignment_error_local:
+                        minimalny_błąd_dopasowania = błąd_dopasowania
+                        best_aligned_process = minimalny_błąd_dopasowania
                         best_event_group = event_group_and_ratios[0]
-                    if value == 0:
-                        find = True
-                        break
-
-                local_alignment = calculate_alignment_metric(min_local, len_process, n)
-                if local_alignment > best_local_alignment:
-                    best_local_alignment = local_alignment
-                if find:
-                    break
-
+                        is_best_from_cache = is_from_cache
+                    if alignment_error == 0:
+                        return minimalny_błąd_dopasowania, best_aligned_process, best_event_group, is_best_from_cache
         n += (-i if i % 2 == 1 else i)
         i += 1
-
-    return best_local_alignment, events_global, best_event_group
-    
-    	ilość_wspólnych_zdarzeń_w_logu_i_modelu = 			   
-	if model_to_log_events_ratio < 1 - params['RESULT_TOLERANCE_PERCENT']/100:
-        return model_to_log_events_ratio/10
-	for elem w log:
-		
-        if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
-            procesy_o_dlugosci_n = model.wyszukaj_procesy_o_określonej_długości(n)
-            wszystkie_procesy = model.wyszukaj_wszystkie_procesy
-            wszyscy_rodzice_procesów = model.wyszukaj_wszystkich_rodziców_procesów
-            if istnieją procesy_o_dlugosci_n:
-                najlepszy_błąd_lokalny = 0
-                for elem w log:
-                    minimalny_błąd_lokalny = 1023
-                    for proces w procesy_o_dlugosci_n:
-                        błąd_lokalny, ścieżka = oblicz_dopasowanie(event_group, elem)
-                        if błąd_lokalny < minimalny_błąd_lokalny:
-                            minimalny_błąd_lokalny = błąd_lokalny
-                            najlpesza_ścieżka = ścieżka
-                    najlepszy_błąd_lokalny += minimalny_błąd_lokalny
-               oblicz metryki odwzorowanie, precyzja, generalizacja, prostota 
-               najlepszy_wynik_lokalny = suma_obliczonych_metryk / liczba_metryk
-               if najlepszy_wynik_lokalny > najlepszy_wynik:
-                   najlepszy_wynik = najlepszy_wynik_lokalny
-	metryki := oblicz metryki 
-	najlepszy_wynik := średnia ważona metryk
-    return najlepszy_wynik
+    return minimalny_błąd_dopasowania, events_global, best_event_group, is_best_from_cache
 \end{lstlisting}
 \end{figure}
 
 \subsubsection{Wyszukiwanie w modelu procesów o określonej długości}
 
-Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej branki logicznej.
+Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej.
 \begin{figure}[!ht]
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}
+def get_all_n_length_routes(self, n: int, process) -> []:
+    if n == 0:
+        return []
+    if self.model_max_length < n or n < self.model_min_length:
+        return None
+
+    min_lengths = self.get_children_min_length()
+    max_lengths = self.get_children_max_length()
+    global_list = []
+
+    for elem in self.elements:
+        local_list = []
+        if isinstance(elem, Event):
+            local_list.append(elem)
+            min_lengths.pop(0)
+            max_lengths.pop(0)
+        else:
+            lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths, max_lengths)
+            for i in range(lower_limit, upper_limit + 1):
+                try:
+                    child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
+                except ValueError:
+                    return None
+                if child_all_n_length_routes is not None:
+                    local_list.append(child_all_n_length_routes)
+
+        if local_list:
+            global_list.append(local_list)
+
+    result = []
+    if global_list:
+        for elem in flatten_values(global_list):
+            if self.check_length(n, elem):
+                if n == 1:
+                    # because always 1 elem list
+                    result.append(elem[0])
+                else:
+                    self.check_valid_for_get_n_length(elem)
+                    result.append(EventGroupParallel(elem))
+    if result:
+        return result
+    else:
+        return None
 \end{lstlisting}
 \end{figure}
 
@@ -369,7 +382,7 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
     return sciezka
 \end{lstlisting}
 \end{figure}
-
+\clearpage
 \subsubsection{Cache}
 
 Wiele obliczeń się powtarza, dlatego żeby przyspieszyć działanie rezultaty są cachowane w dwóch miejscach:
