@@ -23,26 +23,19 @@ Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramat
 \lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
 \lstset{label=src:grammar, frame=single}
 \begin{lstlisting}
-<e> ::= <anygate>
+<e> ::= <slot><slot><anygate><slot><slot>
 
-<andgate> ::= and(<anygate><anygate>) | and(<anygate>)
+<anygate> ::=  <anygate><anygate> | <name>(<slots>) | {<event>}
 
-<xorgate> ::= xor(<anygate><anygate>) | xor(<anygate>)
+<slot> ::= <anygate> | '' | '' | '' | '' | '' | '' | '' | '' | ''
 
-<seqgate> ::= seq(<anygate><anygate>) | seq(<anygate>)
+<slots> ::= <slot><slot><anygate><slot><slot>
 
-<optgate> ::= opt(<anygate><anygate>) | opt(<andgate>) | opt(<xorgate>) | 
-	      opt(<seqgate>) | opt(<longate>) | opt({<event>})
-
-<longate> ::= lo<0_n>(<anygate><anygate>) | lo<0_n>(<andgate>) |
-              lo<0_n>(<xorgate>) | lo<0_n>(<optgate>) | lo<0_n>({<event>})
-
-<anygate> ::=  <anygate><anygate> | <andgate> | <xorgate> | <seqgate> | <optgate> | 
-               <longate> | {<event>}
+<name> ::= and | xor | seq | opt | lo<0_n>
 
 <event> ::= GE_RANGE:dataset_vars
 
-<0_n> ::= GE_RANGE:2
+<0_n> ::= GE_RANGE:5
 \end{lstlisting}
 \end{figure}
 
@@ -129,7 +122,7 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
             elif wyrażenia[i] == ")":
                 return i+1
             elif i+4 < długość_wyrażenia:
-                bramka := stwórz nową bramkę Gate  typu zgodnego z wyrażeniem 
+                bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
                 i += 3
                 przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
                 dodaj zdarzenie do aktualnie parsowanej bramki 
@@ -140,6 +133,7 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
 \end{figure}
 
 \subsubsection{Obliczanie metryk}
+Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Oblaczanie dopasowanie podzielone jest na 5 kroków:
 
 W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metryki są obliczane dla najlepiej dopasowanej gramatyki 
 \clearpage
@@ -147,43 +141,30 @@ W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metry
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-        best_local_error, events_global, best_event_group = \
-            calculate_metrics_for_single_process(elem, gate, min_length, max_length, alignment_cache)
-
-        if any(event is not None and event not in model_events_list for event in events_global):
-            value, events_global = get_best_alignment(best_event_group, list(elem), dict())
-            best_local_error = calculate_alignment_metric(value, len(elem), len(best_event_group))
-        if best_local_error == 0:
-            perfectly_aligned_logs[tuple(events_global)] = log_info.log[elem]
-        add_executions(model_events_list, events_global, log_info.log[elem])
-        cumulated_error += best_local_error * log_info.log[elem]
-
-    return best_result
-\end{lstlisting}
-\end{figure}
-
-\begin{figure}[!ht]
-\lstset{caption=Obliczanie metryk, captionpos=b}
-\lstset{label=src:best_result, frame=single}
-\begin{lstlisting}
 
 def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
-				   najdłuższa_dozwolona_długość, cache) -> int:
+                   najdłuższa_dozwolona_długość, cache) -> int:
 	
-	stosunek_wspólnych_zdarzeń_w_logu_i_modelu := oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
-	if stosunek_wspólnych_zdarzeń_w_logu_i_modelu < MINIMALNY_STOSUNUK_WSPÓLNYCH_ZDARZEŃ_W_LOGU_I_MODELU:
+    stosunek_wspólnych_zdarzeń_w_logu_i_modelu := 
+        oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
+        if stosunek_wspólnych_zdarzeń_w_logu_i_modelu <
+            MINIMALNY_STOSUNUK_WSPÓLNYCH_ZDARZEŃ_W_LOGU_I_MODELU:
         return stosunek_wspólnych_zdarzeń_w_logu_i_modelu/10
         
     idealnie_dopasowane_logi := pusty_słownik
     skumulowany_błąd := 0
     
-	for proces w log:
-      	najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_process := oblicz_metryki_dla_jednego_procesu(proces, model, minimalna_długość, maksymalna_długość, cache)
+    for proces w log:
+        najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_process := 
+      	oblicz_metryki_dla_jednego_procesu(proces, model, minimalna_długość, 
+      	maksymalna_długość, cache)
     	if jakikolwiek proces w najlepiej_dopasowanej_ścieżce nie znajduje się w modelu:
             value, best_aligned_process = obilcz_dopasowanie_nie_korzystając_z_cache(best_event_group, list(process), dict())
-            best_local_error = calculate_alignment_metric(value, len(process), len(best_event_group))
+            best_local_error = calculate_alignment_metric(value, len(process),
+             len(best_event_group))
         if najlepszy_błąd_lokalny == 0:
-            idealnie_dopasowane_logi.dodaj()[tuple(best_aligned_process)] = log_info.log[process]
+            idealnie_dopasowane_logi.dodaj()[tuple(best_aligned_process)] = 
+            log_info.log[process]
         add_executions(model_events_list, best_aligned_process, log_info.log[process])
         skumulowany_błąd += najlepszy_błąd_lokalny * ilość_wystąpień_w_logu
 
@@ -194,7 +175,7 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 \end{figure}
 
 \subsubsection{Obliczanie metryk dla jednego procesu}
-
+\clearpage
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
@@ -288,7 +269,7 @@ Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwan
 \end{figure}
 
 \subsubsection{Obliczanie dopasowania}
-Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń. 
+Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczać będziemy rozwiązania. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń. 
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie dopasowania, captionpos=b}
 \lstset{label=src:alignment_calculation, frame=single}
@@ -306,17 +287,17 @@ def oblicz_dopasowanie(model, log):
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
             al_mat[i], model_results_local[i] := 
-            dopasowanie_rekurencyjne(macierz_rozwiazan[i - 1], model[i - 1],
+            dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
                                      [x for x in substrings_of_string_reversed(log)], i)
         elif len(model[i-1]) > 1:
             al_mat[i], model_results_local[i] := 
             dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
                                    [x for x in substrings_of_string_reversed(log)], kara, i)
         else:
-            macierz_rozwiazań[i][0] := macierz_rozwiazan[i-1][0] + kara['PRZERWA']
-            dopasowanie(macierz_rozwiazan, model[i - 1], log, kara, i, n)
+            macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
+            dopasowanie(macierz_rozwiazań, model[i - 1], log, kara, i, n)
 
-    model_results := znajdź_sciezkę(al_mat, kara['PRZERWA'], model, 
+    ścieżka := znajdź_ściezkę(al_mat, kara['PRZERWA'], model, 
     log, model_results_local)
 
     return macierz_rozwiązań[m-1], model_results
@@ -340,7 +321,6 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
                 [model_result.append(None) for _ in range(event_group_full_length)]
                 array[i][j] = 0
                 i -= 1
-
             else:
                 for k in range(j):
                     processes = get_not_none(model_results_local[i][k]
@@ -362,7 +342,6 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
                     if array[i][j] == array[i][j - 1] + penalty_gap:
                         array[i][j] = 0
                         j -= 1
-
         else:
             if array[i][j] == array[i - 1][j] + kara:
                 model_result.append(None)

@@ -1,6 +1,9 @@
 <e> ::= <slot><slot><anygate><slot><slot>
+
 <anygate> ::=  <anygate><anygate> | <name>(<slots>) | {<event>}
+
 <slot> ::= <anygate> | '' | '' | '' | '' | '' | '' | '' | '' | ''
+
 <slots> ::= <slot><slot><anygate><slot><slot>
 
 <name> ::= and | xor | seq | opt | lo<0_n>
