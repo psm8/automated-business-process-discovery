@@ -59,8 +59,8 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
     if model_to_log_events_ratio < 1 - 3 * params['RESULT_TOLERANCE_PERCENT']/100:
         return model_to_log_events_ratio/10
 
+    best_alignment_errors_local_dict = dict()
     perfectly_aligned_logs = dict()
-    cumulated_alignment_error = 0
 
     for process in log_info.log.keys():
         best_alignment_error_local, best_aligned_process, best_event_group, is_best_from_cache = \
@@ -70,15 +70,13 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
             best_alignment_error_local, best_aligned_process = \
                 best_alignment.get_best_alignment(best_event_group, list(process), dict())
 
-        best_alignment_error_local = calculate_alignment_metric(best_alignment_error_local, len(process),
-                                                                model.model_min_length)
+        best_alignment_errors_local_dict[process] = best_alignment_error_local
         if best_alignment_error_local == 0:
             perfectly_aligned_logs[tuple(best_aligned_process)] = log_info.log[process]
         add_executions(model_events_list, best_aligned_process, log_info.log[process])
-        cumulated_alignment_error += best_alignment_error_local * log_info.log[process]
 
-    average_alignment_error = cumulated_alignment_error/log_info.sum_of_processes_length
-    metrics['ALIGNMENT'] = math.pow(1 + average_alignment_error, 4)
+    average_alignment_error, metrics['ALIGNMENT'] = calculate_alignment_metric(best_alignment_errors_local_dict,
+                                                                               log_info, model.model_min_length)
     metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, model, model_events_list_with_parents)
     metrics['GENERALIZATION'] = calculate_generalization_metric(model_events_list)
     metrics['COMPLEXITY'] = calculate_complexity_metric(average_alignment_error, model)
@@ -146,7 +144,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                                                                      list(process), alignment_cache)
                         is_from_cache = best_alignment_cached.from_cache
                     except KeyError:
-                        logging.error("KeyError was raised. Recreating cache.")
+                        logging.error("KeyError was raised. Check if you have enough RAM. Recreating cache.")
                         params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                         best_alignment = BestAlignment()
                         alignment_error, best_aligned_process_local = \
