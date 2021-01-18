@@ -13,7 +13,7 @@ from itertools import permutations, combinations
 
 class BestAlignment:
 
-    def get_best_alignment(self, model, log, alignment_cache):
+    def get_best_alignment(self, model, log, alignment_cache=None):
         result, model_result = calculate_alignment_manager(model, log, alignment_cache, calculate_alignment)
         return result[len(result)-1], model_result[len(model_result)-1]
 
@@ -299,16 +299,3 @@ def resolve_event_group(event_group_local):
 
 def get_worst_allowed_alignment(expression) -> int:
     return math.ceil(len(expression) / 2)
-
-
-def fill_matrix_axes(al_mat, penalty, m, n):
-    al_mat = np.zeros((m, n), dtype=int)  # Initializes the alignment matrix with zeros.
-
-    for i in range(m):
-        al_mat[i][0] = penalty['GAP'] * i
-    # Scans all the first columns element in the matrix and fill it with "gap penalty"
-    # possibly could be removed
-    for j in range(n):
-        al_mat[0][j] = penalty['GAP'] * j
-    # Fill the matrix with the correct values.
-

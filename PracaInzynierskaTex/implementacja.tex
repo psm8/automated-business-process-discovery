@@ -14,7 +14,7 @@ PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w jezyku Pyth
 \section{Tworzenie gramatyki procesu biznesowego}
 
 Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
-gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przenalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętlexe lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
+gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przeanalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
 
 Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych, czyli GE{\_}RANGE:2 oznacza 0|1|2.
 Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych odpowiadajacej ich ilosci w zbiorze danych.
@@ -133,9 +133,15 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
 \end{figure}
 
 \subsubsection{Obliczanie metryk}
-Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Oblaczanie dopasowanie podzielone jest na 5 kroków:
-
-W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metryki są obliczane dla najlepiej dopasowanej gramatyki 
+Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Obliczanie dopasowanie można opisać następującymi krokami:
+\begin{itemize}
+  \item[•] Znalezienie ścieżek o długości n w modelu.
+  \item[•] Przerobienie ścieżek na postać zawierającą BaseGroup.
+  \item[•] Obliczenie dopasowania.
+\end{itemize}
+Metryką, która wymaga 
+W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metryki są obliczane dla najlepiej dopasowanej gramatyki.
+ 
 \clearpage
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
@@ -144,7 +150,11 @@ W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metry
 
 def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
                    najdłuższa_dozwolona_długość, cache) -> int:
-	
+                   
+    metryki['PROSTOTA'] = oblicz_metrykę_prostota(lista_zdarzeń_w_procesie), unikalne_zdarzenia_w_logu)
+    if metryki['PROSTOTA' < 2/3:
+        return 0
+
     stosunek_wspólnych_zdarzeń_w_logu_i_modelu := 
         oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
         if stosunek_wspólnych_zdarzeń_w_logu_i_modelu <
@@ -159,7 +169,8 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
       	oblicz_metryki_dla_jednego_procesu(proces, model, minimalna_długość, 
       	maksymalna_długość, cache)
     	if jakikolwiek proces w najlepiej_dopasowanej_ścieżce nie znajduje się w modelu:
-            value, best_aligned_process = obilcz_dopasowanie_nie_korzystając_z_cache(best_event_group, list(process), dict())
+            value, best_aligned_process = obilcz_dopasowanie_bez_cache(best_event_group, 
+                list(process), dict())
             best_local_error = calculate_alignment_metric(value, len(process),
              len(best_event_group))
         if najlepszy_błąd_lokalny == 0:
@@ -168,8 +179,8 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
         add_executions(model_events_list, best_aligned_process, log_info.log[process])
         skumulowany_błąd += najlepszy_błąd_lokalny * ilość_wystąpień_w_logu
 
-	metryki := oblicz metryki 
-	najlepszy_wynik := średnia ważona metryk
+	metryki := oblicz_metryki 
+	najlepszy_wynik := oblicz_średnią_ważoną_metryk
     return najlepszy_wynik
 \end{lstlisting}
 \end{figure}
@@ -312,7 +323,6 @@ Potrzebne do obliczenia precyzji oraz generalizacji.
 \begin{lstlisting}
 def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
     sciezka = []
-
     while i != 0:
         event_group_full_length = len(model[i - 1])
         if model_results_local[i] is not None:

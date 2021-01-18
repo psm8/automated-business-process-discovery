@@ -60,26 +60,28 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
         return model_to_log_events_ratio/10
 
     perfectly_aligned_logs = dict()
-    cumulated_error = 0
+    cumulated_alignment_error = 0
 
     for process in log_info.log.keys():
-        best_local_error, best_aligned_process, best_event_group, is_best_from_cache = \
+        best_local_alignment_error, best_aligned_process, best_event_group, is_best_from_cache = \
             calculate_metrics_for_single_process(process, model, min_length, max_length, alignment_cache)
         if is_best_from_cache:
             best_alignment = BestAlignment()
-            best_local_error, best_aligned_process = \
+            best_local_alignment_error, best_aligned_process = \
                 best_alignment.get_best_alignment(best_event_group, list(process), dict())
-        best_local_error = calculate_alignment_metric(best_local_error, len(process), model.model_min_length)
-        if best_local_error == 0:
+
+        best_local_alignment_error = calculate_alignment_metric(best_local_alignment_error, len(process),
+                                                                model.model_min_length)
+        if best_local_alignment_error == 0:
             perfectly_aligned_logs[tuple(best_aligned_process)] = log_info.log[process]
         add_executions(model_events_list, best_aligned_process, log_info.log[process])
-        cumulated_error += best_local_error * log_info.log[process]
+        cumulated_alignment_error += best_local_alignment_error * log_info.log[process]
 
-    cumulated_average_error = cumulated_error/log_info.sum_of_processes_length
-    metrics['ALIGNMENT'] = math.pow(1 + cumulated_average_error, 4)
+    average_alignment_error = cumulated_alignment_error/log_info.sum_of_processes_length
+    metrics['ALIGNMENT'] = math.pow(1 + average_alignment_error, 4)
     metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, model, model_events_list_with_parents)
     metrics['GENERALIZATION'] = calculate_generalization_metric(model_events_list)
-    metrics['COMPLEXITY'] = calculate_complexity_metric(cumulated_average_error, model)
+    metrics['COMPLEXITY'] = calculate_complexity_metric(average_alignment_error, model)
 
     if any(metrics[x] > 1.0000001 for x in metrics):
         logging.error([x.no_visits for x in model_events_list])
@@ -104,22 +106,22 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
     len_process = len(process)
     n = len_process
     i = 1
-    min_error_local = -(len_process + model.model_min_length)
+    best_alignment_error_local = -(len_process + model.model_min_length)
     best_aligned_process = []
     best_event_group = []
     find = False
-    best_error_local = -(len_process + model.model_min_length)
+    best_alignment_error = -(len_process + model.model_min_length)
     lower_limit_reached = False
     higher_limit_reached = False
     is_best_from_cache = False
 
     while not (lower_limit_reached and higher_limit_reached):
-        if n >= min(calculate_max_allowed_length(len_process), len_process - min_error_local):
+        if n >= min(calculate_max_allowed_length(len_process), len_process - best_alignment_error_local):
             higher_limit_reached = True
             n += (-i if i % 2 == 1 else i)
             i += 1
             continue
-        if n <= max(calculate_min_allowed_length(len_process), len_process + min_error_local):
+        if n <= max(calculate_min_allowed_length(len_process), len_process + best_alignment_error_local):
             lower_limit_reached = True
             n += (-i if i % 2 == 1 else i)
             i += 1
@@ -137,11 +139,11 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         route_and_process_events_ratios.append((event_group, ratio))
                 sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
                 for event_group_and_ratios in sorted_routes_and_ratios:
-                    if event_group_and_ratios[1] <= 1 + min_error_local/len_process:
+                    if event_group_and_ratios[1] <= 1 + best_alignment_error_local/len_process:
                         break
                     try:
                         best_alignment_cached = BestAlignmentCached()
-                        value, best_aligned_process_local = \
+                        alignment_error, best_aligned_process_local = \
                             best_alignment_cached.get_best_alignment(event_group_and_ratios[0],
                                                                      list(process), alignment_cache)
                         is_from_cache = best_alignment_cached.from_cache
@@ -149,36 +151,35 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         logging.error("KeyError was raised. Recreating cache.")
                         params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                         best_alignment = BestAlignment()
-                        value, best_aligned_process_local = \
-                            best_alignment.get_best_alignment(event_group_and_ratios[0], list(process), alignment_cache)
+                        alignment_error, best_aligned_process_local = \
+                            best_alignment.get_best_alignment(event_group_and_ratios[0], list(process))
                         is_from_cache = False
                     except RuntimeError as e:
                         if e.args[0] == 'OrderedDict mutated during iteration':
                             logging.error("OrderedDict mutated during iteration error was raised. Recreating cache.")
                             params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                             best_alignment = BestAlignment()
-                            value, best_aligned_process_local = \
-                                best_alignment.get_best_alignment(event_group_and_ratios[0], list(process),
-                                                                  alignment_cache)
+                            alignment_error, best_aligned_process_local = \
+                                best_alignment.get_best_alignment(event_group_and_ratios[0], list(process))
                             is_from_cache = False
-                    if value > min_error_local:
-                        min_error_local = value
+                    if alignment_error > best_alignment_error_local:
+                        best_alignment_error_local = alignment_error
                         best_aligned_process = best_aligned_process_local
                         best_event_group = event_group_and_ratios[0]
                         is_best_from_cache = is_from_cache
-                    if value == 0:
+                    if alignment_error == 0:
                         find = True
                         break
 
-                if min_error_local > best_error_local:
-                    best_error_local = min_error_local
+                if best_alignment_error_local > best_alignment_error:
+                    best_alignment_error = best_alignment_error_local
                 if find:
                     break
 
         n += (-i if i % 2 == 1 else i)
         i += 1
 
-    return best_error_local, best_aligned_process, best_event_group, is_best_from_cache
+    return best_alignment_error, best_aligned_process, best_event_group, is_best_from_cache
 
 
 def minimize_solution_length_factor(guess):
