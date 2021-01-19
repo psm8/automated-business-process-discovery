@@ -105,7 +105,7 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
     n = len_process
     i = 1
     min_alignment_error_local = -(len_process + model.model_min_length)
-    best_aligned_process = []
+    best_aligned_events = []
     best_event_group = []
     lower_limit_reached = False
     higher_limit_reached = False
