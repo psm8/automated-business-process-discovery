@@ -100,7 +100,7 @@ Event group:
 \clearpage
 
 \begin{figure}[!ht]
-	\centering{\includegraphics{Overall-flow-chart.png}}
+	\centering{\includegraphics[scale=0.5]{Overall-flow-chart.png}}
 	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
 \end{figure}
 
@@ -112,28 +112,28 @@ Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki 
 \lstset{caption=Parser gramatyki, captionpos=b}
 \lstset{label=src:passive, frame=single}
 \begin{lstlisting}
-    def parsuj(wyrażenie: str) -> int:
+def parsuj(wyrażenie: str) -> int:
 
-        for i w zakresie długość_wyrażenia:
-            if wyrażenie[i] == "{":
-                zdarzenie := Event(wyrażenia[i + 1])
-                dodaj zdarzenie do aktualnie parsowanej bramki 
-                i += 2
-            elif wyrażenie[i] == ")":
-                return i+1
-            elif i+4 < długość_wyrażenia:
-                if wyrażenie[i:i + 3] == "seq" and (self.name == "seq" or self.name == "lop"):
-                    usuń_niepotrzebe_bramki
-                else:
-                    if wyrażenie[i:i+2] == 'lo' and wyrażenie[i:i+3] != 'lop':
+   for i w zakresie długość_wyrażenia:
+      if wyrażenie[i] == "{":
+         zdarzenie := Event(wyrażenia[i + 1])
+         dodaj zdarzenie do aktualnie parsowanej bramki 
+         i += 2
+      elif wyrażenie[i] == ")":
+         return i+1
+      elif i+4 < długość_wyrażenia:
+          if wyrażenie[i:i + 3] == "seq" and (self.name == "seq" or self.name == "lop"):
+             usuń_niepotrzebe_bramki
+          else:
+             if wyrażenie[i:i+2] == 'lo' and wyrażenie[i:i+3] != 'lop':
                     
-                	    bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
-                	    i += 3
-                	    przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
-                	    dodaj zdarzenie do aktualnie parsowanej bramki 
-                	    i += ilość_przeparsowanych_znaków
-            else:
-                wyrzuć wyjątek
+                bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
+                i += 3
+                przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
+                dodaj zdarzenie do aktualnie parsowanej bramki 
+                i += ilość_przeparsowanych_znaków
+          else:
+             wyrzuć wyjątek
 \end{lstlisting}
 \end{figure}
 
@@ -155,36 +155,37 @@ W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metry
 def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
                    najdłuższa_dozwolona_długość, cache) -> int:
                    
-    metryki['PROSTOTA'] = oblicz_metrykę_prostota(lista_zdarzeń_w_procesie), unikalne_zdarzenia_w_logu)
-    if metryki['PROSTOTA' < 2/3:
-        return 0
+   metryki['PROSTOTA'] := oblicz_metrykę_prostota(lista_zdarzeń_w_procesie), 
+      unikalne_zdarzenia_w_logu)
+   if metryki['PROSTOTA' < 2/3:
+      return 0
 
-    stosunek_wspólnych_zdarzeń_w_logu_i_modelu := 
-        oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
-        if stosunek_wspólnych_zdarzeń_w_logu_i_modelu <
-            MINIMALNY_STOSUNUK_WSPÓLNYCH_ZDARZEŃ_W_LOGU_I_MODELU:
-        return stosunek_wspólnych_zdarzeń_w_logu_i_modelu/10
+   stosunek_wspólnych_zdarzeń_w_logu_i_modelu := 
+      oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
+      if stosunek_wspólnych_zdarzeń_w_logu_i_modelu <
+         MINIMALNY_STOSUNUK_WSPÓLNYCH_ZDARZEŃ_W_LOGU_I_MODELU:
+      return stosunek_wspólnych_zdarzeń_w_logu_i_modelu/10
         
-    idealnie_dopasowane_logi := pusty_słownik
-    skumulowany_błąd := 0
+   idealnie_dopasowane_logi := pusty_słownik
+   skumulowany_błąd := 0
     
-    for proces w log:
-        najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_process := 
-      	oblicz_metryki_dla_jednego_procesu(proces, model, minimalna_długość, 
-      	maksymalna_długość, cache)
-    	if jakikolwiek proces w najlepiej_dopasowanej_ścieżce nie znajduje się w modelu:
-            value, best_aligned_process = obilcz_dopasowanie_bez_cache(best_event_group, 
-                list(process), dict())
-            best_local_error = calculate_alignment_metric(value, len(process),
-             len(best_event_group))
-        if najlepszy_błąd_lokalny == 0:
-            idealnie_dopasowane_logi.dodaj()[tuple(best_aligned_process)] = 
-            log_info.log[process]
-        add_executions(model_events_list, best_aligned_process, log_info.log[process])
+   for proces w log:
+      najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_process := 
+      oblicz_metryki_dla_jednego_procesu(proces, model, minimalna_długość, 
+      maksymalna_długość, cache)
+      if jakikolwiek proces w najlepiej_dopasowanej_ścieżce nie znajduje się w modelu:
+         value, best_aligned_process = obilcz_dopasowanie_bez_cache(best_event_group, 
+            list(process), dict())
+         best_local_error = calculate_alignment_metric(value, oblicz_długość(proces),
+            oblicz_długość(best_event_group))
+      if najlepszy_błąd_lokalny == 0:
+         idealnie_dopasowane_logi.dodaj()[tuple(best_aligned_process)] = 
+         log_info.log[process]
+      add_executions(model_events_list, best_aligned_process, log_info.log[process])
 
-	metryki := oblicz_metryki 
-	najlepszy_wynik := oblicz_średnią_ważoną_metryk
-    return najlepszy_wynik
+   metryki := oblicz_metryki 
+   najlepszy_wynik := oblicz_średnią_ważoną_metryk
+   return najlepszy_wynik
 \end{lstlisting}
 \end{figure}
 
@@ -196,45 +197,48 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 \begin{lstlisting}
 def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_długość, 
 				               najdłuższa_dozwolona_długość, cache):
-    dłogość_procesu := len(proces)
-    n := dłogość_procesu; i := 1
-    minimalny_błąd_dopasowania := -(dłogość_procesu + model.model_min_length)
-	while not (dolny_limit_osiągnięty and górny_limit_osiągnięty):
-        if n >= min(oblicz_maksymalną_dozwoloną_długość(dłogość_procesu), 
-                    dłogość_procesu - minimalny_błąd_dopasowania):
-            górny_limit_osiągnięty := True
-            n += (-i if i % 2 == 1 else i); i += 1
-            continue
-        if n <= max(oblicz_minimalną_dozwoloną_długość(dłogość_procesu), 
-                    dłogość_procesu + minimalny_błąd_dopasowania):
-            dolny_limit_osiągnięty := True
-            n += (-i if i % 2 == 1 else i); i += 1
-            continue
-        if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
-            set_model_children_boundaries(model, n)
-            ścieżki = model.znajdź_wszystkie_ścieżki_długości_n(n, proces)
-            if ścieżki istnieją:
-                for event_group in routes:
-                    ratio = check_route_with_log_process(event_group, proces)
-                    if ratio >= 1 - 10 * params['RESULT_TOLERANCE_PERCENT']/100:
-                        route_and_process_events_ratios.append((event_group, ratio))
-                sorted_routes_and_ratios = sorted(route_and_process_events_ratios, key=lambda x: -x[1])
-                for event_group_and_ratios in sorted_routes_and_ratios:
-                    if event_group_and_ratios[1] <= 1 + minimalny_błąd_dopasowania/dłogość_procesu:
-                        break
-                    błąd_dopasowania, najlepsze_dopasowane_zdarzenia, jest_z_cache :=
-                        oblicz_najlepsze_dopasowanie_z_cache(ścieżka, proces, cache)
-                    if błąd_dopasowania > minimalny_błąd_dopasowania:
-                        minimalny_błąd_dopasowania = błąd_dopasowania
-                        najlepsze_dopasowane_zdarzenia = dopasowane_zdarzenia
-                        najlepsza_ścieżka = scieżka
-                        jest_najlepszy_z_cache = jest_z_cache
-                    if błąd_dopasowania == 0:
-                        return minimalny_błąd_dopasowania, najlepsze_dopasowane_zdarzenia, 
-                            najlepsza_ścieżka, jest_najlepszy_z_cache
-        n += (-i if i % 2 == 1 else i)
-        i += 1
-    return minimalny_błąd_dopasowania, najlepsze_dopasowane_zdarzenia, najlepsza_ścieżka, jest_najlepszy_z_cache
+   dłogość_procesu := oblicz_długość(proces)
+   n := dłogość_procesu
+   i := 1
+   minimalny_błąd_dopasowania := -(dłogość_procesu + model.model_min_length)
+   while not (dolny_limit_osiągnięty and górny_limit_osiągnięty):
+      if n >= min(oblicz_maksymalną_dozwoloną_długość(dłogość_procesu), 
+                  dłogość_procesu - minimalny_błąd_dopasowania):
+         górny_limit_osiągnięty := True
+         n += (-i if i % 2 == 1 else i); i += 1
+         continue
+      if n <= max(oblicz_minimalną_dozwoloną_długość(dłogość_procesu), 
+                  dłogość_procesu + minimalny_błąd_dopasowania):
+         dolny_limit_osiągnięty := True
+         n += (-i if i % 2 == 1 else i); i += 1
+         continue
+      if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
+         ustaw_najwcześniejsze_i_najpóźniejsze_wystąpienie_zdarzenia(model, n)
+         ścieżki = model.znajdź_wszystkie_ścieżki_długości_n(n, proces)
+         if ścieżki istnieją:
+            for ścieżka in ścieżki:
+               procent_wspólnych_zdarzeń := oblicz_procent_wspólnych_zdarzeń_
+                  w_modelu_i_logu(ścieżka, proces)
+               if procent_wspólnych_zdarzeń >= 1 - TOLERANCJA:
+                  dodaj sćiezkę do lista_ścieżek_do_obliczenia
+            posortowane_ścieżki := posortuj lista_ścieżek_do_obliczenia
+            for ścieżka in posortowane_ścieżki:
+               if procent_wspólnych_zdarzeń <= 1 + minimalny_błąd_dopasowania /
+                  długość_procesu:
+                  break
+               błąd_dopasowania, najlepsze_dopasowane_zdarzenia, jest_z_cache :=
+                  oblicz_najlepsze_dopasowanie_z_cache(ścieżka, proces, cache)
+               if błąd_dopasowania > minimalny_błąd_dopasowania:
+                  minimalny_błąd_dopasowania := błąd_dopasowania
+                  najlepsze_dopasowane_zdarzenia := dopasowane_zdarzenia
+                  najlepsza_ścieżka := scieżka
+                  jest_najlepszy_z_cache := jest_z_cache
+               if błąd_dopasowania == 0:
+                  return minimalny_błąd_dopasowania, najlepsze_dopasowane_
+                         zdarzenia, najlepsza_ścieżka, jest_najlepszy_z_cache
+      n += (-i if i % 2 == 1 else i); i += 1
+   return minimalny_błąd_dopasowania, najlepsze_dopasowane_zdarzenia, 
+          najlepsza_ścieżka, jest_najlepszy_z_cache
 \end{lstlisting}
 \end{figure}
 

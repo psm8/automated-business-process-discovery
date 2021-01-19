@@ -37,17 +37,17 @@
 \contentsline {subsubsection}{\numberline {3.3.0.2}Model}{15}% 
 \contentsline {section}{\numberline {3.4}Implementacja}{15}% 
 \contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{15}% 
-\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{19}% 
-\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{19}% 
-\contentsline {subsubsection}{\numberline {3.4.0.4}Obliczanie metryk dla jednego procesu}{21}% 
-\contentsline {subsubsection}{\numberline {3.4.0.5}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{23}% 
-\contentsline {subsubsection}{\numberline {3.4.0.6}Obliczanie dopasowania}{23}% 
-\contentsline {subsubsection}{\numberline {3.4.0.7}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{23}% 
-\contentsline {subsubsection}{\numberline {3.4.0.8}Cache}{27}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{27}% 
-\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{29}% 
-\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{29}% 
-\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{29}% 
-\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{29}% 
-\contentsline {section}{\numberline {4.4}Wnioski}{29}% 
-\contentsline {chapter}{\numberline {5}Podsumowanie}{31}% 
+\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{18}% 
+\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{18}% 
+\contentsline {subsubsection}{\numberline {3.4.0.4}Obliczanie metryk dla jednego procesu}{20}% 
+\contentsline {subsubsection}{\numberline {3.4.0.5}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{21}% 
+\contentsline {subsubsection}{\numberline {3.4.0.6}Obliczanie dopasowania}{21}% 
+\contentsline {subsubsection}{\numberline {3.4.0.7}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{21}% 
+\contentsline {subsubsection}{\numberline {3.4.0.8}Cache}{26}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{26}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{27}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{27}% 
+\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{27}% 
+\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{27}% 
+\contentsline {section}{\numberline {4.4}Wnioski}{27}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{29}% 
