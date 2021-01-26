@@ -157,7 +157,7 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
                    
    metryki['PROSTOTA'] := oblicz_metrykę_prostota(lista_zdarzeń_w_procesie), 
       unikalne_zdarzenia_w_logu)
-   if metryki['PROSTOTA' < 2/3:
+   if metryki['PROSTOTA'] < 2/3:
       return 0
 
    stosunek_wspólnych_zdarzeń_w_logu_i_modelu := 
@@ -302,32 +302,32 @@ Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e
 \lstset{label=src:alignment_calculation, frame=single}
 \begin{lstlisting}
 def oblicz_dopasowanie(model, log):
-    kara := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
+    błąd := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
     m = długość(model) + 1  # Macierz rozwiązań ilość wierszy.
     n = długość(log) + 1  # Macierz rozwiązań ilość kolumn.
-    wyniki_lokalne := [None] * m
+    najlepiej_dopasowana_ścieżka := [None] * m
     macierz_rozwiazań := Zainicjalizuj macierz zerami
     # Wypelnij osie macierzy właściwymi wartościami
     for j in range(n):
-        macierz_rozwiązań[0][j] := kara['PRZERWA'] * j
+        macierz_rozwiązań[0][j] := błąd['PRZERWA'] * j
 
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
-            al_mat[i], model_results_local[i] := 
+            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_lokalnie[i] := 
             dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
                                      [x for x in substrings_of_string_reversed(log)], i)
-        elif len(model[i-1]) > 1:
-            al_mat[i], model_results_local[i] := 
+        elif długość(model[i-1]) > 1:
+            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_lokalnie[i] := 
             dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
                                    [x for x in substrings_of_string_reversed(log)], kara, i)
         else:
             macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
             dopasowanie(macierz_rozwiazań, model[i - 1], log, kara, i, n)
 
-    ścieżka := znajdź_ściezkę(al_mat, kara['PRZERWA'], model, 
-    log, model_results_local)
+    ścieżka := znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, 
+    log, najlepiej_dopasowana_ścieżka_lokalnie)
 
-    return macierz_rozwiązań[m-1], model_results
+    return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
 \end{lstlisting}
 \end{figure}
 
@@ -340,48 +340,45 @@ Potrzebne do obliczenia precyzji oraz generalizacji.
 def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
     sciezka = []
     while i != 0:
-        event_group_full_length = len(model[i - 1])
+        długość_grupy_zdarzeń = długość(model[i - 1])
         if model_results_local[i] is not None:
-            matched_flag = False
-            if array[i][j] == array[i - 1][j] + event_group_full_length * penalty_gap:
-                [model_result.append(None) for _ in range(event_group_full_length)]
-                array[i][j] = 0
+            znaleziono_dopasowanie := False
+            if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + długość_grupy_zdarzeń * błąd['PRZERWA']:
+                [model_result.append(None) for _ in range(długość_grupy_zdarzeń)]
+                macierz_rozwiązań[i][j] := 0
                 i -= 1
             else:
                 for k in range(j):
-                    processes = get_not_none(model_results_local[i][k]
-                    [len(model_results_local[i][k]) - (j-k)], log)
-                    if array[i][j] == array[i - 1][k] + 
-                    	(event_group_full_length + (j-k) - 2 * len(processes)) * penalty_gap:
+                    processes := get_not_none(model_results_local[i][k]
+                    [długość(model_results_local[i][k]) - (j-k)], log)
+                    if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][k] + 
+                    	(długość_grupy_zdarzeń + (j-k) - 2 * długość(processes)) * błąd['PRZERWA']:
                         [model_result.append(x) for x in processes]
                         for x in processes:
                             log = log.replace(x.name, "", 1)
                         [model_result.append(None) 
                          for _ in range(event_group_full_length - len(processes))]
-                        array[i][j] = 0
-                        i -= 1
-                        j = k
-                        matched_flag = True
+                        macierz_rozwiązań[i][j] = 0
+                        i -= 1; j = k
+                        znaleziono_dopasowanie = True
                         break
-
-                if not matched_flag:
-                    if array[i][j] == array[i][j - 1] + penalty_gap:
-                        array[i][j] = 0
+                if not znaleziono_dopasowanie:
+                    if macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + błąd['PRZERWA']:
+                        macierz_rozwiązań[i][j] = 0
                         j -= 1
         else:
-            if array[i][j] == array[i - 1][j] + kara:
+            if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + kara:
                 model_result.append(None)
-                array[i][j] = 0
+                macierz_rozwiązań[i][j] := 0
                 i -= 1
-            elif array[i][j] == array[i][j - 1] + kara:
-                array[i][j] = 0
+            elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + kara:
+                macierz_rozwiązań[i][j] := 0
                 j -= 1
-            elif array[i][j] == array[i - 1][j - 1]:
+            elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j - 1]:
                 model_result.append(model[i-1])
                 log = log.replace(model[i-1].name, "", 1)
-                array[i][j] = 0
-                i -= 1
-                j -= 1
+                macierz_rozwiązań[i][j] := 0
+                i -= 1; j -= 1
     return sciezka
 \end{lstlisting}
 \end{figure}
