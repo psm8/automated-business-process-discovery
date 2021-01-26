@@ -313,11 +313,11 @@ def oblicz_dopasowanie(model, log):
 
     for i in range(1, m):
         if should_go_recurrent(model[i-1]):
-            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_lokalnie[i] := 
+            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
             dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
                                      [x for x in substrings_of_string_reversed(log)], i)
         elif długość(model[i-1]) > 1:
-            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_lokalnie[i] := 
+            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
             dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
                                    [x for x in substrings_of_string_reversed(log)], kara, i)
         else:
@@ -325,7 +325,7 @@ def oblicz_dopasowanie(model, log):
             dopasowanie(macierz_rozwiazań, model[i - 1], log, kara, i, n)
 
     ścieżka := znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, 
-    log, najlepiej_dopasowana_ścieżka_lokalnie)
+    log, najlepiej_dopasowana_ścieżka_podmodelu)
 
     return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
 \end{lstlisting}
@@ -349,7 +349,7 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
                 i -= 1
             else:
                 for k in range(j):
-                    processes := get_not_none(model_results_local[i][k]
+                    zdarzenia := get_not_none(model_results_local[i][k]
                     [długość(model_results_local[i][k]) - (j-k)], log)
                     if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][k] + 
                     	(długość_grupy_zdarzeń + (j-k) - 2 * długość(processes)) * błąd['PRZERWA']:
@@ -357,7 +357,7 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
                         for x in processes:
                             log = log.replace(x.name, "", 1)
                         [model_result.append(None) 
-                         for _ in range(event_group_full_length - len(processes))]
+                         for _ in range(długość_grupy_zdarzeń - len(processes))]
                         macierz_rozwiązań[i][j] = 0
                         i -= 1; j = k
                         znaleziono_dopasowanie = True
