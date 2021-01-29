@@ -21,7 +21,7 @@
 \contentsline {section}{\numberline {2.5}Gramatyka}{9}% 
 \contentsline {subsection}{\numberline {2.5.1}BNF}{9}% 
 \contentsline {subsection}{\numberline {2.5.2}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{9}% 
-\contentsline {section}{\numberline {2.6}Metryki}{9}% 
+\contentsline {section}{\numberline {2.6}Metryki}{10}% 
 \contentsline {subsection}{\numberline {2.6.1}Prostota}{10}% 
 \contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{10}% 
 \contentsline {subsection}{\numberline {2.6.3}Precyzja}{10}% 

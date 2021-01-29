@@ -144,9 +144,9 @@ Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczn
   \item[•] Przerobienie ścieżek na postać zawierającą BaseGroup.
   \item[•] Obliczenie dopasowania.
 \end{itemize}
-Metryką, która wymaga 
-W pierwszej kolejności obliczamy metrykę dla dopasowania. Wszystkie inne metryki są obliczane dla najlepiej dopasowanej gramatyki.
- 
+Metryką, która nie wymaga obliczenia dopasowania jest prostota, dlatego możemy ją obliczyć wcześniej co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów bez konieczności kosztownego obliczania dopasowania. 
+Pozostałe metryki wymagają obliczenia dopasowania i są obliczane dla najlepiej dopasowanej gramatyki.
+Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu dopasowanie nie będzie dobre. Pozwala to odrzucić rezultaty, które nie przekraczają progu.
 \clearpage
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
@@ -315,11 +315,11 @@ def oblicz_dopasowanie(model, log):
         if should_go_recurrent(model[i-1]):
             macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
             dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
-                                     [x for x in substrings_of_string_reversed(log)], i)
+                                     [x for x in odwrócone_substringi(log)], i)
         elif długość(model[i-1]) > 1:
             macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
             dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
-                                   [x for x in substrings_of_string_reversed(log)], kara, i)
+                                   [x for x in odwrócone_substringi(log)], kara, i)
         else:
             macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
             dopasowanie(macierz_rozwiazań, model[i - 1], log, kara, i, n)
