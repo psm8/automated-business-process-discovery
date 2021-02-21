@@ -92,7 +92,7 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
     best_result = (metrics['ALIGNMENT'] * params['WEIGHT_ALIGNMENT'] +
                    metrics['PRECISION'] * params['WEIGHT_PRECISION'] +
                    metrics['GENERALIZATION'] * params['WEIGHT_GENERALIZATION'] +
-                   metrics['SIMPLICITY'] * params['WEIGHT_SIMPLICITY'] +
+                   metrics['SIMPLICITY'] * params['WEIGHT_SIMPLICITY']  +
                    metrics['COMPLEXITY'] * params['WEIGHT_COMPLEXITY']) /\
                   (params['WEIGHT_ALIGNMENT'] + params['WEIGHT_PRECISION'] + params['WEIGHT_GENERALIZATION'] +
                    params['WEIGHT_SIMPLICITY'] + params['WEIGHT_COMPLEXITY'])

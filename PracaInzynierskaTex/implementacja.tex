@@ -100,7 +100,7 @@ Event group:
 \clearpage
 
 \begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.5]{Overall-flow-chart.png}}
+	\centering{\includegraphics[scale=0.5]{OgolnySchematBlokowy.png}}
 	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
 \end{figure}
 
@@ -125,15 +125,24 @@ def parsuj(wyrażenie: str) -> int:
           if wyrażenie[i:i + 3] == "seq" and (self.name == "seq" or self.name == "lop"):
              usuń_niepotrzebe_bramki
           else:
-             if wyrażenie[i:i+2] == 'lo' and wyrażenie[i:i+3] != 'lop':
-                    
+             if wyrażenie[i:i+2] == 'lo' and wyrażenie[i:i+3] != 'lop':  
+                bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
+                i += 3
+                przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
+                if self.name == "seq" or self.name == "lop":
+                   if int(wyrażenie[i+2]) <= długpść(gate.elementy):
+                      for x in gate.elementy[int(wyrażenie[i+2]):]:
+                         self.dodaj_element(x)
+                dodaj zdarzenie do aktualnie parsowanej bramki 
+                i += ilość_przeparsowanych_znaków
+             else:
                 bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
                 i += 3
                 przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
                 dodaj zdarzenie do aktualnie parsowanej bramki 
                 i += ilość_przeparsowanych_znaków
-          else:
-             wyrzuć wyjątek
+       else:
+          wyrzuć wyjątek
 \end{lstlisting}
 \end{figure}
 
@@ -389,3 +398,47 @@ Wiele obliczeń się powtarza, dlatego żeby przyspieszyć działanie rezultaty 
 Cache genotypów, dostarczane przez 
 Cache obliczeń dopasowanie, które jest najbardziej kosztownym obliczeniem. Wybrane metodę cachowania LRU.  
 \section{Wybór parametrów algorytmu}
+Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezienia rozwiązania. Jest kilka zasad, którymi należy się kierować przy tym wyborze właśnie.
+
+
+$CACHE:                          True
+CODON_SIZE:                     100000
+CORES:                          4
+CROSSOVER:                      subtree
+CROSSOVER_PROBABILITY:          0.75
+DEBUG:                          False
+ELITE_SIZE:                     30
+GENERATIONS:                    100000
+MAX_GENOME_LENGTH:              500
+GRAMMAR_FILE:                   process-subtree.bnf
+INITIALISATION:                 PI_grow
+INVALID_SELECTION:              False
+LOOKUP_FITNESS:                 True
+MAX_INIT_TREE_DEPTH:            13
+MAX_TREE_DEPTH:                 21
+MULTICORE:                      True
+MULTI_OBJECTIVE:                False
+MUTATION:                       subtree
+MUTATION_EVENTS:                1
+POPULATION_SIZE:                500
+FITNESS_FUNCTION:               process_fitness
+REPLACEMENT:                    generational
+SAVE_STATE_STEP:                10
+SELECTION:                      tournament
+TOURNAMENT_SIZE:                16
+VERBOSE:                        True
+MAX_WRAPS:                      3
+ALIGNMENT_CACHE_SIZE:           32*1024
+DATASET:                        discovered-processes.csv
+MAX_ALLOWED_COMPLEXITY_FACTOR:  300
+MINIMIZE_SOLUTION_LENGTH:       True
+RESULT_TOLERANCE_PERCENT:       5
+TIMEOUT:                        5$
+
+Rekomendowane wagi poszczególnych metryk: 
+$WEIGHT_ALIGNMENT:               8
+WEIGHT_COMPLEXITY:              2
+WEIGHT_GENERALIZATION:          2
+WEIGHT_PRECISION:               2
+WEIGHT_SIMPLICITY:              2
+$

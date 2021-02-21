@@ -18,9 +18,9 @@
 \contentsline {subsection}{\numberline {2.4.1}Algorytmy genetyczne}{9}% 
 \contentsline {subsection}{\numberline {2.4.2}Ewolucja genetyczna a inne algorytmy uczenia maszynowego}{9}% 
 \contentsline {subsection}{\numberline {2.4.3}Ewolucja gramatyczna}{9}% 
-\contentsline {section}{\numberline {2.5}Gramatyka}{9}% 
-\contentsline {subsection}{\numberline {2.5.1}BNF}{9}% 
-\contentsline {subsection}{\numberline {2.5.2}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{9}% 
+\contentsline {section}{\numberline {2.5}Gramatyka}{10}% 
+\contentsline {subsection}{\numberline {2.5.1}BNF}{10}% 
+\contentsline {subsection}{\numberline {2.5.2}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{10}% 
 \contentsline {section}{\numberline {2.6}Metryki}{10}% 
 \contentsline {subsection}{\numberline {2.6.1}Prostota}{10}% 
 \contentsline {subsection}{\numberline {2.6.2}Odwzorowanie}{10}% 
