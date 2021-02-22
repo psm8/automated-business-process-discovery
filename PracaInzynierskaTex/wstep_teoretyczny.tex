@@ -27,20 +27,72 @@
 \section{Ewolucja genetyczna}
 \label{sec:ewolucjaGenetyczne}
 \subsection{Algorytmy genetyczne}
-Pierwszy raz zaproponowane w \cite{10.5555/138936}. Opierają się na ewolucji 
+Algorytmy genetyczne są inspirowaną selekcją naturalną  heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowy rozwiązań w celu wyszukania najlepszych z nich. Pierwszy raz zostały zaproponowane w \cite{10.5555/138936}.
+
+Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane ww tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczane są metryki pozwalające ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
+
+Selekcja:
+Selekcja proporcjonalna - wybieramy losowo rozwiązania z puli wszystkich rozwiązań z warunkiem, że rozwiązania z największą wartością metryk mają największą szansę na bycie zachowanymi w populacji. Jest to najpopularniejsza metoda selekcji i najczęściej umożliwiająca najszybsze znalezienie rozwiązania. Pozwala na elityzm, czyli zachowanie części najlepszych genotypów w przyszłej populacji.
+
+Selekcja turniejowa - wybieramy podzbiór ze zbioru rozwiązań i zachowujemy w przyszłej najlepsze rozwiązanie z tego podzbioru.
+Rozwiązanie to pozwala na duży wpływ na presję genetyczną - zwiększając wielkość podzbioru ograniczamy szansę na wybór z niską wartością metryk.  Jest to także metoda, która łatwe zrównoleglenie.
+
+Krzyżowanie - :
+Krzyżowanie punktowe - spośród dwóch genotypów losowo wybieramy jeden punkt, następnie tworzymy dwa nowe genotypy pierwszy z chromosomów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
+
+Krzyżowanie dwupunktowe - spośród dwóch genotypów losowo wybieramy dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
+
+Krzyżowanie n-punktowe - uogólnienie powyższych krzyżowań dla n punktów.
+
+Krzyżowanie zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie zamieniamy ze sobą dwa poddrzewa, tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
+
+
+Mutacja:
+Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową wartość. Pozostałe produkcje pozostają niezmienione.
+
+Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
+
+ 
+  
 \subsection{Ewolucja genetyczna a inne algorytmy uczenia maszynowego}
+Algorytmy genetyczne pozwalają przeszukać najszerszą przestrzeń rozwiązań. Pozwalają na znajdowanie nieoczywistych rozwiązań.  
+Inna heurystyką, która używa losowo rozwiązuje problem jest simulated annealing. Algorytm genetyczny jest łatwy w zrównogleniu i pozwala znaleźć globalne rozwiązanie.
+Sieci neuronewe:
 Pula rozwiązań zamiast jednego rozwiązywania. Szersze przeszukiwanie rozwiązań. 
 \subsection{Ewolucja gramatyczna}
-Ewoluuje gramatykę za pomocą metod ewolucji genetycznej w celu znalezienia programu, który najlepiej rozwiązuje program.
+Ewoluuje gramatykę za pomocą metod ewolucji genetycznej w celu znalezienia programu, który najlepiej rozwiązuje problem.
+Podejście to zostało zaproponowane w \cite{ryan_collins_neill_1998}. 
 
 %---------------------------------------------------------------------------
 
 \section{Gramatyka}
 \label{sec:gramatyka}
 \subsection{BNF}
+Backus-Naur from jest notacją używaną do kodowaniu gramatyk bezkontekstowych.
+
+Gramatyka bezkontekstowa - 
+
+Gramtyka G=(N,$\Sigma$,P,S) - 
+
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 
+W celu ograniczenia niepotrzebnych obliczeń gramatyka powinna tworzyć jak najmniej niewłaściwych rozwiązań. 
 Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała jak często chcemy uzyskać dany stan.
+Stosując operator mutacji możemy uzyskać genotypy, które nie należą do języka, czyli nie są właściwym rozwiązaniami. Żeby ograniczyć zbędne obliczenia gramatyka powinna minimalizować szansę na to, że zamieniając produkcję na dowolną inną dostępną dla danego symbolu produkcję uzyskamy słowo które nie należy do języka.
+Przykład:
+a+b
+<e> = aSe | b
+<S> = + | -
+
+<e> = aee | b | + | -
+
+Produkcja 1:
+
+<e> -> aSe -> a+e -> a+b
+Produkcja 2:
+<e> -> aee -> a+e -> a+b
+
+Jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która nie należy do języka, dlatego pierwsza gramatyka jest lepsza.
 
 %---------------------------------------------------------------------------
 
@@ -48,10 +100,16 @@ Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji ważne jest
 \label{sec:metryki}
 \cite{doi:10.1142/S0218843014400012}
 \subsection{Prostota}
+Najprostsza z metryk.
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
 \subsection{Odwzorowanie}
+Pozostałe metryki obliczane są na podstawie tej metryki. 
 $M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
+
+Przykład liczenia odwzorowania:
+
 \subsection{Precyzja}
+
 $M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
 \subsection{Generalizacja}
 $M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $

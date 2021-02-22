@@ -16,8 +16,8 @@ PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w jezyku Pyth
 Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
 gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przeanalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
 
-Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych, czyli GE{\_}RANGE:2 oznacza 0|1|2.
-Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, ktore umożliwia dodanie ilosci zmiennych odpowiadajacej ich ilosci w zbiorze danych.
+Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, które umożliwia dodanie ilości zmiennych, czyli GE{\_}RANGE:2 oznacza 0|1|2.
+Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, które umożliwia dodanie ilości zmiennych odpowiadającej ich ilości w zbiorze danych.
 
 \begin{figure}[!ht]
 \lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
@@ -80,24 +80,25 @@ Implementację podzielone na następujące moduły:
 Podział na dwie klasy przydatne na różnym etapie procesowania:
 
 Gate:
-
+Gramatyka zostaje sparsowana na to klasa. Pozwala to zastąpić proces w formie ciągu znaków na formę, na której łatwiej będzie nam operować w przyszłość.
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.5]{GateUML.png}}
+	\centering{\includegraphics[scale=0.4]{GateUML.png}}
 	\caption{\label{fig:subcaption_example}Gate UML}
 \end{figure}
 
-Event group:
-
+EventGroup:
+Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na duża ilość bramek logicznych 
+Takie modularne podejście pozwala na dodanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie dopasowania, która jest najbardziej złożonym algorytmem występującym w programie. 
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.5]{EventUML.png}}
+	\centering{\includegraphics[scale=0.4]{EventUML.png}}
 	\caption{\label{fig:subcaption_example}Event UML}
 \end{figure}
 
-
+\clearpage
 \section{Implementacja}
 
 \subsubsection{Ogólny schemat blokowy}
-\clearpage
+
 
 \begin{figure}[!ht]
 	\centering{\includegraphics[scale=0.5]{OgolnySchematBlokowy.png}}
@@ -394,23 +395,24 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
 \clearpage
 \subsubsection{Cache}
 
-Wiele obliczeń się powtarza, dlatego żeby przyspieszyć działanie rezultaty są cachowane w dwóch miejscach:
-Cache genotypów, dostarczane przez 
-Cache obliczeń dopasowanie, które jest najbardziej kosztownym obliczeniem. Wybrane metodę cachowania LRU.  
+W sytuacji kiedy wiele obliczeń się powtarza można znacząca przyspieszyć czas działania aplikacji poprzez zastosowanie cachowania. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
+Poprzednio obliczone rozwiązanie może się powtórzyć. W tym wypadku możemy skorzystać z cache genotypów, dostarczane przez bibliotekę PonyGE2.
+Podczas obliczania dopasowania, które jest najbardziej kosztownym obliczeniem. Ponadto z uwagi na duża ilość obliczeń, żeby ograniczyć rozmiar cache zaimplementowano cachowanie LRU.
 \section{Wybór parametrów algorytmu}
 Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezienia rozwiązania. Jest kilka zasad, którymi należy się kierować przy tym wyborze właśnie.
 
-
-$CACHE:                          True
-CODON_SIZE:                     100000
-CORES:                          4
-CROSSOVER:                      subtree
-CROSSOVER_PROBABILITY:          0.75
-DEBUG:                          False
-ELITE_SIZE:                     30
-GENERATIONS:                    100000
-MAX_GENOME_LENGTH:              500
-GRAMMAR_FILE:                   process-subtree.bnf
+Włącza cache: \newline
+\textbf{CACHE:                         True} \newline
+$CODON\_SIZE:                   100000$
+Ilość wątków procesora:
+$CORES:                         4$
+$CROSSOVER:                     subtree$
+$CROSSOVER_PROBABILITY:         0.75$
+$DEBUG:                         False$
+$ELITE\_SIZE:                   30$
+$GENERATIONS:                   100000$
+$MAX\_GENOME\_LENGTH:           500$
+$GRAMMAR_FILE:                  process-subtree.bnf
 INITIALISATION:                 PI_grow
 INVALID_SELECTION:              False
 LOOKUP_FITNESS:                 True
