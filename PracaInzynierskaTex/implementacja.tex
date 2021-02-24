@@ -4,7 +4,7 @@
 \subsection{Python 3.8.1}
 Do implementacji algorytmu został użyty Python. Jest to najpopularniejszy język programowania w domenie uczenia maszynowego. Wymagana jest wersja 3.8+ ze względu na użycie w implementacji metod dostępnych od tej wersji.  
 \subsection{PonyGE2}
-PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w jezyku Python. Pozwala na latwa konfiguracje parametrow ewolucji genetycznej oraz latwa mozliwosc dodania wlasnych problemow oraz sposobow ewaluacji wynikow.
+PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w języku Python. Pozwala na łatwa konfiguracje parametrów ewolucji genetycznej oraz możliwość dodania własnych problemów oraz sposobów ewaluacji wyników.
 
 \begin{figure}[h]
 	\centering{\includegraphics{PonyGE2-search-loop.jpg}}
@@ -148,7 +148,7 @@ def parsuj(wyrażenie: str) -> int:
 \end{figure}
 
 \subsubsection{Obliczanie metryk}
-Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Obliczanie dopasowanie można opisać następującymi krokami:
+Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Obliczanie dopasowanie można rozbić na następujące kroki:
 \begin{itemize}
   \item[•] Znalezienie ścieżek o długości n w modelu.
   \item[•] Przerobienie ścieżek na postać zawierającą BaseGroup.
@@ -156,7 +156,7 @@ Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczn
 \end{itemize}
 Metryką, która nie wymaga obliczenia dopasowania jest prostota, dlatego możemy ją obliczyć wcześniej co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów bez konieczności kosztownego obliczania dopasowania. 
 Pozostałe metryki wymagają obliczenia dopasowania i są obliczane dla najlepiej dopasowanej gramatyki.
-Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu dopasowanie nie będzie dobre. Pozwala to odrzucić rezultaty, które nie przekraczają progu.
+Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu dopasowanie nie będzie dobre. Pozwala to odrzucić rezultaty, które nie przekraczają progu. 
 \clearpage
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
@@ -199,8 +199,9 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 \end{lstlisting}
 \end{figure}
 
-\subsubsection{Obliczanie metryk dla jednego procesu}
 \clearpage
+\subsubsection{Obliczanie metryk dla jednego procesu}
+Ważnym jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
@@ -252,14 +253,16 @@ def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_dłu
 \end{lstlisting}
 \end{figure}
 
+\clearpage
 \subsubsection{Wyszukiwanie w modelu procesów o określonej długości}
 
-Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej.
+Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. 
+Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki.  
 \begin{figure}[!ht]
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}
-def znajdź_wszystkie_ścieżki_długości_n(n: int, proces) -> []:
+def znajdź_wszystkie_ścieżki_długości_n(n, proces) -> []:
     if n == 0:
         return []
     if self.model_max_length < n or n < self.model_min_length:
@@ -305,6 +308,7 @@ def znajdź_wszystkie_ścieżki_długości_n(n: int, proces) -> []:
 \end{lstlisting}
 \end{figure}
 
+\clearpage
 \subsubsection{Obliczanie dopasowania}
 Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczać będziemy rozwiązania. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń. 
 \begin{figure}[!ht]
@@ -341,6 +345,7 @@ def oblicz_dopasowanie(model, log):
 \end{lstlisting}
 \end{figure}
 
+\clearpage
 \subsubsection{Znajdowanie ścieżki w modelu}
 Potrzebne do obliczenia precyzji oraz generalizacji.
 \begin{figure}[!ht]
@@ -403,44 +408,43 @@ Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezie
 
 Włącza cache: \newline
 \textbf{CACHE:                         True} \newline
-$CODON\_SIZE:                   100000$
+\textbf{CODON\_SIZE:                   100000} \newline
 Ilość wątków procesora:
-$CORES:                         4$
-$CROSSOVER:                     subtree$
-$CROSSOVER_PROBABILITY:         0.75$
-$DEBUG:                         False$
-$ELITE\_SIZE:                   30$
-$GENERATIONS:                   100000$
-$MAX\_GENOME\_LENGTH:           500$
-$GRAMMAR_FILE:                  process-subtree.bnf
-INITIALISATION:                 PI_grow
-INVALID_SELECTION:              False
-LOOKUP_FITNESS:                 True
-MAX_INIT_TREE_DEPTH:            13
-MAX_TREE_DEPTH:                 21
-MULTICORE:                      True
-MULTI_OBJECTIVE:                False
-MUTATION:                       subtree
-MUTATION_EVENTS:                1
-POPULATION_SIZE:                500
-FITNESS_FUNCTION:               process_fitness
-REPLACEMENT:                    generational
-SAVE_STATE_STEP:                10
-SELECTION:                      tournament
-TOURNAMENT_SIZE:                16
-VERBOSE:                        True
-MAX_WRAPS:                      3
-ALIGNMENT_CACHE_SIZE:           32*1024
-DATASET:                        discovered-processes.csv
-MAX_ALLOWED_COMPLEXITY_FACTOR:  300
-MINIMIZE_SOLUTION_LENGTH:       True
-RESULT_TOLERANCE_PERCENT:       5
-TIMEOUT:                        5$
+\textbf{CORES:                         4} \newline
+\textbf{CROSSOVER:                     subtree} \newline
+\textbf{CROSSOVER\_PROBABILITY:         0.75} \newline
+\textbf{DEBUG:                         False} \newline
+\textbf{ELITE\_SIZE:                   30} \newline
+\textbf{GENERATIONS:                   100000} \newline
+\textbf{MAX\_GENOME\_LENGTH:           500} \newline
+\textbf{GRAMMAR\_FILE:                  process-subtree.bnf} \newline
+\textbf{INITIALISATION:                 PI\_grow} \newline
+\textbf{INVALID\_SELECTION:              False} \newline
+\textbf{LOOKUP\_FITNESS:                 True} \newline
+\textbf{MAX\_INIT\_TREE\_DEPTH:            13} \newline
+\textbf{MAX\_TREE\_DEPTH:                 21} \newline
+\textbf{MULTICORE:                      True} \newline
+\textbf{MULTI\_OBJECTIVE:                False} \newline
+\textbf{MUTATION:                       subtree} \newline
+\textbf{MUTATION\_EVENTS:                1} \newline
+\textbf{POPULATION\_SIZE:                500} \newline
+\textbf{FITNESS\_FUNCTION:               process\_fitness} \newline
+\textbf{REPLACEMENT:                    generational} \newline
+\textbf{SAVE\_STATE\_STEP:                10} \newline
+\textbf{SELECTION:                      tournament} \newline
+\textbf{TOURNAMENT\_SIZE:                16} \newline
+\textbf{VERBOSE:                        True} \newline
+\textbf{MAX\_WRAPS:                      3} \newline
+\textbf{ALIGNMENT\_CACHE\_SIZE:           32*1024} \newline
+\textbf{DATASET:                        discovered-processes.csv} \newline
+\textbf{MAX\_ALLOWED\_COMPLEXITY\_FACTOR:  300} \newline
+\textbf{MINIMIZE\_SOLUTION\_LENGTH:       True} \newline
+\textbf{RESULT\_TOLERANCE\_PERCENT:       5} \newline
+\textbf{TIMEOUT:                        5} \newline
 
 Rekomendowane wagi poszczególnych metryk: 
-$WEIGHT_ALIGNMENT:               8
-WEIGHT_COMPLEXITY:              2
-WEIGHT_GENERALIZATION:          2
-WEIGHT_PRECISION:               2
-WEIGHT_SIMPLICITY:              2
-$
+\textbf{WEIGHT\_ALIGNMENT:              8} \newline
+\textbf{WEIGHT\_COMPLEXITY:              2} \newline
+\textbf{WEIGHT\_GENERALIZATION:          2} \newline
+\textbf{WEIGHT\_PRECISION:               2} \newline
+\textbf{WEIGHT\_SIMPLICITY:              2} \newline

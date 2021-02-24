@@ -27,6 +27,7 @@
 \section{Ewolucja genetyczna}
 \label{sec:ewolucjaGenetyczne}
 \subsection{Algorytmy genetyczne}
+\cite{ryan_collins_neill_1998}
 Algorytmy genetyczne są inspirowaną selekcją naturalną  heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowy rozwiązań w celu wyszukania najlepszych z nich. Pierwszy raz zostały zaproponowane w \cite{10.5555/138936}.
 
 Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane ww tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczane są metryki pozwalające ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
@@ -100,13 +101,13 @@ Jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która ni
 \label{sec:metryki}
 \cite{doi:10.1142/S0218843014400012}
 \subsection{Prostota}
-Najprostsza z metryk.
+Najprostsza z metryk. \newline
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
 \subsection{Odwzorowanie}
-Pozostałe metryki obliczane są na podstawie tej metryki. 
+Pozostałe metryki obliczane są na podstawie tej metryki. \newline
 $M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
 
-Przykład liczenia odwzorowania:
+Przykład liczenia odwzorowania: \newline
 
 \subsection{Precyzja}
 
@@ -114,5 +115,5 @@ $M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ z
 \subsection{Generalizacja}
 $M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
 \subsection{Złożoność}
-Promuje rozwiązywanie prostych problemów w prosty sposób 
+Promuje rozwiązywanie prostych problemów w prosty sposób \newline
 $M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $

@@ -17,31 +17,6 @@
 \endgroup
 
 \datalist[entry]{none/global//global/global}
-  \entry{10.5555/138936}{book}{}
-    \name{author}{1}{}{%
-      {{hash=KJR}{%
-         family={Koza},
-         familyi={K\bibinitperiod},
-         given={John\bibnamedelima R.},
-         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {MIT Press}%
-    }
-    \strng{namehash}{KJR1}
-    \strng{fullhash}{KJR1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{isbn}{0262111705}
-    \field{title}{Genetic Programming: On the Programming of Computers by Means
-  of Natural Selection}
-    \list{location}{1}{%
-      {Cambridge, MA, USA}%
-    }
-    \field{year}{1992}
-  \endentry
-
   \entry{ryan_collins_neill_1998}{article}{}
     \name{author}{3}{}{%
       {{hash=RC}{%
@@ -75,6 +50,31 @@
   language}
     \field{journaltitle}{Lecture Notes in Computer Science Genetic Programming}
     \field{year}{1998}
+  \endentry
+
+  \entry{10.5555/138936}{book}{}
+    \name{author}{1}{}{%
+      {{hash=KJR}{%
+         family={Koza},
+         familyi={K\bibinitperiod},
+         given={John\bibnamedelima R.},
+         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {MIT Press}%
+    }
+    \strng{namehash}{KJR1}
+    \strng{fullhash}{KJR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{isbn}{0262111705}
+    \field{title}{Genetic Programming: On the Programming of Computers by Means
+  of Natural Selection}
+    \list{location}{1}{%
+      {Cambridge, MA, USA}%
+    }
+    \field{year}{1992}
   \endentry
 
   \entry{doi:10.1142/S0218843014400012}{article}{}
