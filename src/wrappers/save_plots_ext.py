@@ -29,6 +29,9 @@ def save_plots_from_data(fitness, alignment, complexity, generalization, precisi
     ax1.plot(precision, label='precision')
     ax1.plot(simplicity, label='simplicity')
 
+    # Set plot.
+    plt.legend(loc="lower right")
+
     # Set labels.
     ax1.set_ylabel(name, fontsize=14)
     ax1.set_xlabel('Generation', fontsize=14)
