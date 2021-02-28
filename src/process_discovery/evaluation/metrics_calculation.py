@@ -20,28 +20,34 @@ from cachetools import LRUCache
 
 def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     gate = SeqGate()
+    metrics = {'SIMPLICITY': 0, 'PRECISION': 0, 'GENERALIZATION': 0, 'COMPLEXITY': 0, 'ALIGNMENT': 0}
     try:
         gate.parse(guess)
     except ValueError:
-        return 0
+        return 0, metrics
 
     min_length = gate.model_min_length
     if min_length > calculate_max_allowed_length(log_info.process_average_length):
-        return 0
+        return 0, metrics
 
     max_length = gate.model_max_length
     if max_length < calculate_min_allowed_length(log_info.process_average_length):
-        return 0
+        return 0, metrics
 
     if max_allowed_complexity < gate.complexity:
-        return 0
+        return 0, metrics
 
-    fitness_metric = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)
+    result = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)
+
+    if isinstance(result, tuple):
+        fitness_metric, metrics = result
+    else:
+        fitness_metric = result
 
     if params['MINIMIZE_SOLUTION_LENGTH']:
         fitness_metric -= minimize_solution_length_factor(guess)
 
-    return fitness_metric
+    return fitness_metric, metrics
 
 
 def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
@@ -92,12 +98,12 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
     best_result = (metrics['ALIGNMENT'] * params['WEIGHT_ALIGNMENT'] +
                    metrics['PRECISION'] * params['WEIGHT_PRECISION'] +
                    metrics['GENERALIZATION'] * params['WEIGHT_GENERALIZATION'] +
-                   metrics['SIMPLICITY'] * params['WEIGHT_SIMPLICITY']  +
+                   metrics['SIMPLICITY'] * params['WEIGHT_SIMPLICITY'] +
                    metrics['COMPLEXITY'] * params['WEIGHT_COMPLEXITY']) /\
                   (params['WEIGHT_ALIGNMENT'] + params['WEIGHT_PRECISION'] + params['WEIGHT_GENERALIZATION'] +
                    params['WEIGHT_SIMPLICITY'] + params['WEIGHT_COMPLEXITY'])
 
-    return best_result
+    return best_result, metrics
 
 
 def calculate_metrics_for_single_process(process, model, min_length, max_length, alignment_cache):

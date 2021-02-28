@@ -21,7 +21,9 @@ POPULATION_SIZE:                500
 FITNESS_FUNCTION:               process_fitness
 REPLACEMENT:                    generational
 SAVE_STATE_STEP:                10
+SEARCH_LOOP:                    search_loop_with_metrics
 SELECTION:                      tournament
+STEP:                           step_with_metrics
 TOURNAMENT_SIZE:                16
 VERBOSE:                        True
 MAX_WRAPS:                      3

@@ -249,7 +249,15 @@ def set_param_imports():
                         # inside algorithm search_loop_distributed and
                         # step_distributed respectively
 
-                        if params['MULTIAGENT'] and \
+                        if( op == 'SEARCH_LOOP' and params[op] == 'search_loop_with_metrics'):
+                            module_name = 'wrappers.search_loop_wrapper'
+                            attr_name = 'search_loop'
+
+                        elif( op == 'STEP' and params[op] == 'step_with_metrics'):
+                            module_name = 'wrappers.step_wrapper'
+                            attr_name = 'step'
+
+                        elif params['MULTIAGENT'] and \
                         ( op == 'SEARCH_LOOP' or op == 'STEP' ) :
                             # Define the directory structure for the multi-agent search
                             # loop and step
@@ -267,7 +275,7 @@ def set_param_imports():
 
                         # Import module and attribute and save.
                         params[op] = return_attr_from_module(module_name,
-                                                             attr_name)
+                                                         attr_name)
 
 
 def get_fit_func_imports():

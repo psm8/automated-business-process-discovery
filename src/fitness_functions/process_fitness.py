@@ -3,6 +3,7 @@ from process_discovery.evaluation.metrics_calculation import evaluate_guess
 from process_discovery.log.log_util import LogInfo
 from process_discovery.exception.timout_exception import timeout, TimeoutException
 from algorithm.parameters import params
+from wrappers.individual_with_metrics import IndividualWithMetrics
 
 import cachetools
 import pickle
@@ -29,6 +30,7 @@ class process_fitness(base_ff, metaclass=Singleton):
         self.vars = LogInfo(params["DATASET"]).log_unique_events
         self.log_info = LogInfo(params["DATASET"])
         self.max_allowed_complexity = len(self.log_info.log) * params["MAX_ALLOWED_COMPLEXITY_FACTOR"]
+        self.metrics = {'SIMPLICITY': 0, 'PRECISION': 0, 'GENERALIZATION': 0, 'COMPLEXITY': 0, 'ALIGNMENT': 0}
 
     def __call__(self, ind, **kwargs):
         """
@@ -68,8 +70,9 @@ class process_fitness(base_ff, metaclass=Singleton):
         self.guess = ind.phenotype
 
         try:
-            fitness = timeout(params["TIMEOUT"])(evaluate_guess)(self.guess, self.log_info, self.alignment_cache,
-                                                                 self.max_allowed_complexity)
+            fitness, self.metrics = timeout(params["TIMEOUT"])(evaluate_guess)(self.guess, self.log_info,
+                                                                               self.alignment_cache,
+                                                                               self.max_allowed_complexity)
         except TimeoutException:
             logging.error("TimeoutException: " + self.guess)
             return 0
