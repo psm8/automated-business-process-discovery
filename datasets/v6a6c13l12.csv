@@ -1,0 +1,6 @@
+3,a,b,c,d
+4,a,c,b,d
+2,a,b,c,e,f,b,c,d
+1,a,b,c,e,f,c,b,d
+2,a,c,b,e,f,b,c,d
+1,a,c,b,e,f,b,c,e,f,c,b,d
