@@ -293,6 +293,12 @@ class FitnessTest(unittest.TestCase):
             LogInfo('v8a7c1254l5.csv'), dict(), 2100)
         expected = 0
 
+    def test_9_9_9_9_7(self):
+        set_params()
+        actual = evaluate_guess('{a}lo0(and({c}{b}))opt(seq({e}{f}))lo4(and({c}{b})){d}',
+                                LogInfo('v6a6c13l12.csv'),
+                                dict(), 2100000000000)
+
     def test_legend_1_0_1(self):
         set_params()
         actual = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})xor({g}{h})',

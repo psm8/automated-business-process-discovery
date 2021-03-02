@@ -147,7 +147,7 @@ class LopGate(Gate):
 
     def set_twin_events_and_complexity(self):
         if isinstance(self.parent, SeqGate) or isinstance(self.parent, LopGate):
-            i = self.parent.elements.index(self)
+            i = index_by_is(self, self.parent.elements)
             i -= 1
             j = 1
             while i >= 0 and j <= len(self.elements):
