@@ -130,3 +130,4 @@ results/*
 cache/*
 parameters/*
 !parameters/process-discovery-template.txt
+src/process-discovery-log.txt
