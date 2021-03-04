@@ -14,7 +14,9 @@ def calculate_precision_metric(log, model, model_parents_list):
         if any(log_count[x] > model_count[x] for x in log_count):
             logging.error(log_count)
             logging.error(model_count)
-            raise Exception
+            for x in log_count:
+                if log_count[x] > model_count[x]:
+                    model_count[x] = log_count[x]
         precision = 1 - sum([log[process] * (model_count[process[:x]] - log_count[process[:x]]) /
                              model_count[process[:x]]
                             for process in log.keys() for x in range(len(process))]) / sum_of_processes_length
