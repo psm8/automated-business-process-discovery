@@ -133,7 +133,7 @@ class AndGate(Gate):
                                                filter_previous_events(self, self.find_child_branch(x), previous_events))
                         for x in
                         result.difference(previous_events[-(len(list(self.get_all_child_events()))):])]):
-                    yield from [x for x in not_enabled_yet if not any(isinstance(y, XorGate) and any(in_by_is(z, previous_events) for z in y.elements) for y in self.find_child_parents(x))]
+                    yield from [x for x in not_enabled_yet if self.is_any_parent_enabled_xor(x, previous_events)]
                     if self.parent not in blocked_calls_to:
                         yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
                 else:
@@ -142,3 +142,6 @@ class AndGate(Gate):
                 if self.parent not in blocked_calls_to:
                     yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
 
+    def is_any_parent_enabled_xor(self, x, previous_events) -> bool:
+        return not any(isinstance(y, XorGate) and any(in_by_is(z, previous_events) for z in y.elements) for y in
+                       self.find_child_parents(x))
