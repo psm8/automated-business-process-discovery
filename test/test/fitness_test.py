@@ -297,13 +297,32 @@ class FitnessTest(unittest.TestCase):
         set_params()
         actual = evaluate_guess('{a}lo0(and({c}{b}))opt(seq({e}{f}))lo4(and({c}{b})){d}',
                                 LogInfo('v6a6c13l12.csv'),
-                                dict(), 2100000000000)
+                                dict(), 2100)
 
     def test_9_9_9_9_8(self):
         set_params()
         actual = evaluate_guess('{a}lo3(lo3(opt({d}))and({d}))opt({c}{b}){e}',
                                 LogInfo('v8a5c40l5.csv'),
                                 dict(), 2100000000000)
+
+    def test_9_9_9_9_9(self):
+        set_params()
+        actual = evaluate_guess('{a}lo3(and({f}{g}{d}))xor({b}{f})opt({c}{d}){e}',
+                                LogInfo('v45a7c1000l14.csv'),
+                                dict(), 2100)
+
+    def test_9_9_9_9_9_0(self):
+        set_params()
+        actual = evaluate_guess('{a}xor(and(seq(and({f}))){b})and({d}opt(lo3(and({f}{g}{d}))))lo1({g}{e})',
+                                LogInfo('v45a7c1000l14.csv'),
+                                dict(), 2100)
+
+    def test_9_9_9_9_9_1(self):
+        set_params()
+        actual = evaluate_guess('{a}and({d}xor({f}{b}){c})lo3(opt(xor(opt({d})){b}xor({g}))){e}',
+                                LogInfo('v45a7c1000l14.csv'),
+                                dict(), 2100)
+
 
     def test_legend_1_0_1(self):
         set_params()
