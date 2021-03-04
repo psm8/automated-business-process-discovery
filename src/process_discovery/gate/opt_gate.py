@@ -1,7 +1,8 @@
 from process_discovery.gate.gate import Gate
-from process_discovery.util.util import to_n_length_opt, flatten_values
+from process_discovery.util.util import to_n_length_opt, flatten_values, index_by_is, in_by_is
 from process_discovery.event.event import Event
 from process_discovery.exception.exception_decorator import only_throws
+from process_discovery.util.previous_events_util import get_parent_lop
 from process_discovery.event.base_group import BaseGroup
 
 from functools import reduce, cached_property
@@ -116,8 +117,25 @@ class OptGate(Gate):
             len_child_caller = 1
         else:
             len_child_caller = len(list(child_caller.get_all_child_events()))
-        not_enabled_yet = result.difference(previous_events[-(len(result) + len_child_caller):])
+        not_enabled_yet = self.get_not_enabled_yet(result, previous_events, len_child_caller)
         if not_enabled_yet:
             yield from not_enabled_yet
         if self.parent not in blocked_calls_to:
             yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
+
+    def get_not_enabled_yet(self, result, previous_events, len_child_caller):
+        parent_lop = get_parent_lop(self)
+        if parent_lop is not None:
+            parent_lop_events = set(list(parent_lop.get_all_child_events()))
+            events = set(list(self.get_all_child_events()))
+            diff = parent_lop_events.difference(events)
+            if diff:
+                for x in reversed(diff):
+                    if in_by_is(x, previous_events):
+                        i = index_by_is(x, previous_events)
+                        return result.difference(previous_events[i:])
+                return result.difference(previous_events[-(len(result) + len_child_caller):])
+            else:
+                return result
+        else:
+            return result.difference(previous_events[-(len(result) + len_child_caller):])

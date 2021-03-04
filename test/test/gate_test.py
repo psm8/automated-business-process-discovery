@@ -497,6 +497,27 @@ class GateTest(unittest.TestCase):
         actual = set(list(events_with_parents[e4].get_next_possible_states((e1, e2, e3, e4), e4, e5)))
         self.assertEqual(8, len(actual))
 
+    def test_get_next_possible_states_9_8(self):
+        gate = SeqGate()
+        gate.parse('{a}xor({f}{b})opt(lo1(and({g}xor({f}{b})){d}){c}{d})and(seq({e}))')
+
+        events_with_parents = gate.get_all_child_events_with_parents()
+        keys = [x for x in events_with_parents.keys()]
+
+        e1 = keys[0]
+        e2 = keys[1]
+        e3 = keys[8]
+        e4 = keys[7]
+        e5 = keys[3]
+        e6 = keys[4]
+        e7 = keys[6]
+        e8 = keys[3]
+        e9 = keys[4]
+
+        actual = set(list(events_with_parents[e8].get_next_possible_states((e1, e2, e3, e4, e5, e6, e7, e8), e8, e9)))
+        self.assertEqual(2, len(actual))
+
+
     def test_eq1(self):
         gate1 = SeqGate()
         gate1.parse('and(xor({b}{c}){d}){e})')
