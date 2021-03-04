@@ -1,11 +1,11 @@
 from process_discovery.log.log_util import get_sum_of_processes_length
-
 import logging
 import math
 
 
-def calculate_precision_metric(log, model, model_parents_list):
+def calculate_precision_metric(log, model, model_parents_list, end_event):
     if log:
+        model.add_element(end_event)
         sum_of_processes_length = get_sum_of_processes_length(log)
         log_enabled = get_log_enabled(log.keys())
         log_count = {key: len(log_enabled[key]) for key in log_enabled.keys()}

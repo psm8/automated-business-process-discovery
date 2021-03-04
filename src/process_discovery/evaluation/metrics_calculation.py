@@ -12,6 +12,7 @@ from process_discovery.evaluation.alignment_calculation.alignment_calculation im
 from process_discovery.util.util import is_struct_empty, check_route_with_log_process
 from process_discovery.evaluation.generalization_calculation.generalization_metric_calculation import add_executions, \
     calculate_generalization_metric
+from process_discovery.event.event import Event
 
 import math
 import logging
@@ -37,7 +38,7 @@ def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     if max_allowed_complexity < gate.complexity:
         return 0, metrics
 
-    result = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache)
+    result = calculate_metrics(log_info, gate, min_length, max_length, alignment_cache, Event('end'))
 
     if isinstance(result, tuple):
         fitness_metric, metrics = result
@@ -50,7 +51,7 @@ def evaluate_guess(guess, log_info, alignment_cache, max_allowed_complexity):
     return fitness_metric, metrics
 
 
-def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
+def calculate_metrics(log_info, model, min_length, max_length, alignment_cache, end_event):
     metrics = dict()
     model_events_list_with_parents = model.get_all_child_events_with_parents()
     model_events_list = list(model_events_list_with_parents.keys())
@@ -78,14 +79,15 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
 
         best_alignment_errors_local_dict[process] = min_alignment_error_local
         if min_alignment_error_local == 0:
-            perfectly_aligned_logs[tuple(best_aligned_process)] = log_info.log[process]
+            perfectly_aligned_logs[tuple(best_aligned_process + [end_event])] = log_info.log[process]
         add_executions(model_events_list, best_aligned_process, log_info.log[process])
 
     average_alignment_error, metrics['ALIGNMENT'] = calculate_alignment_metric(best_alignment_errors_local_dict,
                                                                                log_info, model.model_min_length)
-    metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, model, model_events_list_with_parents)
     metrics['GENERALIZATION'] = calculate_generalization_metric(model_events_list)
     metrics['COMPLEXITY'] = calculate_complexity_metric(average_alignment_error, model)
+    metrics['PRECISION'] = calculate_precision_metric(perfectly_aligned_logs, model, model_events_list_with_parents,
+                                                      end_event)
 
     if any(metrics[x] > 1.0000001 for x in metrics):
         logger = logging.getLogger()
