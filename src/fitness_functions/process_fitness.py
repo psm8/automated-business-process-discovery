@@ -3,7 +3,6 @@ from process_discovery.evaluation.metrics_calculation import evaluate_guess
 from process_discovery.log.log_util import LogInfo
 from process_discovery.exception.timout_exception import timeout, TimeoutException
 from algorithm.parameters import params
-from wrappers.individual_with_metrics import IndividualWithMetrics
 
 import cachetools
 import pickle

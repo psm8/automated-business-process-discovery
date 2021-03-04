@@ -299,6 +299,12 @@ class FitnessTest(unittest.TestCase):
                                 LogInfo('v6a6c13l12.csv'),
                                 dict(), 2100000000000)
 
+    def test_9_9_9_9_8(self):
+        set_params()
+        actual = evaluate_guess('{a}lo3(lo3(opt({d}))and({d}))opt({c}{b}){e}',
+                                LogInfo('v8a5c40l5.csv'),
+                                dict(), 2100000000000)
+
     def test_legend_1_0_1(self):
         set_params()
         actual = evaluate_guess('{a}lo1({f}and(xor({b}{c}){d}){e})xor({g}{h})',

@@ -283,6 +283,8 @@ def in_by_is(obj, a_list):
 
 
 def is_any_parent_optional(event, gate, previous_events, shift=0):
+    if isinstance(gate, Event):
+        return False
     for elem in gate.elements:
         if isinstance(elem, Event):
             if event is elem:

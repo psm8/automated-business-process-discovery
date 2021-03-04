@@ -8,7 +8,7 @@ from process_discovery.event.event import Event
 from process_discovery.event.base_group import BaseGroup
 from process_discovery.event.comparable_event import ComparableEvent
 from process_discovery.exception.exception_decorator import only_throws
-from process_discovery.util.util import event_list_length
+from process_discovery.util.util import event_list_length, in_by_is
 
 from functools import cached_property
 from typing import Generator
@@ -228,4 +228,15 @@ class Gate(ComparableEvent):
                 lengths.append(elem.model_max_length)
 
         return lengths
+
+    def find_child_branch(self, event: Event) -> Gate:
+        for elem in self.elements:
+            if isinstance(elem, Gate):
+                branch = elem.find_child_branch(event)
+                if branch is not None:
+                    return elem
+            else:
+                if in_by_is(event, self.elements):
+                    return elem
+        return None
 
