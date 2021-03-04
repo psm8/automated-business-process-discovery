@@ -7,10 +7,10 @@ from test.util.test_util import set_params
 
 class FitnessTest(unittest.TestCase):
 
-    def test_1(self):
-        set_params()
-        self.assertEqual(1.0, evaluate_guess('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})',
-                                             LogInfo('v21a81391l17.csv'), dict(), 2100000000000000000))
+    # def test_1(self):
+    #     set_params()
+    #     self.assertEqual(1.0, evaluate_guess('and({a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n})',
+    #                                          LogInfo('v21a81391l17.csv'), dict(), 2100000000000000000))
 
     def test_no_exceptions_2(self):
         set_params()
