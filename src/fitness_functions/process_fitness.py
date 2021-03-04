@@ -58,8 +58,9 @@ class process_fitness(base_ff, metaclass=Singleton):
         except Exception as err:
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
-            logging.error(self.guess)
-            logging.error(err)
+            logger = logging.getLogger()
+            logger.error(self.guess)
+            logger.error(err)
             self.save_cache("alignment-cache" + str(id(self)) + ".pickle")
             raise
 

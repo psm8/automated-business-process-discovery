@@ -88,11 +88,12 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache):
     metrics['COMPLEXITY'] = calculate_complexity_metric(average_alignment_error, model)
 
     if any(metrics[x] > 1.0000001 for x in metrics):
-        logging.error([x.no_visits for x in model_events_list])
-        logging.error(perfectly_aligned_logs)
-        logging.error(len(alignment_cache))
-        logging.error(model_events_list_with_parents)
-        logging.error(metrics)
+        logger = logging.getLogger()
+        logger.error([x.no_visits for x in model_events_list])
+        logger.error(perfectly_aligned_logs)
+        logger.error(len(alignment_cache))
+        logger.error(model_events_list_with_parents)
+        logger.error(metrics)
         raise Exception(metrics)
 
     best_result = (metrics['ALIGNMENT'] * params['WEIGHT_ALIGNMENT'] +
@@ -150,6 +151,8 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                                                                      list(process), alignment_cache)
                         is_from_cache = best_alignment_cached.from_cache
                     except KeyError:
+                        logger = logging.getLogger()
+                        logger.error("KeyError was raised. Check if you have enough RAM. Recreating cache.")
                         logging.error("KeyError was raised. Check if you have enough RAM. Recreating cache.")
                         params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                         best_alignment = BestAlignment()
@@ -158,6 +161,8 @@ def calculate_metrics_for_single_process(process, model, min_length, max_length,
                         is_from_cache = False
                     except RuntimeError as e:
                         if e.args[0] == 'OrderedDict mutated during iteration':
+                            logger = logging.getLogger()
+                            logger.error("OrderedDict mutated during iteration error was raised. Recreating cache.")
                             logging.error("OrderedDict mutated during iteration error was raised. Recreating cache.")
                             params["FITNESS_FUNCTION"].alignment_cache = LRUCache(params["ALIGNMENT_CACHE_SIZE"])
                             best_alignment = BestAlignment()

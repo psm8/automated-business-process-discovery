@@ -26,5 +26,7 @@ if __name__ == "__main__":
                         datefmt='%H:%M:%S',
                         level=logging.ERROR)
 
+    logger = logging.getLogger()
+    logger.error("New run started")
     set_params(sys.argv[1:])  # exclude the ponyge.py arg itself
     main()

@@ -12,8 +12,9 @@ def calculate_precision_metric(log, model, model_parents_list):
         model_parents_list[None] = model
         model_count = count_model_enabled(log_enabled, model_parents_list)
         if any(log_count[x] > model_count[x] for x in log_count):
-            logging.error(log_count)
-            logging.error(model_count)
+            logger = logging.getLogger()
+            logger.error(log_count)
+            logger.error(model_count)
             for x in log_count:
                 if log_count[x] > model_count[x]:
                     model_count[x] = log_count[x]

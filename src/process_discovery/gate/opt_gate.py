@@ -130,7 +130,7 @@ class OptGate(Gate):
             events = set(list(self.get_all_child_events()))
             diff = parent_lop_events.difference(events)
             if diff:
-                for x in reversed(diff):
+                for x in reversed(list(diff)):
                     if in_by_is(x, previous_events):
                         i = index_by_is(x, previous_events)
                         return result.difference(previous_events[i:])
