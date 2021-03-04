@@ -289,19 +289,14 @@ def is_any_parent_optional(event, gate, previous_events, shift=0):
         if isinstance(elem, Event):
             if event is elem:
                 children_next_possible_states = gate.get_children_next_possible_states(elem, [])
-                if gate.model_min_length + shift <= sum(in_by_is(x, children_next_possible_states)
-                                                for x in previous_events[-(len(children_next_possible_states) +
-                                                                           len(elem)):]):
+                if gate.model_min_length + shift <= \
+                        sum(in_by_is(x, children_next_possible_states)
+                            for x in previous_events[-(len(children_next_possible_states) + len(elem)):]):
                     return True
                 else:
                     return False
         else:
-            children = gate.get_all_child_events_except(elem)
-            elem_previous_events = list(previous_events)
-            for x in children:
-                if x in elem_previous_events:
-                    [elem_previous_events.remove(x)]
-            is_optional = is_any_parent_optional(event, elem, elem_previous_events, shift)
+            is_optional = is_any_parent_optional(event, elem, filter_previous_events(gate, elem, previous_events), shift)
             if is_optional is not None:
                 if is_optional:
                     return True
@@ -314,3 +309,12 @@ def is_any_parent_optional(event, gate, previous_events, shift=0):
                     else:
                         return False
     return None
+
+
+def filter_previous_events(gate, elem, previous_events) -> [Event]:
+    children = gate.get_all_child_events_except(elem)
+    elem_previous_events = list(previous_events)
+    for x in children:
+        if x in elem_previous_events:
+            [elem_previous_events.remove(x)]
+    return elem_previous_events

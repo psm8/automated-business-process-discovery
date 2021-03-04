@@ -2,7 +2,8 @@ from process_discovery.gate.gate import Gate
 from process_discovery.gate.opt_gate import OptGate
 from process_discovery.gate.lop_gate import LopGate
 from process_discovery.event.event import Event
-from process_discovery.util.util import flatten_values, in_by_is, is_any_parent_optional
+from process_discovery.gate.xor_gate import XorGate
+from process_discovery.util.util import flatten_values, in_by_is, is_any_parent_optional, filter_previous_events
 from process_discovery.event.event_group_parallel import EventGroupParallel
 from process_discovery.exception.exception_decorator import only_throws
 
@@ -112,7 +113,9 @@ class AndGate(Gate):
             events_with_parents = self.get_all_child_events_with_parents()
             for x in not_enabled:
                 if isinstance(events_with_parents[x], OptGate) or isinstance(events_with_parents[x], LopGate) or \
-                        is_any_parent_optional(x, self.find_child_branch(x), previous_events, 1):
+                        is_any_parent_optional(x, self.find_child_branch(x),
+                                               filter_previous_events(self, self.find_child_branch(x), previous_events),
+                                               1):
                     yield from not_enabled
             if self.parent not in blocked_calls_to:
                 yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
@@ -126,9 +129,11 @@ class AndGate(Gate):
                 len_child_caller = len(list(child_caller.get_all_child_events()))
             not_enabled_yet = result.difference(previous_events[-(len(result) + len_child_caller):])
             if not_enabled_yet:
-                if all([is_any_parent_optional(x, self.find_child_branch(x), previous_events) for x in
+                if all([is_any_parent_optional(x, self.find_child_branch(x),
+                                               filter_previous_events(self, self.find_child_branch(x), previous_events))
+                        for x in
                         result.difference(previous_events[-(len(list(self.get_all_child_events()))):])]):
-                    yield from not_enabled_yet
+                    yield from [x for x in not_enabled_yet if self.is_any_parent_enabled_xor(x, previous_events)]
                     if self.parent not in blocked_calls_to:
                         yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
                 else:
@@ -137,3 +142,6 @@ class AndGate(Gate):
                 if self.parent not in blocked_calls_to:
                     yield from self.parent.get_next_possible_states(previous_events, self, None, blocked_calls_to)
 
+    def is_any_parent_enabled_xor(self, x, previous_events) -> bool:
+        return not any(isinstance(y, XorGate) and any(in_by_is(z, previous_events) for z in y.elements) for y in
+                       self.find_child_parents(x))

@@ -240,3 +240,14 @@ class Gate(ComparableEvent):
                     return elem
         return None
 
+    def find_child_parents(self, event: Event) -> [Gate]:
+        for elem in self.elements:
+            if isinstance(elem, Gate):
+                branch = elem.find_child_branch(event)
+                if branch is not None:
+                    return [branch] + [elem]
+            else:
+                if in_by_is(event, self.elements):
+                    return elem
+        return None
+
