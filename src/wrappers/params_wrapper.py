@@ -22,7 +22,7 @@ def set_params(command_line_args, create_files=True):
     :return: Nothing.
     """
 
-    from utilities.algorithm.initialise_run import initialise_run_params
+    from wrappers.initialise_run_ext import initialise_run_params
     from utilities.fitness.math_functions import return_one_percent
     from utilities.algorithm.command_line_parser import parse_cmd_args
     from utilities.stats import trackers
