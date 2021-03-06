@@ -127,6 +127,7 @@ dmypy.json
 .idea/*
 
 results/*
+!*\.csv_run-*
 cache/*
 parameters/*
 !parameters/process-discovery-template.txt

@@ -1,0 +1,19 @@
+Generation:
+395
+
+Phenotype:
+{a}opt({b}{d}{c}){e}opt({h}{g})
+
+Genotype:
+[43829, 43940, 37211, 29351, 34061, 62194, 63323, 16045, 38570, 79127, 56676, 81471, 449, 75956, 21590, 79901, 10370, 99461, 2370, 99866, 4523, 42820, 29068, 63323, 14653, 14681, 82741, 73005, 12926, 99955, 99833, 42852, 12601, 97581, 56629, 38636, 85590, 75282, 89787, 19115, 32316, 89353, 88703, 80050, 10010, 79391, 73808, 54661, 15160, 15521, 17312, 6188, 4525, 68293, 49383, 28601, 23417, 36335, 4497, 97756, 47135]
+Tree:
+(<e> (<slot> (<anygate> { (<event> a) })) (<slot> ) (<anygate> (<name> opt) ( (<slots> (<slot> (<anygate> { (<event> b) })) (<slot> ) (<anygate> { (<event> d) }) (<slot> (<anygate> { (<event> c) })) (<slot> )) )) (<slot> (<anygate> { (<event> e) })) (<slot> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> h) }) (<anygate> { (<event> g) })) (<slot> ) (<slot> )) ))))
+
+Fitness:
+0.9833449370274634
+Metrics:
+Alignment:	1.0
+Complexity:	1
+Generalization:	0.9641198055751996
+Precision:	0.9026396906447555
+Simplicity:	1.0
