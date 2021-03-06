@@ -13,7 +13,7 @@ DEBUG:                         False
 ELITE_SIZE:                    30
 ERROR_METRIC:                  None
 EXPERIMENT_NAME:               None
-FILE_PATH:                     C:\Users\PRIVATE\Semestr7\Inzynierka\automated-business-process-discovery\src\..\results\DESKTOP-IO3N5UB_21_3_2_223521_447041_41420_447041
+FILE_PATH:                     C:\Users\PRIVATE\Semestr7\Inzynierka\automated-business-process-discovery\src\..\results\v8a5c40l5.csv_21_3_6_211037_47336_515221
 FITNESS_FUNCTION:              process_fitness
 GENERATIONS:                   100000
 GENERATION_SIZE:               470
@@ -48,7 +48,7 @@ OPTIMIZE_CONSTANTS:            False
 PARAMETERS:                    process-discovery.txt
 PERMUTATION_RAMPS:             5
 POPULATION_SIZE:               500
-RANDOM_SEED:                   447041
+RANDOM_SEED:                   515221
 REPLACEMENT:                   generational
 RESULT_TOLERANCE_PERCENT:      10
 REVERSE_MAPPING_TARGET:        None
@@ -66,8 +66,8 @@ SILENT:                        False
 STEP:                          step_with_metrics
 TARGET:                        ponyge_rocks
 TARGET_SEED_FOLDER:            None
-TIMEOUT:                       5
-TIME_STAMP:                    DESKTOP-IO3N5UB_21_3_2_223521_447041_41420_447041
+TIMEOUT:                       10
+TIME_STAMP:                    v8a5c40l5.csv_21_3_6_211037_47336_515221
 TOURNAMENT_SIZE:               16
 VERBOSE:                       True
 WEIGHT_ALIGNMENT:              8

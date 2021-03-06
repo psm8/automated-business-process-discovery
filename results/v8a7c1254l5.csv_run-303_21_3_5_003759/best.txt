@@ -1,0 +1,19 @@
+Generation:
+303
+
+Phenotype:
+{a}and(xor({c}{b}){d}){e}xor({h}{g})
+
+Genotype:
+[37773, 49260, 29654, 22467, 12851, 13704, 56740, 91795, 37739, 2191, 49260, 3745, 32656, 17712, 28200, 74474, 56818, 611, 27716, 79220, 42281, 94251, 14864, 83853, 24121, 35031, 26948, 87132, 28480, 1294, 32656, 26593, 22231, 99981, 62042, 68626, 5501, 35390, 20876, 54350, 40561, 12316, 87672, 22381, 86663, 36540, 24941, 12696, 40314, 35931, 60562, 69665, 58769]
+Tree:
+(<e> (<slot> (<anygate> { (<event> a) })) (<slot> ) (<anygate> (<anygate> (<name> and) ( (<slots> (<slot> ) (<slot> (<anygate> (<name> xor) ( (<slots> (<slot> (<anygate> { (<event> c) })) (<slot> ) (<anygate> { (<event> b) }) (<slot> ) (<slot> )) ))) (<anygate> { (<event> d) }) (<slot> ) (<slot> )) )) (<anygate> { (<event> e) })) (<slot> (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> h) }) (<slot> ) (<slot> (<anygate> { (<event> g) }))) ))) (<slot> ))
+
+Fitness:
+0.9960133117305418
+Metrics:
+Alignment:	1.0
+Complexity:	1
+Generalization:	0.9641198055751996
+Precision:	1.0
+Simplicity:	1.0
