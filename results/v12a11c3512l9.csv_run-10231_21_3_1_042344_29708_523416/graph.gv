@@ -23,13 +23,13 @@ digraph G {
   }
   subgraph skip {
     node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
-    s1;s2
+    s1;s2;s3
   }
 
   # align horizontally
   {edge [weight=1]; }
 
-  in->a->x1; 
+  in->a->x1;
   x1->b->x2;
   x1->j->x2;
   x2->o1
@@ -43,6 +43,7 @@ digraph G {
   o5->a1
   a2->o6;
   o5->d->o6;
+  o5->s3->o6;
   a1->f->a2;
   a1->g->a2;
   a1->h->a2;
@@ -51,5 +52,5 @@ digraph G {
   {rank=same; b;j}
   {rank=same; k;s1}
   {rank=same; c;s2}
-  {rank=same; f;h;g;e;d}  
+  {rank=same; f;h;g;e;d;s3}
 }
