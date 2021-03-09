@@ -24,7 +24,7 @@ SAVE_STATE_STEP:                10
 SEARCH_LOOP:                    search_loop_with_metrics
 SELECTION:                      tournament
 STEP:                           step_with_metrics
-TOURNAMENT_SIZE:                16
+TOURNAMENT_SIZE:                4
 VERBOSE:                        True
 MAX_WRAPS:                      3
 ALIGNMENT_CACHE_SIZE:           32*1024
@@ -36,5 +36,5 @@ TIMEOUT:                        5
 WEIGHT_ALIGNMENT:               16
 WEIGHT_COMPLEXITY:              4
 WEIGHT_GENERALIZATION:          4
-WEIGHT_PRECISION:               8
-WEIGHT_SIMPLICITY:              1
+WEIGHT_PRECISION:               16
+WEIGHT_SIMPLICITY:              4

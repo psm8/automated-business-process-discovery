@@ -17,64 +17,165 @@
 \endgroup
 
 \datalist[entry]{none/global//global/global}
-  \entry{ryan_collins_neill_1998}{article}{}
-    \name{author}{3}{}{%
-      {{hash=RC}{%
-         family={Ryan},
-         familyi={R\bibinitperiod},
-         given={Conor},
-         giveni={C\bibinitperiod},
-      }}%
-      {{hash=CJ}{%
-         family={Collins},
-         familyi={C\bibinitperiod},
-         given={Jj},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=NMO}{%
-         family={Neill},
-         familyi={N\bibinitperiod},
-         given={Michael\bibnamedelima O},
-         giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{RCCJNMO1}
-    \strng{fullhash}{RCCJNMO1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \verb{doi}
-    \verb 10.1007/bfb0055930
-    \endverb
-    \field{pages}{83–96}
-    \field{title}{Grammatical evolution: Evolving programs for an arbitrary
-  language}
-    \field{journaltitle}{Lecture Notes in Computer Science Genetic Programming}
-    \field{year}{1998}
-  \endentry
-
-  \entry{10.5555/138936}{book}{}
+  \entry{davenport1993process}{book}{}
     \name{author}{1}{}{%
-      {{hash=KJR}{%
-         family={Koza},
-         familyi={K\bibinitperiod},
-         given={John\bibnamedelima R.},
-         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      {{hash=DTH}{%
+         family={Davenport},
+         familyi={D\bibinitperiod},
+         given={Thomas\bibnamedelima H},
+         giveni={T\bibinitperiod\bibinitdelim H\bibinitperiod},
       }}%
     }
     \list{publisher}{1}{%
-      {MIT Press}%
+      {Harvard Business Press}%
     }
-    \strng{namehash}{KJR1}
-    \strng{fullhash}{KJR1}
+    \strng{namehash}{DTH1}
+    \strng{fullhash}{DTH1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{isbn}{0262111705}
-    \field{title}{Genetic Programming: On the Programming of Computers by Means
-  of Natural Selection}
-    \list{location}{1}{%
-      {Cambridge, MA, USA}%
+    \field{title}{Process innovation: reengineering work through information
+  technology}
+    \field{year}{1993}
+  \endentry
+
+  \entry{HAMMER199390}{article}{}
+    \name{author}{2}{}{%
+      {{hash=HM}{%
+         family={Hammer},
+         familyi={H\bibinitperiod},
+         given={Michael},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Champy},
+         familyi={C\bibinitperiod},
+         given={James},
+         giveni={J\bibinitperiod},
+      }}%
     }
-    \field{year}{1992}
+    \strng{namehash}{HMCJ1}
+    \strng{fullhash}{HMCJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb https://doi.org/10.1016/S0007-6813(05)80064-3
+    \endverb
+    \field{issn}{0007-6813}
+    \field{number}{5}
+    \field{pages}{90\bibrangedash 91}
+    \field{title}{Reengineering the corporation: A manifesto for business
+  revolution}
+    \verb{url}
+    \verb https://www.sciencedirect.com/science/article/pii/S0007681305800643
+    \endverb
+    \field{volume}{36}
+    \field{journaltitle}{Business Horizons}
+    \field{year}{1993}
+  \endentry
+
+  \entry{JacobsonObjectAdvantage}{book}{}
+    \name{author}{3}{}{%
+      {{hash=JI}{%
+         family={Jacobson},
+         familyi={J\bibinitperiod},
+         given={Ivar},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=EM}{%
+         family={Ericsson},
+         familyi={E\bibinitperiod},
+         given={Maria},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=JA}{%
+         family={Jacobson},
+         familyi={J\bibinitperiod},
+         given={Agneta},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {ACM Press/Addison-Wesley Publishing Co.}%
+    }
+    \strng{namehash}{JIEMJA1}
+    \strng{fullhash}{JIEMJA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{isbn}{0201422891}
+    \field{title}{The Object Advantage: Business Process Reengineering with
+  Object Technology}
+    \list{location}{1}{%
+      {USA}%
+    }
+    \field{year}{1994}
+  \endentry
+
+  \entry{Eriksson2000BusinessMW}{book}{}
+    \name{author}{2}{}{%
+      {{hash=EHE}{%
+         family={Eriksson},
+         familyi={E\bibinitperiod},
+         given={Hans-Erik},
+         giveni={H\bibinithyphendelim E\bibinitperiod},
+      }}%
+      {{hash=PM}{%
+         family={Penker},
+         familyi={P\bibinitperiod},
+         given={Magnus},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{2}{%
+      {John Wiley}%
+      {Sons, Inc.}%
+    }
+    \strng{namehash}{EHEPM1}
+    \strng{fullhash}{EHEPM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    From the Publisher:Eriksson and Magnus Penker now provide guidance on how
+  to use UML to model your business systems. In this book, key business
+  modeling concepts are presented, including how to define Business Rules with
+  UML's Object Constraint Language (OCL) and how to use business models with
+  use cases. The authors then provide 26 valuable Business Patterns along with
+  an e-business case study that utilizes the techniques and patterns discussed
+  in the book.%
+    }
+    \field{edition}{1st}
+    \field{isbn}{0471295515}
+    \field{title}{Business Modeling With UML: Business Patterns at Work}
+    \list{location}{1}{%
+      {USA}%
+    }
+    \field{year}{1998}
+  \endentry
+
+  \entry{rummler_brache_1995}{book}{}
+    \name{author}{2}{}{%
+      {{hash=RGA}{%
+         family={Rummler},
+         familyi={R\bibinitperiod},
+         given={Geary\bibnamedelima A.},
+         giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=BAP}{%
+         family={Brache},
+         familyi={B\bibinitperiod},
+         given={Alan\bibnamedelima P.},
+         giveni={A\bibinitperiod\bibinitdelim P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Jossey-Bass}%
+    }
+    \strng{namehash}{RGABAP1}
+    \strng{fullhash}{RGABAP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Improving performance: how to manage the white space on the
+  organization chart}
+    \field{year}{1995}
   \endentry
 
   \entry{doi:10.1142/S0218843014400012}{article}{}
@@ -146,6 +247,66 @@
     \field{journaltitle}{International Journal of Cooperative Information
   Systems}
     \field{year}{2014}
+  \endentry
+
+  \entry{ryan_collins_neill_1998}{article}{}
+    \name{author}{3}{}{%
+      {{hash=RC}{%
+         family={Ryan},
+         familyi={R\bibinitperiod},
+         given={Conor},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Collins},
+         familyi={C\bibinitperiod},
+         given={Jj},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=NMO}{%
+         family={Neill},
+         familyi={N\bibinitperiod},
+         given={Michael\bibnamedelima O},
+         giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{RCCJNMO1}
+    \strng{fullhash}{RCCJNMO1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/bfb0055930
+    \endverb
+    \field{pages}{83–96}
+    \field{title}{Grammatical evolution: Evolving programs for an arbitrary
+  language}
+    \field{journaltitle}{Lecture Notes in Computer Science Genetic Programming}
+    \field{year}{1998}
+  \endentry
+
+  \entry{10.5555/138936}{book}{}
+    \name{author}{1}{}{%
+      {{hash=KJR}{%
+         family={Koza},
+         familyi={K\bibinitperiod},
+         given={John\bibnamedelima R.},
+         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {MIT Press}%
+    }
+    \strng{namehash}{KJR1}
+    \strng{fullhash}{KJR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{isbn}{0262111705}
+    \field{title}{Genetic Programming: On the Programming of Computers by Means
+  of Natural Selection}
+    \list{location}{1}{%
+      {Cambridge, MA, USA}%
+    }
+    \field{year}{1992}
   \endentry
 
   \entry{Fenton_2017}{article}{}

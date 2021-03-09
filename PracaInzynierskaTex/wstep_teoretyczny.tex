@@ -5,23 +5,72 @@
 
 \section{Procesy biznesowe}
 \label{sec:procesyBiznesowe}
-\subsection{Procesy Biznesowe}
-Procesy biznesowe opisują zbiór aktywność, które podejmuje grupa podmiotów w celu osiągnięcia celu biznesowego. W literaturze można znaleźć kilka definicji procesu biznesowego. 
-\subsection{Dzienniki zdarzeń}
+
+\subsection{Procesy biznesowe}
+Procesy biznesowe opisują zbiór aktywność, które podejmuje grupa podmiotów w celu osiągnięcia celu biznesowego. W literaturze brakuje jednej ogólnie przyjętej definicji procesu biznesowego. W latach 90. XX wieku proponenci BPR, czyli Przeprojektowania procesów biznesowych (\textit{eng. Business process re-engineering}) starali się sprecyzować pojęcie procesu biznesowego. W książce "Process Innovation: Reengineering Work through Information Technology"\cite{davenport1993process} Davenport określił termin ten jako  "Ustrukturyzowany, mierzalny zbiór działań, których celem jest wytworzenie określonego produktu dla określonego klienta lub rynku". Autor położył nacisk na zbiór kroków prowadzących do celu, raczej niż na końcowy efekt. W dalszej części autor pisze "Proces jest zatem określonym uporządkowaniem czynności roboczych w czasie i przestrzeni, z początkiem i końcem oraz jasno określonymi wejściami i wyjściami: strukturą działania.". Inni pionierzy BPR Michael Hammer i James Champy proponują podejście „Proces biznesowy to zbiór działań, który pobiera jeden lub więcej rodzajów danych wejściowych i tworzy wynik, który ma wartość dla klienta”\cite{HAMMER199390}. Autorzy dają większą dowolność, co do definicji procesu, nie wspominając o konieczności jego logicznej organizacji czy mierzalności. Z kolei Jacobson zupełnie pomija konieczność zamknięcia procesu w jakiekolwiek ramy: "Zestaw czynności wewnętrznych wykonywanych w celu obsługi klienta"\cite{JacobsonObjectAdvantage}. Nacisk na konieczność odniesienia procesów do wymiernych środków firmy widzimy w definicji: "Procesy biznesowe są aktywną częścią biznesu. Opisują funkcje firmy i obejmują zasoby, które są używane, przekształcane lub wytwarzane. Proces biznesowy to abstrakcja, która pokazuje współpracę między zasobami i transformację zasobów w biznesie. Podkreśla, w jaki sposób wykonywana jest praca, zamiast opisywać produkty lub usługi wynikające z tego procesu."\cite{Eriksson2000BusinessMW}. Szczególnie ważny jest tutaj fragment o transformacji zasobów, gdyż każe on rozumieć poszczególne aktywności w procesie jako powiązane ze sobą i kończące się namacalnymi rezultatami. Definicja "Proces biznesowy to seria kroków mających na celu wytworzenie produktu lub usługi. W wyniku niektórych procesów produkt lub usługa jest odbierana przez zewnętrznego klienta organizacji. Nazywamy te podstawowe procesy. Inne procesy wytwarzają produkty, które są niewidoczne dla klienta zewnętrznego, ale są niezbędne do efektywnego zarządzania firmą. Nazywamy te procesy wsparcia"\cite{rummler_brache_1995} wprowadza rozgraniczenie na podtypy procesów. Ważnym jest jednak że nie jest koniecznością, aby rezultaty procesu były widoczne na zewnątrz organizacji.  
+
+Powyższe definicji skupiają się na delikatnie odmienny aspektach procesów biznesowych, nie zawsze szczegółowo wspominając o innych. Starając się usystematyzować powyższe sformułowania, chcąc zbudować bazę do dalszej analizy tematu, można przyjąć, że procesy biznesowe charakteryzują:
+\begin{itemize}
+  \item[•] Określony cel, którym jest wytworzenie wartości dla klienta lub pośrednio firmy. Jednak warto jeszcze raz zaznaczyć ze proces biznesowy skupia się na sposobie osiągnięcia celu, a nie opisie celu samego w sobie. 
+  \item[•] Dyskretny, jasno zdefiniowany i identyfikowalny zbiór aktywności. 
+  \item[•] Jasno określony początek i koniec.
+  \item[•] Pomiędzy kolejnymi procesami zachodzi zależność przyczynowo-skutkowa.
+\end{itemize}
+
+\subsection{Zarządzanie procesami biznesowymi}
+Zarządzanie  
+Ważny jest człowiek
+
 
 %---------------------------------------------------------------------------
 
 \section{Modelowanie procesów biznesowych}
 \label{sec:modelowanie}
+\subsection{Modelowanie procesów biznesowych}
+Odkrywanie procesów
+Metryki ważne
+
+\subsection{Dzienniki zdarzeń}
+
+\begin{figure}[h]
+	\centering{\includegraphics{event-log.png}}
+	\caption{\label{fig:subcaption_example}Przykład dziennika zdarzeń}
+\end{figure}
+
+W kontekście odkrywania procesów biznesowych ważne są dla nas tylko zdarzenia i kolejność ich wykonywania. Informacje o dokładnym czasie wykonania oraz użytkowniku, który wykonał daną operację możemy pominąć. Ponadto musimy wiedzieć jak często dany wariant wystąpił.
+
+\subsection{Odkrywanie procesów biznesowych}
+
+\subsection{Algorytmy do wykrywania procesów biznesowych}
+Alpha algorithm \newline
+The ILP Miner \newline
+Heuristic Miner \newline
+Multi-phase Miner \newline
+
 
 %---------------------------------------------------------------------------
 
-\section{Algorytmy do wykrywania procesów biznesowych}
-\label{sec:algorytmy}
-\subsubsection{Alpha algorithm}
-\subsubsection{The ILP Miner}
-\subsubsection{Heuristic Miner}
-\subsubsection{Multi-phase Miner}
+\section{Metryki}
+\label{sec:metryki}
+\cite{doi:10.1142/S0218843014400012}
+\subsection{Prostota}
+Najprostsza z metryk. \newline
+$M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
+\subsection{Odwzorowanie}
+Pozostałe metryki obliczane są na podstawie tej metryki. \newline
+$M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
+
+Przykład liczenia odwzorowania: \newline
+
+\subsection{Precyzja}
+
+$M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
+\subsection{Generalizacja}
+$M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
+\subsection{Złożoność}
+Promuje rozwiązywanie prostych problemów w prosty sposób \newline
+$M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
+
 
 %---------------------------------------------------------------------------
 
@@ -95,26 +144,3 @@ Produkcja 2:
 <e> -> aee -> a+e -> a+b
 
 Jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która nie należy do języka, dlatego pierwsza gramatyka jest lepsza.
-
-%---------------------------------------------------------------------------
-
-\section{Metryki}
-\label{sec:metryki}
-\cite{doi:10.1142/S0218843014400012}
-\subsection{Prostota}
-Najprostsza z metryk. \newline
-$M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
-\subsection{Odwzorowanie}
-Pozostałe metryki obliczane są na podstawie tej metryki. \newline
-$M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
-
-Przykład liczenia odwzorowania: \newline
-
-\subsection{Precyzja}
-
-$M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
-\subsection{Generalizacja}
-$M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
-\subsection{Złożoność}
-Promuje rozwiązywanie prostych problemów w prosty sposób \newline
-$M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
