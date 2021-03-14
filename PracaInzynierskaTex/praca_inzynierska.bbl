@@ -178,6 +178,61 @@
     \field{year}{1995}
   \endentry
 
+  \entry{BPMDemystified}{inproceedings}{}
+    \name{author}{1}{}{%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AW1}
+    \strng{fullhash}{AW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-540-27755-2_1
+    \endverb
+    \field{isbn}{978-3-540-22261-3}
+    \field{pages}{1\bibrangedash 65}
+    \field{title}{Business Process Management Demystified: A Tutorial on
+  Models, Systems and Standards for Workflow Management}
+    \field{volume}{3098}
+    \field{month}{01}
+    \field{year}{2003}
+  \endentry
+
+  \entry{SixElementsBPM}{inbook}{}
+    \name{author}{2}{}{%
+      {{hash=RM}{%
+         family={Rosemann},
+         familyi={R\bibinitperiod},
+         given={Michael},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=BJv}{%
+         family={Brocke},
+         familyi={B\bibinitperiod},
+         given={Jan\bibnamedelima vom},
+         giveni={J\bibinitperiod\bibinitdelim v\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{RMBJv1}
+    \strng{fullhash}{RMBJv1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-642-00416-2_5
+    \endverb
+    \field{pages}{107\bibrangedash 122}
+    \field{title}{The Six Core Elements of Business Process Management}
+    \field{volume}{1}
+    \field{journaltitle}{Handbook on Business Process Management}
+    \field{month}{05}
+    \field{year}{2010}
+  \endentry
+
   \entry{doi:10.1142/S0218843014400012}{article}{}
     \name{author}{3}{}{%
       {{hash=BJCAM}{%
