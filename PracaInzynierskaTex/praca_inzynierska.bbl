@@ -203,34 +203,118 @@
     \field{year}{2003}
   \endentry
 
-  \entry{SixElementsBPM}{inbook}{}
-    \name{author}{2}{}{%
-      {{hash=RM}{%
-         family={Rosemann},
-         familyi={R\bibinitperiod},
-         given={Michael},
-         giveni={M\bibinitperiod},
-      }}%
-      {{hash=BJv}{%
-         family={Brocke},
-         familyi={B\bibinitperiod},
-         given={Jan\bibnamedelima vom},
-         giveni={J\bibinitperiod\bibinitdelim v\bibinitperiod},
+  \entry{BPMWhat}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=PN}{%
+         family={Palmer},
+         familyi={P\bibinitperiod},
+         given={Nathaniel},
+         giveni={N\bibinitperiod},
       }}%
     }
-    \strng{namehash}{RMBJv1}
-    \strng{fullhash}{RMBJv1}
+    \strng{namehash}{PN1}
+    \strng{fullhash}{PN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{What is BPM?}
+    \verb{url}
+    \verb https://bpm.com/what-is-bpm
+    \endverb
+  \endentry
+
+  \entry{BPMSurvey}{article}{}
+    \name{author}{1}{}{%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AW1}
+    \strng{fullhash}{AW1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
-    \verb 10.1007/978-3-642-00416-2_5
+    \verb 10.1155/2013/507984
     \endverb
-    \field{pages}{107\bibrangedash 122}
-    \field{title}{The Six Core Elements of Business Process Management}
-    \field{volume}{1}
-    \field{journaltitle}{Handbook on Business Process Management}
-    \field{month}{05}
-    \field{year}{2010}
+    \field{pages}{??\bibrangedash ??}
+    \field{title}{Aalst, W.M.P.: Business process management: a comprehensive
+  survey. ISRN Softw. Eng. 1-37}
+    \field{journaltitle}{ISRN Software Engineering}
+    \field{month}{01}
+    \field{year}{2012}
+  \endentry
+
+  \entry{dumas2013fundamentals}{book}{}
+    \name{author}{4}{}{%
+      {{hash=DM}{%
+         family={Dumas},
+         familyi={D\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=RM}{%
+         family={Rosa},
+         familyi={R\bibinitperiod},
+         given={M.L.},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={Mendling},
+         familyi={M\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=RH}{%
+         family={Reijers},
+         familyi={R\bibinitperiod},
+         given={H.A.},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer Berlin Heidelberg}%
+    }
+    \strng{namehash}{DM+1}
+    \strng{fullhash}{DMRMMJRH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{isbn}{9783642331435}
+    \field{title}{Fundamentals of Business Process Management}
+    \verb{url}
+    \verb https://books.google.pl/books?id=USVEAAAAQBAJ
+    \endverb
+    \field{year}{2013}
+  \endentry
+
+  \entry{omg2011bpmn}{standard}{}
+    \name{author}{1}{}{%
+      {{hash=O}{%
+         family={OMG},
+         familyi={O\bibinitperiod},
+      }}%
+    }
+    \list{organization}{1}{%
+      {Object Management Group}%
+    }
+    \keyw{omg standard bpmn}
+    \strng{namehash}{O1}
+    \strng{fullhash}{O1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{{Business Process Model and Notation (BPMN), Version 2.0}}
+    \verb{url}
+    \verb http://www.omg.org/spec/BPMN/2.0
+    \endverb
+    \list{institution}{1}{%
+      {Object Management Group}%
+    }
+    \verb{file}
+    \verb omg2011bpmn.pdf:omg2011bpmn.pdf:PDF
+    \endverb
+    \field{year}{2011}
+    \warn{\item Invalid format of field 'month'}
   \endentry
 
   \entry{doi:10.1142/S0218843014400012}{article}{}
