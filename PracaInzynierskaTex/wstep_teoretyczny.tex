@@ -25,7 +25,7 @@ Powyższe definicji skupiają się na delikatnie odmienny aspektach procesów bi
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.7]{simple-business-process.png}}
-	\caption{\label{fig:subcaption_example}Przykład prostego procesu}
+	\caption{\label{fig:simple_business_process}Przykład prostego procesu}
 \end{figure}
 
 Zauważmy, że mamy jasno zdefiniowany wejście - otrzymanie zamówienia od klienta oraz wyjście, kiedy dostarczamy oczekiwaną wartość dla klienta, a całość składa się z serii tworzących logiczną całość aktywności. Aktywności są konkretnie zdefiniowane. Standardem jest definiowanie aktywności w formie równoważników zdań.
@@ -40,31 +40,60 @@ Zarządzanie procesami biznesowymi jest więc zbiorem praktyk, działań mający
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.55]{lifecycle.png}}
-	\caption{\label{fig:subcaption_example}Cykl życia procesu biznesowego}
-	\label{fig:lifecycle}
+	\caption{\label{fig:lifecycle}Cykl życia procesu biznesowego}
 \end{figure}
 
-Cykl życia procesu biznesowego (\textit{eng. Business process lifecycle}) przedstawiono na rys. \ref{fig:lifecycle} \cite{dumas2013fundamentals}. W celu dostosowania do zmieniających się wymagań, poszczególne kroki powinny być powtarzane. 
+Cykl życia procesu biznesowego (\textit{eng. Business process lifecycle}) przedstawiono na rys. \ref{fig:lifecycle} \cite{dumas2013fundamentals}. Jest to zbiór kroków niezbędnych do skutecznego zarządzania procesami biznesowymi. W celu dostosowania do zmieniającej się rzeczywistości, poszczególne kroki powinny być co pewien czas powtarzane. 
 
-Metoda z zakresu eksploracji procesów \ref{sec:eksploracja} są stosowane, na każdym etapie cyklu życia jednak ta praca skupia się w głównej mierze na odkrywaniu procesów    
-Mimo, że tytuł tej pracy wskazuje, że skupia się ona na odkrywaniu procesów, to trzeba przejść cały cykl
+Metoda z zakresu eksploracji procesów (sekcja \ref{sec:eksploracja}) są stosowane, na każdym z wymienionych wcześniej etapów. Praca skupia się w głównej mierze na odkrywaniu procesów, czyli znajdowaniu istniejących już procesów na podstawie realny danych. Należy zaznaczyć, że identyfikacja polega na ogólnym rozpoznaniu i nazwaniu zachodzących procesów, podczas gdy odkrywanie jest bardziej szczegółowe, a w jego wyniku otrzymujemy dokładny model.  
 
 %---------------------------------------------------------------------------
 
 \section{Eksploracja procesów}
 \label{sec:eksploracja}
-\subsection{Notacja}
-Najpopularniejszą notacją używaną do opisu procesów biznesowych jest BPMN \cite{omg2011bpmn}. Jest ona rozbudowana, a używany będzie tylko część
-W dalszej części pracy to właśnie ona będzie używana. Elementy używane w pracy to bramki logiczne, aktywności, zdarzenia początkowe i końcowe, przepływ sekwencyjny
 \subsection{Modelowanie procesów biznesowych}
+Na rys. \ref{fig:simple_business_process} przedstawiono przykład uproszczonego procesu biznesowego. Łatwo sobie wyobrazić, że proces ten w rzeczywistości może być znacznie bardziej skomplikowany. Część aktywności może być wykonywana równolegle, niektóre zdarzenia w ogóle nie zaistnieją lub będą występować kilkukrotnie w ramach jednego procesu. 
+
+W sytuacji, w której zamówiony przez klienta towar będzie niedostępny, logiczne wydaje się poinformowanie go o opóźnieniu oraz danie mu możliwości anulowanie zamówienia lub jego kontynuacja i ponowne sprawdzenie dostępności. Ponadto, czynności takie jak wysłanie faktury oraz spakowanie i wysłanie zamówienia mogą być wykonane w dowolnej kolejności czy nawet jednocześnie przez dwie różne osoby. Proces staje się bardziej skomplikowany i konieczna do stworzenia jego modelu jest bardziej złożona notacja niż ta przedstawiona na rys. \ref{fig:simple_business_process}.
+
+Istnieje wiele notacji do modelowania procesów biznesowych, wśród nich można wymienić schematy blokowe, diagramy aktywności UML, łańcuchy procesu sterowanego zdarzeniami (eng. \textit{Event-driven Process Chains}), sieci Petriego \cite{BPMComparission}. 
+Obecnie najpopularniejszą notacją używaną do opisu procesów biznesowych jest Business Process Modeling Notation, w skrócie BPMN \cite{omg2011bpmn}. Daje ona możliwość opisania w jednoznaczny sposób skomplikowanych procesów czy stworzenia diagramów współdziałania procesów, jednocześnie pozostając łatwą do zrozumienia. 
+
+Na grafice poniżej przedstawiono notację opartą o elementy BPMN, używaną w dalszej części pracy. Składają się na nią zdarzenia początkowe i końcowe, połączenia, bramki logiczne oraz aktywności, gdzie czarnym kwadratem oznaczono sytuację, w której żadna aktywność nie jest wykonywana, możliwe tylko w bramce LUB. 
+\clearpage
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.41]{BPMNelements.png}}
+	\caption{\label{fig:bpmn_example}Elementy BPMN}
+	\label{fig:lifecycle}
+\end{figure}
+
+Korzystając z tej notacji, można przedstawić opisany wcześniej proces. Na rys.  \ref{fig:complicated_business_process_1} widać model po modyfikacjach. 
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.3]{complicated-process-example-1.png}}
+	\caption{\label{fig:complicated_business_process_1}Rozbudowany procesu - przykład 1}
+\end{figure}
+
+Możliwe jest teraz poinformowanie klienta o opóźnieniu, a następnie anulowanie zamówienia lub powtórne sprawdzenie dostępności. Model ten jednak nie jest wystarczająco precyzyjny i pozwala na potwierdzenie zamówienia po informacji o jego opóźnieniu, a bez uprzedniego ponownego sprawdzenia dostępności. Można zaproponować inny model (rys. \ref{fig:complicated_business_process_2}), który rozwiązuje powyższe problemy, jednak aktywność - poinformowanie o opóźnieniu - występuje na nim dwukrotnie, co jest niepożądane i  pogarsza jego czytelność.
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.35]{complicated-process-example-2.png}}
+	\caption{\label{fig:complicated_business_process_2}Rozbudowany procesu - przykład 2}
+\end{figure}
+
+Ponadto, w pewnych przypadkach klient może mieć możliwość rezygnacji z zamówienia bez ówczesnego informowania go o opóźnieniu, a z czego nie zdawano sobie sprawy, wtedy konieczne może być stworzenie zupełnie innego modelu. 
+
+Modelowania procesów biznesowych jest próbą stworzenia uproszonej wersji rzeczywistości na podstawie przewidywań i założeń. Modele dają abstrakcję, użyteczne przybliżenie rzeczywistości, jednak należy pamiętać, że ,,Wszystkie modele są błędne'' i rzeczywisty proces najprawdopodobniej będzie różnił się od nawet najlepszego modelu. 
+
+
 \subsection{Eksploracja procesów}
 W dzisiejszych czasach standardem jest, ze organizacje biznesowe korzystają z systemów informatycznych, takich jak chociażby systemy ERP czy CRM wspierających ich działalność. Systemy te rejestrują dane o procesach, które wspierają. Dane te mogą być później analizowane i wykorzystane do wprowadzenie usprawnień w działaniu firmy.   
 
-Przyjrzyjmy się sytuacji, w której klient chce naprawić pralkę. Klient inicjalizuje proces naprawy kontaktując się z firmą naprawiającą sprzęt AGD. Rezultaty tego procesu mogą być 2 : naprawiona i nie, a sam proces może się wykonać na duża ilość sposobów, to sprawia, że proces rośnie i potrzebne są metoda na uporządkowanie tego procesu w celu chociażby zwiększenia wydajności. 
-Grafika skomplikowanego procesu
-
 Jest to szeroko pojęta dziadzina, która zawiera różne aplikacje metoda informatyki do procesów. 
 Wyróżnia 3 podkategorie: odkrywanie, conformance checking 
+
+
+4 kroki, żeby odkrywac proces
 Odkrywanie procesów
 Metryki ważne
 
@@ -72,10 +101,20 @@ Metryki ważne
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.8]{event-log.png}}
-	\caption{\label{fig:subcaption_example}Przykład dziennika zdarzeń}
+	\caption{\label{fig:event_log_example}Przykład dziennika zdarzeń}
 \end{figure}
 
-W kontekście odkrywania procesów biznesowych ważne są dla nas tylko zdarzenia i kolejność ich wykonywania. Informacje o dokładnym czasie wykonania oraz użytkowniku, który wykonał daną operację możemy pominąć. Ponadto musimy wiedzieć jak często dany wariant wystąpił.
+W kontekście odkrywania procesów biznesowych ważne są dla nas tylko zdarzenia i kolejność ich wykonywania.
+Przyjmuje się, że aby mówić o dzienniku zdarzeń powinien on zawierać 3 informacje: numer przypadku, czyli unikalny identyfikator zbioru aktywności, nazwę poszczególnych aktywności oraz datę jej wykonania - ważną tylko w kontekście kolejności wykonywania pojedynczych aktywności. Ponadto może on zawiera inne zbędne w kontekście odkrywania procesów biznesowych dodatkowa informacje, takie jak: podmiot wykonującym daną aktywność, miejsce, koszt czy aktualny postęp wykonania. Oczywiście te pozostałe dane mogą być wykorzystywane w kolejnych etapach analizy i usprawniania procesu.
+
+Mając do dyspozycji te 3 informacje - poszczególne przypadki, aktywności na nie się składające oraz ich kolejność, zliczamy jak często poszczególne aktywności występują w danej kolejności. Każdy tak przypadek zwany jest wariantem. Ponadto musimy wiedzieć jak często dany wariant wystąpił.
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.8]{event-log.png}}
+	\caption{\label{fig:process_variants_example}Przykład wariantów procesu}
+\end{figure}
+
+Dla poprawy czytelności aktywność często reprezentowane są jako symbole, np. kolejne litery alfabetu, zamiast pełnej nazwy.
 
 \subsection{Odkrywanie procesów biznesowych}
 
@@ -111,9 +150,10 @@ $M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ 
 Przykład liczenia odwzorowania: \newline
 
 \subsection{Precyzja}
-
+Unikanie underfittingu \newline
 $M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
 \subsection{Generalizacja}
+Unikanie overfittingu \newline
 $M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
 \subsection{Złożoność}
 Promuje rozwiązywanie prostych problemów w prosty sposób \newline

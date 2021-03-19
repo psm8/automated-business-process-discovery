@@ -288,6 +288,47 @@
     \field{year}{2013}
   \endentry
 
+  \entry{BPMComparission}{article}{}
+    \name{author}{4}{}{%
+      {{hash=RJ}{%
+         family={Recker},
+         familyi={R\bibinitperiod},
+         given={Jan},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=RM}{%
+         family={Rosemann},
+         familyi={R\bibinitperiod},
+         given={Michael},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=IM}{%
+         family={Indulska},
+         familyi={I\bibinitperiod},
+         given={Marta},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=GP}{%
+         family={Green},
+         familyi={G\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{RJ+1}
+    \strng{fullhash}{RJRMIMGP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.17705/1jais.00193
+    \endverb
+    \field{title}{Business Process Modeling- A Comparative Analysis}
+    \field{volume}{10}
+    \field{journaltitle}{Journal of the Association of Information Systems}
+    \field{month}{04}
+    \field{year}{2009}
+  \endentry
+
   \entry{omg2011bpmn}{standard}{}
     \name{author}{1}{}{%
       {{hash=O}{%

@@ -64,7 +64,7 @@ Użycie powyższej notacji rodzi jednak kilka problemów, Musimy mieć produkcje
 
 Implementację podzielone na następujące moduły:
 \begin{itemize}
-    \item wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego żeby oddzielić kod PonyGE2 od naszego kodu należało rozszerzyć lub nadpisać cześć z modułów PonyGE2. Moduły, które nadpisano to params, który zawiera konfigurację aplikacji oraz grammar, gdzie dodano zmiany w jaki sposób parsowana jest podana gramatyka. 
+    \item wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego żeby oddzielić kod PonyGE2 od naszego kodu należało rozszerzyć lub nadpisać cześć z modułów PonyGE2. Moduły, które nadpisano to params, który zawiera konfigurację aplikacji oraz grammar, gdzie dodano zmiany w jaki sposób parsowana jest podana gramatyka. dorzucic nazwe jakiegos design patternsa
   \item fitness{\_}functions - zawiera klasę bazowy moduł, gdzie znajduje się bazowa klasa dla obliczania metryk
   \item process{\_}discovery - moduł zawiera całą logikę obliczenia metryk
 \end{itemize}
