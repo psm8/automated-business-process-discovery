@@ -394,6 +394,161 @@
     \field{year}{2010}
   \endentry
 
+  \entry{market-pm}{article}{}
+    \name{author}{1}{}{%
+      {{hash=KM}{%
+         family={Kerremans},
+         familyi={K\bibinitperiod},
+         given={Marc},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KM1}
+    \strng{fullhash}{KM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Market Guide for Process Mining}
+    \field{journaltitle}{Gartner}
+    \field{month}{04}
+    \field{year}{2018}
+  \endentry
+
+  \entry{pm-manifesto}{inproceedings}{}
+    \name{author}{19}{}{%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=AA}{%
+         family={Adriansyah},
+         familyi={A\bibinitperiod},
+         given={Arya},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=AF}{%
+         family={Arcieri},
+         familyi={A\bibinitperiod},
+         given={Franco},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=BT}{%
+         family={Baier},
+         familyi={B\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=BT}{%
+         family={Blickle},
+         familyi={B\bibinitperiod},
+         given={Tobias},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=RJCB}{%
+         family={R.P.},
+         familyi={R\bibinitperiod},
+         given={Jagadeesh Chandra\bibnamedelima Bose},
+         giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim
+  B\bibinitperiod},
+      }}%
+      {{hash=BP}{%
+         family={Brand},
+         familyi={B\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=BR}{%
+         family={Brandtjen},
+         familyi={B\bibinitperiod},
+         given={Ronald},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=BJ}{%
+         family={Buijs},
+         familyi={B\bibinitperiod},
+         given={Joos},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Burattin},
+         familyi={B\bibinitperiod},
+         given={Andrea},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Carmona},
+         familyi={C\bibinitperiod},
+         given={Josep},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=CM}{%
+         family={Castellanos},
+         familyi={C\bibinitperiod},
+         given={Malú},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Claes},
+         familyi={C\bibinitperiod},
+         given={Jan},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Cook},
+         familyi={C\bibinitperiod},
+         given={Jonathan},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=CN}{%
+         family={Costantini},
+         familyi={C\bibinitperiod},
+         given={Nicola},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=CF}{%
+         family={Curbera},
+         familyi={C\bibinitperiod},
+         given={Francisco},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=DE}{%
+         family={Damiani},
+         familyi={D\bibinitperiod},
+         given={Ernesto},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=dLM}{%
+         prefix={de},
+         prefixi={d\bibinitperiod},
+         family={Leoni},
+         familyi={L\bibinitperiod},
+         given={Massimiliano},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=WM}{%
+         family={Wynn},
+         familyi={W\bibinitperiod},
+         given={Moe},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AW+1}
+    \strng{fullhash}{AWAAAFBTBTRJCBBPBRBJBACJCMCJCJCNCFDELMdWM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-642-28108-2_19
+    \endverb
+    \field{isbn}{978-3-642-28107-5}
+    \field{pages}{169\bibrangedash 194}
+    \field{title}{Process Mining Manifesto}
+    \field{volume}{99}
+    \field{journaltitle}{Lecture Notes in Business Information Processing}
+    \field{month}{08}
+    \field{year}{2011}
+  \endentry
+
   \entry{mining-overview}{article}{}
     \name{author}{1}{}{%
       {{hash=AW}{%

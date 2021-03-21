@@ -86,17 +86,22 @@ Modelowania procesów biznesowych jest próbą stworzenia uproszonej wersji rzec
 
 \subsection{Eksploracja procesów}
 
-W dzisiejszych czasach standardem jest, ze organizacje biznesowe korzystają z systemów informatycznych, takich jak chociażby systemy ERP czy CRM wspierających ich działalność. Systemy te rejestrują dane o procesach, które wspierają. Dane te mogą być później analizowane i wykorzystane do wprowadzenie usprawnień w działaniu firmy.   
+W dzisiejszych czasach standardem jest, że organizacje biznesowe korzystają z systemów informatycznych, takich jak chociażby systemy ERP czy CRM, wspierających ich działalność. Systemy te rejestrują dane o procesach, które wspierają. Dane te mogą być później analizowane i wykorzystane do wprowadzenie usprawnień w działaniu firmy.   
 
-Rozumieją, że tradycyjne metody są wolne, a konieczność ich ciągłego powtarzania, połączone z wszechobecnym trendem automatyzacji obecnym w biznesie sprawiają, że eksploracja procesów zyskuje na znaczeniu \cite{GARTNER}. Ważna jest możliwość szybkiej adaptacji do zmian, automatyzacja pozwala na wykonywanie powtarzalny zmian i ograniczenia błędów.
+Tradycyjne metody są wolne, kosztowne i narażone na błędy ludzkie a konieczność ich ciągłego powtarzania, połączone z wszechobecnym trendem automatyzacji obecnym w biznesie sprawiają, że eksploracja procesów zyskuje na znaczeniu \cite{market-pm}. Ważna jest możliwość szybkiej adaptacji do zmian, automatyzacja pozwala na wykonywanie powtarzalny zmian i ograniczenia błędów.
 
 Jest to szeroko pojęta dziadzina, która zawiera różne aplikacje metoda informatyki do procesów. 
 Jest wartościowym dodatkiem do innych metod eksploracji danych, gdyż daje pełniejszy obraz zamiast skupiać się pojedynczym rezultacie końcowym i tworzyć predykcje, celem jest zrozumienie całej procesu i akcji, które prowadzą do końcowego rezultatu. Jest ot trudniejsze, ale jakże cenne z punktu widzenia biznesowego, gdyż jakakolwiek zmiana w trakcie procesu może sprawić, że przewidywania będą kompletnie trafione, a zrozumienie całego procesu pozwala na pełniejszy obraz i łatwiejsze dostosowanie do zmian. 
 
-Ponadto, procesy biznesowe są często rozumiane przez analityków i metoda na łatwe odniesienie się do oczekiwań biznesowych i stworzenie ścisłych, powtarzalnych i sprawdzalnych ram na dziedzinie, która w więkości opierała się na czarenej magii, bullshicie i coacgingowy bredniach jest nadwyraz cenne. Eksploracja procesów biznesowych oparta jest na danych i nie ma w niej dużo miejsca na przypuszczenia i domysły.
+Ponadto, procesy biznesowe są często rozumiane przez analityków i metoda na łatwe odniesienie się do oczekiwań biznesowych i stworzenie ścisłych, powtarzalnych i sprawdzalnych ram na dziedzinie, która w większości opierała się na czarenej magii, bullshicie i coacgingowy bredniach jest nad wyraz cenne. Eksploracja procesów biznesowych oparta jest na danych i nie ma w niej dużo miejsca na przypuszczenia i domysły.
 
-tu by wypdalo krotki opis techniczny
-Wyróżnia 3 podkategorie \cite{mining-overview}: 
+Podsumowując, eksploracja procesów to techniki, narzędzia i
+metody odkrywania, monitorowania i
+usprawniania rzeczywiste procesy (tj. nie
+zakładane procesy) poprzez wyodrębnienie
+wiedza z dzienników zdarzeń powszechnie
+dostępnych w systemach informacyjnych \cite{pm-manifesto}\cite{mining-overview}.
+Wyróżnia 3 podkategorie: 
 \begin{itemize}
   \item[•] automatyczne odkrywanie procesów
   \item[•] sprawdzanie zgodności (\textit{eng. conformance checking})
@@ -109,7 +114,7 @@ Wyróżnia 3 podkategorie \cite{mining-overview}:
 Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienniki zdarzeń.
  
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.8]{event-log.png}}
+	\centering{\includegraphics[scale=0.6]{event-log-example.png}}
 	\caption{\label{fig:event_log_example}Przykład dziennika zdarzeń}
 \end{figure}
 
@@ -119,11 +124,11 @@ Przyjmuje się, że aby mówić o dzienniku zdarzeń powinien on zawierać 3 inf
 Mając do dyspozycji te 3 informacje - poszczególne przypadki, aktywności na nie się składające oraz ich kolejność, zliczamy jak często poszczególne aktywności występują w danej kolejności. Każdy tak przypadek zwany jest wariantem. Ponadto musimy wiedzieć jak często dany wariant wystąpił.
 
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.8]{event-log.png}}
+	\centering{\includegraphics[scale=0.6]{variants-example.png}}
 	\caption{\label{fig:process_variants_example}Przykład wariantów procesu}
 \end{figure}
 
-Dla poprawy czytelności aktywność często reprezentowane są jako symbole, np. kolejne litery alfabetu, zamiast pełnej nazwy.
+Dla poprawy czytelności aktywności często reprezentowane są jako symbole, np. kolejne litery alfabetu, zamiast pełnej nazwy.
 
 \subsection{Automatyczne odkrywanie procesów biznesowych}
 
@@ -160,25 +165,27 @@ Zalety algorytmów genetycznych
 \label{sec:metryki}
 \cite{doi:10.1142/S0218843014400012}
 \subsection{Metryki a fitness function}
-\subsection{Prostota}
+\subsection{Dodatkowa metryka - złożoność}
+\subsection{Metryki - wzory}
+
+\subsubsection{Prostota}
 Najprostsza z metryk. \newline
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
-\subsection{Odwzorowanie}
+\subsubsection{Odwzorowanie}
 Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie tej metryki. \newline
 $M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
-
-Przykład liczenia odwzorowania: \newline
-
-\subsection{Precyzja}
+\subsubsection{Precyzja}
 Unikanie underfittingu \newline
 $M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
-\subsection{Generalizacja}
+\subsubsection{Generalizacja}
 Unikanie overfittingu \newline
 $M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
-\subsection{Złożoność}
+\subsubsection{Złożoność}
 POET
 Promuje rozwiązywanie prostych problemów w prosty sposób \newline
 $M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
+
+\subsection{Obliczanie metryk}
 
 
 %---------------------------------------------------------------------------
