@@ -358,6 +358,66 @@
     \warn{\item Invalid format of field 'month'}
   \endentry
 
+  \entry{7PMG}{article}{}
+    \name{author}{3}{}{%
+      {{hash=MJ}{%
+         family={Mendling},
+         familyi={M\bibinitperiod},
+         given={Jan},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=RH}{%
+         family={Reijers},
+         familyi={R\bibinitperiod},
+         given={H.A.},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MJRHAW1}
+    \strng{fullhash}{MJRHAW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1016/j.infsof.2009.08.004
+    \endverb
+    \field{pages}{127\bibrangedash 136}
+    \field{title}{Seven Process Modeling Guidelines (7PMG)}
+    \field{volume}{52}
+    \field{journaltitle}{Information and Software Technology}
+    \field{month}{02}
+    \field{year}{2010}
+  \endentry
+
+  \entry{mining-overview}{article}{}
+    \name{author}{1}{}{%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AW1}
+    \strng{fullhash}{AW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1145/2229156.2229157
+    \endverb
+    \field{pages}{7.1\bibrangedash 7.17}
+    \field{title}{Process Mining: Overview and Opportunities}
+    \field{volume}{3}
+    \field{journaltitle}{ACM Transactions on Management Information Systems}
+    \field{month}{07}
+    \field{year}{2012}
+  \endentry
+
   \entry{doi:10.1142/S0218843014400012}{article}{}
     \name{author}{3}{}{%
       {{hash=BJCAM}{%

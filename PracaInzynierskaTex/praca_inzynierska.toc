@@ -11,42 +11,43 @@
 \contentsline {section}{\numberline {2.2}Eksploracja proces\IeC {\'o}w}{12}% 
 \contentsline {subsection}{\numberline {2.2.1}Modelowanie proces\IeC {\'o}w biznesowych}{12}% 
 \contentsline {subsection}{\numberline {2.2.2}Eksploracja proces\IeC {\'o}w}{14}% 
-\contentsline {subsection}{\numberline {2.2.3}Dzienniki zdarze\IeC {\'n}}{14}% 
-\contentsline {subsection}{\numberline {2.2.4}Odkrywanie proces\IeC {\'o}w biznesowych}{15}% 
+\contentsline {subsection}{\numberline {2.2.3}Dzienniki zdarze\IeC {\'n}}{15}% 
+\contentsline {subsection}{\numberline {2.2.4}Automatyczne odkrywanie proces\IeC {\'o}w biznesowych}{16}% 
 \contentsline {section}{\numberline {2.3}Metryki}{16}% 
-\contentsline {subsection}{\numberline {2.3.1}Prostota}{16}% 
-\contentsline {subsection}{\numberline {2.3.2}Odwzorowanie}{16}% 
-\contentsline {subsection}{\numberline {2.3.3}Precyzja}{16}% 
-\contentsline {subsection}{\numberline {2.3.4}Generalizacja}{16}% 
-\contentsline {subsection}{\numberline {2.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{16}% 
+\contentsline {subsection}{\numberline {2.3.1}Metryki a fitness function}{17}% 
+\contentsline {subsection}{\numberline {2.3.2}Prostota}{17}% 
+\contentsline {subsection}{\numberline {2.3.3}Odwzorowanie}{17}% 
+\contentsline {subsection}{\numberline {2.3.4}Precyzja}{17}% 
+\contentsline {subsection}{\numberline {2.3.5}Generalizacja}{17}% 
+\contentsline {subsection}{\numberline {2.3.6}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{17}% 
 \contentsline {section}{\numberline {2.4}Ewolucja genetyczna}{17}% 
 \contentsline {subsection}{\numberline {2.4.1}Algorytmy genetyczne}{17}% 
 \contentsline {subsection}{\numberline {2.4.2}Ewolucja genetyczna a inne algorytmy uczenia maszynowego}{18}% 
 \contentsline {subsection}{\numberline {2.4.3}Ewolucja gramatyczna}{18}% 
-\contentsline {section}{\numberline {2.5}Gramatyka}{18}% 
-\contentsline {subsection}{\numberline {2.5.1}BNF}{18}% 
-\contentsline {subsection}{\numberline {2.5.2}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{18}% 
-\contentsline {chapter}{\numberline {3}Projekt i implementacja}{19}% 
-\contentsline {section}{\numberline {3.1}Wykorzystane technologie}{19}% 
-\contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{19}% 
-\contentsline {subsection}{\numberline {3.1.2}PonyGE2}{19}% 
-\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{20}% 
-\contentsline {section}{\numberline {3.3}Projekt systemu}{22}% 
-\contentsline {subsubsection}{\numberline {3.3.0.1}Podzia\IeC {\l } na modu\IeC {\l }y}{22}% 
-\contentsline {subsubsection}{\numberline {3.3.0.2}Model}{23}% 
-\contentsline {section}{\numberline {3.4}Implementacja}{25}% 
-\contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{25}% 
-\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{25}% 
-\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{26}% 
-\contentsline {subsubsection}{\numberline {3.4.0.4}Obliczanie metryk dla jednego procesu}{29}% 
-\contentsline {subsubsection}{\numberline {3.4.0.5}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{31}% 
-\contentsline {subsubsection}{\numberline {3.4.0.6}Obliczanie dopasowania}{33}% 
-\contentsline {subsubsection}{\numberline {3.4.0.7}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{34}% 
-\contentsline {subsubsection}{\numberline {3.4.0.8}Cache}{36}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{36}% 
-\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{39}% 
-\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{39}% 
-\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{39}% 
-\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{39}% 
-\contentsline {section}{\numberline {4.4}Wnioski}{39}% 
-\contentsline {chapter}{\numberline {5}Podsumowanie}{41}% 
+\contentsline {section}{\numberline {2.5}Gramatyka}{19}% 
+\contentsline {subsection}{\numberline {2.5.1}BNF}{19}% 
+\contentsline {subsection}{\numberline {2.5.2}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{19}% 
+\contentsline {chapter}{\numberline {3}Projekt i implementacja}{21}% 
+\contentsline {section}{\numberline {3.1}Wykorzystane technologie}{21}% 
+\contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{21}% 
+\contentsline {subsection}{\numberline {3.1.2}PonyGE2}{21}% 
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{21}% 
+\contentsline {section}{\numberline {3.3}Projekt systemu}{24}% 
+\contentsline {subsubsection}{\numberline {3.3.0.1}Podzia\IeC {\l } na modu\IeC {\l }y}{24}% 
+\contentsline {subsubsection}{\numberline {3.3.0.2}Model}{25}% 
+\contentsline {section}{\numberline {3.4}Implementacja}{27}% 
+\contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{27}% 
+\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{27}% 
+\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{28}% 
+\contentsline {subsubsection}{\numberline {3.4.0.4}Obliczanie metryk dla jednego procesu}{31}% 
+\contentsline {subsubsection}{\numberline {3.4.0.5}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{33}% 
+\contentsline {subsubsection}{\numberline {3.4.0.6}Obliczanie dopasowania}{35}% 
+\contentsline {subsubsection}{\numberline {3.4.0.7}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{36}% 
+\contentsline {subsubsection}{\numberline {3.4.0.8}Cache}{38}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{38}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{41}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{41}% 
+\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{41}% 
+\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{41}% 
+\contentsline {section}{\numberline {4.4}Wnioski}{41}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{43}% 

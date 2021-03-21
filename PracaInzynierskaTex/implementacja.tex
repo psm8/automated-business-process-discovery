@@ -13,6 +13,7 @@ PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w języku Pyt
 
 \section{Tworzenie gramatyki procesu biznesowego}
 
+Zgodnie z zaprezntowanymi wcześniej zasadmi odnośnie jak poiwnien wygladac midel zdecowydowano sie na W wykorzystanie gramryec postawioneo się zdecydować na soundness, czyli bramki zamknięte, jeden event ckońcowyco pozwala na tworzenie, brak bramek ktore nie sa domkniete./ Pozwala to zredukowac przestrzen roziwazan jednoczesniej tworzac rzowiazania, ktore na pewno nie generuja bledow. 
 Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
 gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przeanalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
 
@@ -108,6 +109,7 @@ Takie modularne podejście pozwala na dodanie nowych bramek logiczny bez koniecz
 \subsubsection{Parsowanie gramatyki}
 Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
 Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
+To na tym etapie odrzucamy też procesy, które mimo, że gramatyka pozwala na ich stworzenie inie moją sensu z punktu biznesowego, co pozwala na ograniczenie zasobów i nie przeliczanie dalszych rzeczy dla procesow, ktore sa bezwartosciowe. Odrzucamy procesy, ktore  
 
 \begin{figure}[!ht]
 \lstset{caption=Parser gramatyki, captionpos=b}
@@ -201,7 +203,7 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 
 \clearpage
 \subsubsection{Obliczanie metryk dla jednego procesu}
-Ważnym jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  
+Ważnym jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  W tym celu, co pozwolilo usprawnic caly proces
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
@@ -256,7 +258,7 @@ def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_dłu
 \clearpage
 \subsubsection{Wyszukiwanie w modelu procesów o określonej długości}
 
-Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. 
+Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. Najprawdopodobn iejsze jest, ze najlepiej dopasowana sciezka bedzie miala dlugosc jak wejscie w logu dlatego zaczyna od tej dlugosci. 
 Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki.  
 \begin{figure}[!ht]
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
@@ -347,7 +349,7 @@ def oblicz_dopasowanie(model, log):
 
 \clearpage
 \subsubsection{Znajdowanie ścieżki w modelu}
-Potrzebne do obliczenia precyzji oraz generalizacji.
+Potrzebne do obliczenia precyzji oraz generalizacji. Z wzgledu na zmiany
 \begin{figure}[!ht]
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}

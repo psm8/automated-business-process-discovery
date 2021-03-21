@@ -43,7 +43,7 @@ Zarządzanie procesami biznesowymi jest zbiorem praktyk, działań mających na 
 
 Cykl życia procesu biznesowego (\textit{eng. Business process lifecycle}) przedstawiono na rys. \ref{fig:lifecycle} \cite{dumas2013fundamentals}. Jest to zbiór kroków niezbędnych do skutecznego zarządzania procesami biznesowymi. W celu dostosowania do zmieniającej się rzeczywistości, poszczególne kroki powinny być co pewien czas powtarzane. 
 
-Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuje przewagę komputerów i algorytmów    nad wykonywanie tych operacji przez człowieka. Metody z zakresu eksploracji procesów (sekcja \ref{sec:eksploracja}) są stosowane, na każdym z wymienionych etapów. Praca skupia się w głównej mierze na odkrywaniu procesów, czyli znajdowaniu istniejących już procesów na podstawie realny danych. Należy zaznaczyć, że identyfikacja polega na ogólnym rozpoznaniu i nazwaniu zachodzących procesów, podczas gdy odkrywanie jest bardziej szczegółowe, a w jego wyniku otrzymujemy dokładny model.  
+Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuje przewagę komputerów i algorytmów    nad wykonywanie tych operacji przez człowieka. Metody informatyczne są stosowane, na każdym z wymienionych etapów. W szczególności dane zebrane w wyniku monitorowania procesów dają nam możliwość zastosowania metod z zakresu eksploracji procesów (sekcja \ref{sec:eksploracja}). Praca skupia się w głównej mierze na odkrywaniu procesów, czyli znajdowaniu istniejących już procesów na podstawie realny danych. Należy zaznaczyć, że identyfikacja polega na ogólnym rozpoznaniu i nazwaniu zachodzących procesów, podczas gdy odkrywanie jest bardziej szczegółowe, a w jego wyniku otrzymujemy dokładny model.  
 
 %---------------------------------------------------------------------------
 
@@ -52,9 +52,10 @@ Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuj
 \subsection{Modelowanie procesów biznesowych}
 Na rys. \ref{fig:simple_business_process} przedstawiono przykład uproszczonego procesu biznesowego. Łatwo sobie wyobrazić, że proces ten w rzeczywistości może być znacznie bardziej skomplikowany. Część aktywności może być wykonywana równolegle, niektóre zdarzenia w ogóle nie zaistnieją lub będą występować kilkukrotnie w ramach jednego procesu. 
 
+
 W sytuacji, w której zamówiony przez klienta towar będzie niedostępny, logiczne wydaje się poinformowanie go o opóźnieniu oraz danie mu możliwości anulowanie zamówienia lub jego kontynuacja i ponowne sprawdzenie dostępności. Ponadto, czynności takie jak wysłanie faktury oraz spakowanie i wysłanie zamówienia mogą być wykonane w dowolnej kolejności czy nawet jednocześnie przez dwie różne osoby. Proces staje się bardziej skomplikowany i konieczna do stworzenia jego modelu jest bardziej złożona notacja niż użyta do przedstawienia prostego procesu. 
-Istnieje wiele notacji do modelowania procesów biznesowych, wśród nich można wymienić schematy blokowe, diagramy aktywności UML, łańcuchy procesu sterowanego zdarzeniami (\textit{eng. Event-driven Process Chains}), sieci Petriego \cite{BPMComparission}. 
-Obecnie najpopularniejszą notacją używaną do opisu procesów biznesowych jest Business Process Modeling Notation, w skrócie BPMN \cite{omg2011bpmn}. Daje ona możliwość opisania w jednoznaczny sposób skomplikowanych procesów czy stworzenia diagramów współdziałania procesów, jednocześnie pozostając łatwą do zrozumienia. 
+Istnieje wiele notacji do modelowania procesów biznesowych, wśród nich można wymienić schematy blokowe, diagramy aktywności UML, łańcuchy procesu sterowanego zdarzeniami (\textit{eng. Event-driven Process Chains}), sieci Petriego \cite{BPMComparission}. Modelując procesy biznesowe warto korzystać z 
+Obecnie najpopularniejszą notacją używaną do opisu procesów biznesowych jest Business Process Modeling Notation, w skrócie BPMN \cite{omg2011bpmn}. Daje ona możliwość opisania w jednoznaczny sposób skomplikowanych procesów czy stworzenia diagramów współdziałania procesów, jednocześnie pozostając łatwą do zrozumienia.
 
 Na grafice poniżej przedstawiono notację opartą o elementy BPMN, używaną w dalszej części pracy. Składają się na nią zdarzenia początkowe i końcowe, połączenia, bramki logiczne oraz aktywności, gdzie czarnym kwadratem oznaczono sytuację, w której żadna aktywność nie jest wykonywana, możliwe tylko w bramce LUB. 
 \clearpage
@@ -78,24 +79,35 @@ Możliwe jest teraz poinformowanie klienta o opóźnieniu, a następnie anulowan
 	\caption{\label{fig:complicated_business_process_2}Rozbudowany procesu - przykład 2}
 \end{figure}
 
-Ponadto, w pewnych przypadkach klient może mieć możliwość rezygnacji z zamówienia bez ówczesnego informowania go o opóźnieniu, a z czego nie zdawano sobie sprawy, wtedy konieczne może być stworzenie zupełnie innego modelu. 
+Ponadto, w pewnych przypadkach klient może mieć możliwość rezygnacji z zamówienia bez ówczesnego informowania go o opóźnieniu, a z czego nie zdawano sobie sprawy, wtedy konieczne może być stworzenie zupełnie innego modelu. Aby radzić sobie z tymi problemami powstał szereg zestawów wytycznych, którymi warto się kierować modelując procesy biznesowe. Wśród takich zasad można wymienić: zminimalizuj liczbę elementów w modelu, zminimalizuj liczbę ścieżek w modelu, używaj jednego zdarzenia początkowego i jednego końcowego, unikaj bramek LUB - OR , zdekomponuj model zawierający więcej niż 50 elementów \cite{7PMG}.
 
 Modelowania procesów biznesowych jest próbą stworzenia uproszonej wersji rzeczywistości na podstawie przewidywań i założeń. Modele dają abstrakcję, użyteczne przybliżenie rzeczywistości, jednak należy pamiętać, że ,,Wszystkie modele są błędne'' i rzeczywisty proces najprawdopodobniej będzie różnił się od nawet najlepszego modelu. 
 
 
 \subsection{Eksploracja procesów}
+
 W dzisiejszych czasach standardem jest, ze organizacje biznesowe korzystają z systemów informatycznych, takich jak chociażby systemy ERP czy CRM wspierających ich działalność. Systemy te rejestrują dane o procesach, które wspierają. Dane te mogą być później analizowane i wykorzystane do wprowadzenie usprawnień w działaniu firmy.   
 
+Rozumieją, że tradycyjne metody są wolne, a konieczność ich ciągłego powtarzania, połączone z wszechobecnym trendem automatyzacji obecnym w biznesie sprawiają, że eksploracja procesów zyskuje na znaczeniu \cite{GARTNER}. Ważna jest możliwość szybkiej adaptacji do zmian, automatyzacja pozwala na wykonywanie powtarzalny zmian i ograniczenia błędów.
+
 Jest to szeroko pojęta dziadzina, która zawiera różne aplikacje metoda informatyki do procesów. 
-Wyróżnia 3 podkategorie: odkrywanie, conformance checking 
+Jest wartościowym dodatkiem do innych metod eksploracji danych, gdyż daje pełniejszy obraz zamiast skupiać się pojedynczym rezultacie końcowym i tworzyć predykcje, celem jest zrozumienie całej procesu i akcji, które prowadzą do końcowego rezultatu. Jest ot trudniejsze, ale jakże cenne z punktu widzenia biznesowego, gdyż jakakolwiek zmiana w trakcie procesu może sprawić, że przewidywania będą kompletnie trafione, a zrozumienie całego procesu pozwala na pełniejszy obraz i łatwiejsze dostosowanie do zmian. 
 
+Ponadto, procesy biznesowe są często rozumiane przez analityków i metoda na łatwe odniesienie się do oczekiwań biznesowych i stworzenie ścisłych, powtarzalnych i sprawdzalnych ram na dziedzinie, która w więkości opierała się na czarenej magii, bullshicie i coacgingowy bredniach jest nadwyraz cenne. Eksploracja procesów biznesowych oparta jest na danych i nie ma w niej dużo miejsca na przypuszczenia i domysły.
 
-4 kroki, żeby odkrywac proces
-Odkrywanie procesów
-Metryki ważne
+tu by wypdalo krotki opis techniczny
+Wyróżnia 3 podkategorie \cite{mining-overview}: 
+\begin{itemize}
+  \item[•] automatyczne odkrywanie procesów
+  \item[•] sprawdzanie zgodności (\textit{eng. conformance checking})
+  \item[•] udoskonalanie procesu (\textit{eng. performance mining})
+\end{itemize}
+
 
 \subsection{Dzienniki zdarzeń}
 
+Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienniki zdarzeń.
+ 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.8]{event-log.png}}
 	\caption{\label{fig:event_log_example}Przykład dziennika zdarzeń}
@@ -113,10 +125,14 @@ Mając do dyspozycji te 3 informacje - poszczególne przypadki, aktywności na n
 
 Dla poprawy czytelności aktywność często reprezentowane są jako symbole, np. kolejne litery alfabetu, zamiast pełnej nazwy.
 
-\subsection{Odkrywanie procesów biznesowych}
+\subsection{Automatyczne odkrywanie procesów biznesowych}
 
-Odkrywanie procesów biznesowy jest podgrupą i obejmuję techniki przekształcania danych w procesy. Ważne, że proces już istnieje, a my tylko go odkrywamy
-Procesy zaprojektowane nie zawsze są realizowane w praktyce. Ważne jest, żeby proces był oparte tam analizie prawdziwych danych, a nie spekulacjach i założeniach.
+Directly-flows-graphs.
+Automatyczne odkrywanie procesów biznesowy jest podgrupą i obejmuję techniki przekształcania danych w procesy. Ważne, że proces już istnieje, a my tylko go odkrywamy. Wejściem jest dziennik zdarzeń.
+Procesy zaprojektowane nie zawsze są realizowane w praktyce. Ważne jest, żeby proces był oparte tam analizie prawdziwych danych, a nie spekulacjach i założeniach. Pozwala na znajdowanie procesu takim jaki jest, a nie takim jakim chcianoby, żeby  był.
+
+
+4 kroki, żeby odkrywac proces
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{model-vs-real.png}}
@@ -129,7 +145,13 @@ Klasyczne algorytmy do wykrywania procesów biznesowych:
   \item[•] The ILP Miner
   \item[•] Heuristic Miner 
   \item[•] Multi-phase Miner
+  heuristics, structured
 \end{itemize}
+
+Metryki opis ogólny
+
+
+Zalety algorytmów genetycznych 
 
 
 %---------------------------------------------------------------------------
@@ -137,6 +159,7 @@ Klasyczne algorytmy do wykrywania procesów biznesowych:
 \section{Metryki}
 \label{sec:metryki}
 \cite{doi:10.1142/S0218843014400012}
+\subsection{Metryki a fitness function}
 \subsection{Prostota}
 Najprostsza z metryk. \newline
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
@@ -153,6 +176,7 @@ $M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ z
 Unikanie overfittingu \newline
 $M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
 \subsection{Złożoność}
+POET
 Promuje rozwiązywanie prostych problemów w prosty sposób \newline
 $M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
 
@@ -195,6 +219,8 @@ Algorytmy genetyczne pozwalają przeszukać najszerszą przestrzeń rozwiązań.
 Inna heurystyką, która używa losowo rozwiązuje problem jest simulated annealing. Algorytm genetyczny jest łatwy w zrównogleniu i pozwala znaleźć globalne rozwiązanie.
 Sieci neuronewe:
 Pula rozwiązań zamiast jednego rozwiązywania. Szersze przeszukiwanie rozwiązań. 
+
+Obejrzeć filmik na mlst.
 \subsection{Ewolucja gramatyczna}
 Ewoluuje gramatykę za pomocą metod ewolucji genetycznej w celu znalezienia programu, który najlepiej rozwiązuje problem.
 Podejście to zostało zaproponowane w \cite{ryan_collins_neill_1998}. 
