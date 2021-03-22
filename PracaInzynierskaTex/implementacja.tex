@@ -407,7 +407,7 @@ W sytuacji kiedy wiele obliczeń się powtarza można znacząca przyspieszyć cz
 Poprzednio obliczone rozwiązanie może się powtórzyć. W tym wypadku możemy skorzystać z cache genotypów, dostarczane przez bibliotekę PonyGE2.
 Podczas obliczania dopasowania, które jest najbardziej kosztownym obliczeniem. Ponadto z uwagi na duża ilość obliczeń, żeby ograniczyć rozmiar cache zaimplementowano cachowanie LRU.
 \section{Wybór parametrów algorytmu}
-Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezienia rozwiązania. Jest kilka zasad, którymi należy się kierować przy tym wyborze właśnie.
+Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezienia rozwiązania. Jest kilka zasad, którymi należy się kierować przy tym wyborze właśnie. Ilość parametrów wymagana przez ponyGE2 jest duża, dodatkowo tworząc mimo, że starano się ograniczyć możliwość konfiguracji, która nie daje dużo korzyści do minimum tworząc aplikacje dodano kilka innych niezbędnych parametrów. Z tego powodu, poniżej przedstawiono i krótko omówiono niezbędne do działania aplikacji parametry.
 
 Włącza cache: \newline
 \textbf{CACHE:                         True} \newline
@@ -445,7 +445,7 @@ Ilość wątków procesora:
 \textbf{RESULT\_TOLERANCE\_PERCENT:       5} \newline
 \textbf{TIMEOUT:                        5} \newline
 
-Rekomendowane wagi poszczególnych metryk: 
+Rekomendowane wagi poszczególnych metryk: \newline
 \textbf{WEIGHT\_ALIGNMENT:              8} \newline
 \textbf{WEIGHT\_COMPLEXITY:              2} \newline
 \textbf{WEIGHT\_GENERALIZATION:          2} \newline

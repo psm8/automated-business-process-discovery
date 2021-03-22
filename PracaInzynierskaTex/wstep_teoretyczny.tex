@@ -43,7 +43,7 @@ Zarządzanie procesami biznesowymi jest zbiorem praktyk, działań mających na 
 
 Cykl życia procesu biznesowego (\textit{eng. Business process lifecycle}) przedstawiono na rys. \ref{fig:lifecycle} \cite{dumas2013fundamentals}. Jest to zbiór kroków niezbędnych do skutecznego zarządzania procesami biznesowymi. W celu dostosowania do zmieniającej się rzeczywistości, poszczególne kroki powinny być co pewien czas powtarzane. 
 
-Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuje przewagę komputerów i algorytmów    nad wykonywanie tych operacji przez człowieka. Metody informatyczne są stosowane, na każdym z wymienionych etapów. W szczególności dane zebrane w wyniku monitorowania procesów dają nam możliwość zastosowania metod z zakresu eksploracji procesów (sekcja \ref{sec:eksploracja}). Praca skupia się w głównej mierze na odkrywaniu procesów, czyli znajdowaniu istniejących już procesów na podstawie realny danych. Należy zaznaczyć, że identyfikacja polega na ogólnym rozpoznaniu i nazwaniu zachodzących procesów, podczas gdy odkrywanie jest bardziej szczegółowe, a w jego wyniku otrzymujemy dokładny model.  
+Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuje przewagę komputerów i algorytmów nad wykonywaniem tych operacji przez człowieka. Metody informatyczne są stosowane, na każdym z wymienionych etapów. W szczególności dane zebrane w wyniku monitorowania procesów dają nam możliwość zastosowania metod z zakresu eksploracji procesów (sekcja \ref{sec:eksploracja}). Praca skupia się w głównej mierze na odkrywaniu procesów, czyli znajdowaniu istniejących już procesów na podstawie realny danych. Należy zaznaczyć, że identyfikacja polega na ogólnym rozpoznaniu i nazwaniu zachodzących procesów, podczas gdy odkrywanie jest bardziej szczegółowe, a w jego wyniku otrzymujemy dokładny model.  
 
 %---------------------------------------------------------------------------
 
@@ -68,14 +68,14 @@ Korzystając z tej notacji, można przedstawić opisany wcześniej proces. Na ry
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.3]{complicated-process-example-1.png}}
-	\caption{\label{fig:complicated_business_process_1}Rozbudowany procesu - przykład 1}
+	\caption{\label{fig:complicated_business_process_1}Rozbudowany model procesu - przykład 1}
 \end{figure}
 
 Możliwe jest teraz poinformowanie klienta o opóźnieniu, a następnie anulowanie zamówienia lub powtórne sprawdzenie dostępności. Model ten jednak nie jest wystarczająco precyzyjny i pozwala na potwierdzenie zamówienia po informacji o jego opóźnieniu, a bez uprzedniego ponownego sprawdzenia dostępności. Można zaproponować inny model (rys. \ref{fig:complicated_business_process_2}), który rozwiązuje powyższe problemy, jednak aktywność - poinformowanie o opóźnieniu - występuje na nim dwukrotnie, co jest niepożądane i  pogarsza jego czytelność.
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.35]{complicated-process-example-2.png}}
-	\caption{\label{fig:complicated_business_process_2}Rozbudowany procesu - przykład 2}
+	\caption{\label{fig:complicated_business_process_2}Rozbudowany model procesu - przykład 2}
 \end{figure}
 
 Ponadto, w pewnych przypadkach klient może mieć możliwość rezygnacji z zamówienia bez ówczesnego informowania go o opóźnieniu, a z czego nie zdawano sobie sprawy, wtedy konieczne może być stworzenie zupełnie innego modelu. Aby radzić sobie z tymi problemami powstał szereg zestawów wytycznych, którymi warto się kierować modelując procesy biznesowe. Wśród takich zasad można wymienić: zminimalizuj liczbę elementów w modelu, zminimalizuj liczbę ścieżek w modelu, używaj jednego zdarzenia początkowego i jednego końcowego, unikaj bramek LUB - OR , zdekomponuj model zawierający więcej niż 50 elementów \cite{7PMG}.
@@ -109,7 +109,7 @@ Wyróżnia się 3 podkategorie:
 
 \subsection{Dzienniki zdarzeń}
 \label{sec:event_logs}
-Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienniki zdarzeń.
+Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienniki zdarzeń, inaczej zwane logami.
  
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.6]{event-log-example.png}}
@@ -148,8 +148,6 @@ Celem automatycznego odkrywania procesów biznesowych jest zaprojektowanie funkc
   \item[•] Inductive Miner \cite{inductive-miner}
 \end{itemize}
 
-Wśród istniejących algorytmów mogą pojawić się problemy ze współbieżnością, pomijaniem aktywności, możliwością reprezentowania duplikatów, nie radzi sobie z zakłócenia w logu, nie bieże pod uwagę częstotliwości wystąpień danego wariantu, tworzy zbyt skomplikowane modele, nie radzi sobie z odwzorowaniem niektórych zachowań np. krótkich pętli, może tworzyć model ze zła strukturą Oparte na directly follows graphs przez co problemem może być kiedy log jest niekompletny 
-Wciąż nie istnieje algorytm idealny, a te wymienione wyżej posiadają wady. Tworzą modele, które nie są spójne strukturalnie, czyli 
 Istnieją 4 powszechnie używane kryteria do określanie jak dobry jest otrzymany model. Są to:
 \begin{itemize}
   \item[•] odwzorowanie (\textit{eng. fitness}) - zgodność modelu z dziennikiem zdarzeń
@@ -160,7 +158,9 @@ Istnieją 4 powszechnie używane kryteria do określanie jak dobry jest otrzyman
 Koniecznym jest znalezienie balansu między nimi, gdyż często starając się poprawiać model pod kontem jednego kryterium, pogorszy się on pod względem innych. Powstało wiele metryk przedstawiających te kryteria za pomocą wzorów matematycznych \cite{conf-propositions} \cite{Blum2015MetricsIP}.
 Bardziej szczegółowo wybór metryk omówiono w sekcji \ref{sec:metryki}
 
-Algorytmy genetyczne do automatycznego odkrywania procesów biznesowych mogą być odpowiedzią na te problemy. Takie podejście pozwala na wyeliminowanie część problemów często dotyczących innych metod.
+Wśród istniejących algorytmów mogą pojawić się problemy ze współbieżnością, możliwością pomijania aktywności, czy reprezentowania duplikatów, nie radzeniem sobie z zakłócenia w logu,  tworzeniem zbyt skomplikowanych modeli, czy z odwzorowaniem niektórych zachowań. Modele stworzone mogą mieć zła strukturę Oparte na directly follows graphs przez co problemem może być kiedy log jest niekompletny.
+Wciąż nie istnieje algorytm idealny, a te wymienione wyżej posiadają wady. Tworzą modele, które nie są spójne strukturalnie, czyli 
+Algorytmy genetyczne do automatycznego odkrywania procesów biznesowych mogą być odpowiedzią na te problemy. Takie podejście pozwala na wyeliminowanie część problemów często dotyczących innych metod.  Ponadto każdy algorytm ma swoje ograniczenia a algorytmy genetyczne pozwalają na pełną dowolność
 Pozwala na duża zdolność manipulacji, dobierania parametrów do tego co chcemy, wymyślania nowych. Można dodać tyle i takich metryk jakie chcemy, ustawić sobie różne wartości. Algorytmy klasyczne mają problem z uzyskanie dobrych rezultatów dla wszystkich metryk i nie posiadają możliwości zmiany parametrów startowych.
 
 %---------------------------------------------------------------------------
@@ -171,8 +171,9 @@ Pozwala na duża zdolność manipulacji, dobierania parametrów do tego co chcem
 \cite{ryan_collins_neill_1998}
 Algorytmy genetyczne są inspirowaną selekcją naturalną  heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowy rozwiązań w celu wyszukania najlepszych z nich. Pierwszy raz zostały zaproponowane w \cite{10.5555/138936}.
 
-Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane ww tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczana jest funkcja dopasowania (\textit{eng. fitness function}  pozwalające ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
+Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane ww tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczana jest funkcja dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
 
+Utrzymywanie populacji rozwiązań fajna sprawa i pozwala na szerze zbiór rozwiązań.
 Selekcja:
 Selekcja proporcjonalna - wybieramy losowo rozwiązania z puli wszystkich rozwiązań z warunkiem, że rozwiązania z największą wartością metryk mają największą szansę na bycie zachowanymi w populacji. Jest to najpopularniejsza metoda selekcji i najczęściej umożliwiająca najszybsze znalezienie rozwiązania. Pozwala na elityzm, czyli zachowanie części najlepszych genotypów w przyszłej populacji.
 
@@ -194,6 +195,8 @@ Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową
 
 Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
 
+Algorytmy genetyczne w praktyce
+
  
   
 \subsection{Ewolucja genetyczna a inne algorytmy uczenia maszynowego}
@@ -212,11 +215,16 @@ Podejście to zostało zaproponowane w \cite{ryan_collins_neill_1998}.
 \section{Gramatyka}
 \label{sec:gramatyka}
 \subsection{BNF}
-Backus-Naur from jest notacją używaną do kodowaniu gramatyk bezkontekstowych.
+
+Gramtyka G=(N,$\Sigma$,P,S) - 
+
 
 Gramatyka bezkontekstowa - 
 
-Gramtyka G=(N,$\Sigma$,P,S) - 
+
+Backus-Naur from jest notacją używaną do kodowaniu gramatyk bezkontekstowych. Symbole używane w BNF to:
+
+
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 
@@ -244,7 +252,6 @@ Jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która ni
 \section{Metryki}
 \label{sec:metryki}
 
-\cite{doi:10.1142/S0218843014400012}
 \subsection{Metryki a funkcja dopasowania}
 
 Dobra funkcja dopasowania powinna spełniać kilka założeń, których nie wzięto pod uwagę tworząc metryki. 
@@ -252,29 +259,48 @@ Dobra funkcja dopasowania powinna spełniać kilka założeń, których nie wzi�
 
 Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk, gdzie użytkownik może określić z jakimi waga wziąć pod uwagę poszczególnych przystosowanych metryk. Oprócz tego dodano kolejną metrykę złożoność.
 
+Ponadto wszystkie metryki powinny być przeskalowane jeśli to konieczne do przedziału od 0 do 1, co jest standardem i sprawia, że łatwiej je porównywać i na nich operować.
+
 \subsection{Dodatkowa metryka - złożoność}
 Dodatkowa metryka nie jest potrzebna, zawiera redundantne informacje, jednak istnieją teoretyczne przesłanki, że powinna wpłynąć pozytywnie na rozwiązania znajdowane przez algorytm. 
-POET
-Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób \newline
+Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób. Chcemy unikać lokalnych maksimów np. sytuacji, w której znajdziemy model, który   \newline
 \subsection{Metryki - szczegóły}
 
 \subsubsection{Prostota}
-Najprostsza z metryk. \newline
-$M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
+Najprostsza z metryk. Celem jest zmniejszenie skomplikowania. Głównym czynnikiem wpływającym na skomplikowanie jest ilość aktywności w modelu. Idealna jest sytuacja, w której model ma tyle samo aktywności ile unikalnych aktywności jest w dzienniku zdarzeń. To nie zawsze jest możliwe, jednak chcąc otrzymać maksymalnie czytelny model powinniśmy do tego dążyć. Stąd też metryk wybrana skupia się na dwóch czynnikach, czyli ilości duplikatów w modelu i ilości brakujących wartości w modelu. Oczywiście znaczenie ma wielkość modelu, dlatego wartości tego  musimy odnieść do ilości wszystkich zdarzeń w logu i modelu. Ostatecznie metrykę wyrażono wzorem: \newline
+$M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ zdarzen\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
 \subsubsection{Odwzorowanie}
-Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie tej metryki. \newline
-$M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
+Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie tej metryki. Ważnym jest, żeby liczyć to częściowa, a sama metryka, żeby była maksymalnie wrażliwa na zmiany. Można by zastosować prostą metrykę zero-jedynkową, sprawdzającą czy model zgadza się z wariantem logu czy nie, jednak szczególnie w przypadku algorytmu genetycznego nie sprawdzalibyśmy jak bardzo zbliżamy się do celu i praktycznie opieralibyśmy się na losowaniu dopóki nie trafimy. Przy procesie z wieloma aktywnością niezgadzających się kilka kreatywności nie stworzyć dużego błędu, gdzie model zero-jedynkowy zrobiłby to, dlatego podniesiono do potęgi 4 , żeby zrobić metrykę bardziej wrażliwą na zmiany. Ostatecznie metrykę wyrażono wzorem: \newline
+$M_o = (1 - \sum_{procesy\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
 \subsubsection{Precyzja}
-Unikanie niewystarczającego dopasowania(\textit{eng. underfitting}) \newline
-$M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
+Unikanie niewystarczającego dopasowania (\textit{eng. underfitting}). Chcemy uniknąć tworzenia modeli, w której możliwe są dowolne zachowania. Można by osiągnąć maksymalne wartości pozostałych metryk tworząc jednak bramkę or zawierającą wszystkie aktywności, jednak oczywistym jest, że nie jest to model, które oddaje rzeczywistość. We wzorze skupiono się na ilości osiągalnych zdarzeń następujących po danej aktywności, możliwych w modelu. Chcemy żeby poszczególne aktywności mogły być tylko następowane przez te które naprawdę są po nich. Do potęgi 1/3, bo oryginalna metryka zienia się zbyt łatwo przez co jest nieproporcjonalna do zmian innych metryk i łatwo wpaść w lokalne maksimum, gdzie każda mała zmiana będzie wpływać na ogromną zmianę w metryce.  Ostatecznie metrykę wyrażono wzorem: \newline
+$M_{pre} = (1 - \sum_{zdarzenia\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
 \subsubsection{Generalizacja}
 Unikanie nadmiernego dopasowania (\textit{eng. overfitting})
-W pierwszej chwili może wydwać się przeciwieństwem precyzji, dobrym przykładem żeby to zwizualizować jest plama albo to z przetwarzania obrazów, chcemy wypełnić zagłębienia jednocześnie nie pozwalając na rozszerzenie. \newline
-$M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
+W pierwszej chwili może wydawać się przeciwieństwem precyzji, dobrym przykładem żeby to zwizualizować jest plama albo to z przetwarzania obrazów, chcemy wypełnić zagłębienia jednocześnie nie pozwalając na rozszerzenie. Można to osiągnąć poprzez wzięcie średniej ważonej liczby przejścia w logu przez dane zdarzenie, co sprawia, że wciąż zachowujemy ścieżki, które są często odwiedzane przez inne warianty, mimo że pozwalają na zachowanie niewidoczne w dzienniku zdarzeń, nie pozwalając na na tworzenie ścieżek, które nie pokrywają się z żadnymi ścieżkami. Wzięto także pierwiastek, gdyż od pewnego wykonywanie ścieżki wielokrotnie nie jest tak cenne jak wykonywanie jej, bo już wiemy, że jest ona ok. Metrykę zapożyczono z \cite{qd-in-discovery}. Ostatecznie metrykę wyrażono wzorem: \newline
+$M_g = 1 - \frac{\sum_{zdarzenia\ w\ modelu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
 \subsubsection{Złożoność}
+Postanowiono powiązać złożoność z odwzorowaniem, czyli kiedy odwzorowanie rośnie pozwalamy na tworzenie bardziej skomplikowanego modelu. Złożoność jest wyrażana jako ilość możliwych ścieżek w modelu. Jako, że np. dla bramki I jest to n! zauważamy, że złożoność rośnie niewspółmiernie szybciej do odwzorowania, dlatego pierwiastek ze złożoności. Ostatecznie metrykę wyrażono wzorem: \newline
 $M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
 
 \subsection{Obliczanie metryk}
-W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu obliczone dla niego. Weźmy pod uwagę model aandd
+W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu obliczone dla niego. Weźmy pod uwagę model - na czerwono zaznaczono ilość wykonań danej aktywności:
 
-Obliczanie metryk dla tego modelu
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.5]{model-metrics.png}}
+	\caption{\label{fig:complicated_business_process_2}Model, dla którego obliczane są metryki}
+\end{figure}
+
+i obliczmy dla niego metryki.
+
+$M_{pro} = 1 - \frac{1\ +\ 1}{6\ +\ 6} = 0.8333$
+
+$Odwzorowanie = (1 - \sum_{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
+
+$M_o = (1 - \sum_{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
+
+$M_{pre} = (1 - \sum_{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
+
+$M_g = 1 - \frac{(\frac{1}{\sqrt{5}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{2}}\ +\ \frac{1}{\sqrt{1}}\ +\ \frac{1}{\sqrt{5}})}{6} = 0.3997$
+\newline Pewną słabością tej metryki jest to, że wpływa na nią rozmiar dziennika zdarzeń. Jeśli ilość rekordów jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. Starając się znaleźć najlepszy model używamy zawsze tego samo logu, więc nie wpływa to na prawidłowość rozwiązania. \newline
+$M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
