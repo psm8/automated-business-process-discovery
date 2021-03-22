@@ -573,6 +573,342 @@
     \field{year}{2012}
   \endentry
 
+  \entry{pm-book}{book}{}
+    \name{author}{1}{}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer}%
+    }
+    \strng{namehash}{AWMPvd1}
+    \strng{fullhash}{AWMPvd1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-662-49851-4
+    \endverb
+    \field{isbn}{978-3-662-49850-7}
+    \field{pages}{163\bibrangedash 240}
+    \field{title}{Process Mining - Data Science in Action, Second Edition}
+    \verb{url}
+    \verb https://doi.org/10.1007/978-3-662-49851-4
+    \endverb
+    \field{year}{2016}
+  \endentry
+
+  \entry{alpha-algorithm}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=VdWJM}{%
+         prefix={Van\bibnamedelima der},
+         prefixi={V\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Werf},
+         familyi={W\bibinitperiod},
+         given={Jan\bibnamedelima Martijn},
+         giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=DB}{%
+         family={Dongen},
+         familyi={D\bibinitperiod},
+         given={Boudewijn},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=HC}{%
+         family={Hurkens},
+         familyi={H\bibinitperiod},
+         given={Cor},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Serebrenik},
+         familyi={S\bibinitperiod},
+         given={Alexander},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WJMVd+1}
+    \strng{fullhash}{WJMVdDBHCSA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-540-68746-7_24
+    \endverb
+    \field{isbn}{978-3-540-68745-0}
+    \field{pages}{368\bibrangedash 387}
+    \field{title}{Process Discovery Using Integer Linear Programming}
+    \field{volume}{94}
+    \field{journaltitle}{Fundamenta Informaticae}
+    \field{month}{06}
+    \field{year}{2008}
+  \endentry
+
+  \entry{ILP-miner}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=VdWJM}{%
+         prefix={Van\bibnamedelima der},
+         prefixi={V\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Werf},
+         familyi={W\bibinitperiod},
+         given={Jan\bibnamedelima Martijn},
+         giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=DB}{%
+         family={Dongen},
+         familyi={D\bibinitperiod},
+         given={Boudewijn},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=HC}{%
+         family={Hurkens},
+         familyi={H\bibinitperiod},
+         given={Cor},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Serebrenik},
+         familyi={S\bibinitperiod},
+         given={Alexander},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WJMVd+1}
+    \strng{fullhash}{WJMVdDBHCSA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-540-68746-7_24
+    \endverb
+    \field{isbn}{978-3-540-68745-0}
+    \field{pages}{368\bibrangedash 387}
+    \field{title}{Process Discovery Using Integer Linear Programming}
+    \field{volume}{94}
+    \field{journaltitle}{Fundamenta Informaticae}
+    \field{month}{06}
+    \field{year}{2008}
+  \endentry
+
+  \entry{heuristics-miner}{book}{}
+    \name{author}{3}{}{%
+      {{hash=WA}{%
+         family={Weijters},
+         familyi={W\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=MA}{%
+         family={Medeiros},
+         familyi={M\bibinitperiod},
+         given={Alves},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WAAWMA1}
+    \strng{fullhash}{WAAWMA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Process Mining with the Heuristics Miner-algorithm}
+    \field{volume}{166}
+    \field{journaltitle}{Cirp Annals-manufacturing Technology - CIRP ANN-MANUF
+  TECHNOL}
+    \field{month}{01}
+    \field{year}{2006}
+  \endentry
+
+  \entry{multi-phase-miner}{article}{}
+    \name{author}{2}{}{%
+      {{hash=DB}{%
+         family={Dongen},
+         familyi={D\bibinitperiod},
+         given={B},
+         giveni={B},
+      }}%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DBAW1}
+    \strng{fullhash}{DBAW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Multi-phase process mining: Aggregating instance graphs into
+  EPCs and Petri nets}
+    \field{journaltitle}{Proceedings of the Second International Workshop on
+  Applications of Petri Nets to Coordination, Workflow and Business Process
+  Management}
+    \field{month}{01}
+    \field{year}{2005}
+  \endentry
+
+  \entry{inductive-miner}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=GR}{%
+         family={Ghawi},
+         familyi={G\bibinitperiod},
+         given={Raji},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GR1}
+    \strng{fullhash}{GR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Process Discovery using Inductive Miner and Decomposition}
+    \field{month}{10}
+    \field{year}{2016}
+  \endentry
+
+  \entry{conf-propositions}{inproceedings}{}
+    \name{author}{1}{}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
+      }}%
+    }
+    \name{editor}{3}{}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
+      }}%
+      {{hash=BR}{%
+         family={Bergenthum},
+         familyi={B\bibinitperiod},
+         given={Robin},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Carmona},
+         familyi={C\bibinitperiod},
+         given={Josep},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {CEUR-WS.org}%
+    }
+    \strng{namehash}{AWMPvd1}
+    \strng{fullhash}{AWMPvd1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the International Workshop on Algorithms
+  {\&} Theories for the Analysis of Event Data 2018 Satellite event of the
+  conferences: 39th International Conference on Application and Theory of Petri
+  Nets and Concurrency Petri Nets 2018 and 18th International Conference on
+  Application of Concurrency to System Design {ACSD} 2018, Bratislava,
+  Slovakia, June 25, 2018}
+    \field{pages}{56\bibrangedash 74}
+    \field{series}{{CEUR} Workshop Proceedings}
+    \field{title}{Relating Process Models and Event Logs - 21 Conformance
+  Propositions}
+    \verb{url}
+    \verb http://ceur-ws.org/Vol-2115/ATAED2018-56-74.pdf
+    \endverb
+    \field{volume}{2115}
+    \field{year}{2018}
+  \endentry
+
+  \entry{Blum2015MetricsIP}{inproceedings}{}
+    \name{author}{1}{}{%
+      {{hash=BF}{%
+         family={Blum},
+         familyi={B\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BF1}
+    \strng{fullhash}{BF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Metrics in process discovery}
+    \field{year}{2015}
+  \endentry
+
+  \entry{ryan_collins_neill_1998}{article}{}
+    \name{author}{3}{}{%
+      {{hash=RC}{%
+         family={Ryan},
+         familyi={R\bibinitperiod},
+         given={Conor},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Collins},
+         familyi={C\bibinitperiod},
+         given={Jj},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=NMO}{%
+         family={Neill},
+         familyi={N\bibinitperiod},
+         given={Michael\bibnamedelima O},
+         giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{RCCJNMO1}
+    \strng{fullhash}{RCCJNMO1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/bfb0055930
+    \endverb
+    \field{pages}{83–96}
+    \field{title}{Grammatical evolution: Evolving programs for an arbitrary
+  language}
+    \field{journaltitle}{Lecture Notes in Computer Science Genetic Programming}
+    \field{year}{1998}
+  \endentry
+
+  \entry{10.5555/138936}{book}{}
+    \name{author}{1}{}{%
+      {{hash=KJR}{%
+         family={Koza},
+         familyi={K\bibinitperiod},
+         given={John\bibnamedelima R.},
+         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {MIT Press}%
+    }
+    \strng{namehash}{KJR1}
+    \strng{fullhash}{KJR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{isbn}{0262111705}
+    \field{title}{Genetic Programming: On the Programming of Computers by Means
+  of Natural Selection}
+    \list{location}{1}{%
+      {Cambridge, MA, USA}%
+    }
+    \field{year}{1992}
+  \endentry
+
   \entry{doi:10.1142/S0218843014400012}{article}{}
     \name{author}{3}{}{%
       {{hash=BJCAM}{%
@@ -642,66 +978,6 @@
     \field{journaltitle}{International Journal of Cooperative Information
   Systems}
     \field{year}{2014}
-  \endentry
-
-  \entry{ryan_collins_neill_1998}{article}{}
-    \name{author}{3}{}{%
-      {{hash=RC}{%
-         family={Ryan},
-         familyi={R\bibinitperiod},
-         given={Conor},
-         giveni={C\bibinitperiod},
-      }}%
-      {{hash=CJ}{%
-         family={Collins},
-         familyi={C\bibinitperiod},
-         given={Jj},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=NMO}{%
-         family={Neill},
-         familyi={N\bibinitperiod},
-         given={Michael\bibnamedelima O},
-         giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{RCCJNMO1}
-    \strng{fullhash}{RCCJNMO1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \verb{doi}
-    \verb 10.1007/bfb0055930
-    \endverb
-    \field{pages}{83–96}
-    \field{title}{Grammatical evolution: Evolving programs for an arbitrary
-  language}
-    \field{journaltitle}{Lecture Notes in Computer Science Genetic Programming}
-    \field{year}{1998}
-  \endentry
-
-  \entry{10.5555/138936}{book}{}
-    \name{author}{1}{}{%
-      {{hash=KJR}{%
-         family={Koza},
-         familyi={K\bibinitperiod},
-         given={John\bibnamedelima R.},
-         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {MIT Press}%
-    }
-    \strng{namehash}{KJR1}
-    \strng{fullhash}{KJR1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{isbn}{0262111705}
-    \field{title}{Genetic Programming: On the Programming of Computers by Means
-  of Natural Selection}
-    \list{location}{1}{%
-      {Cambridge, MA, USA}%
-    }
-    \field{year}{1992}
   \endentry
 
   \entry{Fenton_2017}{article}{}

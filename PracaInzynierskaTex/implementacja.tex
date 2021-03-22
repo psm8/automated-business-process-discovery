@@ -14,6 +14,7 @@ PonyGE2 \cite{Fenton_2017} jest implementacja ewolucji genetycznej w języku Pyt
 \section{Tworzenie gramatyki procesu biznesowego}
 
 Zgodnie z zaprezntowanymi wcześniej zasadmi odnośnie jak poiwnien wygladac midel zdecowydowano sie na W wykorzystanie gramryec postawioneo się zdecydować na soundness, czyli bramki zamknięte, jeden event ckońcowyco pozwala na tworzenie, brak bramek ktore nie sa domkniete./ Pozwala to zredukowac przestrzen roziwazan jednoczesniej tworzac rzowiazania, ktore na pewno nie generuja bledow. 
+Łatwe mapowanie na BPMN.
 Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
 gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przeanalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
 

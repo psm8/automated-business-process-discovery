@@ -54,8 +54,7 @@ Na rys. \ref{fig:simple_business_process} przedstawiono przykład uproszczonego 
 
 
 W sytuacji, w której zamówiony przez klienta towar będzie niedostępny, logiczne wydaje się poinformowanie go o opóźnieniu oraz danie mu możliwości anulowanie zamówienia lub jego kontynuacja i ponowne sprawdzenie dostępności. Ponadto, czynności takie jak wysłanie faktury oraz spakowanie i wysłanie zamówienia mogą być wykonane w dowolnej kolejności czy nawet jednocześnie przez dwie różne osoby. Proces staje się bardziej skomplikowany i konieczna do stworzenia jego modelu jest bardziej złożona notacja niż użyta do przedstawienia prostego procesu. 
-Istnieje wiele notacji do modelowania procesów biznesowych, wśród nich można wymienić schematy blokowe, diagramy aktywności UML, łańcuchy procesu sterowanego zdarzeniami (\textit{eng. Event-driven Process Chains}), sieci Petriego \cite{BPMComparission}. Modelując procesy biznesowe warto korzystać z 
-Obecnie najpopularniejszą notacją używaną do opisu procesów biznesowych jest Business Process Modeling Notation, w skrócie BPMN \cite{omg2011bpmn}. Daje ona możliwość opisania w jednoznaczny sposób skomplikowanych procesów czy stworzenia diagramów współdziałania procesów, jednocześnie pozostając łatwą do zrozumienia.
+Istnieje wiele notacji do modelowania procesów biznesowych, wśród nich można wymienić schematy blokowe, diagramy aktywności UML, łańcuchy procesu sterowanego zdarzeniami (\textit{eng. Event-driven Process Chains}), sieci Petriego \cite{BPMComparission}. Obecnie najpopularniejszą notacją używaną do opisu procesów biznesowych jest Business Process  Model and Notation, w skrócie BPMN \cite{omg2011bpmn}. Daje ona możliwość opisania w jednoznaczny sposób skomplikowanych procesów czy stworzenia diagramów współdziałania procesów, jednocześnie pozostając łatwą do zrozumienia.
 
 Na grafice poniżej przedstawiono notację opartą o elementy BPMN, używaną w dalszej części pracy. Składają się na nią zdarzenia początkowe i końcowe, połączenia, bramki logiczne oraz aktywności, gdzie czarnym kwadratem oznaczono sytuację, w której żadna aktywność nie jest wykonywana, możliwe tylko w bramce LUB. 
 \clearpage
@@ -93,15 +92,14 @@ Tradycyjne metody są wolne, kosztowne i narażone na błędy ludzkie a konieczn
 Jest to szeroko pojęta dziadzina, która zawiera różne aplikacje metoda informatyki do procesów. 
 Jest wartościowym dodatkiem do innych metod eksploracji danych, gdyż daje pełniejszy obraz zamiast skupiać się pojedynczym rezultacie końcowym i tworzyć predykcje, celem jest zrozumienie całej procesu i akcji, które prowadzą do końcowego rezultatu. Jest ot trudniejsze, ale jakże cenne z punktu widzenia biznesowego, gdyż jakakolwiek zmiana w trakcie procesu może sprawić, że przewidywania będą kompletnie trafione, a zrozumienie całego procesu pozwala na pełniejszy obraz i łatwiejsze dostosowanie do zmian. 
 
-Ponadto, procesy biznesowe są często rozumiane przez analityków i metoda na łatwe odniesienie się do oczekiwań biznesowych i stworzenie ścisłych, powtarzalnych i sprawdzalnych ram na dziedzinie, która w większości opierała się na czarenej magii, bullshicie i coacgingowy bredniach jest nad wyraz cenne. Eksploracja procesów biznesowych oparta jest na danych i nie ma w niej dużo miejsca na przypuszczenia i domysły.
+Ponadto, procesy biznesowe są często rozumiane przez analityków i metoda na łatwe odniesienie się do oczekiwań biznesowych i stworzenie ścisłych, powtarzalnych i sprawdzalnych ram na dziedzinie, która w większości opierała się na czarnej magii, bullshicie i coachingowy bredniach jest nad wyraz cenne. Eksploracja procesów biznesowych oparta jest na danych i nie ma w niej dużo miejsca na przypuszczenia i domysły.
 
 Podsumowując, eksploracja procesów to techniki, narzędzia i
 metody odkrywania, monitorowania i
-usprawniania rzeczywiste procesy (tj. nie
-zakładane procesy) poprzez wyodrębnienie
-wiedza z dzienników zdarzeń powszechnie
+usprawniania rzeczywistych procesów poprzez 
+wiedzę wyodrębnioną z dzienników zdarzeń powszechnie
 dostępnych w systemach informacyjnych \cite{pm-manifesto}\cite{mining-overview}.
-Wyróżnia 3 podkategorie: 
+Wyróżnia się 3 podkategorie: 
 \begin{itemize}
   \item[•] automatyczne odkrywanie procesów
   \item[•] sprawdzanie zgodności (\textit{eng. conformance checking})
@@ -110,7 +108,7 @@ Wyróżnia 3 podkategorie:
 
 
 \subsection{Dzienniki zdarzeń}
-
+\label{sec:event_logs}
 Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienniki zdarzeń.
  
 \begin{figure}[h]
@@ -132,61 +130,38 @@ Dla poprawy czytelności aktywności często reprezentowane są jako symbole, np
 
 \subsection{Automatyczne odkrywanie procesów biznesowych}
 
-Directly-flows-graphs.
-Automatyczne odkrywanie procesów biznesowy jest podgrupą i obejmuję techniki przekształcania danych w procesy. Ważne, że proces już istnieje, a my tylko go odkrywamy. Wejściem jest dziennik zdarzeń.
-Procesy zaprojektowane nie zawsze są realizowane w praktyce. Ważne jest, żeby proces był oparte tam analizie prawdziwych danych, a nie spekulacjach i założeniach. Pozwala na znajdowanie procesu takim jaki jest, a nie takim jakim chcianoby, żeby  był.
+Automatyczne odkrywanie procesów biznesowych jest podgrupą i obejmuję techniki przekształcania danych w procesy. Ważne, że proces już istnieje, a my tylko go odkrywamy. Wejściem jest dziennik zdarzeń, a wyjściem jest mapa procesu lub model procesu.
 
-
-4 kroki, żeby odkrywac proces
+Procesy zaprojektowane nie zawsze są realizowane w praktyce. Ważne jest, żeby proces był oparte tam analizie prawdziwych danych, a nie spekulacjach i założeniach. Pozwala na znajdowanie procesu takim jaki jest, a nie takim jakim chciano by, żeby był.
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{model-vs-real.png}}
 	\caption{\label{fig:subcaption_example}Proces rzeczywisty i pierwotnie zakładany}
 \end{figure}
 
-Klasyczne algorytmy do wykrywania procesów biznesowych:
+Celem automatycznego odkrywania procesów biznesowych jest zaprojektowanie funkcji - algorytmu, która przekształci dane z dziennika zdarzeń w model procesu \cite{pm-book}. Istnieje wiele algorytmów do odkrywania procesów biznesowych. Wśród najpopularniejszych można wymienić:
 \begin{itemize}
-  \item[•] Alpha algorithm
-  \item[•] The ILP Miner
-  \item[•] Heuristic Miner 
-  \item[•] Multi-phase Miner
-  heuristics, structured
+  \item[•] Alpha algorithm \cite{alpha-algorithm}
+  \item[•] The ILP Miner \cite{ILP-miner}
+  \item[•] Heuristic Miner \cite{heuristics-miner}
+  \item[•] Multi-phase Miner \cite{multi-phase-miner}
+  \item[•] Inductive Miner \cite{inductive-miner}
 \end{itemize}
 
-Metryki opis ogólny
+Wśród istniejących algorytmów mogą pojawić się problemy ze współbieżnością, pomijaniem aktywności, możliwością reprezentowania duplikatów, nie radzi sobie z zakłócenia w logu, nie bieże pod uwagę częstotliwości wystąpień danego wariantu, tworzy zbyt skomplikowane modele, nie radzi sobie z odwzorowaniem niektórych zachowań np. krótkich pętli, może tworzyć model ze zła strukturą Oparte na directly follows graphs przez co problemem może być kiedy log jest niekompletny 
+Wciąż nie istnieje algorytm idealny, a te wymienione wyżej posiadają wady. Tworzą modele, które nie są spójne strukturalnie, czyli 
+Istnieją 4 powszechnie używane kryteria do określanie jak dobry jest otrzymany model. Są to:
+\begin{itemize}
+  \item[•] odwzorowanie (\textit{eng. fitness}) - zgodność modelu z dziennikiem zdarzeń
+  \item[•] prostota (\textit{eng. simplicity}) - złożoność i łatwość zrozumienia modelu.
+  \item[•] precyzja (\textit{eng. precision}) - brak zachowań niezwiązanych z logiem, a możliwych w modelu
+  \item[•] generalizacja (\textit{eng. genralization}) - odzwierciedlenie w modelu prawdopodobnych aktywności, mimo że nie znajdują się one w logu.
+\end{itemize}
+Koniecznym jest znalezienie balansu między nimi, gdyż często starając się poprawiać model pod kontem jednego kryterium, pogorszy się on pod względem innych. Powstało wiele metryk przedstawiających te kryteria za pomocą wzorów matematycznych \cite{conf-propositions} \cite{Blum2015MetricsIP}.
+Bardziej szczegółowo wybór metryk omówiono w sekcji \ref{sec:metryki}
 
-
-Zalety algorytmów genetycznych 
-
-
-%---------------------------------------------------------------------------
-
-\section{Metryki}
-\label{sec:metryki}
-\cite{doi:10.1142/S0218843014400012}
-\subsection{Metryki a fitness function}
-\subsection{Dodatkowa metryka - złożoność}
-\subsection{Metryki - wzory}
-
-\subsubsection{Prostota}
-Najprostsza z metryk. \newline
-$M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
-\subsubsection{Odwzorowanie}
-Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie tej metryki. \newline
-$M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
-\subsubsection{Precyzja}
-Unikanie underfittingu \newline
-$M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
-\subsubsection{Generalizacja}
-Unikanie overfittingu \newline
-$M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
-\subsubsection{Złożoność}
-POET
-Promuje rozwiązywanie prostych problemów w prosty sposób \newline
-$M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
-
-\subsection{Obliczanie metryk}
-
+Algorytmy genetyczne do automatycznego odkrywania procesów biznesowych mogą być odpowiedzią na te problemy. Takie podejście pozwala na wyeliminowanie część problemów często dotyczących innych metod.
+Pozwala na duża zdolność manipulacji, dobierania parametrów do tego co chcemy, wymyślania nowych. Można dodać tyle i takich metryk jakie chcemy, ustawić sobie różne wartości. Algorytmy klasyczne mają problem z uzyskanie dobrych rezultatów dla wszystkich metryk i nie posiadają możliwości zmiany parametrów startowych.
 
 %---------------------------------------------------------------------------
 
@@ -196,7 +171,7 @@ $M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
 \cite{ryan_collins_neill_1998}
 Algorytmy genetyczne są inspirowaną selekcją naturalną  heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowy rozwiązań w celu wyszukania najlepszych z nich. Pierwszy raz zostały zaproponowane w \cite{10.5555/138936}.
 
-Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane ww tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczane są metryki pozwalające ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
+Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane ww tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczana jest funkcja dopasowania (\textit{eng. fitness function}  pozwalające ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
 
 Selekcja:
 Selekcja proporcjonalna - wybieramy losowo rozwiązania z puli wszystkich rozwiązań z warunkiem, że rozwiązania z największą wartością metryk mają największą szansę na bycie zachowanymi w populacji. Jest to najpopularniejsza metoda selekcji i najczęściej umożliwiająca najszybsze znalezienie rozwiązania. Pozwala na elityzm, czyli zachowanie części najlepszych genotypów w przyszłej populacji.
@@ -262,3 +237,44 @@ Produkcja 2:
 <e> -> aee -> a+e -> a+b
 
 Jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która nie należy do języka, dlatego pierwsza gramatyka jest lepsza.
+
+
+%---------------------------------------------------------------------------
+
+\section{Metryki}
+\label{sec:metryki}
+
+\cite{doi:10.1142/S0218843014400012}
+\subsection{Metryki a funkcja dopasowania}
+
+Dobra funkcja dopasowania powinna spełniać kilka założeń, których nie wzięto pod uwagę tworząc metryki. 
+
+
+Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk, gdzie użytkownik może określić z jakimi waga wziąć pod uwagę poszczególnych przystosowanych metryk. Oprócz tego dodano kolejną metrykę złożoność.
+
+\subsection{Dodatkowa metryka - złożoność}
+Dodatkowa metryka nie jest potrzebna, zawiera redundantne informacje, jednak istnieją teoretyczne przesłanki, że powinna wpłynąć pozytywnie na rozwiązania znajdowane przez algorytm. 
+POET
+Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób \newline
+\subsection{Metryki - szczegóły}
+
+\subsubsection{Prostota}
+Najprostsza z metryk. \newline
+$M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ wartosci\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
+\subsubsection{Odwzorowanie}
+Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie tej metryki. \newline
+$M_o = (1 - \sum_{0}^{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu})^4$
+\subsubsection{Precyzja}
+Unikanie niewystarczającego dopasowania(\textit{eng. underfitting}) \newline
+$M_{pre} = (1 - \sum_{0}^{ilosc\ zdarzen\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu - ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
+\subsubsection{Generalizacja}
+Unikanie nadmiernego dopasowania (\textit{eng. overfitting})
+W pierwszej chwili może wydwać się przeciwieństwem precyzji, dobrym przykładem żeby to zwizualizować jest plama albo to z przetwarzania obrazów, chcemy wypełnić zagłębienia jednocześnie nie pozwalając na rozszerzenie. \newline
+$M_g = \frac{1 - \sum_{0}^{ilosc\ zdarzen\ w\ logu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
+\subsubsection{Złożoność}
+$M_z = 1 - \frac{1}{\sqrt{1 - odwzorowanie\ *\ \sqrt{zlozonosc\ modelu}}} $
+
+\subsection{Obliczanie metryk}
+W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu obliczone dla niego. Weźmy pod uwagę model aandd
+
+Obliczanie metryk dla tego modelu
