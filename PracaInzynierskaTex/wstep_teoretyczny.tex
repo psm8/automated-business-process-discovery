@@ -291,11 +291,11 @@ W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i waria
 	\caption{\label{fig:metrics_business_process}Model, dla którego obliczane są metryki}
 \end{figure}
 
-\subsubsection{Prostota}
+\subsubsection{Obliczanie prostoty}
 Model osiada jest jeden duplikat - b oraz jedno brakujące zdarzenie - f.
 $M_{pro} = 1 - \frac{1\ +\ 1}{6\ +\ 6} = 0.8333$
 
-\subsubsection{Odwzorowanie}
+\subsubsection{Obliczanie odwzorowania}
 \label{alignment-calculation}
 Są trzy możliwość brak zdarzenia w modelu, brak zdarzenia w logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być rozumiane jako brak zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. 
 Nieprawidłowe odwzorowanie można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd wynosi 3.
@@ -313,7 +313,7 @@ $blad\_odwzorowania = \frac{2 * \frac{0}{5 +\ 5} + \frac{0}{4 +\ 4} + \frac{0}{5
 
 $M_o = (1 - 0.0195)^4 = 0.9243$
 
-\subsubsection{Precyzja}
+\subsubsection{Obliczanie precyzji}
 Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu w jakim dana aktywność została wywołana np. dla bramki AND możemy jako kolejne wywołać tyle aktywności ile nie zostało jeszcze wywołanych w tej bramce, z wyjątkiem ostatniej i gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu wygląda to następująco:
 
 \begin{figure}[h]
@@ -324,11 +324,11 @@ Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Za
 Podstawiając te dane do wzoru otrzymujemy:\newline
 $M_{pre} = (1 - (\frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 2}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 1}{3}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 2}{3}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}))^{\frac{1}{3}} = 0.9465 $
 
-\subsubsection{Generalizacja}
+\subsubsection{Obliczanie generalizacji}
 $M_g = 1 - \frac{(\frac{1}{\sqrt{5}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{2}}\ +\ \frac{1}{\sqrt{1}}\ +\ \frac{1}{\sqrt{5}})}{6} = 0.3997$
 \newline Pewną słabością tej metryki jest to, że wpływa na nią rozmiar dziennika zdarzeń. Jeśli ilość rekordów jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. Starając się znaleźć najlepszy model używamy zawsze tego samo logu, więc nie wpływa to na prawidłowość rozwiązania.
 
-\subsubsection{Złożoność}
+\subsubsection{Obliczanie złożoności}
 Najpierw obliczamy złożoności dla poszczególnych bramek, a następnie podstawiamy do wzoru wraz z błędem dopasowania obliczony w sekcji \ref{alignment-calculation}.\newline
 $zlozonosc\_dla\_bramki\_AND = 2! = 2$\newline
 $zlozonosc\_dla\_bramki\_OR = 2! * \frac{2!}{(2! * (2 - 2)!)} + 1! *  \frac{2!}{(1! * (2 - 1)!)} + 0! * \frac{2!}{(0! * (2 - 0)!)} = 2 + 2 + 1 = 5$\newline
