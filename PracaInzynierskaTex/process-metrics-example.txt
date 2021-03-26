@@ -26,3 +26,6 @@ for x in log_enabled:
 ['a', 'c', 'b', 'd'] 1
 ['a', 'c', 'b', 'e'] 2
 ['a', 'c', 'b', 'e', 'd'] 1
+
+a b c d 
+a f d

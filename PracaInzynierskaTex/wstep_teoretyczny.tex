@@ -89,7 +89,7 @@ W dzisiejszych czasach standardem jest, że organizacje biznesowe korzystają z 
 
 Tradycyjne metody są wolne, kosztowne i narażone na błędy ludzkie a konieczność ich ciągłego powtarzania, połączone z wszechobecnym trendem automatyzacji obecnym w biznesie sprawiają, że eksploracja procesów zyskuje na znaczeniu \cite{market-pm}. Ważna jest możliwość szybkiej adaptacji do zmian, automatyzacja pozwala na wykonywanie powtarzalny zmian i ograniczenia błędów.
 
-Jest to szeroko pojęta dziadzina, która zawiera różne aplikacje metoda informatyki do procesów. 
+Jest to szeroko pojęta dziedzina, która zawiera różne aplikacje metoda informatyki do procesów. 
 Jest wartościowym dodatkiem do innych metod eksploracji danych, gdyż daje pełniejszy obraz zamiast skupiać się pojedynczym rezultacie końcowym i tworzyć predykcje, celem jest zrozumienie całej procesu i akcji, które prowadzą do końcowego rezultatu. Jest ot trudniejsze, ale jakże cenne z punktu widzenia biznesowego, gdyż jakakolwiek zmiana w trakcie procesu może sprawić, że przewidywania będą kompletnie trafione, a zrozumienie całego procesu pozwala na pełniejszy obraz i łatwiejsze dostosowanie do zmian. 
 
 Ponadto, procesy biznesowe są często rozumiane przez analityków i metoda na łatwe odniesienie się do oczekiwań biznesowych i stworzenie ścisłych, powtarzalnych i sprawdzalnych ram na dziedzinie, która w większości opierała się na czarnej magii, bullshicie i coachingowy bredniach jest nad wyraz cenne. Eksploracja procesów biznesowych oparta jest na danych i nie ma w niej dużo miejsca na przypuszczenia i domysły.
@@ -156,7 +156,7 @@ Istnieją 4 powszechnie używane kryteria do określanie jak dobry jest otrzyman
   \item[•] generalizacja (\textit{eng. genralization}) - odzwierciedlenie w modelu prawdopodobnych aktywności, mimo że nie znajdują się one w logu.
 \end{itemize}
 Koniecznym jest znalezienie balansu między nimi, gdyż często starając się poprawiać model pod kontem jednego kryterium, pogorszy się on pod względem innych. Powstało wiele metryk przedstawiających te kryteria za pomocą wzorów matematycznych \cite{conf-propositions} \cite{Blum2015MetricsIP}.
-Bardziej szczegółowo wybór metryk omówiono w sekcji \ref{sec:metryki}
+Bardziej szczegółowo wybór metryk omówiono w sekcji \ref{sec:metryki}.
 
 Wśród istniejących algorytmów mogą pojawić się problemy ze współbieżnością, możliwością pomijania aktywności, czy reprezentowania duplikatów, nie radzeniem sobie z zakłócenia w logu,  tworzeniem zbyt skomplikowanych modeli, czy z odwzorowaniem niektórych zachowań. Modele stworzone mogą mieć zła strukturę Oparte na directly follows graphs przez co problemem może być kiedy log jest niekompletny.
 Wciąż nie istnieje algorytm idealny, a te wymienione wyżej posiadają wady. Tworzą modele, które nie są spójne strukturalnie, czyli 
@@ -165,14 +165,24 @@ Pozwala na duża zdolność manipulacji, dobierania parametrów do tego co chcem
 
 %---------------------------------------------------------------------------
 
-\section{Ewolucja genetyczna}
-\label{sec:ewolucjaGenetyczne}
-\subsection{Algorytmy genetyczne}
-Algorytmy genetyczne są inspirowaną selekcją naturalną  heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowy rozwiązań w celu wyszukania najlepszych z nich. Pierwszy raz zostały zaproponowane w \cite{10.5555/138936}.
+\section{Ewolucja gramatyczna}
+\label{sec:ewolucjaGramatyczna}
+\subsection{Algorytmy ewolucyjne}
+Algorytmy ewolucyjne \cite{EA} ??? są inspirowaną selekcją naturalną heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowy rozwiązań w celu wyszukania najlepszych z nich. 
 
-Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane ww tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczana jest funkcja dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
+Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane w tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczana jest funkcja dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań bardziej globalnie, podczas gdy mutacja odpowiada za bardziej lokalne wyszukiwanie. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
 
+Genotyp jest reprezentacją zrozumiałą dla komputera. W praktyce najczęściej jest to lista jednowymiarowa liczb całkowitych. 
+Fenotyp jest reprezentacją zrozumiała dla człowieka. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i   
+
+Najpopularniejsza obecnie to programowanie genetyczne \cite{10.5555/138936}. W programowaniu fenotyp jest reprezentowany jako drzewo, a poszczególne 
+
+Exploatory
+Paralelizacja i skalowalność
 Utrzymywanie populacji rozwiązań fajna sprawa i pozwala na szerze zbiór rozwiązań.
+
+Operatory:
+Tworzenie populacja może być losowe lub może tworzyć nowe osobniki za pomocą jakiejś heurystki. 
 Selekcja:
 Selekcja proporcjonalna - wybieramy losowo rozwiązania z puli wszystkich rozwiązań z warunkiem, że rozwiązania z największą wartością metryk mają największą szansę na bycie zachowanymi w populacji. Jest to najpopularniejsza metoda selekcji i najczęściej umożliwiająca najszybsze znalezienie rozwiązania. Pozwala na elityzm, czyli zachowanie części najlepszych genotypów w przyszłej populacji.
 
@@ -186,19 +196,21 @@ Krzyżowanie dwupunktowe - spośród dwóch genotypów losowo wybieramy dwa punk
 
 Krzyżowanie n-punktowe - uogólnienie powyższych krzyżowań dla n punktów.
 
-Krzyżowanie zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie zamieniamy ze sobą dwa poddrzewa, tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
-
+Krzyżowanie zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie zamieniamy ze sobą dwa poddrzewa, tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
 
 Mutacja:
 Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową wartość. Pozostałe produkcje pozostają niezmienione.
 
 Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
 
+Elityzm -
+
 Algorytmy genetyczne w praktyce
 
  
   
 \subsection{Ewolucja genetyczna a inne algorytmy uczenia maszynowego}
+Żeby lepiej zrozumieć zrozumieć zalety, ograniczenia oraz możliwe zastosowania algorytmów genetycznych warto spojrzeć na tą dziedzinę z dalszej perspektywy i zobaczyć te algorytmy wyglądają na tle innych podejść z domeny uczenia maszynowego.
 Algorytmy genetyczne pozwalają przeszukać najszerszą przestrzeń rozwiązań. Pozwalają na znajdowanie nieoczywistych rozwiązań.  
 Inna heurystyką, która używa losowo rozwiązuje problem jest simulated annealing. Algorytm genetyczny jest łatwy w zrównogleniu i pozwala znaleźć globalne rozwiązanie.
 Sieci neuronowe:
@@ -206,24 +218,47 @@ Pula rozwiązań zamiast jednego rozwiązywania. Szersze przeszukiwanie rozwiąz
 
 Obejrzeć filmik na mlst.
 \subsection{Ewolucja gramatyczna}
-Ewoluuje gramatykę za pomocą metod ewolucji genetycznej w celu znalezienia programu, który najlepiej rozwiązuje problem.
+Oparta na programowaniu genetycznym jest ewolucja genetyczna 
+Ewoluuje gramatykę za pomocą metod ewolucji genetycznej w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana jako BNF (sekcja \ref{sec:gramatyka}). 
 Podejście to zostało zaproponowane w \cite{ryan_collins_neill_1998}. 
 
 %---------------------------------------------------------------------------
 
 \section{Gramatyka}
 \label{sec:gramatyka}
+
 \subsection{BNF}
+\label{sec:BNF}
+Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę języka, czyli sposób łączenia poszczególnych symboli, nie mówiąc nic o znaczeniu poszczególnych słów języka. Odnosi się to także do języków formalnych np. języków programowania. Do opisu takich języków służą gramatyki formalne. Na gramatykę formalną składa się z czwórka G = (T,N,P,S), gdzie 
 
-Gramtyka G=(N,$\Sigma$,P,S) - 
+\begin{itemize}
+  \item[•] T - skończony zbiór symboli terminalnych, czyli stałych, symboli które nie mogą być zastąpione innym ani podzielone na mniejsze 
+  \item[•] N - skończony zbiór symboli nieterminalnych, czyli zmiennych, czyli symboli które są modyfikowane przy tworzeniu języka
+  \item[•] P - skończony zbiór produkcji, czyli zasad, przekształceń postaci (NsumT)*N(NsumT)* -> (NsumT)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i nieterminalnych.
+  \item[•] S - symbol startowy, gdzie S $\in$ N
+\end{itemize}
 
+W informatyce szczególnie szeroko stosowane są gramatyka bezkontekstowe. Pozwalają one na pokazanie w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Wiele teorii co pomaga uniknąć wieloznaczności na etapie parsowania. 
+Gramatyka bezkontekstowa jest to gramatyka, w której wszystkie produkcje mają postać:
 
-Gramatyka bezkontekstowa - 
+	A -> {$\alpha$}, \newline
+gdzie A jest to pojedynczy symbol nieterminalny, a $\alpha$ to dowolny zbiór symboli terminalnych i nieterminalnych.
+	
+Notacja Backusa-Naura (\textit{eng. Backus-Naur Form}) jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole używane w BNF to:
 
+\begin{itemize}
+  \item[•] ::= - produkcja
+  \item[•] |   - lub
+  \item[•] <>  - symbole terminalne
+\end{itemize}
 
-Backus-Naur from jest notacją używaną do kodowaniu gramatyk bezkontekstowych. Symbole używane w BNF to:
+Używając tych symboli możemy opisywać składnie języka w następujący sposób:
 
+ <Symbol1> ::= <Symbol2> | <Symbol3> | Symbol4
+ 
+Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzenie skomplikowanego języka za pomocą prostych zasad: 
 
+	 <Symbol1> ::= <Symbol2> | <Symbol1>
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 
@@ -263,6 +298,12 @@ Ponadto wszystkie metryki powinny być przeskalowane jeśli to konieczne do prze
 \subsection{Dodatkowa metryka - złożoność}
 Dodatkowa metryka nie jest potrzebna, zawiera redundantne informacje, jednak istnieją teoretyczne przesłanki, że powinna wpłynąć pozytywnie na rozwiązania znajdowane przez algorytm. 
 Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób. Chcemy unikać lokalnych maksimów np. sytuacji, w której znajdziemy model, który 
+Ewolucja na Ziemii początkowo wyewoluowała dinozaury jako najlepiej przystosowane do życia na tej planecie organizmy - lokalne maksimum, dopiero przypadek sprawił, że mogło się rozwinąć inne życie.
+
+Większa złożoność każdego modelu przekłada się na złożoność czasową algorytmów obliczanie metryk dla tego modelu, przez co wolniej znajdziemy rozwiązanie.
+
+Można znaleźć inne rozwiązania tego problemu, ale zaletą jest to, że korzysta z istniejący już obliczeń, dlatego nie zwiększamy w istotny sposób czasu i łatwiej odnieść taką metryk do jej braku.
+
 \subsection{Metryki - szczegóły}
 
 \subsubsection{Prostota}  \cite{qd-in-discovery}
@@ -292,23 +333,25 @@ W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i waria
 \end{figure}
 
 \subsubsection{Obliczanie prostoty}
-Model osiada jest jeden duplikat - b oraz jedno brakujące zdarzenie - f.
+Model osiada jest jeden duplikat - b oraz jedno brakujące zdarzenie - f, więc wartość metryki wynosi:
+
 $M_{pro} = 1 - \frac{1\ +\ 1}{6\ +\ 6} = 0.8333$
 
 \subsubsection{Obliczanie odwzorowania}
 \label{alignment-calculation}
 Są trzy możliwość brak zdarzenia w modelu, brak zdarzenia w logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być rozumiane jako brak zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. 
-Nieprawidłowe odwzorowanie można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd wynosi 3.
+Nieprawidłowe odwzorowanie można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd wynosi 3:
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.7]{bad-alignment.png}}
 	\caption{\label{fig:bad-alignment}Nieprawidłowe odwzorowanie}
 \end{figure}
-Dla pozostałych wariantów odwzorowanie jest pełne i błąd wynosi 0
+\newline Dla pozostałych wariantów odwzorowanie jest pełne i błąd wynosi 0:
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.7]{good-alignment.png}}
 	\caption{\label{fig:good-alignment}Prawidłowe odwzorowanie}
 \end{figure}
-Podstawiając wszystkie odwzorowania do wzoru otrzymujemy:
+\newline Podstawiając wszystkie odwzorowania do wzoru otrzymujemy:
+
 $blad\_odwzorowania = \frac{2 * \frac{0}{5 +\ 5} + \frac{0}{4 +\ 4} + \frac{0}{5 +\ 5} + \frac{3}{4 +\ 3}}{22} = 0.0195$
 
 $M_o = (1 - 0.0195)^4 = 0.9243$
@@ -322,6 +365,7 @@ Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Za
 \end{figure}
 
 Podstawiając te dane do wzoru otrzymujemy:\newline
+
 $M_{pre} = (1 - (\frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 2}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 1}{3}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 2}{3}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}))^{\frac{1}{3}} = 0.9465 $
 
 \subsubsection{Obliczanie generalizacji}

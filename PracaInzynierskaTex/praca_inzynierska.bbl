@@ -604,49 +604,40 @@
     \field{year}{2016}
   \endentry
 
-  \entry{alpha-algorithm}{inproceedings}{}
-    \name{author}{4}{}{%
-      {{hash=VdWJM}{%
-         prefix={Van\bibnamedelima der},
-         prefixi={V\bibinitperiod\bibinitdelim d\bibinitperiod},
-         family={Werf},
+  \entry{alpha-algorithm}{article}{}
+    \name{author}{3}{}{%
+      {{hash=AW}{%
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=WA}{%
+         family={Weijters},
          familyi={W\bibinitperiod},
-         given={Jan\bibnamedelima Martijn},
-         giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
-      }}%
-      {{hash=DB}{%
-         family={Dongen},
-         familyi={D\bibinitperiod},
-         given={Boudewijn},
-         giveni={B\bibinitperiod},
-      }}%
-      {{hash=HC}{%
-         family={Hurkens},
-         familyi={H\bibinitperiod},
-         given={Cor},
-         giveni={C\bibinitperiod},
-      }}%
-      {{hash=SA}{%
-         family={Serebrenik},
-         familyi={S\bibinitperiod},
-         given={Alexander},
+         given={A.},
          giveni={A\bibinitperiod},
       }}%
+      {{hash=ML}{%
+         family={Măruşter},
+         familyi={M\bibinitperiod},
+         given={Laura},
+         giveni={L\bibinitperiod},
+      }}%
     }
-    \strng{namehash}{WJMVd+1}
-    \strng{fullhash}{WJMVdDBHCSA1}
+    \strng{namehash}{AWWAML1}
+    \strng{fullhash}{AWWAML1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
-    \verb 10.1007/978-3-540-68746-7_24
+    \verb 10.1109/TKDE.2004.47
     \endverb
-    \field{isbn}{978-3-540-68745-0}
-    \field{pages}{368\bibrangedash 387}
-    \field{title}{Process Discovery Using Integer Linear Programming}
-    \field{volume}{94}
-    \field{journaltitle}{Fundamenta Informaticae}
-    \field{month}{06}
-    \field{year}{2008}
+    \field{pages}{1128 \bibrangedash  1142}
+    \field{title}{Workflow Mining: Discovering Process Models from Event Logs}
+    \field{volume}{16}
+    \field{journaltitle}{Knowledge and Data Engineering, IEEE Transactions on}
+    \field{month}{10}
+    \field{year}{2004}
   \endentry
 
   \entry{ILP-miner}{inproceedings}{}
@@ -847,6 +838,30 @@
     \field{labeltitlesource}{title}
     \field{title}{Metrics in process discovery}
     \field{year}{2015}
+  \endentry
+
+  \entry{EA}{inproceedings}{}
+    \name{author}{1}{}{%
+      {{hash=VPA}{%
+         family={{Vikhar}},
+         familyi={V\bibinitperiod},
+         given={P.\bibnamedelima A.},
+         giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{VPA1}
+    \strng{fullhash}{VPA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2016 International Conference on Global Trends in Signal
+  Processing, Information Computing and Communication (ICGTSPICC)}
+    \verb{doi}
+    \verb 10.1109/ICGTSPICC.2016.7955308
+    \endverb
+    \field{pages}{261\bibrangedash 265}
+    \field{title}{Evolutionary algorithms: A critical review and its future
+  prospects}
+    \field{year}{2016}
   \endentry
 
   \entry{10.5555/138936}{book}{}
