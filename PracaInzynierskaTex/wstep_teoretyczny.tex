@@ -94,11 +94,7 @@ Jest wartościowym dodatkiem do innych metod eksploracji danych, gdyż daje peł
 
 Ponadto, procesy biznesowe są często rozumiane przez analityków i metoda na łatwe odniesienie się do oczekiwań biznesowych i stworzenie ścisłych, powtarzalnych i sprawdzalnych ram na dziedzinie, która w większości opierała się na czarnej magii, bullshicie i coachingowy bredniach jest nad wyraz cenne. Eksploracja procesów biznesowych oparta jest na danych i nie ma w niej dużo miejsca na przypuszczenia i domysły.
 
-Podsumowując, eksploracja procesów to techniki, narzędzia i
-metody odkrywania, monitorowania i
-usprawniania rzeczywistych procesów poprzez 
-wiedzę wyodrębnioną z dzienników zdarzeń powszechnie
-dostępnych w systemach informacyjnych \cite{pm-manifesto}\cite{mining-overview}.
+Podsumowując, eksploracja procesów to techniki, narzędzia oraz metody odkrywania, monitorowania i usprawniania rzeczywistych procesów poprzez wiedzę wyodrębnioną z dzienników zdarzeń powszechnie dostępnych w systemach informacyjnych \cite{pm-manifesto}\cite{mining-overview}.
 Wyróżnia się 3 podkategorie: 
 \begin{itemize}
   \item[•] automatyczne odkrywanie procesów
@@ -168,15 +164,19 @@ Pozwala na duża zdolność manipulacji, dobierania parametrów do tego co chcem
 \section{Ewolucja gramatyczna}
 \label{sec:ewolucjaGramatyczna}
 \subsection{Algorytmy ewolucyjne}
-Algorytmy ewolucyjne \cite{EA} ??? są inspirowaną selekcją naturalną heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowy rozwiązań w celu wyszukania najlepszych z nich. 
+Algorytmy ewolucyjne \cite{EA} ??? są inspirowaną selekcją naturalną heurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowych rozwiązań w celu wyszukania najlepszych z nich. 
 
 Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane w tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczana jest funkcja dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań bardziej globalnie, podczas gdy mutacja odpowiada za bardziej lokalne wyszukiwanie. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
 
 Genotyp jest reprezentacją zrozumiałą dla komputera. W praktyce najczęściej jest to lista jednowymiarowa liczb całkowitych. 
 Fenotyp jest reprezentacją zrozumiała dla człowieka. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i   
 
-Najpopularniejsza obecnie to programowanie genetyczne \cite{10.5555/138936}. W programowaniu fenotyp jest reprezentowany jako drzewo, a poszczególne 
+Optymalny model procesu biznesowego może mieć różną długość, dlatego chcąc znaleźć taki model potrzebujemy metody, która pozwoli na generowanie rozwiązań o zmiennej długości. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak chcemy rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda to programowanie genetyczne \cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnym rozmiarze. W programowaniu fenotyp jest reprezentowany jako drzewo, a poszczególne 
 
+    Inherently have a variable length, meaning they are more flexible, but often grow in complexity
+    Use an explicit structure to avoid operator precedence entirely
+	
+	Znajduje program, model tworzący rozwiązanie, a nie samo rozwiązanie.
 Exploatory
 Paralelizacja i skalowalność
 Utrzymywanie populacji rozwiązań fajna sprawa i pozwala na szerze zbiór rozwiązań.
@@ -202,6 +202,13 @@ Mutacja:
 Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową wartość. Pozostałe produkcje pozostają niezmienione.
 
 Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.6]{Mutation-and-crossover-operations.jpg}}
+	\caption{\label{fig:mutation-and-crossover-operations}Mutacja i krzyżowanie}
+\end{figure}
+
+Replacement:
 
 Elityzm -
 
@@ -234,31 +241,31 @@ Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę j
 \begin{itemize}
   \item[•] T - skończony zbiór symboli terminalnych, czyli stałych, symboli które nie mogą być zastąpione innym ani podzielone na mniejsze 
   \item[•] N - skończony zbiór symboli nieterminalnych, czyli zmiennych, czyli symboli które są modyfikowane przy tworzeniu języka
-  \item[•] P - skończony zbiór produkcji, czyli zasad, przekształceń postaci (NsumT)*N(NsumT)* -> (NsumT)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i nieterminalnych.
+  \item[•] P - skończony zbiór produkcji, czyli zasad, przekształceń postaci (N$\cup$T)*N(N$\cup$T)* -> (N$\cup$T)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i nieterminalnych.
   \item[•] S - symbol startowy, gdzie S $\in$ N
 \end{itemize}
 
-W informatyce szczególnie szeroko stosowane są gramatyka bezkontekstowe. Pozwalają one na pokazanie w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Wiele teorii co pomaga uniknąć wieloznaczności na etapie parsowania. 
+W informatyce szczególnie szeroko stosowane są gramatyki bezkontekstowe. Pozwalają one na pokazanie w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Wiele teorii co pomaga uniknąć wieloznaczności na etapie parsowania. 
 Gramatyka bezkontekstowa jest to gramatyka, w której wszystkie produkcje mają postać:
 
 	A -> {$\alpha$}, \newline
 gdzie A jest to pojedynczy symbol nieterminalny, a $\alpha$ to dowolny zbiór symboli terminalnych i nieterminalnych.
 	
-Notacja Backusa-Naura (\textit{eng. Backus-Naur Form}) jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole używane w BNF to:
+Notacja Backusa-Naura (\textit{eng. Backus-Naur Form})\cite{Backus1959TheSA}\cite{Naur}\cite{Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
 
 \begin{itemize}
   \item[•] ::= - produkcja
   \item[•] |   - lub
-  \item[•] <>  - symbole terminalne
+  \item[•] <>  - symbole nieterminalne
 \end{itemize}
 
 Używając tych symboli możemy opisywać składnie języka w następujący sposób:
 
- <Symbol1> ::= <Symbol2> | <Symbol3> | Symbol4
+ <Nieterminalny1> ::= <Nieterminalny2>Terminany1 | <Nieterminalny3> | Terminany1
  
 Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzenie skomplikowanego języka za pomocą prostych zasad: 
 
-	 <Symbol1> ::= <Symbol2> | <Symbol1>
+	 <Nieterminalny1> ::= <Nieterminalny2> | <Nieterminalny2><Nieterminalny1>
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 
@@ -288,15 +295,18 @@ Jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która ni
 
 \subsection{Metryki a funkcja dopasowania}
 
-Dobra funkcja dopasowania powinna spełniać kilka założeń, których nie wzięto pod uwagę tworząc metryki. 
+Dobra funkcja dopasowania powinna spełniać kilka założeń, których nie wzięto pod uwagę tworząc metryki:
+The fitness function should be implemented efficiently. If the fitness function becomes the bottleneck of the algorithm, then the overall efficiency of the genetic algorithm will be reduced. 
 
-
+Funkcja dopasowania powinna nie może tylko mierzyć jak dobre jest rozwiązanie, dobry przykładem jest tutaj  
+timetabling lub xcheduling problem, gdzie otrzymamay większość nieprawidłowych rozwiązań, dlategho musimy sprawdzać jak blisko jesteśmy prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}
 Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk, gdzie użytkownik może określić z jakimi waga wziąć pod uwagę poszczególnych przystosowanych metryk. Oprócz tego dodano kolejną metrykę złożoność.
 
 Ponadto wszystkie metryki powinny być przeskalowane jeśli to konieczne do przedziału od 0 do 1, co jest standardem i sprawia, że łatwiej je porównywać i na nich operować.
 
 \subsection{Dodatkowa metryka - złożoność}
 Dodatkowa metryka nie jest potrzebna, zawiera redundantne informacje, jednak istnieją teoretyczne przesłanki, że powinna wpłynąć pozytywnie na rozwiązania znajdowane przez algorytm. 
+Różni się tym od prostoty czy precyzji, że nie patrzy z perspektywy modelu, a z perspektywy wydajności algorytmu ewolucji i próbuje minimalizować czas potrzebny na obliczenie rozwiązania. 
 Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób. Chcemy unikać lokalnych maksimów np. sytuacji, w której znajdziemy model, który 
 Ewolucja na Ziemii początkowo wyewoluowała dinozaury jako najlepiej przystosowane do życia na tej planecie organizmy - lokalne maksimum, dopiero przypadek sprawił, że mogło się rozwinąć inne życie.
 

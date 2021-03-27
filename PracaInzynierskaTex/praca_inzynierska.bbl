@@ -924,6 +924,156 @@
     \field{year}{1998}
   \endentry
 
+  \entry{Backus1959TheSA}{inproceedings}{}
+    \name{author}{1}{}{%
+      {{hash=BJ}{%
+         family={Backus},
+         familyi={B\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{BJ1}
+    \strng{fullhash}{BJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{IFIP Congress}
+    \field{title}{The syntax and semantics of the proposed international
+  algebraic language of the Zurich ACM-GAMM Conference}
+    \field{year}{1959}
+  \endentry
+
+  \entry{Naur}{article}{}
+    \name{author}{1}{}{%
+      {{hash=NP}{%
+         family={Naur},
+         familyi={N\bibinitperiod},
+         given={Peter},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Computer History Museum}%
+    }
+    \strng{namehash}{NP1}
+    \strng{fullhash}{NP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{issn}{0084-6198}
+    \field{number}{Sup 9}
+    \field{pages}{1–38}
+    \field{title}{A Course of Algol 60 Programming}
+    \list{location}{1}{%
+      {Mountain View, CA, USA}%
+    }
+    \field{journaltitle}{ALGOL Bull.}
+    \field{month}{01}
+    \field{year}{1961}
+  \endentry
+
+  \entry{Knuth1964}{article}{}
+    \name{author}{1}{}{%
+      {{hash=KDE}{%
+         family={Knuth},
+         familyi={K\bibinitperiod},
+         given={Donald\bibnamedelima E.},
+         giveni={D\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {ACM}%
+    }
+    \keyw{bnf definition syntax}
+    \strng{namehash}{KDE1}
+    \strng{fullhash}{KDE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb http://doi.acm.org/10.1145/355588.365140
+    \endverb
+    \field{issn}{0001-0782}
+    \field{number}{12}
+    \field{pages}{735\bibrangedash 736}
+    \field{title}{{backus normal form vs. Backus Naur form}}
+    \field{volume}{7}
+    \list{location}{1}{%
+      {New York}%
+    }
+    \field{journaltitle}{Communications of the ACM}
+    \field{year}{1964}
+  \endentry
+
+  \entry{icga85:cramer}{inproceedings}{}
+    \name{author}{1}{}{%
+      {{hash=CNL}{%
+         family={Cramer},
+         familyi={C\bibinitperiod},
+         given={Nichael\bibnamedelima Lynn},
+         giveni={N\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \name{editor}{1}{}{%
+      {{hash=GJJ}{%
+         family={Grefenstette},
+         familyi={G\bibinitperiod},
+         given={John\bibnamedelima J.},
+         giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CNL1}
+    \strng{fullhash}{CNL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of an International Conference on Genetic
+  Algorithms and the Applications}
+    \field{pages}{183\bibrangedash 187}
+    \field{title}{A representation for the Adaptive Generation of Simple
+  Sequential Programs}
+    \verb{url}
+    \verb http://www.cs.ucl.ac.uk/staff/W.Langdon/ftp/papers/icga1985/icga85_cr
+    \verb amer.pdf
+    \endverb
+    \list{location}{1}{%
+      {Carnegie-Mellon University Pittsburgh PA USA}%
+    }
+    \field{year}{1985}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{beasley:1993:ogapf}{article}{}
+    \name{author}{3}{}{%
+      {{hash=BD}{%
+         family={Beasley},
+         familyi={B\bibinitperiod},
+         given={David},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=BDR}{%
+         family={Bull},
+         familyi={B\bibinitperiod},
+         given={David\bibnamedelima R.},
+         giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=MRR}{%
+         family={Martin},
+         familyi={M\bibinitperiod},
+         given={Ralph\bibnamedelima R.},
+         giveni={R\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \keyw{BPM collection imported}
+    \strng{namehash}{BDBDRMRR1}
+    \strng{fullhash}{BDBDRMRR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{2}
+    \field{pages}{58\bibrangedash 69}
+    \field{title}{An Overview of Genetic Algorithms: Part 1, Fundamentals}
+    \field{volume}{15}
+    \field{journaltitle}{University Computing}
+    \field{year}{1993}
+  \endentry
+
   \entry{qd-in-discovery}{article}{}
     \name{author}{3}{}{%
       {{hash=BJCAM}{%

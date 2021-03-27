@@ -9,5 +9,9 @@ Database file #1: praca_inzynierska-blx.bib
 Database file #2: bibliografia.bib
 Warning--entry type for "inductive-miner" isn't style-file defined
 --line 310 of file bibliografia.bib
+Warning--I'm ignoring icga85:cramer's extra "url" field
+--line 424 of file bibliografia.bib
+Warning--I'm ignoring icga85:cramer's extra "url" field
+--line 425 of file bibliografia.bib
 Biblatex version: 3.13
-(There was 1 warning)
+(There were 3 warnings)
