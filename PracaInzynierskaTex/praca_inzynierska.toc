@@ -16,26 +16,25 @@
 \contentsline {section}{\numberline {2.3}Ewolucja gramatyczna}{17}% 
 \contentsline {subsection}{\numberline {2.3.1}Algorytmy ewolucyjne}{17}% 
 \contentsline {subsection}{\numberline {2.3.2}Szczeg\IeC {\'o}\IeC {\l }owe om\IeC {\'o}wienie operator\IeC {\'o}w i dzia\IeC {\l }ania algorytm\IeC {\'o}w ewolucyjnych}{18}% 
-\contentsline {subsection}{\numberline {2.3.3}Ewolucja genetyczna a inne algorytmy uczenia maszynowego}{19}% 
-\contentsline {subsection}{\numberline {2.3.4}Ewolucja gramatyczna}{20}% 
-\contentsline {section}{\numberline {2.4}Gramatyka}{20}% 
-\contentsline {subsection}{\numberline {2.4.1}BNF}{20}% 
-\contentsline {subsection}{\numberline {2.4.2}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{21}% 
-\contentsline {section}{\numberline {2.5}Metryki}{21}% 
-\contentsline {subsection}{\numberline {2.5.1}Metryki a funkcja dopasowania}{21}% 
-\contentsline {subsection}{\numberline {2.5.2}Dodatkowa metryka - z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{22}% 
-\contentsline {subsection}{\numberline {2.5.3}Metryki - szczeg\IeC {\'o}\IeC {\l }y}{22}% 
-\contentsline {subsubsection}{\numberline {2.5.3.1}Prostota}{22}% 
-\contentsline {subsubsection}{\numberline {2.5.3.2}Odwzorowanie}{22}% 
-\contentsline {subsubsection}{\numberline {2.5.3.3}Precyzja}{23}% 
-\contentsline {subsubsection}{\numberline {2.5.3.4}Generalizacja}{23}% 
-\contentsline {subsubsection}{\numberline {2.5.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{23}% 
-\contentsline {subsection}{\numberline {2.5.4}Obliczanie metryk}{23}% 
-\contentsline {subsubsection}{\numberline {2.5.4.1}Obliczanie prostoty}{24}% 
-\contentsline {subsubsection}{\numberline {2.5.4.2}Obliczanie odwzorowania}{24}% 
-\contentsline {subsubsection}{\numberline {2.5.4.3}Obliczanie precyzji}{24}% 
-\contentsline {subsubsection}{\numberline {2.5.4.4}Obliczanie generalizacji}{25}% 
-\contentsline {subsubsection}{\numberline {2.5.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{25}% 
+\contentsline {subsection}{\numberline {2.3.3}Ewolucja gramatyczna}{20}% 
+\contentsline {subsection}{\numberline {2.3.4}BNF}{20}% 
+\contentsline {subsection}{\numberline {2.3.5}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{21}% 
+\contentsline {subsection}{\numberline {2.3.6}Om\IeC {\'o}wienia dzia\IeC {\l }ania algorytm\IeC {\'o}w ewolucji genetycznej}{21}% 
+\contentsline {section}{\numberline {2.4}Metryki}{22}% 
+\contentsline {subsection}{\numberline {2.4.1}Metryki a funkcja dopasowania}{22}% 
+\contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka - z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{22}% 
+\contentsline {subsection}{\numberline {2.4.3}Metryki - szczeg\IeC {\'o}\IeC {\l }y}{22}% 
+\contentsline {subsubsection}{\numberline {2.4.3.1}Prostota}{22}% 
+\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{23}% 
+\contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{23}% 
+\contentsline {subsubsection}{\numberline {2.4.3.4}Generalizacja}{23}% 
+\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{24}% 
+\contentsline {subsection}{\numberline {2.4.4}Obliczanie metryk}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.4.1}Obliczanie prostoty}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{25}% 
 \contentsline {chapter}{\numberline {3}Projekt i implementacja}{27}% 
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{27}% 
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{27}% 

@@ -164,12 +164,9 @@ Najważniejszą jednak przewagą algorytmów genetycznych jest pełna dowolnoś�
 \subsection{Algorytmy ewolucyjne}
 Algorytmy ewolucyjne \cite{EA} są inspirowaną selekcją naturalną metaheurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowych rozwiązań w celu wyszukania najlepszych z nich. 
 
-Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą licz całkowitych i zapisywane w tablicy jednowymiarowej. Następnie dla każdego elementu populacji obliczana jest funkcja dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. Po sklasyfikowaniu rozwiązań generujemy nową populację mutując lub krzyżując głownie choć nie tylko najlepsze chromosomy. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań bardziej globalnie, podczas gdy mutacja odpowiada za bardziej lokalne wyszukiwanie. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania.  
+Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowany przez bity, liczby lub znaki i zapisywane w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią dla której możliwe jest obliczanie funkcji dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. Te proces jest powtarzany dla każdego elementu populacji. Po sklasyfikowaniu rozwiązań, jeśli wciąż nie znaleziono satysfakcjonującego rozwiązania, generowana jest nową populację poprzez mutuje lub krzyżowania głównie choć nie tylko najlepszych chromosomów. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania. Po zastosowaniu tych operatorów utworzona zostaje nowa populacja, dla której cały proces jest powtarzany.   
 
-Genotyp jest reprezentacją zrozumiałą dla komputera. W praktyce najczęściej jest to lista jednowymiarowa liczb całkowitych. 
-Fenotyp jest reprezentacją zrozumiała dla człowieka. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i   
-
-Optymalny model procesu biznesowego może mieć różną długość, dlatego chcąc znaleźć taki model potrzebujemy metody, która pozwoli na generowanie rozwiązań o zmiennej długości. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak chcemy rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda to programowanie genetyczne \cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnym rozmiarze. W programowaniu fenotyp jest reprezentowany jako drzewo, a poszczególne 
+Optymalny model procesu biznesowego może mieć różną długość, dlatego chcąc znaleźć taki model potrzebujemy metody, która pozwoli na generowanie rozwiązań o zmiennej długości. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak chcemy rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda to programowanie genetyczne \cite{Koza:1990:pat-GAsp}\cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnym rozmiarze. W programowaniu fenotyp jest reprezentowany jako drzewo, a poszczególne 
 
     Inherently have a variable length, meaning they are more flexible, but often grow in complexity
     Use an explicit structure to avoid operator precedence entirely
@@ -179,58 +176,60 @@ Exploatory
 Paralelizacja i skalowalność
 Utrzymywanie populacji rozwiązań fajna sprawa i pozwala na szerze zbiór rozwiązań.
 
-\subsection{Szczegółowe omówienie operatorów i działania algorytmów ewolucyjnych}
-Tworzenie populacja może być losowe lub może tworzyć nowe osobniki za pomocą jakiejś heurystki. 
-Selekcja:
-Selekcja proporcjonalna - wybieramy losowo rozwiązania z puli wszystkich rozwiązań z warunkiem, że rozwiązania z największą wartością metryk mają największą szansę na bycie zachowanymi w populacji. Jest to najpopularniejsza metoda selekcji i najczęściej umożliwiająca najszybsze znalezienie rozwiązania. Pozwala na elityzm, czyli zachowanie części najlepszych genotypów w przyszłej populacji.
-
-Selekcja turniejowa - wybieramy podzbiór ze zbioru rozwiązań i zachowujemy w przyszłej najlepsze rozwiązanie z tego podzbioru.
-Rozwiązanie to pozwala na duży wpływ na presję genetyczną - zwiększając wielkość podzbioru ograniczamy szansę na wybór z niską wartością metryk.  Jest to także metoda, która łatwe zrównoleglenie.
-
-Krzyżowanie - :
-Krzyżowanie punktowe - spośród dwóch genotypów losowo wybieramy jeden punkt, następnie tworzymy dwa nowe genotypy pierwszy z chromosomów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
-
-Krzyżowanie dwupunktowe - spośród dwóch genotypów losowo wybieramy dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
-
-Krzyżowanie n-punktowe - uogólnienie powyższych krzyżowań dla n punktów.
-
-Krzyżowanie zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie zamieniamy ze sobą dwa poddrzewa, tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
-
-Mutacja:
-Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową wartość. Pozostałe produkcje pozostają niezmienione.
-
-Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
-
-\begin{figure}[h]
-	\centering{\includegraphics[scale=0.6]{Mutation-and-crossover-operations.jpg}}
-	\caption{\label{fig:mutation-and-crossover-operations}Mutacja i krzyżowanie}
-\end{figure}
-
-Replacement:
-
-Elityzm -
-
-Algorytmy genetyczne w praktyce
-
- 
-  
-\subsection{Ewolucja genetyczna a inne algorytmy uczenia maszynowego}
 Żeby lepiej zrozumieć zrozumieć zalety, ograniczenia oraz możliwe zastosowania algorytmów genetycznych warto spojrzeć na tą dziedzinę z dalszej perspektywy i zobaczyć te algorytmy wyglądają na tle innych podejść z domeny uczenia maszynowego. random search
 Algorytmy genetyczne pozwalają przeszukać najszerszą przestrzeń rozwiązań. Pozwalają na znajdowanie nieoczywistych rozwiązań.  
 Inna heurystyką, która używa losowo rozwiązuje problem jest simulated annealing. Algorytm genetyczny jest łatwy w zrównogleniu i pozwala znaleźć globalne rozwiązanie.
 Sieci neuronowe:
 Pula rozwiązań zamiast jednego rozwiązywania. Szersze przeszukiwanie rozwiązań. 
 
-Obejrzeć filmik na mlst.
+Może tez być jako świetne uzupełnienie.
+Algorytmy genetyczne w praktyce
+
+\subsection{Szczegółowe omówienie operatorów i działania algorytmów ewolucyjnych}
+Tworzenie populacja jest pierwszym krokiem algorytmu ewolucyjnego. Może ono odbywać się kompletnie losowe lub do tworzenia nowych osobników może zostać użyta odpowiednia heurystka. 
+
+Kolejny krok selekcja sprawia, że przeszukiwanie przestrzeni rozwiązań nie jest kompletnie losowe. Wybierając najlepszej rozwiązanie można skorzystać z metod takich jak:
+\begin{itemize}
+  \item[•] Selekcja proporcjonalna - wybieramy losowo rozwiązania z puli wszystkich rozwiązań z warunkiem, że rozwiązania z największą wartością metryk mają największą szansę na bycie zachowanymi w populacji. Jest to najpopularniejsza metoda selekcji i najczęściej umożliwiająca najszybsze znalezienie rozwiązania. Pozwala na elityzm, czyli zachowanie części najlepszych genotypów w przyszłej populacji.
+  \item[•] Selekcja turniejowa - wybieramy podzbiór ze zbioru rozwiązań i zachowujemy w przyszłej najlepsze rozwiązanie z tego podzbioru.
+Rozwiązanie to pozwala na duży wpływ na presję genetyczną - zwiększając wielkość podzbioru ograniczamy szansę na wybór z niską wartością metryk.  Jest to także metoda, która łatwe zrównoleglenie.
+\end{itemize}
+
+Następnie stosowane są operatory krzyżowania i mutacji. Krzyżowanie jest zamianą metraiłu genetycznego, czyli częsci rozwiązania pomiędzy dwoma osobnikami w poulacji tworząc również dwa zmienione osobniku. Mutacja natomist zachodzi w obrębie jednego osobnika.
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.6]{Mutation-and-crossover-operations.jpg}}
+	\caption{\label{fig:mutation-and-crossover-operations}Mutacja i krzyżowanie}
+\end{figure}
+
+Operatory te nie muszą i zazwyczaj nie są stosowane do każdego osobnika w populacji, a za to jak często powinny być stosowane ustalane jest za pomocą odpowiedniego parametru. Mutacja może być stosowana więcej niż dla danego osobnika w danej generacji
+
+Najczęściej używane operatory krzyżowania to:
+\begin{itemize}
+\item[•] Krzyżowanie punktowe - spośród dwóch genotypów losowo wybieramy jeden punkt, następnie tworzymy dwa nowe genotypy pierwszy z chromosomów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
+
+\item[•] Krzyżowanie dwupunktowe - spośród dwóch genotypów losowo wybieramy dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
+
+\item[•] Krzyżowanie n-punktowe - uogólnienie powyższych krzyżowań dla n punktów.
+
+\item[•] Krzyżowanie zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie zamieniamy ze sobą dwa poddrzewa, tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
+\end{itemize}
+
+Natomiast operatory mutaji:
+\begin{itemize}
+\item[•] Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową wartość. Pozostałe produkcje pozostają niezmienione.
+
+\item[•] Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
+\end{itemize}
+
+Żeby uniknąć sytacji, w której najlepsze rozwiązania zostaną zmodyfikowane możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w populacji niezależnie id wyniku selekcji.
+
+Replacement:
+
+
+
 \subsection{Ewolucja gramatyczna}
-Oparta na programowaniu genetycznym jest ewolucja genetyczna 
-Ewoluuje gramatykę za pomocą metod ewolucji genetycznej w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana jako BNF (sekcja \ref{sec:gramatyka}). 
-Podejście to zostało zaproponowane w \cite{ryan_collins_neill_1998}. 
-
-%---------------------------------------------------------------------------
-
-\section{Gramatyka}
-\label{sec:gramatyka}
+Oparta na programowaniu genetycznym jest ewolucja genetyczna \cite{ryan_collins_neill_1998}. Korzysta ona ze standardowych metod ewolucji genetycznej jednak ewoluuje gramatykę w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana jako BNF (sekcja \ref{sec:BNF}). Rekursywne produkcje pozwalają na tworzenie rozwiązań o różnej długości. 
 
 \subsection{BNF}
 \label{sec:BNF}
@@ -259,17 +258,15 @@ Notacja Backusa-Naura (\textit{eng. Backus-Naur Form})\cite{Backus1959TheSA}\cit
 
 Używając tych symboli możemy opisywać składnie języka w następujący sposób:
 
- <Nieterminalny1> ::= <Nieterminalny2>Terminany1 | <Nieterminalny3> | Terminany1
+	<Nieterminalny1> ::= <Nieterminalny2>Terminany1 | <Nieterminalny3> | Terminany1
  
 Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzenie skomplikowanego języka za pomocą prostych zasad: 
 
-	 <Nieterminalny1> ::= <Nieterminalny2> | <Nieterminalny2><Nieterminalny1>
+	<Nieterminalny1> ::= <Nieterminalny2> | <Nieterminalny2><Nieterminalny1>
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 
-W celu ograniczenia niepotrzebnych obliczeń gramatyka powinna tworzyć jak najmniej niewłaściwych rozwiązań. 
-Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała jak często chcemy uzyskać dany stan.
-Stosując operator mutacji możemy uzyskać fenotypy, które nie należą do języka, czyli nie są właściwym rozwiązaniami. Żeby ograniczyć zbędne obliczenia gramatyka powinna minimalizować szansę na to, że zamieniając produkcję na dowolną inną dostępną dla danego symbolu produkcję uzyskamy słowo które nie należy do języka.
+Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą właściwe do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych \cite{grammarDesign}. Każda rekursywna produkcja powinna mieć co najmniej tyle samo nie rekursywnych inaczej biorąc pod uwagę, że GE koduje fenotyp jako losowe liczb ciężko będzie się zatrzymać. Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała jak często chcemy uzyskać dany stan. W celu ograniczenia niepotrzebnych obliczeń gramatyka powinna tworzyć jak najmniej niewłaściwych rozwiązań.   Stosując mutacje lub krzyżowanie punktowe, które podmienia genotypy pod zmapowaniu możemy uzyskać fenotypy, które nie należą do języka, czyli nie są właściwym rozwiązaniami. Żeby ograniczyć zbędne obliczenia gramatyka powinna minimalizować szansę na to, że zamieniając produkcję na dowolną inną dostępną dla danego symbolu produkcję uzyskamy słowo które nie należy do języka.
 Głupi przykład znaleźć inny lub usunąć:
 Przykładem takiej sytuacji może być język na który, składają się poprawne działania dodawania i jednego lub więcej symbolu a i jednego b na końcu/ zaczynająca się od a:
 a+b, a+a-b
@@ -285,6 +282,13 @@ Produkcja 2:
 <e> -> aee -> a+e -> a+b
 
 Warto zauważyć, że jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która nie należy do języka, dlatego pierwsza gramatyka jest lepsza.
+
+\subsection{Omówienia działania algorytmów ewolucji genetycznej}
+Mechanizmem, który wyróżnia ewolucji genetyczną na tle innych algorytmów ewolucyjnych jest mapowanie chromosomów zapisywanych jako jednowymiarowa tablica liczb całkowitych na gramatykę. Przykładem może być genotyp: 
+[6, 70, 92, 59, 53, 95, 92, 45, 13, 1]
+i gramatyka:
+
+której symbolem startowym jest <e>
 
 
 %---------------------------------------------------------------------------

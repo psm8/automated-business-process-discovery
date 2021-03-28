@@ -931,6 +931,29 @@
     \field{year}{2016}
   \endentry
 
+  \entry{Koza:1990:pat-GAsp}{misc}{}
+    \name{author}{1}{}{%
+      {{hash=KJR}{%
+         family={Koza},
+         familyi={K\bibinitperiod},
+         given={John\bibnamedelima R.},
+         giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+    }
+    \keyw{genetic algorithms, genetic programming}
+    \strng{namehash}{KJR1}
+    \strng{fullhash}{KJR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{United States Patent 4935877}
+    \field{note}{filed may 20, 1988, issued june 19, 1990, 4,935,877.
+  Australian patent 611,350 issued september 21, 1991. Canadian patent
+  1,311,561 issued december 15, 1992.}
+    \field{title}{Non-Linear Genetic Algorithms for Solving Problems}
+    \field{year}{1990}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
   \entry{10.5555/138936}{book}{}
     \name{author}{1}{}{%
       {{hash=KJR}{%
@@ -1068,6 +1091,35 @@
     }
     \field{journaltitle}{Communications of the ACM}
     \field{year}{1964}
+  \endentry
+
+  \entry{grammarDesign}{inbook}{}
+    \name{author}{2}{}{%
+      {{hash=NM}{%
+         family={Nicolau},
+         familyi={N\bibinitperiod},
+         given={Miguel},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=AA}{%
+         family={Agapitos},
+         familyi={A\bibinitperiod},
+         given={Alexandros},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NMAA1}
+    \strng{fullhash}{NMAA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-319-78717-6_2
+    \endverb
+    \field{pages}{23\bibrangedash 53}
+    \field{title}{Understanding grammatical evolution: Grammar design}
+    \field{journaltitle}{Handbook of Grammatical Evolution}
+    \field{month}{01}
+    \field{year}{2018}
   \endentry
 
   \entry{icga85:cramer}{inproceedings}{}
