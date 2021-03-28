@@ -840,6 +840,73 @@
     \field{year}{2015}
   \endentry
 
+  \entry{dongen2006b}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=vBF}{%
+         family={{van Dongen}},
+         familyi={v\bibinitperiod},
+         given={B.\bibnamedelima F.},
+         giveni={B\bibinitperiod\bibinitdelim F\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={{Mendling}},
+         familyi={M\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=vWMP}{%
+         family={{van der Aalst}},
+         familyi={v\bibinitperiod},
+         given={W.\bibnamedelima M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{vBFMJvWMP1}
+    \strng{fullhash}{vBFMJvWMP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2006 10th IEEE International Enterprise Distributed
+  Object Computing Conference (EDOC'06)}
+    \verb{doi}
+    \verb 10.1109/EDOC.2006.56
+    \endverb
+    \field{pages}{116\bibrangedash 128}
+    \field{title}{Structural Patterns for Soundness of Business Process Models}
+    \field{year}{2006}
+  \endentry
+
+  \entry{StructuralDetectionofDeadlocks}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=AA}{%
+         family={Awad},
+         familyi={A\bibinitperiod},
+         given={Ahmed},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=PF}{%
+         family={Puhlmann},
+         familyi={P\bibinitperiod},
+         given={Frank},
+         giveni={F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AAPF1}
+    \strng{fullhash}{AAPF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/978-3-540-79396-0_21
+    \endverb
+    \field{isbn}{978-3-540-79395-3}
+    \field{pages}{239\bibrangedash 250}
+    \field{title}{Structural Detection of Deadlocks in Business Process Models}
+    \field{volume}{7}
+    \field{journaltitle}{Lecture Notes in Business Information Processing}
+    \field{month}{12}
+    \field{year}{2008}
+  \endentry
+
   \entry{EA}{inproceedings}{}
     \name{author}{1}{}{%
       {{hash=VPA}{%
