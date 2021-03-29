@@ -164,26 +164,9 @@ Najważniejszą jednak przewagą algorytmów genetycznych jest pełna dowolnoś�
 \subsection{Algorytmy ewolucyjne}
 Algorytmy ewolucyjne \cite{EA} są inspirowaną selekcją naturalną metaheurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowych rozwiązań w celu wyszukania najlepszych z nich. 
 
-Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowany przez bity, liczby lub znaki i zapisywane w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią dla której możliwe jest obliczanie funkcji dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. Te proces jest powtarzany dla każdego elementu populacji. Po sklasyfikowaniu rozwiązań, jeśli wciąż nie znaleziono satysfakcjonującego rozwiązania, generowana jest nową populację poprzez mutuje lub krzyżowania głównie choć nie tylko najlepszych chromosomów. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania. Po zastosowaniu tych operatorów utworzona zostaje nowa populacja, dla której cały proces jest powtarzany.   
+Algorytmy ewolucyjne znajdują zastosowanie w problemach, dla których nie jest konieczna gwarancja znalezienia najlepszego rozwiązania. Cechami wyróżniającymi algorytmy genetyczne na tle innych algorytmów uczenia maszynowego jest istnienie puli rozwiązań zamiast jednego rozwiązywania, co umożliwia szersze przeszukiwanie przestrzeni rozwiązań oraz nieograniczoną i łatwą w zaimplementowaniu paralelizację. Algorytmy te są znacznie bardziej nastawione na globalne eksplorowanie nowych rozwiązań, zamiast szybkie osiągnięcie celu. Z tego względu dobrze nadają się do problemów gdzie istnieje dużo ekstremów, a przestrzeń poszukiwań jest duża. Jako przeciwieństwo, metody oparte na gradiencie w najprostszej znajdują tylko lokalne ekstrema, nawet po modyfikacja takich jak na przykład simulated anneling wciąż nie ma populacji i tak szerokiego przeszukiwania przestrzeni rozwiązań.
 
-Optymalny model procesu biznesowego może mieć różną długość, dlatego chcąc znaleźć taki model potrzebujemy metody, która pozwoli na generowanie rozwiązań o zmiennej długości. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak chcemy rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda to programowanie genetyczne \cite{Koza:1990:pat-GAsp}\cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnym rozmiarze. W programowaniu fenotyp jest reprezentowany jako drzewo, a poszczególne 
-
-    Inherently have a variable length, meaning they are more flexible, but often grow in complexity
-    Use an explicit structure to avoid operator precedence entirely
-	
-	Znajduje program, model tworzący rozwiązanie, a nie samo rozwiązanie.
-Exploatory
-Paralelizacja i skalowalność
-Utrzymywanie populacji rozwiązań fajna sprawa i pozwala na szerze zbiór rozwiązań.
-
-Żeby lepiej zrozumieć zrozumieć zalety, ograniczenia oraz możliwe zastosowania algorytmów genetycznych warto spojrzeć na tą dziedzinę z dalszej perspektywy i zobaczyć te algorytmy wyglądają na tle innych podejść z domeny uczenia maszynowego. random search
-Algorytmy genetyczne pozwalają przeszukać najszerszą przestrzeń rozwiązań. Pozwalają na znajdowanie nieoczywistych rozwiązań.  
-Inna heurystyką, która używa losowo rozwiązuje problem jest simulated annealing. Algorytm genetyczny jest łatwy w zrównogleniu i pozwala znaleźć globalne rozwiązanie.
-Sieci neuronowe:
-Pula rozwiązań zamiast jednego rozwiązywania. Szersze przeszukiwanie rozwiązań. 
-
-Może tez być jako świetne uzupełnienie.
-Algorytmy genetyczne w praktyce
+Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowany przez bity, liczby lub znaki i zapisywane w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią dla której możliwe jest obliczanie funkcji dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. jeśli wciąż nie znaleziono satysfakcjonującego rozwiązania, generowana jest nową populację poprzez mutuje lub krzyżowania głównie choć nie tylko najlepszych chromosomów. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania. Ten proces jest powtarzany dla każdego elementu populacji. Po sklasyfikowaniu rozwiązań. Po zastosowaniu tych operatorów utworzona zostaje nowa populacja, dla której cały proces jest powtarzany.   
 
 \subsection{Szczegółowe omówienie operatorów i działania algorytmów ewolucyjnych}
 Tworzenie populacja jest pierwszym krokiem algorytmu ewolucyjnego. Może ono odbywać się kompletnie losowe lub do tworzenia nowych osobników może zostać użyta odpowiednia heurystka. 
@@ -195,7 +178,7 @@ Kolejny krok selekcja sprawia, że przeszukiwanie przestrzeni rozwiązań nie je
 Rozwiązanie to pozwala na duży wpływ na presję genetyczną - zwiększając wielkość podzbioru ograniczamy szansę na wybór z niską wartością metryk.  Jest to także metoda, która łatwe zrównoleglenie.
 \end{itemize}
 
-Następnie stosowane są operatory krzyżowania i mutacji. Krzyżowanie jest zamianą metraiłu genetycznego, czyli częsci rozwiązania pomiędzy dwoma osobnikami w poulacji tworząc również dwa zmienione osobniku. Mutacja natomist zachodzi w obrębie jednego osobnika.
+Następnie stosowane są operatory krzyżowania i mutacji. Krzyżowanie jest zamianą meteriału genetycznego, czyli częsci rozwiązania pomiędzy dwoma osobnikami w poulacji tworząc również dwa zmienione osobniku. Mutacja natomist zachodzi w obrębie jednego osobnika.
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.6]{Mutation-and-crossover-operations.jpg}}
@@ -215,20 +198,21 @@ Najczęściej używane operatory krzyżowania to:
 \item[•] Krzyżowanie zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie zamieniamy ze sobą dwa poddrzewa, tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
 \end{itemize}
 
-Natomiast operatory mutaji:
+Natomiast operatory mutacji to:
 \begin{itemize}
 \item[•] Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową wartość. Pozostałe produkcje pozostają niezmienione.
 
 \item[•] Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
 \end{itemize}
 
-Żeby uniknąć sytacji, w której najlepsze rozwiązania zostaną zmodyfikowane możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w populacji niezależnie id wyniku selekcji.
+Żeby uniknąć sytuacji, w której najlepsze rozwiązania zostaną zmodyfikowane możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w populacji niezależnie id wyniku selekcji.
 
-Replacement:
-
+Ostatnim krokiem jest zastąpienie osobników w poprzedniej populacji przez nowych powstałych na skutek zastosowania wcześniej wspomnianych operatorów. Istnieją dwa podejścia, sugerujące zastępowanie całej populacji lub tylko kilku osobników \cite{SSvsGen}.
 
 
 \subsection{Ewolucja gramatyczna}
+Optymalny model procesu biznesowego może mieć różną długość, dlatego chcąc znaleźć taki model potrzebujemy metody, która pozwoli na generowanie rozwiązań o zmiennej długości. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak chcemy rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda to programowanie genetyczne \cite{Koza:1990:pat-GAsp}\cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnym rozmiarze, dzięki ewolucji całej struktury fenotyp, najczęściej reprezentowane jako drzewo.
+
 Oparta na programowaniu genetycznym jest ewolucja genetyczna \cite{ryan_collins_neill_1998}. Korzysta ona ze standardowych metod ewolucji genetycznej jednak ewoluuje gramatykę w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana jako BNF (sekcja \ref{sec:BNF}). Rekursywne produkcje pozwalają na tworzenie rozwiązań o różnej długości. 
 
 \subsection{BNF}
@@ -276,6 +260,7 @@ Gramatyka za pomocą której można stworzyć takie słowa to:
 
 Produkcja 1:
 <e> -> aSe -> a+e -> a+b
+
 <e> = aee | b | + | -
 
 Produkcja 2:
@@ -283,11 +268,12 @@ Produkcja 2:
 
 Warto zauważyć, że jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która nie należy do języka, dlatego pierwsza gramatyka jest lepsza.
 
-\subsection{Omówienia działania algorytmów ewolucji genetycznej}
+\subsection{Omówienia działania algorytmu ewolucji genetycznej}
 Mechanizmem, który wyróżnia ewolucji genetyczną na tle innych algorytmów ewolucyjnych jest mapowanie chromosomów zapisywanych jako jednowymiarowa tablica liczb całkowitych na gramatykę. Przykładem może być genotyp: 
 [6, 70, 92, 59, 53, 95, 92, 45, 13, 1]
 i gramatyka:
-
+<e> = aSe | b
+<S> = + | -
 której symbolem startowym jest <e>
 
 
@@ -302,7 +288,7 @@ Dobra funkcja dopasowania powinna spełniać kilka założeń, których nie wzi�
 The fitness function should be implemented efficiently. If the fitness function becomes the bottleneck of the algorithm, then the overall efficiency of the genetic algorithm will be reduced. 
 
 Funkcja dopasowania powinna nie może tylko mierzyć jak dobre jest rozwiązanie, dobry przykładem jest tutaj  
-timetabling lub xcheduling problem, gdzie otrzymamay większość nieprawidłowych rozwiązań, dlategho musimy sprawdzać jak blisko jesteśmy prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}
+timetabling lub scheduling problem, gdzie otrzymamay większość nieprawidłowych rozwiązań, dlategho musimy sprawdzać jak blisko jesteśmy prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}
 Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk, gdzie użytkownik może określić z jakimi waga wziąć pod uwagę poszczególnych przystosowanych metryk. Oprócz tego dodano kolejną metrykę złożoność.
 
 Ponadto wszystkie metryki powinny być przeskalowane jeśli to konieczne do przedziału od 0 do 1, co jest standardem i sprawia, że łatwiej je porównywać i na nich operować.

@@ -13,5 +13,7 @@ Warning--I'm ignoring icga85:cramer's extra "url" field
 --line 436 of file bibliografia.bib
 Warning--I'm ignoring icga85:cramer's extra "url" field
 --line 437 of file bibliografia.bib
+Warning--entry type for "SSvsGen" isn't style-file defined
+--line 490 of file bibliografia.bib
 Biblatex version: 3.13
-(There were 3 warnings)
+(There were 4 warnings)

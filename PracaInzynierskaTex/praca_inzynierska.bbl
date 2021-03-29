@@ -931,6 +931,31 @@
     \field{year}{2016}
   \endentry
 
+  \entry{SSvsGen}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=ND}{%
+         family={Noever},
+         familyi={N\bibinitperiod},
+         given={D.},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=BS}{%
+         family={Baskaran},
+         familyi={B\bibinitperiod},
+         given={Subbiah},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NDBS1}
+    \strng{fullhash}{NDBS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Steady-state vs. generational genetic algorithms: A
+  comparison of time complexity and convergence properties}
+    \field{month}{07}
+    \field{year}{1992}
+  \endentry
+
   \entry{Koza:1990:pat-GAsp}{misc}{}
     \name{author}{1}{}{%
       {{hash=KJR}{%

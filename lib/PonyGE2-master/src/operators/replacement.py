@@ -20,17 +20,7 @@ def replacement(new_pop, old_pop):
 
 
 def generational(new_pop, old_pop):
-    """
-    Replaces the old population with the new population. The ELITE_SIZE best
-    individuals from the previous population are appended to new pop regardless
-    of whether or not they are better than the worst individuals in new pop.
-    
-    :param new_pop: The new population (e.g. after selection, variation, &
-    evaluation).
-    :param old_pop: The previous generation population, from which elites
-    are taken.
-    :return: The 'POPULATION_SIZE' new population with elites.
-    """
+    """re"""
 
     # Sort both populations.
     old_pop.sort(reverse=True)
