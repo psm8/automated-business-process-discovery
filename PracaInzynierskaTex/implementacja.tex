@@ -101,8 +101,6 @@ Takie modularne podejście pozwala na dodanie nowych bramek logiczny bez koniecz
 
 W tej części przedstawiono listingi z pseudokodem opartym na języku Python. Tam gdzie to konieczne pozostawiono słowa kluczowa oraz operatory tego języka.
 
-\subsubsection{Ogólny opis dlaczego ten program jest fajny}
-
 \subsubsection{Ogólny schemat blokowy}
 
 
@@ -119,7 +117,7 @@ To na tym etapie odrzucamy też procesy, które mimo, że gramatyka pozwala na i
 \begin{figure}[!ht]
 \lstset{caption=Parser gramatyki, captionpos=b}
 \lstset{label=src:passive, frame=single}
-\begin{lstlisting}
+\begin{lstlisting}[escapeinside=``]
 def parsuj(wyrażenie: str) -> int:
 
    for i w zakresie długość_wyrażenia:
@@ -168,7 +166,7 @@ Pozostałe metryki wymagają obliczenia dopasowania i są obliczane dla najlepie
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
-\begin{lstlisting}
+\begin{lstlisting}[escapeinside=``]
 def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
                    najdłuższa_dozwolona_długość, cache) -> int:
                    
@@ -268,7 +266,7 @@ Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwan
 \begin{figure}[!ht]
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
-\begin{lstlisting}
+\begin{lstlisting}[escapeinside=``]
 def znajdź_wszystkie_ścieżki_długości_n(n, proces) -> []:
     if n == 0:
         return []
@@ -321,7 +319,7 @@ Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie dopasowania, captionpos=b}
 \lstset{label=src:alignment_calculation, frame=single}
-\begin{lstlisting}
+\begin{lstlisting}[escapeinside=``]
 def oblicz_dopasowanie(model, log):
     błąd := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
     m = długość(model) + 1  # Macierz rozwiązań ilość wierszy.
@@ -358,7 +356,7 @@ Potrzebne do obliczenia precyzji oraz generalizacji. Z wzgledu na zmiany
 \begin{figure}[!ht]
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
-\begin{lstlisting}
+\begin{lstlisting}[escapeinside=``]
 def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
     sciezka = []
     while i != 0:
@@ -405,7 +403,9 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
 \end{lstlisting}
 \end{figure}
 \clearpage
-\subsubsection{Cache}
+
+\subsubsection{Ogólny opis dlaczego ten program jest fajny}
+Cache
 
 W sytuacji kiedy wiele obliczeń się powtarza można znacząca przyspieszyć czas działania aplikacji poprzez zastosowanie cachowania. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
 Poprzednio obliczone rozwiązanie może się powtórzyć. W tym wypadku możemy skorzystać z cache genotypów, dostarczane przez bibliotekę PonyGE2.

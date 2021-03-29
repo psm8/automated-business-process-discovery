@@ -20,44 +20,43 @@
 \contentsline {subsection}{\numberline {2.3.4}BNF}{20}% 
 \contentsline {subsection}{\numberline {2.3.5}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{21}% 
 \contentsline {subsection}{\numberline {2.3.6}Om\IeC {\'o}wienia dzia\IeC {\l }ania algorytmu ewolucji genetycznej}{22}% 
-\contentsline {section}{\numberline {2.4}Metryki}{22}% 
-\contentsline {subsection}{\numberline {2.4.1}Metryki a funkcja dopasowania}{22}% 
-\contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka - z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{22}% 
-\contentsline {subsection}{\numberline {2.4.3}Metryki - szczeg\IeC {\'o}\IeC {\l }y}{23}% 
-\contentsline {subsubsection}{\numberline {2.4.3.1}Prostota}{23}% 
-\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{23}% 
-\contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{23}% 
-\contentsline {subsubsection}{\numberline {2.4.3.4}Generalizacja}{24}% 
-\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{24}% 
-\contentsline {subsection}{\numberline {2.4.4}Obliczanie metryk}{24}% 
-\contentsline {subsubsection}{\numberline {2.4.4.1}Obliczanie prostoty}{24}% 
-\contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{25}% 
-\contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{25}% 
-\contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{26}% 
-\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{26}% 
-\contentsline {chapter}{\numberline {3}Projekt i implementacja}{27}% 
-\contentsline {section}{\numberline {3.1}Wykorzystane technologie}{27}% 
-\contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{27}% 
-\contentsline {subsection}{\numberline {3.1.2}PonyGE2}{27}% 
-\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{27}% 
-\contentsline {section}{\numberline {3.3}Projekt systemu}{30}% 
-\contentsline {subsubsection}{\numberline {3.3.0.1}Podzia\IeC {\l } na modu\IeC {\l }y}{30}% 
-\contentsline {subsubsection}{\numberline {3.3.0.2}Model}{31}% 
-\contentsline {section}{\numberline {3.4}Implementacja}{33}% 
-\contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny opis dlaczego ten program jest fajny}{33}% 
-\contentsline {subsubsection}{\numberline {3.4.0.2}Og\IeC {\'o}lny schemat blokowy}{33}% 
-\contentsline {subsubsection}{\numberline {3.4.0.3}Parsowanie gramatyki}{33}% 
-\contentsline {subsubsection}{\numberline {3.4.0.4}Obliczanie metryk}{34}% 
-\contentsline {subsubsection}{\numberline {3.4.0.5}Obliczanie metryk dla jednego procesu}{37}% 
-\contentsline {subsubsection}{\numberline {3.4.0.6}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{39}% 
-\contentsline {subsubsection}{\numberline {3.4.0.7}Obliczanie dopasowania}{41}% 
-\contentsline {subsubsection}{\numberline {3.4.0.8}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{42}% 
-\contentsline {subsubsection}{\numberline {3.4.0.9}Cache}{44}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{44}% 
-\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{47}% 
-\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{47}% 
-\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{47}% 
-\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{47}% 
-\contentsline {subsection}{\numberline {4.3.1}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{47}% 
-\contentsline {section}{\numberline {4.4}Wnioski}{47}% 
-\contentsline {chapter}{\numberline {5}Podsumowanie}{49}% 
+\contentsline {section}{\numberline {2.4}Metryki}{23}% 
+\contentsline {subsection}{\numberline {2.4.1}Metryki a funkcja dopasowania}{23}% 
+\contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka - z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{23}% 
+\contentsline {subsection}{\numberline {2.4.3}Metryki - szczeg\IeC {\'o}\IeC {\l }y}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.3.1}Prostota}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.3.4}Generalizacja}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{25}% 
+\contentsline {subsection}{\numberline {2.4.4}Obliczanie metryk}{26}% 
+\contentsline {subsubsection}{\numberline {2.4.4.1}Obliczanie prostoty}{26}% 
+\contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{26}% 
+\contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{26}% 
+\contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{27}% 
+\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{27}% 
+\contentsline {chapter}{\numberline {3}Projekt i implementacja}{29}% 
+\contentsline {section}{\numberline {3.1}Wykorzystane technologie}{29}% 
+\contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{29}% 
+\contentsline {subsection}{\numberline {3.1.2}PonyGE2}{29}% 
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{29}% 
+\contentsline {section}{\numberline {3.3}Projekt systemu}{32}% 
+\contentsline {subsubsection}{\numberline {3.3.0.1}Podzia\IeC {\l } na modu\IeC {\l }y}{32}% 
+\contentsline {subsubsection}{\numberline {3.3.0.2}Model}{33}% 
+\contentsline {section}{\numberline {3.4}Implementacja}{35}% 
+\contentsline {subsubsection}{\numberline {3.4.0.1}Og\IeC {\'o}lny schemat blokowy}{35}% 
+\contentsline {subsubsection}{\numberline {3.4.0.2}Parsowanie gramatyki}{35}% 
+\contentsline {subsubsection}{\numberline {3.4.0.3}Obliczanie metryk}{36}% 
+\contentsline {subsubsection}{\numberline {3.4.0.4}Obliczanie metryk dla jednego procesu}{39}% 
+\contentsline {subsubsection}{\numberline {3.4.0.5}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{41}% 
+\contentsline {subsubsection}{\numberline {3.4.0.6}Obliczanie dopasowania}{43}% 
+\contentsline {subsubsection}{\numberline {3.4.0.7}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{44}% 
+\contentsline {subsubsection}{\numberline {3.4.0.8}Og\IeC {\'o}lny opis dlaczego ten program jest fajny}{46}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{46}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{49}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{49}% 
+\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{49}% 
+\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{49}% 
+\contentsline {subsection}{\numberline {4.3.1}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{49}% 
+\contentsline {section}{\numberline {4.4}Wnioski}{49}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{51}% 

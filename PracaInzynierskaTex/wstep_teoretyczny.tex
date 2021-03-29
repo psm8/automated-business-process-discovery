@@ -124,6 +124,7 @@ Mając do dyspozycji te 3 informacje - poszczególne przypadki, aktywności na n
 Dla poprawy czytelności aktywności często reprezentowane są jako symbole, np. kolejne litery alfabetu, zamiast pełnej nazwy.
 
 \subsection{Automatyczne odkrywanie procesów biznesowych}
+\label{sec:discovery}
 
 Automatyczne odkrywanie procesów biznesowych jest podgrupą i obejmuję techniki przekształcania danych w procesy. Ważne, że proces już istnieje, a my tylko go odkrywamy. Wejściem jest dziennik zdarzeń, a wyjściem jest mapa lub model procesu.
 
@@ -228,8 +229,9 @@ Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę j
 
 W informatyce szczególnie szeroko stosowane są gramatyki bezkontekstowe. Pozwalają one na pokazanie w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Wiele teorii co pomaga uniknąć wieloznaczności na etapie parsowania. 
 Gramatyka bezkontekstowa jest to gramatyka, w której wszystkie produkcje mają postać:
-
-	A -> {$\alpha$}, \newline
+\begin{center}
+	A -> {$\alpha$},
+\end{center}
 gdzie A jest to pojedynczy symbol nieterminalny, a $\alpha$ to dowolny zbiór symboli terminalnych i nieterminalnych.
 	
 Notacja Backusa-Naura (\textit{eng. Backus-Naur Form})\cite{Backus1959TheSA}\cite{Naur}\cite{Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
@@ -241,40 +243,68 @@ Notacja Backusa-Naura (\textit{eng. Backus-Naur Form})\cite{Backus1959TheSA}\cit
 \end{itemize}
 
 Używając tych symboli możemy opisywać składnie języka w następujący sposób:
-
-	<Nieterminalny1> ::= <Nieterminalny2>Terminany1 | <Nieterminalny3> | Terminany1
- 
+\begin{center}
+<Nieterminalny1> ::= <Nieterminalny2>Terminany1 | <Nieterminalny3> | Terminany1
+\end{center}
 Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzenie skomplikowanego języka za pomocą prostych zasad: 
-
-	<Nieterminalny1> ::= <Nieterminalny2> | <Nieterminalny2><Nieterminalny1>
+\begin{center}
+<Nieterminalny1> ::= <Nieterminalny2> | <Nieterminalny2><Nieterminalny1>
+\end{center}
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 
-Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą właściwe do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych \cite{grammarDesign}. Każda rekursywna produkcja powinna mieć co najmniej tyle samo nie rekursywnych inaczej biorąc pod uwagę, że GE koduje fenotyp jako losowe liczb ciężko będzie się zatrzymać. Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała jak często chcemy uzyskać dany stan. W celu ograniczenia niepotrzebnych obliczeń gramatyka powinna tworzyć jak najmniej niewłaściwych rozwiązań.   Stosując mutacje lub krzyżowanie punktowe, które podmienia genotypy pod zmapowaniu możemy uzyskać fenotypy, które nie należą do języka, czyli nie są właściwym rozwiązaniami. Żeby ograniczyć zbędne obliczenia gramatyka powinna minimalizować szansę na to, że zamieniając produkcję na dowolną inną dostępną dla danego symbolu produkcję uzyskamy słowo które nie należy do języka.
-Głupi przykład znaleźć inny lub usunąć:
-Przykładem takiej sytuacji może być język na który, składają się poprawne działania dodawania i jednego lub więcej symbolu a i jednego b na końcu/ zaczynająca się od a:
-a+b, a+a-b
-Gramatyka za pomocą której można stworzyć takie słowa to:
-<e> = aSe | b
-<S> = + | -
-
-Produkcja 1:
-<e> -> aSe -> a+e -> a+b
-
-<e> = aee | b | + | -
-
-Produkcja 2:
-<e> -> aee -> a+e -> a+b
-
-Warto zauważyć, że jeśli w kroku a+e zajdzie mutacja, może uzyskać gramatykę np. a+-, która nie należy do języka, dlatego pierwsza gramatyka jest lepsza.
+Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą właściwe do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych \cite{grammarDesign}: 
+\begin{itemize}
+  \item[•] Każda rekursywna produkcja powinna mieć co najmniej tyle samo produkcji nierekursywnych inaczej biorąc pod uwagę, że genotyp jest mapowany na fenotyp metodą pseudolosową, prawdopodobieństwo otrzymania rozwiązania, które musi się składać tylko symboli terminalnych będzie zbyt niskie.
+  \item[•] Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała jak często chcemy uzyskać dane rozwiązanie.
+  \item[•] Stosując mutacje oraz krzyżowanie punktowe lub n-punktowe, które podmienia gen w genotypie może dojść do sytuacji, w której dany gen po podmianie zostanie zmapowany na produkcje o innej ilości symboli nieterminalnych przez co kolejne geny, jako że mamy wyprowadzenie lewostronne, będą mapowania niezgodnie z pierwotnym sensem. Żeby to osiągnąć należy ograniczyć ilość symboli nieterminalnych do minimum. Także każdy symbol nieterminalny powinien mieć możliwie tyle samo produkcji oraz jego produkcje powinny tworzyć tyle samo symboli nieterminalnych.
+  \item[•] Stworzona gramatyka powinna umożliwić na tworzenie jak najmniejszej ilości rozwiązań, które nie należą do języka, co prawda tak stworzony program nadal będzie działać i można odrzucić te rozwiązania na etapie parsowania, ale warto oszczędzić niepotrzebnych obliczeń i rozwiązań ten problem już na etapie tworzenia gramatyki. 
+\end{itemize}
 
 \subsection{Omówienia działania algorytmu ewolucji genetycznej}
-Mechanizmem, który wyróżnia ewolucji genetyczną na tle innych algorytmów ewolucyjnych jest mapowanie chromosomów zapisywanych jako jednowymiarowa tablica liczb całkowitych na gramatykę. Przykładem może być genotyp: 
-[6, 70, 92, 59, 53, 95, 92, 45, 13, 1]
-i gramatyka:
-<e> = aSe | b
-<S> = + | -
-której symbolem startowym jest <e>
+Mechanizmem, który wyróżnia ewolucji genetyczną na tle innych algorytmów ewolucyjnych jest mapowanie genotypu zapisywanego jako jednowymiarowa tablica liczb całkowitych na fenotyp - gramatykę. Przykładem może być genotyp: 
+\begin{center} [6, 71, 92, 59, 52, 95, 23, 45, 12, 2] \end{center}
+i gramatyka w notacji BNF:
+
+ \begin{center}
+  \begin{tabular}{l}
+    <e> ::= <var>=<math><var> \\
+	<math> ::= <math><math> | <var><op> \\
+	<op> ::= + | - \\
+	<var> ::= a | b | c | d, \\
+  \end{tabular}
+ \end{center}
+
+której symbolem startowym jest <e>. 
+Wybór kolejnych produkcji odbywa się według zasady:
+\begin{center} $produckja = gen\_jako\_liczba\_całkowita\ \%\ ilosc\_dostepnych\_produkcji$ \end{center}
+Używając wyprowadzenia lewostronnego:
+
+\begin{itemize}
+  \item[•] Aktualne wyrażenie: <e>;
+Aktualny symbol nieterminalny: <e>;
+Ilość możliwych produkcji: 1;
+Wartość genu: 6;
+6 mod 1 = 0, więc <e> zostaje zastąpiony przez <var>=<math><var>
+  \item[•] Aktualne wyrażenie: <var>=<math><var>;
+Aktualny symbol nieterminalny: <var>;
+Ilość możliwych produkcji: 4;
+Wartość genu: 71;
+71 mod 4 = 3, więc <var> zostaje zastąpiony przez d
+  \item[•] Aktualne wyrażenie: d=<math><var>;
+Aktualny symbol nieterminalny: <math>;
+Ilość możliwych produkcji: 2;
+Wartość genu: 92;
+92 mod 2 = 0, więc <math> zostaje zastąpiony <math><math>
+  \item[•] Aktualne wyrażenie: d=<math><math><var>;
+Aktualny symbol nieterminalny: <math>;
+Ilość możliwych produkcji: 2;
+Wartość genu: 59;
+59 mod 2 = 1, więc <math> zostaje zastąpiony <var><op>
+\end{itemize}
+kontynuując analogicznie, po zastąpienie wszystkich symboli nieterminalnych, ostatecznie otrzymany fenotyp to:
+\begin{center} d = a - b + c \end{center}	
+Używanie tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramatyki, może generować złożone rozwiązania. W połączeniu z metodami z algorytmów ewolucyjnych, możliwe jest teoretycznie ewoluowanie programów w dowolnym języku programowania, a następnie za pomocą odpowiedniej funkcji dopasowania znalezienie takiego, który rozwiąże dany problem. W kolejnej sekcji omówiono jak dobrać metryki, aby użyć tego mechanizmu do odkrywania procesów biznesowych.
 
 
 %---------------------------------------------------------------------------
@@ -284,45 +314,52 @@ której symbolem startowym jest <e>
 
 \subsection{Metryki a funkcja dopasowania}
 
-Dobra funkcja dopasowania powinna spełniać kilka założeń, których nie wzięto pod uwagę tworząc metryki:
-The fitness function should be implemented efficiently. If the fitness function becomes the bottleneck of the algorithm, then the overall efficiency of the genetic algorithm will be reduced. 
+Funkcja dopasowania powinna być możliwie najmniej kosztowna obliczeniowo, dlatego nie warto nadmiernie komplikować, gdyż mimo że wersja lepiej określi jak dobre jest dane rozwiązanie, to obliczenie może stać się wąskim gardłem całego algorytmu w rezultacie pogarszając jego działanie.   
 
-Funkcja dopasowania powinna nie może tylko mierzyć jak dobre jest rozwiązanie, dobry przykładem jest tutaj  
-timetabling lub scheduling problem, gdzie otrzymamay większość nieprawidłowych rozwiązań, dlategho musimy sprawdzać jak blisko jesteśmy prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}
-Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk, gdzie użytkownik może określić z jakimi waga wziąć pod uwagę poszczególnych przystosowanych metryk. Oprócz tego dodano kolejną metrykę złożoność.
+Funkcja dopasowania powinna nie może tylko mierzyć jak dobre jest rozwiązanie, dobry przykładem jest tutaj problem układanie planów (\textit eng. timetabling problem), gdzie większość otrzymanych rozwiązań będzie nieprawidłowa, dlatego lepszym pomysłem jest sprawdzanie jak blisko jesteśmy potencjalnie prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}.
 
-Ponadto wszystkie metryki powinny być przeskalowane jeśli to konieczne do przedziału od 0 do 1, co jest standardem i sprawia, że łatwiej je porównywać i na nich operować.
+Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk wymienionych w sekcji \ref{sec:discovery}. Oprócz tego dodano kolejną metrykę złożoność. Użytkownik może określić z jakimi wagami wziąć pod uwagę poszczególne metryki.
 
 \subsection{Dodatkowa metryka - złożoność}
-Dodatkowa metryka nie jest potrzebna, zawiera redundantne informacje, jednak istnieją teoretyczne przesłanki, że powinna wpłynąć pozytywnie na rozwiązania znajdowane przez algorytm. 
-Różni się tym od prostoty czy precyzji, że nie patrzy z perspektywy modelu, a z perspektywy wydajności algorytmu ewolucji i próbuje minimalizować czas potrzebny na obliczenie rozwiązania. 
-Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób. Chcemy unikać lokalnych maksimów np. sytuacji, w której znajdziemy model, który 
-Ewolucja na Ziemii początkowo wyewoluowała dinozaury jako najlepiej przystosowane do życia na tej planecie organizmy - lokalne maksimum, dopiero przypadek sprawił, że mogło się rozwinąć inne życie.
+Dodatkowa metryka zawiera informacje nie potrzebne do jakość odkrytego modelu, jednak istnieją teoretyczne przesłanki, że powinna wpłynąć pozytywnie na rozwiązania znajdowane przez algorytm. Różni się od nieco podobnych prostoty czy precyzji, tym że nie jest to podejście z perspektywy modelu, a wydajności algorytmu ewolucji i próby zminimalizowanie czasu potrzebnego na znalezienie rozwiązania.
+ 
+Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób. Chcemy unikać lokalnych maksimów - sytuacji, w której populacja zostanie zdominowana przez zbyt skomplikowane osobniki na wczesnym etapie ewolucji, zamiast tego nagradza sytuacje, w której wraz ze znajdowaniem coraz lepszego rozwiązania, stopień skomplikowanie modelu będzie stopniowo rósł.
+Prosta analogię można odnaleźć w naturze, w historii Ziemii w pewnym momencie dinozaury wyewoluowała jako najlepiej przystosowane do życia na tej planecie organizmy - lokalne maksimum i blokowały powstawanie mniej skomplikowanych form życia, które w rezultacie wyewoluowały do lepiej przystosowanych organizmów.
 
-Większa złożoność każdego modelu przekłada się na złożoność czasową algorytmów obliczanie metryk dla tego modelu, przez co wolniej znajdziemy rozwiązanie.
+Większa złożoność każdego modelu przekłada się na dłuższe obliczanie metryk dla tego modelu, przez co znalezienie ostatecznego rozwiązanie zajmie więcej czasu.
 
-Można znaleźć inne rozwiązania tego problemu, ale zaletą jest to, że korzysta z istniejący już obliczeń, dlatego nie zwiększamy w istotny sposób czasu i łatwiej odnieść taką metryk do jej braku.
+Kolejną zaletą jest to, że korzysta z istniejących już obliczeń, przez co nie zwiększa w istotny sposób czasu każdej iteracji algorytmu, co pozwala na łatwiejsze porównanie działania algorytmu z i bez tej metryki.
 
 \subsection{Metryki - szczegóły}
 
-\subsubsection{Prostota}  \cite{qd-in-discovery}
-Najprostsza z metryk. Celem jest zmniejszenie skomplikowania. Głównym czynnikiem wpływającym na skomplikowanie jest ilość aktywności w modelu. Idealna jest sytuacja, w której model ma tyle samo aktywności ile unikalnych aktywności jest w dzienniku zdarzeń. To nie zawsze jest możliwe, jednak chcąc otrzymać maksymalnie czytelny model powinniśmy do tego dążyć. Stąd też metryk wybrana skupia się na dwóch czynnikach, czyli ilości duplikatów w modelu i ilości brakujących wartości w modelu. Oczywiście znaczenie ma wielkość modelu, dlatego wartości tego  musimy odnieść do ilości wszystkich zdarzeń w logu i modelu. Ostatecznie metrykę wyrażono wzorem: \newline
+\subsubsection{Prostota}  
+Jest to najprostsza z metryk. Celem jest zmniejszenie skomplikowania modelu. Głównym czynnikiem na to wpływającym jest ilość aktywności w modelu. Idealna jest sytuacja, w której model ma tyle samo aktywności ile unikalnych aktywności jest w dzienniku zdarzeń. To nie zawsze jest możliwe, jednak chcąc otrzymać maksymalnie czytelny model powinniśmy do tego dążyć. Stąd też metryk wybrana skupia się na dwóch czynnikach, czyli ilości duplikatów w modelu i ilości brakujących wartości w modelu. Oczywiście znaczenie ma wielkość modelu, dlatego wartości tego  musimy odnieść do ilości wszystkich zdarzeń w logu i modelu. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem: \begin{center}
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ zdarzen\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
-\subsubsection{Odwzorowanie} \cite{metric-calculation}
-Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie tej metryki. Ważnym jest, żeby liczyć to częściowa, a sama metryka, żeby była maksymalnie wrażliwa na zmiany. Można by zastosować prostą metrykę zero-jedynkową, sprawdzającą czy model zgadza się z wariantem logu czy nie, jednak szczególnie w przypadku algorytmu genetycznego nie sprawdzalibyśmy jak bardzo zbliżamy się do celu i praktycznie opieralibyśmy się na losowaniu dopóki nie trafimy. Przy procesie z wieloma aktywnością niezgadzających się kilka kreatywności nie stworzyć dużego błędu, gdzie model zero-jedynkowy zrobiłby to, dlatego podniesiono do potęgi 4, żeby zrobić metrykę bardziej wrażliwą na zmiany. Ostatecznie metrykę wyrażono wzorem: \newline
-$M_o = (1 - blad\_odwzorowania)^4$ \newline
+\end{center}
+\subsubsection{Odwzorowanie} 
+Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie informacji uzyskanych podczas obliczania odwzorowanie. Ważnym jest, żeby obliczać dopasowanie częściowo dla każdej aktywności, a nie całego wariantu, co sprawi, że metryka będzie bardziej wrażliwa na zmiany. Możliwe jest zastosowanie prostej metryki zero-jedynkową, która sprawdzałaby czy model zgadza się z wariantem logu, jednak szczególnie w przypadku algorytmu genetycznego nie sprawdzane byłoby o ile bliżej jesteśmy do celu, dopóki losowo nie znaleziony zostałby model idealnie pasujący do wariantu. Metrykę oparto o \cite{metric-calculation}, jednak przy procesie z wieloma aktywnościami, najczęściej części aktywności może zostać dopasowana, co sprawi, że łączny błąd będzie niewielki, dlatego wprowadzono modyfikację i podniesiono otrzymany wynik do potęgi 4, żeby zrobić metrykę bardziej wrażliwą na zmiany w porównianu z innymi metrykami. Ostatecznie metrykę wyrażono wzorem:
+\begin{center}
+\begin{tabular}{l}
+$M_o = (1 - blad\_odwzorowania)^4$ \\
 $blad\_odwzorowania = \frac{\sum_{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorowania\ logu\ w\ modelu}{minimalna\ długosc\ najlepszej\ sciezki\ w\ modelu\ +\ długosc\ sciezki\ w\ logu}}{ilosc\ zdarzen \ w\ logu}$
-\subsubsection{Precyzja} \cite{precision-calculation}
-Unikanie niewystarczającego dopasowania (\textit{eng. underfitting}). Chcemy uniknąć tworzenia modeli, w której możliwe są dowolne zachowania. Można by osiągnąć maksymalne wartości pozostałych metryk tworząc jednak bramkę or zawierającą wszystkie aktywności, jednak oczywistym jest, że nie jest to model, które oddaje rzeczywistość. We wzorze skupiono się na ilości osiągalnych zdarzeń następujących po danej aktywności, możliwych w modelu. Chcemy żeby poszczególne aktywności mogły być tylko następowane przez te które naprawdę są po nich. Do potęgi 1/3, bo oryginalna metryka zienia się zbyt łatwo przez co jest nieproporcjonalna do zmian innych metryk i łatwo wpaść w lokalne maksimum, gdzie każda mała zmiana będzie wpływać na ogromną zmianę w metryce.  Ostatecznie metrykę wyrażono wzorem: \newline
+\end{tabular}
+\end{center}
+\subsubsection{Precyzja} 
+Pozwala na unikanie niewystarczającego dopasowania (\textit{eng. underfitting}). Celem jest uniknięcie tworzenia modeli, dla których możliwe są dowolne zachowania. Możliwe jest osiągnięcie maksymalne wartości pozostałych metryk tworząc jednak bramkę or zawierającą wszystkie aktywności, jednak oczywistym jest, że nie jest to model, który jest pożądany. We wzorze skupiono się na ilości osiągalnych zdarzeń następujących po danej aktywności, możliwych w modelu. Chcemy żeby poszczególne aktywności mogły poprzedzać tylko te, które poprzedzają w logu. Metrykę oparto o \cite{precision-calculation}, jednak otrzymany wynik do potęgi 1/3, bo oryginalna metryka zmienia się zbyt łatwo przez co jest nieproporcjonalna do zmian innych metryk i łatwo wpaść w lokalne maksimum, gdzie każda mała zmiana będzie wpływać na ogromną zmianę w metryce.  Ostatecznie metrykę wyrażono wzorem:
+\begin{center}
 $M_{pre} = (1 - \sum_{zdarzenia\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu\ -\ ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
+\end{center}
 \subsubsection{Generalizacja}
 Unikanie nadmiernego dopasowania (\textit{eng. overfitting})
-W pierwszej chwili może wydawać się przeciwieństwem precyzji, dobrym przykładem żeby to zwizualizować jest plama albo to z przetwarzania obrazów, chcemy wypełnić zagłębienia jednocześnie nie pozwalając na rozszerzenie. Można to osiągnąć poprzez wzięcie średniej ważonej liczby przejścia w logu przez dane zdarzenie, co sprawia, że wciąż zachowujemy ścieżki, które są często odwiedzane przez inne warianty, mimo że pozwalają na zachowanie niewidoczne w dzienniku zdarzeń, nie pozwalając na na tworzenie ścieżek, które nie pokrywają się z żadnymi ścieżkami. Wzięto także pierwiastek, gdyż od pewnego wykonywanie ścieżki wielokrotnie nie jest tak cenne jak wykonywanie jej, bo już wiemy, że jest ona ok. Metrykę zapożyczono z \cite{qd-in-discovery}. Ostatecznie metrykę wyrażono wzorem: \newline
+W pierwszej chwili może wydawać się przeciwieństwem precyzji, jednak dobrą wizualizacją działania jest operacja domknięcia znana z dziedziny przetwarzania obrazów cyfrowych. Chodzi o wypełnienie brakujących w dzienniku zdarzeń wariantów, a nie o rozszerzenie na nowe zupełnie niezwiązane. Można to osiągnąć poprzez obliczenie średniej ważonej liczby przejścia w modelu przez dane zdarzenie, co sprawia, że wciąż zachowujemy ścieżki, które są często odwiedzane przez inne warianty, mimo że pozwalają na zachowanie niewidoczne w dzienniku zdarzeń, nie pozwalając na na tworzenie ścieżek, które nie pokrywają się z żadnymi ścieżkami. Wzięto także pierwiastek, gdyż wraz z ilością wykonywanie danej ścieżki wzrasta pewność, że jest ona ok i ta informacja staje się mniej cenna. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem:
+\begin{center}
 $M_g = 1 - \frac{\sum_{zdarzenia\ w\ modelu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
+\end{center}
 \subsubsection{Złożoność}
-Postanowiono powiązać złożoność z odwzorowaniem, czyli kiedy odwzorowanie rośnie pozwalamy na tworzenie bardziej skomplikowanego modelu. Złożoność jest wyrażana jako ilość możliwych ścieżek w modelu. Jako, że np. dla bramki AND jest to n! zauważamy, że złożoność rośnie niewspółmiernie szybciej do odwzorowania, dlatego pierwiastek ze złożoności. W przypadku pętli złożoność byłaby nieskończona, dlatego przyjęto że pętla oznacza maksymalnie dwukrotne wykonanie pętli. Ostatecznie metrykę wyrażono wzorem: \newline
+Metryka jest powiązana z odwzorowaniem, czyli kiedy odwzorowanie rośnie pozwalamy na tworzenie bardziej skomplikowanego modelu. Złożoność jest wyrażana jako ilość możliwych ścieżek w modelu. Jako, że np. dla bramki AND jest to n! zauważamy, że złożoność rośnie niewspółmiernie szybciej do odwzorowania, dlatego pierwiastek ze złożoności. W przypadku pętli złożoność byłaby nieskończona, dlatego przyjęto że pętla oznacza maksymalnie dwukrotne wykonanie pętli. Ostatecznie metrykę wyrażono wzorem: \begin{center}
 $M_z = 1 - \frac{1}{\sqrt{1\ +\ blad\_odwzorowania\ *\ \sqrt{zlozonosc\ modelu}}} $
-
+\end{center}
+\newpage
 \subsection{Obliczanie metryk}
 W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane z niego. Poniżej przedstawiono przykładowy model tego procesu - na czerwono zaznaczono ilość wykonań danej aktywności - oraz zademonstrowano obliczanie metryk:
 
@@ -333,8 +370,9 @@ W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i waria
 
 \subsubsection{Obliczanie prostoty}
 Model osiada jest jeden duplikat - b oraz jedno brakujące zdarzenie - f, więc wartość metryki wynosi:
-
+\begin{center}
 $M_{pro} = 1 - \frac{1\ +\ 1}{6\ +\ 6} = 0.8333$
+\end{center}
 
 \subsubsection{Obliczanie odwzorowania}
 \label{alignment-calculation}
@@ -350,10 +388,13 @@ Nieprawidłowe odwzorowanie można przedstawić na kilka sposobów, jednak nie m
 	\caption{\label{fig:good-alignment}Prawidłowe odwzorowanie}
 \end{figure}
 \newline Podstawiając wszystkie odwzorowania do wzoru otrzymujemy:
-
-$blad\_odwzorowania = \frac{2 * \frac{0}{5 +\ 5} + \frac{0}{4 +\ 4} + \frac{0}{5 +\ 5} + \frac{3}{4 +\ 3}}{22} = 0.0195$
+\begin{center}
+\begin{tabular}{l}
+$blad\_odwzorowania = \frac{2 * \frac{0}{5 +\ 5} + \frac{0}{4 +\ 4} + \frac{0}{5 +\ 5} + \frac{3}{4 +\ 3}}{22} = 0.0195$ \\
 
 $M_o = (1 - 0.0195)^4 = 0.9243$
+\end{tabular}
+\end{center}
 
 \subsubsection{Obliczanie precyzji}
 Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu w jakim dana aktywność została wywołana np. dla bramki AND możemy jako kolejne wywołać tyle aktywności ile nie zostało jeszcze wywołanych w tej bramce, z wyjątkiem ostatniej i gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu wygląda to następująco:
@@ -363,17 +404,22 @@ Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Za
 	\caption{\label{fig:directly-follows}Kolejne zdarzenia}
 \end{figure}
 
-Podstawiając te dane do wzoru otrzymujemy:\newline
-
+Podstawiając te dane do wzoru otrzymujemy:
+\begin{center}
 $M_{pre} = (1 - (\frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 2}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 1}{3}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 2}{3}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}))^{\frac{1}{3}} = 0.9465 $
+\end{center}
 
 \subsubsection{Obliczanie generalizacji}
+ Pewną słabością tej metryki jest to, że wpływa na nią rozmiar dziennika zdarzeń. Jeśli ilość rekordów jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. Starając się znaleźć najlepszy model używamy zawsze tego samo logu, więc nie wpływa to na prawidłowość rozwiązania. W tym przypadku otrzymujemy:
+\begin{center}
 $M_g = 1 - \frac{(\frac{1}{\sqrt{5}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{2}}\ +\ \frac{1}{\sqrt{1}}\ +\ \frac{1}{\sqrt{5}})}{6} = 0.3997$
-\newline Pewną słabością tej metryki jest to, że wpływa na nią rozmiar dziennika zdarzeń. Jeśli ilość rekordów jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. Starając się znaleźć najlepszy model używamy zawsze tego samo logu, więc nie wpływa to na prawidłowość rozwiązania.
+\end{center}
 
 \subsubsection{Obliczanie złożoności}
 Najpierw obliczamy złożoności dla poszczególnych bramek, a następnie podstawiamy do wzoru wraz z błędem dopasowania obliczony w sekcji \ref{alignment-calculation}.\newline
 $zlozonosc\_dla\_bramki\_AND = 2! = 2$\newline
 $zlozonosc\_dla\_bramki\_OR = 2! * \frac{2!}{(2! * (2 - 2)!)} + 1! *  \frac{2!}{(1! * (2 - 1)!)} + 0! * \frac{2!}{(0! * (2 - 0)!)} = 2 + 2 + 1 = 5$\newline
-$zlozonosc = 1 * 2 * 5 * 1 = 10$\newline
+$zlozonosc = 1 * 2 * 5 * 1 = 10$
+\begin{center}
 $M_z = 1 - \frac{1}{\sqrt{1 + 0.0195\ *\ \sqrt{10}}} = 0.9706$
+\end{center}
