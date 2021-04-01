@@ -34,12 +34,12 @@
 \contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{26}% 
 \contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{27}% 
 \contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{27}% 
-\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{27}% 
+\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{28}% 
 \contentsline {chapter}{\numberline {3}Projekt i implementacja}{29}% 
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{29}% 
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{29}% 
 \contentsline {subsection}{\numberline {3.1.2}PonyGE2}{29}% 
-\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{29}% 
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{30}% 
 \contentsline {section}{\numberline {3.3}Projekt systemu}{32}% 
 \contentsline {subsubsection}{\numberline {3.3.0.1}Podzia\IeC {\l } na modu\IeC {\l }y}{32}% 
 \contentsline {subsubsection}{\numberline {3.3.0.2}Model}{33}% 
@@ -51,7 +51,7 @@
 \contentsline {subsubsection}{\numberline {3.4.0.5}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{41}% 
 \contentsline {subsubsection}{\numberline {3.4.0.6}Obliczanie dopasowania}{43}% 
 \contentsline {subsubsection}{\numberline {3.4.0.7}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{44}% 
-\contentsline {subsubsection}{\numberline {3.4.0.8}Og\IeC {\'o}lny opis dlaczego ten program jest fajny}{46}% 
+\contentsline {subsubsection}{\numberline {3.4.0.8}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{46}% 
 \contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{46}% 
 \contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{49}% 
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{49}% 

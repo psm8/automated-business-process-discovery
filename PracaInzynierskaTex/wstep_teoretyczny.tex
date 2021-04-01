@@ -313,30 +313,30 @@ Używanie tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramatyk
 
 \subsection{Metryki a funkcja dopasowania}
 
-Funkcja dopasowania powinna być możliwie najmniej kosztowna obliczeniowo, dlatego nie warto nadmiernie komplikować, gdyż mimo że wersja lepiej określi jak dobre jest dane rozwiązanie, to obliczenie może stać się wąskim gardłem całego algorytmu w rezultacie pogarszając jego działanie.   
+Funkcja dopasowania jest obliczana w każdej iteracji, dla każdego osobnika w populacji, dlatego powinna być możliwie najmniej kosztowna obliczeniowo. Nie warto więc nadmiernie jej komplikować, gdyż nawet jeśli taka wersja lepiej określi, jak dobre jest dane rozwiązanie, to jej obliczenie, może stać się wąskim gardłem całego algorytmu, co poprzez zwiększenie czasu potrzebnego na znalezienie rozwiązania pogorszy jego działanie. 
 
-Funkcja dopasowania powinna nie może tylko mierzyć jak dobre jest rozwiązanie, dobry przykładem jest tutaj problem układanie planów (\textit eng. timetabling problem), gdzie większość otrzymanych rozwiązań będzie nieprawidłowa, dlatego lepszym pomysłem jest sprawdzanie jak blisko jesteśmy potencjalnie prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}.
+Dobierając funkcje dopasowania, ważne jest, że była ona regularna, gdyż duża ilość lokalnych ekstremów może spowolnić ewolucję, a nawet całkowicie uniemożliwić znalezienie globalnie najlepszego rozwiązania.
+Nie może więc ona jedynie bezwzględnie mierzyć, jak dobre jest rozwiązanie. Dobry przykładem jest tutaj problem układanie planów (\textit eng. timetabling problem), gdzie większość otrzymanych rozwiązań będzie nieprawidłowa, a fitness będzie wynosił zero, nawet jeśli mała zmiana może sprawić, że znalezione zostanie właściwe rozwiązanie, dlatego konieczne jest, jak najlepsze uchwycenie jak blisko algorytm jest prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}.
 
-Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk wymienionych w sekcji \ref{sec:discovery}. Oprócz tego dodano kolejną metrykę złożoność. Użytkownik może określić z jakimi wagami wziąć pod uwagę poszczególne metryki.
+Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk wymienionych w sekcji \ref{sec:discovery}, jednak oprócz tego dodano kolejną metrykę złożoność, która ma poprawiać funkcje dopasowania zgodnie z powyższymi zasadami. Użytkownik może określić, z jakimi wagami wziąć pod uwagę poszczególne metryki.
 
 \subsection{Dodatkowa metryka - złożoność}
-Dodatkowa metryka zawiera informacje nie potrzebne do jakość odkrytego modelu, jednak istnieją teoretyczne przesłanki, że powinna wpłynąć pozytywnie na rozwiązania znajdowane przez algorytm. Różni się od nieco podobnych prostoty czy precyzji, tym że nie jest to podejście z perspektywy modelu, a wydajności algorytmu ewolucji i próby zminimalizowanie czasu potrzebnego na znalezienie rozwiązania.
+Dodatkowa metryka zawiera informacje niedotyczące bezpośrednio jakości odkrytego modelu. Istnieją jednak  teoretyczne przesłanki, że powinna wpłynąć pozytywnie na działanie algorytmu. W odróżnieniu od innych metryk celem jej używania jest poprawa wydajności algorytmu ewolucji i próba zminimalizowania czasu potrzebnego na znalezienie rozwiązania.
  
-Ideą jest promowanie rozwiązywania prostych problemów w prosty sposób. Chcemy unikać lokalnych maksimów - sytuacji, w której populacja zostanie zdominowana przez zbyt skomplikowane osobniki na wczesnym etapie ewolucji, zamiast tego nagradza sytuacje, w której wraz ze znajdowaniem coraz lepszego rozwiązania, stopień skomplikowanie modelu będzie stopniowo rósł.
-Prosta analogię można odnaleźć w naturze, w historii Ziemii w pewnym momencie dinozaury wyewoluowała jako najlepiej przystosowane do życia na tej planecie organizmy - lokalne maksimum i blokowały powstawanie mniej skomplikowanych form życia, które w rezultacie wyewoluowały do lepiej przystosowanych organizmów.
+Zamysłem jest promowanie rozwiązywania prostych problemów w prosty sposób i unikanie lokalnych ekstremów - w tym wypadku sytuacji, w której populacja zostanie zdominowana przez zbyt skomplikowane osobniki na wczesnym etapie ewolucji, zamiast tego ewolucja jest bardziej nakierowana na znajdowanie coraz lepszego rozwiązania wraz ze wzrostem stopnia skomplikowania modelu. Analogię można odnaleźć w naturze, w pewnym momencie na Ziemii dinozaury były najlepiej przystosowanymi do życia na tej planecie organizmami - lokalne maksimum i blokowały powstawanie mniej skomplikowanych form życia, jednak jak pokazuje historia, po wyginięciu dinozaurów, te były w stanie stać się jeszcze lepiej przystosowanymi istotami.
 
-Większa złożoność każdego modelu przekłada się na dłuższe obliczanie metryk dla tego modelu, przez co znalezienie ostatecznego rozwiązanie zajmie więcej czasu.
+Większa złożoność każdego modelu przekłada się także na dłuższe obliczanie metryk dla niego, przez co znalezienie ostatecznego rozwiązania zajmuje więcej czasu.
 
-Kolejną zaletą jest to, że korzysta z istniejących już obliczeń, przez co nie zwiększa w istotny sposób czasu każdej iteracji algorytmu, co pozwala na łatwiejsze porównanie działania algorytmu z i bez tej metryki.
+Kolejną zaletą jest to, że złożoność korzysta z istniejących już obliczeń, przez co nie zwiększa w istotny sposób czasu każdej iteracji algorytmu, co dodatkowo pozwala na łatwiejsze porównanie działania algorytmu z i bez tej metryki.
 
 \subsection{Metryki - szczegóły}
 
 \subsubsection{Prostota}  
-Jest to najprostsza z metryk. Celem jest zmniejszenie skomplikowania modelu. Głównym czynnikiem na to wpływającym jest ilość aktywności w modelu. Idealna jest sytuacja, w której model ma tyle samo aktywności ile unikalnych aktywności jest w dzienniku zdarzeń. To nie zawsze jest możliwe, jednak chcąc otrzymać maksymalnie czytelny model powinniśmy do tego dążyć. Stąd też metryk wybrana skupia się na dwóch czynnikach, czyli ilości duplikatów w modelu i ilości brakujących wartości w modelu. Oczywiście znaczenie ma wielkość modelu, dlatego wartości tego  musimy odnieść do ilości wszystkich zdarzeń w logu i modelu. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem: \begin{center}
+Jest to najprostsza z metryk. Celem jest zmniejszenie skomplikowania modelu. Głównym czynnikiem na to wpływającym jest ilość aktywności w modelu. Idealna byłaby sytuacja, w której model ma tyle samo aktywności, ile unikalnych aktywności jest w dzienniku zdarzeń. To nie zawsze jest możliwe, jednak chcąc otrzymać maksymalnie czytelny model, powinniśmy do tego dążyć. Stąd też metryk wybrana skupia się na dwóch czynnikach, czyli ilości duplikatów w modelu i ilości brakujących wartości w modelu. Oczywiście znaczenie ma wielkość modelu, dlatego wartości tego musimy odnieść do ilości wszystkich zdarzeń w logu i modelu. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem: \begin{center}
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ zdarzen\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
 \end{center}
 \subsubsection{Odwzorowanie} 
-Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie informacji uzyskanych podczas obliczania odwzorowanie. Ważnym jest, żeby obliczać dopasowanie częściowo dla każdej aktywności, a nie całego wariantu, co sprawi, że metryka będzie bardziej wrażliwa na zmiany. Możliwe jest zastosowanie prostej metryki zero-jedynkową, która sprawdzałaby czy model zgadza się z wariantem logu, jednak szczególnie w przypadku algorytmu genetycznego nie sprawdzane byłoby o ile bliżej jesteśmy do celu, dopóki losowo nie znaleziony zostałby model idealnie pasujący do wariantu. Metrykę oparto o \cite{metric-calculation}, jednak przy procesie z wieloma aktywnościami, najczęściej części aktywności może zostać dopasowana, co sprawi, że łączny błąd będzie niewielki, dlatego wprowadzono modyfikację i podniesiono otrzymany wynik do potęgi 4, żeby zrobić metrykę bardziej wrażliwą na zmiany w porównianu z innymi metrykami. Ostatecznie metrykę wyrażono wzorem:
+Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie informacji uzyskanych podczas jej obliczania. Ważne jest, żeby obliczać dopasowanie częściowo dla każdej aktywności, a nie całego wariantu procesu, co sprawi, że metryka będzie bardziej wrażliwa na zmiany. Możliwe jest zastosowanie prostej zero-jedynkowej metryki do obliczania, która weryfikowałaby czy model całkowicie zgadza się z wariantem logu, jednak co jest szczególnie niekorzystne w przypadku algorytmu genetycznego, nie byłoby sprawdzane, o ile bliżej jesteśmy do celu, dopóki losowo nieznaleziony zostałby model idealnie pasujący do wariantu. Metrykę oparto o \cite{metric-calculation}, jednak przy procesie z wieloma aktywnościami, najczęściej części aktywności może zostać dopasowana, co sprawi, że łączny błąd będzie niewielki, dlatego wprowadzono modyfikację i podniesiono otrzymany wynik do potęgi 4, żeby zrobić metrykę bardziej wrażliwą na zmiany. Ostatecznie metrykę wyrażono wzorem:
 \begin{center}
 \begin{tabular}{l}
 $M_o = (1 - blad\_odwzorowania)^4$ \\
@@ -344,22 +344,22 @@ $blad\_odwzorowania = \frac{\sum_{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorow
 \end{tabular}
 \end{center}
 \subsubsection{Precyzja} 
-Pozwala na unikanie niewystarczającego dopasowania (\textit{eng. underfitting}). Celem jest uniknięcie tworzenia modeli, dla których możliwe są dowolne zachowania. Możliwe jest osiągnięcie maksymalne wartości pozostałych metryk tworząc jednak bramkę or zawierającą wszystkie aktywności, jednak oczywistym jest, że nie jest to model, który jest pożądany. We wzorze skupiono się na ilości osiągalnych zdarzeń następujących po danej aktywności, możliwych w modelu. Chcemy żeby poszczególne aktywności mogły poprzedzać tylko te, które poprzedzają w logu. Metrykę oparto o \cite{precision-calculation}, jednak otrzymany wynik do potęgi $\frac{1}{3}$, bo oryginalna metryka zmienia się zbyt łatwo przez co jest nieproporcjonalna do zmian innych metryk i łatwo wpaść w lokalne maksimum, gdzie każda mała zmiana będzie wpływać na ogromną zmianę w metryce.  Ostatecznie metrykę wyrażono wzorem:
+Pozwala na unikanie niewystarczającego dopasowania (\textit{eng. underfitting}). Celem jest uniknięcie tworzenia modeli, według których możliwe są praktycznie dowolne zachowania. Możliwe jest osiągnięcie maksymalnej wartości pozostałych metryk, tworząc jednak bramkę LUB - OR zawierającą wszystkie aktywności, jednak oczywiste jest, że nie jest to pożądany model. We wzorze skupiono się na ilości osiągalnych zdarzeń następujących po danej aktywności, możliwych w modelu. Chcemy, żeby poszczególne aktywności mogły poprzedzać tylko te, które rzeczywiście poprzedzają w logu. Metrykę oparto o \cite{precision-calculation}, jednak otrzymany wynik podniesiono do potęgi $\frac{1}{3}$, bo oryginalna metryka jest zbyt wrażliwa na zmiany, przez co jest nieproporcjonalna do innych, co zwiększa prawdopodobieństwo utknięcia w lokalnym maksimum, gdzie każda mała zmiana w modelu będzie powodować ogromną zmianę w metryce. Ostatecznie wyrażono ją wzorem:
 \begin{center}
 $M_{pre} = (1 - \sum_{zdarzenia\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu\ -\ ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
 \end{center}
 \subsubsection{Generalizacja}
-Unikanie nadmiernego dopasowania (\textit{eng. overfitting})
-W pierwszej chwili może wydawać się przeciwieństwem precyzji, jednak dobrą wizualizacją działania jest operacja domknięcia znana z dziedziny przetwarzania obrazów cyfrowych. Chodzi o wypełnienie brakujących w dzienniku zdarzeń wariantów, a nie o rozszerzenie na nowe zupełnie niezwiązane. Można to osiągnąć poprzez obliczenie średniej ważonej liczby przejścia w modelu przez dane zdarzenie, co sprawia, że wciąż zachowujemy ścieżki, które są często odwiedzane przez inne warianty, mimo że pozwalają na zachowanie niewidoczne w dzienniku zdarzeń, nie pozwalając na na tworzenie ścieżek, które nie pokrywają się z żadnymi ścieżkami. Wzięto także pierwiastek, gdyż wraz z ilością wykonywanie danej ścieżki wzrasta pewność, że jest ona ok i ta informacja staje się mniej cenna. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem:
+Pozwala na unikanie nadmiernego dopasowania (\textit{eng. overfitting}). W pierwszej chwili może wydawać się przeciwieństwem precyzji, jednak chodzi tutaj o uwzględnienie brakujących w dzienniku zdarzeń wariantów, a nie o rozszerzenie modelu o nowe, zupełnie niezwiązane z istniejącymi. Dobrą wizualizacją jej działania jest operacja domknięcia znana z dziedziny przetwarzania obrazów cyfrowych. Generalizację można zmierzyć poprzez obliczenie średniej ważonej liczby przejść w modelu przez dane zdarzenie, dzięki czemu wciąż uwzględniane są ścieżki, które są często odwiedzane w innych wariantach, mimo że pozwalają na zachowanie niewidoczne w dzienniku zdarzeń, a jednocześnie karane jest istnienie ścieżek, które zupełnie nie pokrywają się z żadnymi wariantami. Wraz ze zwiększaniem ilości wykonań danej aktywności wzrasta pewność, że ścieżki ją uwzględniające faktycznie istnieją i ta informacja staje się mniej cenna, dlatego wzięto pierwiastek z liczby wystąpień danego zdarzenia. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem:
 \begin{center}
 $M_g = 1 - \frac{\sum_{zdarzenia\ w\ modelu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
 \end{center}
 \subsubsection{Złożoność}
-Metryka jest powiązana z odwzorowaniem, czyli kiedy odwzorowanie rośnie pozwalamy na tworzenie bardziej skomplikowanego modelu. Złożoność jest wyrażana jako ilość możliwych ścieżek w modelu. Jako, że np. dla bramki AND jest to n! zauważamy, że złożoność rośnie niewspółmiernie szybciej do odwzorowania, dlatego pierwiastek ze złożoności. W przypadku pętli złożoność byłaby nieskończona, dlatego przyjęto że pętla oznacza maksymalnie dwukrotne wykonanie pętli. Ostatecznie metrykę wyrażono wzorem: \begin{center}
+Metryka jest powiązana z odwzorowaniem. Jeśli odwzorowanie rośnie, pozwalamy na tworzenie bardziej skomplikowanego modelu. Złożoność jest wyrażana jako ilość wszystkich możliwych ścieżek w modelu. W przypadku pętli złożoność byłaby nieskończona, dlatego przyjęto, że pętla oznacza maksymalnie dwukrotne wykonanie pętli. Jako że np. dla bramki AND jest to n!, zauważamy, że złożoność rośnie niewspółmiernie szybciej do odwzorowania, dlatego we wzorze wzięto pierwiastek ze złożoności. Ostatecznie metrykę wyrażono wzorem: 
+\begin{center}
 $M_z = 1 - \frac{1}{\sqrt{1\ +\ blad\_odwzorowania\ *\ \sqrt{zlozonosc\ modelu}}} $
 \end{center}
 \subsection{Obliczanie metryk}
-W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane z niego. Poniżej przedstawiono przykładowy model tego procesu - na czerwono zaznaczono ilość wykonań danej aktywności - oraz zademonstrowano obliczanie metryk:
+W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane z niego. Poniżej przedstawiono, jak mógłby wyglądać model tego procesu - na czerwono zaznaczono ilość wykonań danej aktywności - oraz zademonstrowano obliczanie metryk:
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{model-metrics.png}}
@@ -367,25 +367,24 @@ W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i waria
 \end{figure}
 
 \subsubsection{Obliczanie prostoty}
-Model osiada jest jeden duplikat - b oraz jedno brakujące zdarzenie - f, więc wartość metryki wynosi:
+Model posiada jest jeden duplikat - \textbf{b} oraz jedno brakujące zdarzenie - \textbf{f}, więc wartość metryki wynosi:
 \begin{center}
 $M_{pro} = 1 - \frac{1\ +\ 1}{6\ +\ 6} = 0.8333$
 \end{center}
 
 \subsubsection{Obliczanie odwzorowania}
 \label{alignment-calculation}
-Są trzy możliwość brak zdarzenia w modelu, brak zdarzenia w logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być rozumiane jako brak zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. 
-Nieprawidłowe odwzorowanie można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd wynosi 3:
-\begin{figure}[h]
+Są trzy możliwość na niezgodność modelu z logiem -  brak zdarzenia w modelu, brak zdarzenia w logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być utożsamiane z brakiem zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. W powyższym przykładzie nieprawidłowe odwzorowanie zachodzi tylko dla jednego wariantu, co można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd zawsze wynosi 3:
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.7]{bad-alignment.png}}
 	\caption{\label{fig:bad-alignment}Nieprawidłowe odwzorowanie}
 \end{figure}
-\newline Dla pozostałych wariantów odwzorowanie jest pełne i błąd wynosi 0:
+Dla pozostałych wariantów odwzorowanie jest pełne i błąd wynosi 0:
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.7]{good-alignment.png}}
 	\caption{\label{fig:good-alignment}Prawidłowe odwzorowanie}
 \end{figure}
-\newline Podstawiając wszystkie odwzorowania do wzoru otrzymujemy:
+\newline Podstawiając wszystkie odwzorowania do wzoru:
 \begin{center}
 \begin{tabular}{l}
 $blad\_odwzorowania = \frac{2 * \frac{0}{5 +\ 5} + \frac{0}{4 +\ 4} + \frac{0}{5 +\ 5} + \frac{3}{4 +\ 3}}{22} = 0.0195$ \\
@@ -395,26 +394,26 @@ $M_o = (1 - 0.0195)^4 = 0.9243$
 \end{center}
 
 \subsubsection{Obliczanie precyzji}
-Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu w jakim dana aktywność została wywołana np. dla bramki AND możemy jako kolejne wywołać tyle aktywności ile nie zostało jeszcze wywołanych w tej bramce, z wyjątkiem ostatniej i gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu wygląda to następująco:
+Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu, w jakim dana aktywność jest wykonywana np. dla bramki I - AND można jako kolejne wykonać tyle aktywności, ile nie zostało do tej pory wykonanych w tej bramce, z wyjątkiem ostatniej i gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu wygląda to następująco:
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.7]{precision-calculation.png}}
 	\caption{\label{fig:directly-follows}Kolejne zdarzenia}
 \end{figure}
 
-Podstawiając te dane do wzoru otrzymujemy:
+Podstawiając te dane do wzoru:
 \begin{center}
 $M_{pre} = (1 - (\frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 2}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 1}{3}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 2}{3}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}))^{\frac{1}{3}} = 0.9465 $
 \end{center}
 
 \subsubsection{Obliczanie generalizacji}
- Pewną słabością tej metryki jest to, że wpływa na nią rozmiar dziennika zdarzeń. Jeśli ilość rekordów jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. Starając się znaleźć najlepszy model używamy zawsze tego samo logu, więc nie wpływa to na prawidłowość rozwiązania. W tym przypadku otrzymujemy:
+Słabością tej metryki jest to, że wpływa na nią rozmiar dziennika zdarzeń. Jeśli ilość rekordów jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. Starając się znaleźć najlepszy model dla danego dziennika zdarzeń, on pozostaje stały, więc nie wpływa to na prawidłowość rozwiązania. W tym przypadku:
 \begin{center}
 $M_g = 1 - \frac{(\frac{1}{\sqrt{5}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{2}}\ +\ \frac{1}{\sqrt{1}}\ +\ \frac{1}{\sqrt{5}})}{6} = 0.3997$
 \end{center}
 
 \subsubsection{Obliczanie złożoności}
-Najpierw obliczamy złożoności dla poszczególnych bramek, a następnie podstawiamy do wzoru wraz z błędem dopasowania obliczony w sekcji \ref{alignment-calculation}.\newline
+Najpierw obliczana jest złożoność dla poszczególnych bramek, co jest konieczne na wcześniejszym etapie działania algorytmu, a następnie te wartości są podstawiane do wzoru wraz z błędem dopasowania obliczonym w sekcji \ref{alignment-calculation}:\newline
 $zlozonosc\_dla\_bramki\_AND = 2! = 2$\newline
 $zlozonosc\_dla\_bramki\_OR = 2! * \frac{2!}{(2! * (2 - 2)!)} + 1! *  \frac{2!}{(1! * (2 - 1)!)} + 0! * \frac{2!}{(0! * (2 - 0)!)} = 2 + 2 + 1 = 5$\newline
 $zlozonosc = 1 * 2 * 5 * 1 = 10$
