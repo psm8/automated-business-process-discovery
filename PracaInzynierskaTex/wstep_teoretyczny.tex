@@ -162,78 +162,78 @@ Zastosowanie algorytmy genetyczne do automatycznego odkrywania procesów bizneso
 \section{Ewolucja gramatyczna}
 \label{sec:ewolucjaGramatyczna}
 \subsection{Algorytmy ewolucyjne}
-Algorytmy ewolucyjne \cite{EA} są inspirowaną selekcją naturalną metaheurystyką, która używa znanych z ewolucji biologicznej operacji jak mutacja, selekcja czy krzyżowanie do rozwiązywania problemów wyszukiwania i optymizacji. Ich ideą jest zaproponowanie metody przeszukiwania przestrzeni losowych rozwiązań w celu wyszukania najlepszych z nich. 
+Algorytmy ewolucyjne \cite{EA} są inspirowaną selekcją naturalną metaheurystyką, która używa znanych z ewolucji biologicznej operacji jak selekcja, krzyżowanie czy mutacja do rozwiązywania problemów wyszukiwania i optymizacji. Są rodziną metod przeszukiwania przestrzeni losowych rozwiązań w celu wyszukania najlepszych z nich. 
 
-Algorytmy ewolucyjne znajdują zastosowanie w problemach, dla których nie jest konieczna gwarancja znalezienia najlepszego rozwiązania. Cechami wyróżniającymi algorytmy genetyczne na tle innych algorytmów uczenia maszynowego jest istnienie puli rozwiązań zamiast jednego rozwiązywania, co umożliwia szersze przeszukiwanie przestrzeni rozwiązań oraz nieograniczoną i łatwą w zaimplementowaniu paralelizację. Algorytmy te są znacznie bardziej nastawione na globalne eksplorowanie nowych rozwiązań, zamiast szybkie osiągnięcie celu. Z tego względu dobrze nadają się do problemów gdzie istnieje dużo ekstremów, a przestrzeń poszukiwań jest duża. Jako przeciwieństwo, metody oparte na gradiencie w najprostszej znajdują tylko lokalne ekstrema, nawet po modyfikacja takich jak na przykład simulated anneling wciąż nie ma populacji i tak szerokiego przeszukiwania przestrzeni rozwiązań.
+Algorytmy ewolucyjne znajdują zastosowanie w problemach, dla których nie jest konieczna gwarancja znalezienia najlepszego rozwiązania. Cechami wyróżniającymi algorytmy genetyczne na tle innych algorytmów uczenia maszynowego jest istnienie puli rozwiązań zamiast jednego rozwiązywania, co umożliwia szersze przeszukiwanie przestrzeni rozwiązań oraz nieograniczoną i łatwą w zaimplementowaniu paralelizację. Algorytmy te są znacznie bardziej nastawione na globalne eksplorowanie nowych rozwiązań, zamiast na jak najszybsze osiągnięcie celu. Z tego względu dobrze nadają się do problemów, gdzie istnieje dużo ekstremów, a przestrzeń poszukiwań jest duża. Jako przeciwieństwo, metody oparte na gradiencie w najprostszej znajdują tylko lokalne ekstrema, nawet po modyfikacjach takich, jak na przykład simulated anneling wciąż nie ma populacji i możliwości tak szerokiego przeszukiwania przestrzeni rozwiązań.
 
-Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowany przez bity, liczby lub znaki i zapisywane w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią dla której możliwe jest obliczanie funkcji dopasowania (\textit{eng. fitness function}) pozwalająca ocenić jak dobre jest wygenerowane rozwiązanie. jeśli wciąż nie znaleziono satysfakcjonującego rozwiązania, generowana jest nową populację poprzez mutuje lub krzyżowania głównie choć nie tylko najlepszych chromosomów. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Proces ten jest powtarzany do momentu otrzymania satysfakcjonującego rozwiązania. Ten proces jest powtarzany dla każdego elementu populacji. Po sklasyfikowaniu rozwiązań. Po zastosowaniu tych operatorów utworzona zostaje nowa populacja, dla której cały proces jest powtarzany.   
+Sposób działania algorytmów genetyczny polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowany przez bity, liczby lub znaki i zapisywane w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostym przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią, dla której możliwe jest obliczanie funkcji dopasowania (\textit{eng. fitness function}), co pozwala ocenić, jak dobre jest wygenerowane rozwiązanie. Następnie, istniejąca populacja jest modyfikowana poprzez krzyżowanie i mutacje. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Proces ten jest powtarzany dla każdego elementu populacji do momentu otrzymania satysfakcjonującego rozwiązania. Po zastosowaniu tych operatorów i sklasyfikowaniu rozwiązań, spośród głównie, choć nie tylko najlepszych osobników, utworzona zostaje nowa populacja, dla której cały proces jest powtarzany do momentu znalezienia satysfakcjonującego rozwiązania.
 
 \subsection{Szczegółowe omówienie operatorów i działania algorytmów ewolucyjnych}
-Tworzenie populacja jest pierwszym krokiem algorytmu ewolucyjnego. Może ono odbywać się kompletnie losowe lub do tworzenia nowych osobników może zostać użyta odpowiednia heurystka. 
+Tworzenie populacja jest pierwszym krokiem algorytmu ewolucyjnego. Może ono odbywać się kompletnie losowe lub do tworzenia nowych osobników może zostać użyta odpowiednia heurystyka. 
 
-Kolejny krok selekcja sprawia, że przeszukiwanie przestrzeni rozwiązań nie jest kompletnie losowe. Wybierając najlepszej rozwiązanie można skorzystać z metod takich jak:
+Kolejny krok - selekcja - pozwala na zachowanie w populacji części osobników promując najlepszych z nich, co sprawia, że przeszukiwanie przestrzeni rozwiązań nie jest kompletnie losowe. Można skorzystać z metod takich jak:
 \begin{itemize}
-  \item[•] Selekcja proporcjonalna - wybieramy losowo rozwiązania z puli wszystkich rozwiązań z warunkiem, że rozwiązania z największą wartością metryk mają największą szansę na bycie zachowanymi w populacji. Jest to najpopularniejsza metoda selekcji i najczęściej umożliwiająca najszybsze znalezienie rozwiązania. Pozwala na elityzm, czyli zachowanie części najlepszych genotypów w przyszłej populacji.
-  \item[•] Selekcja turniejowa - wybieramy podzbiór ze zbioru rozwiązań i zachowujemy w przyszłej najlepsze rozwiązanie z tego podzbioru.
-Rozwiązanie to pozwala na duży wpływ na presję genetyczną - zwiększając wielkość podzbioru ograniczamy szansę na wybór z niską wartością metryk.  Jest to także metoda, która łatwe zrównoleglenie.
+  \item[•] Selekcja proporcjonalna - wybierane są losowo osobniki z puli wszystkich populacji z warunkiem, że rozwiązania z największą wartością metryk mają większą szansę na bycie zachowanymi w populacji. 
+  \item[•] Selekcja turniejowa - wybierany jest podzbiór ze zbioru rozwiązań i zachowywane w przyszłej populacji są najlepsze osobniki z tego podzbioru. Rozwiązanie to pozwala na duży wpływ na presję genetyczną - zwiększając wielkość podzbioru, ograniczamy szansę na wybór z niską wartością metryk. Jest to metoda łatwa w implementacji, która umożliwia łatwe zrównoleglenie.
 \end{itemize}
 
-Następnie stosowane są operatory krzyżowania i mutacji. Krzyżowanie jest zamianą meteriału genetycznego, czyli częsci rozwiązania pomiędzy dwoma osobnikami w poulacji tworząc również dwa zmienione osobniku. Mutacja natomist zachodzi w obrębie jednego osobnika.
+Żeby uniknąć sytuacji, w której najlepsze rozwiązania zostaną zmodyfikowane, możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w populacji niezależnie od wyniku selekcji.
+
+Następnie stosowane są operatory krzyżowania i mutacji. Krzyżowanie jest zamianą materiału genetycznego, czyli części genotypu pomiędzy dwoma osobnikami w populacji tworząc również dwa zmienione osobniku. Mutacja natomiast zachodzi w obrębie jednego osobnika.
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.6]{Mutation-and-crossover-operations.jpg}}
 	\caption{\label{fig:mutation-and-crossover-operations}Mutacja i krzyżowanie}
 \end{figure}
 
-Operatory te nie muszą i zazwyczaj nie są stosowane do każdego osobnika w populacji, a za to jak często powinny być stosowane ustalane jest za pomocą odpowiedniego parametru. Mutacja może być stosowana więcej niż dla danego osobnika w danej generacji
+Operatory te nie muszą i zazwyczaj nie są stosowane do każdego osobnika w populacji, a to jak często powinny być stosowane, ustalane jest za pomocą odpowiedniego parametru. Zdarza się, że mutacja jest stosowana więcej niż dla danego genu w danym genotypie.
 
 Najczęściej używane operatory krzyżowania to:
 \begin{itemize}
-\item[•] Krzyżowanie punktowe - spośród dwóch genotypów losowo wybieramy jeden punkt, następnie tworzymy dwa nowe genotypy pierwszy z chromosomów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
+\item[•] Krzyżowanie punktowe - spośród dwóch genotypów losowo wybierany jest jeden punkt, następnie tworzone są dwa nowe genotypy pierwszy z genów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
 
-\item[•] Krzyżowanie dwupunktowe - spośród dwóch genotypów losowo wybieramy dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
+\item[•] Krzyżowanie dwupunktowe - spośród dwóch genotypów losowo wybierane są dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
 
 \item[•] Krzyżowanie n-punktowe - uogólnienie powyższych krzyżowań dla n punktów.
 
-\item[•] Krzyżowanie zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie zamieniamy ze sobą dwa poddrzewa, tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
+\item[•] Krzyżowanie zamiana w drzewie - metoda opiera się na fenotypie, który może być reprezentowany jako drzewo, w tej metodzie zamieniane są ze sobą dwa poddrzewa. W tym przypadku tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
 \end{itemize}
+Ponadto krzyżowania możemy podzielić na stało-punktowe, czyli takie, w którym wybierany jest ten sam punktu lub punkty w obu osobnikach, przez co nowe genotypy mieć tą samą długość jak rodzice i zmienno-punktowe, gdzie mogą to być różne punkty, co skutkuje dużą zmienności w rozmiarach utworzonych genotypów. 
 
 Natomiast operatory mutacji to:
 \begin{itemize}
-\item[•] Mutacja punkowa - dowolna wartość w tablicy zostaje zmieniona na inną losową wartość. Pozostałe produkcje pozostają niezmienione.
+\item[•] Mutacja punkowa - dowolny gen w genotypie zostaje zmieniony na inną losową wartość. Przez co odpowiadająca mu produkcja tworzy nową wartość. Pozostałe produkcje pozostają niezmienione.
 
-\item[•] Mutacja zamiana w drzewie - genotyp może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo, przy tej metodzie tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń. 
+\item[•] Mutacja zamiana w drzewie - metoda opiera się na fenotypie, który może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo. Analogicznie jak w przypadku krzyżowania tworzone są tylko prawidłowe rozwiązania, jednak konieczna jest większa ilość obliczeń. 
 \end{itemize}
-
-Żeby uniknąć sytuacji, w której najlepsze rozwiązania zostaną zmodyfikowane możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w populacji niezależnie id wyniku selekcji.
 
 Ostatnim krokiem jest zastąpienie osobników w poprzedniej populacji przez nowych powstałych na skutek zastosowania wcześniej wspomnianych operatorów. Istnieją dwa podejścia, sugerujące zastępowanie całej populacji lub tylko kilku osobników \cite{SSvsGen}.
 
 
 \subsection{Ewolucja gramatyczna}
-Optymalny model procesu biznesowego może mieć różną długość, dlatego chcąc znaleźć taki model potrzebujemy metody, która pozwoli na generowanie rozwiązań o zmiennej długości. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak chcemy rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda to programowanie genetyczne \cite{Koza:1990:pat-GAsp}\cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnym rozmiarze, dzięki ewolucji całej struktury fenotyp, najczęściej reprezentowane jako drzewo.
+Optymalny model procesu biznesowego może mieć różną długość, dlatego chcąc znaleźć taki model, potrzebujemy metody, która pozwoli na generowanie rozwiązań o zmiennej długości. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak chcemy rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda to programowanie genetyczne \cite{Koza:1990:pat-GAsp}\cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnym rozmiarze, dzięki ewolucji całej struktury fenotyp, najczęściej reprezentowane jako drzewo. Najczęściej te są gotowymi wykonywalnymi programami, jednak mogą być też równaniami czy modelami.
 
-Oparta na programowaniu genetycznym jest ewolucja genetyczna \cite{ryan_collins_neill_1998}. Korzysta ona ze standardowych metod ewolucji genetycznej jednak ewoluuje gramatykę w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana jako BNF (sekcja \ref{sec:BNF}). Rekursywne produkcje pozwalają na tworzenie rozwiązań o różnej długości. 
+Oparta na programowaniu genetycznym jest ewolucja genetyczna \cite{ryan_collins_neill_1998}. Korzysta ona ze standardowych metod ewolucji genetycznej, jednak ewoluuje gramatykę w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana w notacji BNF (sekcja \ref{sec:BNF}). Dzięki zastosowaniu rekursywnych produkcji możliwe jest tworzenie rozwiązań o różnej długości. 
 
 \subsection{BNF}
 \label{sec:BNF}
-Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę języka, czyli sposób łączenia poszczególnych symboli, nie mówiąc nic o znaczeniu poszczególnych słów języka. Odnosi się to także do języków formalnych np. języków programowania. Do opisu takich języków służą gramatyki formalne. Na gramatykę formalną składa się z czwórka G = (T,N,P,S), gdzie 
+Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę języka, czyli sposób łączenia poszczególnych symboli, nie mówiąc nic o znaczeniu poszczególnych słów języka. Odnosi się to także do języków formalnych np. języków programowania. Do opisu takich języków służą gramatyki formalne. Na gramatykę formalną składa się z uporządkowana czwórka G = (T,N,P,S), gdzie 
 
 \begin{itemize}
-  \item[•] T - skończony zbiór symboli terminalnych, czyli stałych, symboli które nie mogą być zastąpione innym ani podzielone na mniejsze 
-  \item[•] N - skończony zbiór symboli nieterminalnych, czyli zmiennych, czyli symboli które są modyfikowane przy tworzeniu języka
+  \item[•] T - skończony zbiór symboli terminalnych, czyli stałych, symboli, które nie mogą być zastąpione innym ani podzielone na mniejsze 
+  \item[•] N - skończony zbiór symboli nieterminalnych, czyli zmiennych, symboli, które są modyfikowane przy tworzeniu języka
   \item[•] P - skończony zbiór produkcji, czyli zasad, przekształceń postaci (N$\cup$T)*N(N$\cup$T)* -> (N$\cup$T)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i nieterminalnych.
   \item[•] S - symbol startowy, gdzie S $\in$ N
 \end{itemize}
 
-W informatyce szczególnie szeroko stosowane są gramatyki bezkontekstowe. Pozwalają one na pokazanie w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Wiele teorii co pomaga uniknąć wieloznaczności na etapie parsowania. 
+W informatyce szczególnie szeroko stosowane są gramatyki bezkontekstowe. Pozwalają one na pokazanie, w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Zaletą jest też ich stosunkowo łatwe parsowanie.
 Gramatyka bezkontekstowa jest to gramatyka, w której wszystkie produkcje mają postać:
 \begin{center}
 	A -> {$\alpha$},
 \end{center}
 gdzie A jest to pojedynczy symbol nieterminalny, a $\alpha$ to dowolny zbiór symboli terminalnych i nieterminalnych.
 	
-Notacja Backusa-Naura (\textit{eng. Backus-Naur Form})\cite{Backus1959TheSA}\cite{Naur}\cite{Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
+Notacja Backusa-Naura (\textit{eng. Backus-Naur Form}) \cite{Backus1959TheSA}\cite{Naur}\cite{Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
 
 \begin{itemize}
   \item[•] ::= - produkcja
@@ -241,7 +241,7 @@ Notacja Backusa-Naura (\textit{eng. Backus-Naur Form})\cite{Backus1959TheSA}\cit
   \item[•] <>  - symbole nieterminalne
 \end{itemize}
 
-Używając tych symboli możemy opisywać składnie języka w następujący sposób:
+Używając tych symboli, możemy opisywać składnie języka w następujący sposób:
 \begin{center}
 <Nieterminalny1> ::= <Nieterminalny2>Terminany1 | <Nieterminalny3> | Terminany1
 \end{center}
@@ -252,16 +252,16 @@ Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzen
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 
-Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą właściwe do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych \cite{grammarDesign}: 
+Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą odpowiednie do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych \cite{grammarDesign}: 
 \begin{itemize}
-  \item[•] Każda rekursywna produkcja powinna mieć co najmniej tyle samo produkcji nierekursywnych inaczej biorąc pod uwagę, że genotyp jest mapowany na fenotyp metodą pseudolosową, prawdopodobieństwo otrzymania rozwiązania, które musi się składać tylko symboli terminalnych będzie zbyt niskie.
-  \item[•] Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała jak często chcemy uzyskać dane rozwiązanie.
-  \item[•] Stosując mutacje oraz krzyżowanie punktowe lub n-punktowe, które podmienia gen w genotypie może dojść do sytuacji, w której dany gen po podmianie zostanie zmapowany na produkcje o innej ilości symboli nieterminalnych przez co kolejne geny, jako że mamy wyprowadzenie lewostronne, będą mapowania niezgodnie z pierwotnym sensem. Żeby to osiągnąć należy ograniczyć ilość symboli nieterminalnych do minimum. Także każdy symbol nieterminalny powinien mieć możliwie tyle samo produkcji oraz jego produkcje powinny tworzyć tyle samo symboli nieterminalnych.
-  \item[•] Stworzona gramatyka powinna umożliwić na tworzenie jak najmniejszej ilości rozwiązań, które nie należą do języka, co prawda tak stworzony program nadal będzie działać i można odrzucić te rozwiązania na etapie parsowania, ale warto oszczędzić niepotrzebnych obliczeń i rozwiązań ten problem już na etapie tworzenia gramatyki. 
+  \item[•] Każda rekursywna produkcja powinna mieć co najmniej tyle samo produkcji nierekursywnych, inaczej biorąc pod uwagę, że genotyp jest mapowany na fenotyp metodą pseudolosową, prawdopodobieństwo otrzymania rozwiązania, które musi się składać tylko symboli terminalnych, będzie zbyt niskie.
+  \item[•] Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji, ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała, jak często chcemy uzyskać dane rozwiązanie.
+  \item[•] Stosując mutacje oraz krzyżowanie punktowe lub n-punktowe, które jak wiadomo, podmienia geny w genotypie, może dojść do sytuacji, w której dany gen po podmianie zostanie zmapowany na produkcje o innej ilości symboli nieterminalnych, przez co kolejne geny, będą mapowania niezgodnie z pierwotnym sensem, gdyż ilość genów w genomie pozostaje stała. Żeby temu zapobiec, należy ograniczyć ilość symboli nieterminalnych do minimum, a każdy symbol nieterminalny powinien mieć produkcje tworzące tyle samo symboli nieterminalnych oraz możliwie tyle samo produkcji, dzięki czemu po zmapowaniu symbole nadal będą odpowiadały pierwotnym. 
+  \item[•] Stworzona gramatyka powinna umożliwić na tworzenie jak najmniejszej ilości rozwiązań, które nie należą do języka, co prawda nie uniemożliwi to działania algorytmu, gdyż można odrzucić te rozwiązania na etapie parsowania, ale warto oszczędzić niepotrzebnych obliczeń i rozwiązań ten problem już na etapie tworzenia gramatyki. 
 \end{itemize}
 
 \subsection{Omówienia działania algorytmu ewolucji genetycznej}
-Mechanizmem, który wyróżnia ewolucji genetyczną na tle innych algorytmów ewolucyjnych jest mapowanie genotypu zapisywanego jako jednowymiarowa tablica liczb całkowitych na fenotyp - gramatykę. Przykładem może być genotyp: 
+Mechanizmem, który wyróżnia ewolucji genetyczną na tle innych algorytmów ewolucyjnych, jest mapowanie genotypu zapisywanego jako jednowymiarowa tablica liczb całkowitych na fenotyp - język, zgodnie z zasadami stworzonej gramatyki. Przykładem może być genotyp: 
 \begin{center} [6, 71, 92, 59, 52, 95, 23, 45, 12, 2] \end{center}
 i gramatyka w notacji BNF:
 
@@ -280,30 +280,30 @@ Wybór kolejnych produkcji odbywa się według zasady:
 Używając wyprowadzenia lewostronnego:
 
 \begin{itemize}
-  \item[•] Aktualne wyrażenie: <e>;
-Aktualny symbol nieterminalny: <e>;
-Ilość możliwych produkcji: 1;
-Wartość genu: 6;
+  \item[•] Aktualne wyrażenie: <e>; \newline
+Aktualny symbol nieterminalny: <e>; \newline
+Ilość możliwych produkcji: 1; \newline
+Wartość genu: 6; \newline
 6 mod 1 = 0, więc <e> zostaje zastąpiony przez <var>=<math><var>
-  \item[•] Aktualne wyrażenie: <var>=<math><var>;
-Aktualny symbol nieterminalny: <var>;
-Ilość możliwych produkcji: 4;
-Wartość genu: 71;
+  \item[•] Aktualne wyrażenie: <var>=<math><var>; \newline
+Aktualny symbol nieterminalny: <var>; \newline
+Ilość możliwych produkcji: 4; \newline
+Wartość genu: 71; \newline
 71 mod 4 = 3, więc <var> zostaje zastąpiony przez d
-  \item[•] Aktualne wyrażenie: d=<math><var>;
-Aktualny symbol nieterminalny: <math>;
-Ilość możliwych produkcji: 2;
-Wartość genu: 92;
+  \item[•] Aktualne wyrażenie: d=<math><var>; \newline
+Aktualny symbol nieterminalny: <math>; \newline
+Ilość możliwych produkcji: 2; \newline
+Wartość genu: 92; \newline
 92 mod 2 = 0, więc <math> zostaje zastąpiony <math><math>
-  \item[•] Aktualne wyrażenie: d=<math><math><var>;
-Aktualny symbol nieterminalny: <math>;
-Ilość możliwych produkcji: 2;
-Wartość genu: 59;
+  \item[•] Aktualne wyrażenie: d=<math><math><var>; \newline
+Aktualny symbol nieterminalny: <math>; \newline
+Ilość możliwych produkcji: 2; \newline
+Wartość genu: 59; \newline
 59 mod 2 = 1, więc <math> zostaje zastąpiony <var><op>
 \end{itemize}
-kontynuując analogicznie, po zastąpienie wszystkich symboli nieterminalnych, ostatecznie otrzymany fenotyp to:
+Kontynuując analogicznie, po zastąpienie wszystkich symboli nieterminalnych, ostatecznie otrzymany fenotyp to:
 \begin{center} d = a - b + c \end{center}	
-Używanie tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramatyki, może generować złożone rozwiązania. W połączeniu z metodami z algorytmów ewolucyjnych, możliwe jest teoretycznie ewoluowanie programów w dowolnym języku programowania, a następnie za pomocą odpowiedniej funkcji dopasowania znalezienie takiego, który rozwiąże dany problem. W kolejnej sekcji omówiono jak dobrać metryki, aby użyć tego mechanizmu do odkrywania procesów biznesowych.
+Używanie tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramatyki, możliwe jest generowanie znaczniej bardziej złożonych rozwiązania. W połączeniu z metodami z algorytmów ewolucyjnych możliwe jest teoretycznie ewoluowanie programów w dowolnym języku programowania, a następnie za pomocą odpowiedniej funkcji dopasowania znalezienie takiego, który rozwiąże dany problem. W kolejnej sekcji omówiono jak dobrać metryki, aby użyć tego mechanizmu do odkrywania procesów biznesowych.
 
 
 %---------------------------------------------------------------------------
@@ -358,7 +358,6 @@ $M_g = 1 - \frac{\sum_{zdarzenia\ w\ modelu} \frac{1}{\sqrt{ilosc\ wystapien\ zd
 Metryka jest powiązana z odwzorowaniem, czyli kiedy odwzorowanie rośnie pozwalamy na tworzenie bardziej skomplikowanego modelu. Złożoność jest wyrażana jako ilość możliwych ścieżek w modelu. Jako, że np. dla bramki AND jest to n! zauważamy, że złożoność rośnie niewspółmiernie szybciej do odwzorowania, dlatego pierwiastek ze złożoności. W przypadku pętli złożoność byłaby nieskończona, dlatego przyjęto że pętla oznacza maksymalnie dwukrotne wykonanie pętli. Ostatecznie metrykę wyrażono wzorem: \begin{center}
 $M_z = 1 - \frac{1}{\sqrt{1\ +\ blad\_odwzorowania\ *\ \sqrt{zlozonosc\ modelu}}} $
 \end{center}
-\newpage
 \subsection{Obliczanie metryk}
 W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane z niego. Poniżej przedstawiono przykładowy model tego procesu - na czerwono zaznaczono ilość wykonań danej aktywności - oraz zademonstrowano obliczanie metryk:
 

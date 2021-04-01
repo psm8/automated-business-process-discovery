@@ -22,17 +22,17 @@
 \contentsline {subsection}{\numberline {2.3.6}Om\IeC {\'o}wienia dzia\IeC {\l }ania algorytmu ewolucji genetycznej}{22}% 
 \contentsline {section}{\numberline {2.4}Metryki}{23}% 
 \contentsline {subsection}{\numberline {2.4.1}Metryki a funkcja dopasowania}{23}% 
-\contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka - z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{23}% 
+\contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka - z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{24}% 
 \contentsline {subsection}{\numberline {2.4.3}Metryki - szczeg\IeC {\'o}\IeC {\l }y}{24}% 
 \contentsline {subsubsection}{\numberline {2.4.3.1}Prostota}{24}% 
-\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{24}% 
-\contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{25}% 
 \contentsline {subsubsection}{\numberline {2.4.3.4}Generalizacja}{25}% 
-\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{26}% 
 \contentsline {subsection}{\numberline {2.4.4}Obliczanie metryk}{26}% 
 \contentsline {subsubsection}{\numberline {2.4.4.1}Obliczanie prostoty}{26}% 
 \contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{26}% 
-\contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{26}% 
+\contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{27}% 
 \contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{27}% 
 \contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{27}% 
 \contentsline {chapter}{\numberline {3}Projekt i implementacja}{29}% 
