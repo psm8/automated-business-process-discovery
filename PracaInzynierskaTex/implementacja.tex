@@ -33,7 +33,8 @@ Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramat
 
 <slots> ::= <slot><slot><anygate><slot><slot>
 
-<name> ::= and | xor | seq | opt | lo<0_n>
+<name> ::= and | xor | seq | and | xor | seq | and | xor | seq | 
+           and | xor | seq | and | xor | seq | lo<0_n> | lo<0_n> |opt
 
 <event> ::= GE_RANGE:dataset_vars
 
@@ -62,7 +63,7 @@ Użycie powyższej notacji rodzi jednak kilka problemów, Musimy mieć produkcje
 
 \section{Projekt systemu}
 
-\subsubsection{Podział na moduły}
+\subsection{Podział na moduły}
 
 Implementację podzielone na następujące moduły:
 \begin{itemize}
@@ -77,7 +78,7 @@ Implementację podzielone na następujące moduły:
 	\caption{\label{fig:flow_chart}Podział na moduły}
 \end{figure}
 
-\subsubsection{Model}
+\subsection{Model}
 
 Podział na dwie klasy przydatne na różnym etapie procesowania:
 
