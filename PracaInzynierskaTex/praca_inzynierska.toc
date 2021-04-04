@@ -39,7 +39,7 @@
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{29}{}%
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{29}{}%
 \contentsline {subsection}{\numberline {3.1.2}PonyGE2}{29}{}%
-\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{30}{}%
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{29}{}%
 \contentsline {section}{\numberline {3.3}Projekt systemu}{32}{}%
 \contentsline {subsection}{\numberline {3.3.1}Podział na moduły}{32}{}%
 \contentsline {subsection}{\numberline {3.3.2}Model}{32}{}%
