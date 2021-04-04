@@ -1,10 +1,36 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: praca_inzynierska.aux
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: praca_inzynierska.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: biblatex.bst
+Reallocating 'name_of_file' (item size: 1) to 22 items.
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Reallocating 'name_of_file' (item size: 1) to 17 items.
 A level-1 auxiliary file: wprowadzenie.aux
+Reallocating 'name_of_file' (item size: 1) to 22 items.
 A level-1 auxiliary file: wstep_teoretyczny.aux
+Reallocating 'name_of_file' (item size: 1) to 18 items.
 A level-1 auxiliary file: implementacja.aux
+Reallocating 'name_of_file' (item size: 1) to 12 items.
 A level-1 auxiliary file: wnioski.aux
+Reallocating 'name_of_file' (item size: 1) to 17 items.
 A level-1 auxiliary file: podsumowanie.aux
+Reallocating 'glb_str_end' (item size: 4) to 20 items.
+Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
+Reallocating 'global_strs' (item size: 1) to 4000000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'field_info' (item size: 4) to 11160 items.
 Database file #1: praca_inzynierska-blx.bib
 Database file #2: bibliografia.bib
 Warning--entry type for "inductive-miner" isn't style-file defined
@@ -15,5 +41,48 @@ Warning--I'm ignoring icga85:cramer's extra "url" field
 --line 437 of file bibliografia.bib
 Warning--entry type for "SSvsGen" isn't style-file defined
 --line 490 of file bibliografia.bib
-Biblatex version: 3.13
+Biblatex version: 3.16
+Reallocating 'wiz_functions' (item size: 4) to 9000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+You've used 44 entries,
+            6393 wiz_defined-function locations,
+            1529 strings with 24301 characters,
+and the built_in function-call counts, 281414 in all, are:
+= -- 20794
+> -- 4899
+< -- 1280
++ -- 6803
+- -- 1727
+* -- 19839
+:= -- 30252
+add.period$ -- 0
+call.type$ -- 44
+change.case$ -- 705
+chr.to.int$ -- 158
+cite$ -- 86
+duplicate$ -- 29012
+empty$ -- 25768
+format.name$ -- 2914
+if$ -- 57671
+int.to.chr$ -- 0
+int.to.str$ -- 120
+missing$ -- 0
+newline$ -- 1488
+num.names$ -- 2115
+pop$ -- 15240
+preamble$ -- 1
+purify$ -- 994
+quote$ -- 0
+skip$ -- 8237
+stack$ -- 0
+substring$ -- 36812
+swap$ -- 6448
+text.length$ -- 985
+text.prefix$ -- 1
+top$ -- 1
+type$ -- 1482
+warning$ -- 0
+while$ -- 4093
+width$ -- 0
+write$ -- 1445
 (There were 4 warnings)

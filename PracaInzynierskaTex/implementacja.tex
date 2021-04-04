@@ -2,7 +2,7 @@
 
 \section{Wykorzystane technologie}
 \subsection{Python 3.8.1}
-Do implementacji algorytmu został użyty Python. Jest to najpopularniejszy język programowania w domenie uczenia maszynowego. Wymagana jest wersja 3.8+ ze względu na użycie w implementacji metod dostępnych od tej wersji.  
+Do implementacji algorytmu został użyty Python. Jest to najpopularniejszy język programowania w domenie uczenia maszynowego. Wymagana jest wersja 3.8 lub wyższa ze względu na użycie w implementacji metod dostępnych od tej wersji.  
 \subsection{PonyGE2}
 PonyGE2 \cite{Fenton_2017} jest implementacją ewolucji genetycznej w języku Python. Pozwala na łatwą konfigurację parametrów ewolucji genetycznej oraz możliwość dodania własnych problemów, a także sposobów ewaluacji rozwiązań. Niestety, PonyGE2 nie jest przystosowane do dołączania jako niezależna biblioteka i dostęp poprzez wygodny interfejs.
 
@@ -13,16 +13,21 @@ PonyGE2 \cite{Fenton_2017} jest implementacją ewolucji genetycznej w języku Py
 
 \section{Tworzenie gramatyki procesu biznesowego}
 
-Zgodnie z zaprezentowanymi wcześniej zasadmi odnośnie jak poiwnien wygladac midel zdecowydowano sie na W wykorzystanie gramryec postawioneo się zdecydować na soundness, czyli bramki zamknięte, jeden event ckońcowyco pozwala na tworzenie, brak bramek ktore nie sa domkniete./ Pozwala to zredukowac przestrzen roziwazan jednoczesniej tworzac rzowiazania, ktore na pewno nie generuja bledow. 
-Łatwe mapowanie na BPMN.
-Przy tworzeniu gramatyki procesu biznesowego ważnym jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania zaproponowanej
-gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przeanalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. z pracy wynika, że najczęściej stosowany elementami modelów procesu biznesowego, jeśli chodzi o bramki są: xor, and oraz pętle lop. Do przedstawionej poniżej gramatyki dodano także bramkę opt, czyli or jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest posiadanie bramki seq, która oznacza normalny przepływ procesów.
+Projektując gramatykę procesu biznesowego przyjęto dwa początkowe założenia. Założono, że generowane modele muszą być łatwe do przełożenia na notację BPMN oraz nie powinny być tworzone modele niespójne strukturalnie, co pozwali na zredukowanie przestrzeni rozwiązań, jednocześnie tylko tworząc rozwiązania na pewno nie generujące błędów.
+
+Przy tworzeniu gramatyki procesu biznesowego ważne jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania modelu jaki będzie możliwy do wygenerowania używając zaproponowanej gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przeanalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. Najczęściej stosowanymi elementami modelów procesu biznesowego, jeśli chodzi o bramki są: XOR - ALBO kodowane w gramatyce jako xor, AND - I jako and oraz pętle jako lo<0$\_$n>. Do przedstawionej poniżej gramatyki dodano także bramkę OR - LUB  jako opt, czyli jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest symbolu seq, która oznacza normalny przepływ procesów.
+
+Zdarzenia początkowe i końcowe nie muszą być reprezentowane w gramatyce, gdyż zgodnie z zaleceniami w sekcji \ref{sec:modelling} przyjmuje się, że dobrą praktyką jest żeby model zawierał tylko jedno zdarzenie początkowe i końcowe. Z tego powodu, przyjęto, że zdarzenia początkowe i końcowe są domyślnie na początku i końcu wygenerowanego słowa. 
+
+Zgodnie z opisanym w sekcji \ref{grammarCreation} problemem dotyczącymi tworzenia gramatyki dla metod opartych o krzyżowanie i mutację punktową lub n-punktową, zdecydowano się na stworzenia gramatyki pod kątem operacji stosujących te operacje na drzewie, czyli fenotypie. Często słabym punktem algorytmów ewolucyjnych staje się lokalne przeszukiwanie. Przechowując fenotyp jako drzewo i stosując wspomniane operatory, prawdopodobna jest sytuacja, że mała modyfikacja blisko korzenia drzewa może poprawić rozwiązanie, jednak jej zaistnienie przy użyciu tych operatów wymaga wygenerowania identycznego poddrzewa na nowo, co sprawia, że prawdopodobieństwo zajścia takiej operacji jest niskie. Do rozwiązania tego problemu mogą służyć metody inspirowane algorytmami memetycznymi oparte, a o reprezentacje jako drzewo\cite{memetic}, których główną ideą jest aplikowanie lokalnych zmian na drzewie bez konieczności regenerowania całego poddrzewa, co pozwala na usprawnienie procesu ewolucji. Niestety, użyta biblioteka nie posiada metod pozwalających na lokalne przeszukiwanie, dlatego żeby w pewnym stopniu zaradzić temu problemowi, gramatyka stara się zmniejszać głębokość drzewa, jednocześnie zwiększać szanse na lokalne mutacje poprzez wprowadzenie symbolu nieterminalnego <slots>, których sprawia, że drzewo rośnie bardziej wszerz i posiada oprócz jednego symbolu <anygate>, którego użycie ma zapewnić tworzenie poprawnych, niepustych rozwiązań, symbole <slot>, które dają tylko 10\% szans na produkcje wstawiającą symbol <anygate>. Pozwala to na lokalne zzmiany na późniejszych etapach ewolucji. Zaadresowanie to także poprzez reprezentowanie bramki jako <name>(<slots>), dzięki czemu w wyprowadzeniu nazwa bramki <name> jest oddzielona on jej zawartości, co sprawia, że możliwa jest zmiana nazwy bramki blisko korzenia drzewa bez modyfikacji jej wnętrza.
+
+Zaadresowano także konieczność częstotliwość występowania poszczególnych bramek logicznych . Zgodnie z \cite{10.1007/978-3-540-69534-9_35} normalne połączenie i bramki XOR - ALBO, AND - I są tworzone przez większą ilość produkcji niż rzadziej występujące pętle i bramki OR - LUB. 
 
 Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, które umożliwia dodanie ilości zmiennych, czyli GE{\_}RANGE:2 oznacza 0|1|2.
 Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, które umożliwia dodanie ilości zmiennych odpowiadającej ich ilości w zbiorze danych.
 
 \begin{figure}[!ht]
-\lstset{caption=Gramatyka procesu biznesowego, captionpos=b}
+\lstset{caption=Proponowana gramatyka procesu biznesowego, captionpos=b}
 \lstset{label=src:grammar, frame=single}
 \begin{lstlisting}
 <e> ::= <slot><slot><anygate><slot><slot>
@@ -42,24 +47,29 @@ Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramat
 \end{lstlisting}
 \end{figure}
 
-Przykład wygenerowanej gramatyki:
-and(\{d\}opt(\{f\})and(\{a\}\{c\})lop(seq(lop(\{a\})\{e\})))
+Wszystkie bramki mają nazwy tej samej długości - 3 znaki, co ułatwia parsowanie gramatyki. Symbol startowy to <e>.
 
-Wszystkie bramki mają nazwy tej samej długości - 3 znaki, co pozwoli na łatwiejsze parsowanie gramatyki.
+Model dla którego zaprezenentowanie obliczanie metryk (rys. \ref{fig:metrics_business_process})byłby za pomocą powyższej notacji zakodowany jako:
+\begin{center}
+(\{a\}and(\{b\}\{c\})opt(\{b\}\{e\})\{d\}
+\end{center}
 
-longate - oznacza pętle 
+Zapis lo<0$\_$n> jest nieoczywisty, jednak konieczny do zakodowania pętli, które są kończone na innej aktywności niż pełna ich iteracja.  
 Poniższy przykład pokazuje gramatykę, którą ciężko opisać przy pomocy podstawowych bramek logicznych: 
 \begin{figure}[h]
-	\centering{\includegraphics{Grammar-lop-example.png}}
-	\caption{\label{fig:subcaption_example}Przykład problemu}
+	\centering{\includegraphics[scale=0.4]{grammar-lop-example.png}}
+	\caption{\label{fig:subcaption_example}Przykład problemu z pętlą}
 \end{figure}
 
 Jest to możliwe za pomocą notacji: 
-\{a\}and(xor(\{b\}\{c\})\{d\})\{e\}lop(\{f\}and(xor(\{b\}\{c\})\{d\})\{e\})xor(\{g\}\{h\})
+\begin{center}
+\{a\}and(xor(\{b\}\{c\})\{d\}lop(\{e\}and(xor(\{b\}\{c\})\{d\})xor(\{f\}\{g\})
+\end{center}
+Użycie powyższej notacji jest poprawne, jednak kodowanie pętli w tej sposób sprawia, że powstałe słowo jest skomplikowane, a jego wyewoluowanie mało prawdopodobnie - znacznie mniej prawdopodobne niż wyewoluowanie pętli klasycznych pętli, problem ten rozwiązano używając lo<0$\_$n>, gdzie <0$\_$n> oznacza ile ostatnich znaków nie powinno być uwzględniane w pierwszej iteracji pętli, dzięki czemu możliwe jest zakodowanie pętli, które są kończone na innej aktywności niż pełna ich iteracja, a jednocześnie potrzeba do tego znacznie mniejszej liczb symboli, co sprawia, że wyewoluowanie takiego modelu jest znacznie bardziej prawdopodobne.
 
-Użycie powyższej notacji rodzi jednak kilka problemów, Musimy mieć produkcje 
-\{a\}lo1(\{f\}and(xor(\{b\}\{c\})\{d\})\{e\})xor(\{g\}\{h\})
-\clearpage
+\begin{center}
+\{a\}lo1(\{e\}and(\{b\}\{c\})\{d\})xor(\{f\}\{g\})
+\end{center}
 
 \section{Projekt systemu}
 
@@ -163,7 +173,7 @@ Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczn
 Metryką, która nie wymaga obliczenia dopasowania jest prostota, dlatego możemy ją obliczyć wcześniej co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów bez konieczności kosztownego obliczania dopasowania. 
 Pozostałe metryki wymagają obliczenia dopasowania i są obliczane dla najlepiej dopasowanej gramatyki.
 Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu dopasowanie nie będzie dobre. Pozwala to odrzucić rezultaty, które nie przekraczają progu. 
-\clearpage
+
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
@@ -207,7 +217,7 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 
 \clearpage
 \subsubsection{Obliczanie metryk dla jednego procesu}
-Ważnym jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  W tym celu, co pozwolilo usprawnic caly proces
+Ważne jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  W tym celu, co pozwoliło usprawnić cały proces
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
 \lstset{label=src:best_result, frame=single}

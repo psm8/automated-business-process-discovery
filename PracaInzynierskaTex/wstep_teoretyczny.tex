@@ -50,6 +50,7 @@ Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuj
 \section{Eksploracja procesów}
 \label{sec:eksploracja}
 \subsection{Modelowanie procesów biznesowych}
+\label{sec:modelling}
 Na rys. \ref{fig:simple_business_process} przedstawiono przykład uproszczonego procesu biznesowego. Łatwo sobie wyobrazić, że proces ten w rzeczywistości może być znacznie bardziej skomplikowany. Część aktywności może być wykonywana równolegle, niektóre zdarzenia w ogóle nie zaistnieją lub będą występować kilkukrotnie w ramach jednego procesu. 
 
 W sytuacji, w której zamówiony przez klienta towar będzie niedostępny, logiczne wydaje się poinformowanie go o opóźnieniu oraz danie mu możliwości anulowanie zamówienia lub jego kontynuacja i ponowne sprawdzenie dostępności. Ponadto, czynności takie jak wysłanie faktury oraz spakowanie i wysłanie zamówienia mogą być wykonane w dowolnej kolejności czy nawet jednocześnie przez dwie różne osoby. Proces staje się bardziej skomplikowany i konieczna do stworzenia jego modelu jest bardziej złożona notacja niż użyta do przedstawienia prostego procesu. 
@@ -196,7 +197,7 @@ Najczęściej używane operatory krzyżowania to:
 
 \item[•] Krzyżowanie n-punktowe - uogólnienie powyższych krzyżowań dla n punktów.
 
-\item[•] Krzyżowanie zamiana w drzewie - metoda opiera się na fenotypie, który może być reprezentowany jako drzewo, w tej metodzie zamieniane są ze sobą dwa poddrzewa. W tym przypadku tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
+\item[•] Krzyżowanie zamiana w drzewie - metoda opiera się na modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie zamieniane są ze sobą dwa poddrzewa. W tym przypadku tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
 \end{itemize}
 Ponadto krzyżowania możemy podzielić na stało-punktowe, czyli takie, w którym wybierany jest ten sam punktu lub punkty w obu osobnikach, przez co nowe genotypy mieć tą samą długość jak rodzice i zmienno-punktowe, gdzie mogą to być różne punkty, co skutkuje dużą zmienności w rozmiarach utworzonych genotypów. 
 
@@ -204,7 +205,7 @@ Natomiast operatory mutacji to:
 \begin{itemize}
 \item[•] Mutacja punkowa - dowolny gen w genotypie zostaje zmieniony na inną losową wartość. Przez co odpowiadająca mu produkcja tworzy nową wartość. Pozostałe produkcje pozostają niezmienione.
 
-\item[•] Mutacja zamiana w drzewie - metoda opiera się na fenotypie, który może być reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo. Analogicznie jak w przypadku krzyżowania tworzone są tylko prawidłowe rozwiązania, jednak konieczna jest większa ilość obliczeń. 
+\item[•] Mutacja zamiana w drzewie - metoda opiera się modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo. Analogicznie jak w przypadku krzyżowania tworzone są tylko prawidłowe rozwiązania, jednak konieczna jest większa ilość obliczeń. 
 \end{itemize}
 
 Ostatnim krokiem jest zastąpienie osobników w poprzedniej populacji przez nowych powstałych na skutek zastosowania wcześniej wspomnianych operatorów. Istnieją dwa podejścia, sugerujące zastępowanie całej populacji lub tylko kilku osobników \cite{SSvsGen}.
@@ -251,7 +252,7 @@ Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzen
 \end{center}
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
-
+\label{grammarCreation}
 Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą odpowiednie do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych \cite{grammarDesign}: 
 \begin{itemize}
   \item[•] Każda rekursywna produkcja powinna mieć co najmniej tyle samo produkcji nierekursywnych, inaczej biorąc pod uwagę, że genotyp jest mapowany na fenotyp metodą pseudolosową, prawdopodobieństwo otrzymania rozwiązania, które musi się składać tylko symboli terminalnych, będzie zbyt niskie.
