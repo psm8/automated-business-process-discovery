@@ -76,9 +76,9 @@ Użycie powyższego zapisu jest poprawne, jednak kodowanie pętli w ten sposób 
 
 Implementację podzielone na następujące moduły:
 \begin{itemize}
-    \item wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego żeby oddzielić kod PonyGE2 od naszego kodu należało rozszerzyć lub nadpisać cześć z modułów PonyGE2. Moduły, które nadpisano to params, który zawiera konfigurację aplikacji oraz grammar, gdzie dodano zmiany w jaki sposób parsowana jest podana gramatyka. dorzucic nazwe jakiegos design patternsa
-  \item fitness{\_}functions - zawiera klasę bazowy moduł, gdzie znajduje się bazowa klasa dla obliczania metryk
-  \item process{\_}discovery - moduł zawiera całą logikę obliczenia metryk
+    \item wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego żeby oddzielić kod PonyGE2 od naszego kodu należało rozszerzyć lub nadpisać cześć z modułów PonyGE2. Także w tym modele znajdują się rozszerzenia do PonyGE2 dodające nowe funkcjonalności.
+  \item fitness{\_}functions - bazowy moduł, gdzie znajduje się klasa dla obliczania dopasowania, która korzysta z metod w module process{\_}discovery.
+  \item process{\_}discovery - moduł zawiera całą logikę obliczenia metryk.
 \end{itemize}
 
 
@@ -121,6 +121,8 @@ W tej części przedstawiono listingi z pseudokodem opartym na języku Python. T
 
 \subsection{Parsowanie gramatyki}
 Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
+
+Na tym etapie przeprowadzane są operacje takie jak:
 Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
 To na tym etapie odrzucamy też procesy, które mimo, że gramatyka pozwala na ich stworzenie inie moją sensu z punktu biznesowego, co pozwala na ograniczenie zasobów i nie przeliczanie dalszych rzeczy dla procesow, ktore sa bezwartosciowe. Odrzucamy procesy, ktore  
 
