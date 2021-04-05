@@ -13,18 +13,20 @@ PonyGE2 \cite{Fenton_2017} jest implementacją ewolucji genetycznej w języku Py
 
 \section{Tworzenie gramatyki procesu biznesowego}
 
-Projektując gramatykę procesu biznesowego przyjęto dwa początkowe założenia. Założono, że generowane modele muszą być łatwe do przełożenia na notację BPMN oraz nie powinny być tworzone modele niespójne strukturalnie, co pozwali na zredukowanie przestrzeni rozwiązań, jednocześnie tylko tworząc rozwiązania na pewno nie generujące błędów.
+Projektując gramatykę procesu biznesowego, przyjęto dwa początkowe założenia. Uznano, że generowane modele muszą być łatwe do przełożenia na notację BPMN oraz nie powinny być tworzone modele niespójne strukturalnie, co pozwali na zredukowanie przestrzeni rozwiązań, jednocześnie gwarantując tworzenie niegenerujących błędów modeli.
 
-Przy tworzeniu gramatyki procesu biznesowego ważne jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania modelu jaki będzie możliwy do wygenerowania używając zaproponowanej gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} autorzy przeanalizowali składniki języka BPMN pod kątem częstotliwości ich stosowania. Najczęściej stosowanymi elementami modelów procesu biznesowego, jeśli chodzi o bramki są: XOR - ALBO kodowane w gramatyce jako xor, AND - I jako and oraz pętle jako lo<0$\_$n>. Do przedstawionej poniżej gramatyki dodano także bramkę OR - LUB  jako opt, czyli jako uogólnienie bramki xor w celu uniknięcia zagnieżdżonych bramek xor. Ponadto koniecznym jest symbolu seq, która oznacza normalny przepływ procesów.
+Przy tworzeniu gramatyki procesu biznesowego ważne jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania modelu, jaki będzie możliwy do wygenerowania, używając zaproponowanej gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} przeanalizowano składniki języka BPMN pod kątem częstotliwości ich stosowania. Najczęściej używanymi elementami modelów procesu biznesowego, jeśli chodzi o bramki, są: XOR - ALBO kodowane w proponowanej gramatyce jako xor, AND - I jako and oraz pętle jako lo<0$\_$n>. Do przedstawionej dalej gramatyki dodano także bramki OR - LUB reprezentowane jako opt. Ponadto konieczne jest użycie symbolu seq, która oznacza, że aktywności następują kolejno po sobie.
 
-Zdarzenia początkowe i końcowe nie muszą być reprezentowane w gramatyce, gdyż zgodnie z zaleceniami w sekcji \ref{sec:modelling} przyjmuje się, że dobrą praktyką jest żeby model zawierał tylko jedno zdarzenie początkowe i końcowe. Z tego powodu, przyjęto, że zdarzenia początkowe i końcowe są domyślnie na początku i końcu wygenerowanego słowa. 
+Zgodnie z zaleceniami w sekcji \ref{sec:modelling} przyjmuje się, że dobrą praktyką jest, żeby model zawierał tylko jedno zdarzenie początkowe i końcowe. Z tego powodu przyjęto, że zdarzenia te są domyślnie odpowiednio na początku i końcu wygenerowanego słowa i nie są one jawnie reprezentowane w gramatyce.
 
-Zgodnie z opisanym w sekcji \ref{grammarCreation} problemem dotyczącymi tworzenia gramatyki dla metod opartych o krzyżowanie i mutację punktową lub n-punktową, zdecydowano się na stworzenia gramatyki pod kątem operacji stosujących te operacje na drzewie, czyli fenotypie. Często słabym punktem algorytmów ewolucyjnych staje się lokalne przeszukiwanie. Przechowując fenotyp jako drzewo i stosując wspomniane operatory, prawdopodobna jest sytuacja, że mała modyfikacja blisko korzenia drzewa może poprawić rozwiązanie, jednak jej zaistnienie przy użyciu tych operatów wymaga wygenerowania identycznego poddrzewa na nowo, co sprawia, że prawdopodobieństwo zajścia takiej operacji jest niskie. Do rozwiązania tego problemu mogą służyć metody inspirowane algorytmami memetycznymi oparte, a o reprezentacje jako drzewo\cite{memetic}, których główną ideą jest aplikowanie lokalnych zmian na drzewie bez konieczności regenerowania całego poddrzewa, co pozwala na usprawnienie procesu ewolucji. Niestety, użyta biblioteka nie posiada metod pozwalających na lokalne przeszukiwanie, dlatego żeby w pewnym stopniu zaradzić temu problemowi, gramatyka stara się zmniejszać głębokość drzewa, jednocześnie zwiększać szanse na lokalne mutacje poprzez wprowadzenie symbolu nieterminalnego <slots>, których sprawia, że drzewo rośnie bardziej wszerz i posiada oprócz jednego symbolu <anygate>, którego użycie ma zapewnić tworzenie poprawnych, niepustych rozwiązań, symbole <slot>, które dają tylko 10\% szans na produkcje wstawiającą symbol <anygate>. Pozwala to na lokalne zzmiany na późniejszych etapach ewolucji. Zaadresowanie to także poprzez reprezentowanie bramki jako <name>(<slots>), dzięki czemu w wyprowadzeniu nazwa bramki <name> jest oddzielona on jej zawartości, co sprawia, że możliwa jest zmiana nazwy bramki blisko korzenia drzewa bez modyfikacji jej wnętrza.
+W sekcji \ref{grammarCreation} opisano problemem ewolucji gramatyki dla metod opartych o krzyżowanie i mutację punktową lub n-punktową, dlatego zdecydowano się na stworzenie gramatyki pod kątem wersji tych operatorów używających fenotypu - drzewa. Lokalne przeszukiwanie często staje się słabym punktem algorytmów ewolucyjnych. Stosując wspomniane operatory, prawdopodobna jest sytuacja, że mała modyfikacja blisko korzenia może poprawić rozwiązanie, jednak jej zaistnienie wymaga wygenerowania identycznego poddrzewa na nowo, przez co prawdopodobieństwo zaistnienia takiej sytuacji jest niskie. Do rozwiązania tego problemu mogą służyć metody inspirowane algorytmami memetycznymi, a  działające na drzewach \cite{memetic}. Dają one możliwość aplikowania lokalnych zmian bez konieczności powtórnego generowania całego poddrzewa, co pozwala na usprawnienie procesu ewolucji. Niestety, użyta biblioteka nie posiada podobnych metod lokalnej optymalizacji. Żeby w pewnym stopniu zaradzić temu problemowi, zmniejszono głębokość potrzebnego do reprezentacji modelu drzewa, jednocześnie zwiększać szanse na lokalne mutacje poprzez wprowadzenie symbolu nieterminalnego <slots>. Sprawia to, że drzewo rośnie bardziej wszerz i oprócz jednego symbolu <anygate>, którego użycie ma zapewnić tworzenie poprawnych, niepustych rozwiązań, generowane są symbole <slot>, które mogą pozostać puste lub wygenerować symbol <anygate> z 10\% prawdopodobieństwem. Przekłada się to na większą ilość lokalnych zmian na późniejszych etapach ewolucji. Lokalne przeszukiwania wspomaga także poprzez reprezentowanie bramki jako dwa odrębne symbole - <name>(<slots>). Dzięki temu w wyprowadzeniu nazwa bramki <name> jest oddzielona on jej zawartości, co sprawia, że możliwa jest zmiana nazwy bramki bez modyfikacji jej wnętrza.
 
-Zaadresowano także konieczność częstotliwość występowania poszczególnych bramek logicznych . Zgodnie z \cite{10.1007/978-3-540-69534-9_35} normalne połączenie i bramki XOR - ALBO, AND - I są tworzone przez większą ilość produkcji niż rzadziej występujące pętle i bramki OR - LUB. 
+Zaadresowano również konieczność odwzorowania w gramatyce częstotliwości występowania poszczególnych bramek logicznych. Zgodnie z \cite{10.1007/978-3-540-69534-9_35} połączenia i bramki XOR - ALBO, AND - I są tworzone przez większą ilość produkcji niż rzadziej występujące pętle i bramki OR - LUB. 
 
-Zapis GE{\_}RANGE:n jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, które umożliwia dodanie ilości zmiennych, czyli GE{\_}RANGE:2 oznacza 0|1|2.
-Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramatyki zapewnianym przez PonyGE2, które umożliwia dodanie ilości zmiennych odpowiadającej ich ilości w zbiorze danych.
+Zapis GE{\_}RANGE:n jest rozszerzeniem notacji zapewnianym przez PonyGE2, które umożliwia dodanie wygodne dodanie n zmiennych, czyli GE{\_}RANGE:2 w BNF oznacza 0|1|2.
+Podobny jest zapis GE{\_}RANGE:dataset{\_}vars, który umożliwia dodanie ilości zmiennych odpowiadającej ich ilości w zbiorze danych w tym wypadku w liczbie aktywności w dzienniku zdarzeń. Został on dodany, dzięki rozszerzeniu standardowego, zapewnianego przez PonyGE2 parsera gramatyki.
+
+Wszystkie bramki mają nazwy tej samej długości - 3 znaki, co ułatwia parsowanie gramatyki. Symbol startowy to <e>.
 
 \begin{figure}[!ht]
 \lstset{caption=Proponowana gramatyka procesu biznesowego, captionpos=b}
@@ -47,25 +49,22 @@ Wzorując się na  Zapis GE{\_}RANGE:dataset{\_}vars jest rozszerzenie do gramat
 \end{lstlisting}
 \end{figure}
 
-Wszystkie bramki mają nazwy tej samej długości - 3 znaki, co ułatwia parsowanie gramatyki. Symbol startowy to <e>.
-
-Model dla którego zaprezenentowanie obliczanie metryk (rys. \ref{fig:metrics_business_process})byłby za pomocą powyższej notacji zakodowany jako:
+Model, dla którego zaprezentowanie obliczanie metryk (rys. \ref{fig:metrics_business_process}) byłby za pomocą powyższej notacji zakodowany jako:
 \begin{center}
 (\{a\}and(\{b\}\{c\})opt(\{b\}\{e\})\{d\}
 \end{center}
 
-Zapis lo<0$\_$n> jest nieoczywisty, jednak konieczny do zakodowania pętli, które są kończone na innej aktywności niż pełna ich iteracja.  
-Poniższy przykład pokazuje gramatykę, którą ciężko opisać przy pomocy podstawowych bramek logicznych: 
-\begin{figure}[h]
+Zapis lo<0$\_$n> jest nieoczywisty, jednak konieczny do reprezentacji pętli, które mogą być przerywane na innej aktywności, niż kończy się ich pojedyncza iteracja.  
+Poniższy przykład pokazuje model, który ciężko opisać przy pomocy podstawowych bramek logicznych: 
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.4]{grammar-lop-example.png}}
 	\caption{\label{fig:subcaption_example}Przykład problemu z pętlą}
 \end{figure}
-
-Jest to możliwe za pomocą notacji: 
+\noindent Jest to możliwe za pomocą słowa - lop oznacza pętle: 
 \begin{center}
-\{a\}and(xor(\{b\}\{c\})\{d\}lop(\{e\}and(xor(\{b\}\{c\})\{d\})xor(\{f\}\{g\})
+\{a\}and(\{b\}\{c\})\{d\}lop(\{e\}and(\{b\}\{c\})\{d\})xor(\{f\}\{g\})
 \end{center}
-Użycie powyższej notacji jest poprawne, jednak kodowanie pętli w tej sposób sprawia, że powstałe słowo jest skomplikowane, a jego wyewoluowanie mało prawdopodobnie - znacznie mniej prawdopodobne niż wyewoluowanie pętli klasycznych pętli, problem ten rozwiązano używając lo<0$\_$n>, gdzie <0$\_$n> oznacza ile ostatnich znaków nie powinno być uwzględniane w pierwszej iteracji pętli, dzięki czemu możliwe jest zakodowanie pętli, które są kończone na innej aktywności niż pełna ich iteracja, a jednocześnie potrzeba do tego znacznie mniejszej liczb symboli, co sprawia, że wyewoluowanie takiego modelu jest znacznie bardziej prawdopodobne.
+Użycie powyższego zapisu jest poprawne, jednak kodowanie pętli w ten sposób sprawia, że powstałe słowo jest skomplikowane, a jego wyewoluowanie mało prawdopodobnie. Problem ten rozwiązano, używając zapisu  lo<0$\_$n>, gdzie <0$\_$n> oznacza, ile znaków ma być pominięte w pierwszej iteracji pętli, dzięki czemu możliwe jest zakodowanie takiej pętli przy użyciu znacznie mniejszej liczb symboli, co ułatwia wyewoluowania takiego modelu. Ten sam model opisany za pomocą stworzonej gramatyki wygląda następująco:
 
 \begin{center}
 \{a\}lo1(\{e\}and(\{b\}\{c\})\{d\})xor(\{f\}\{g\})
@@ -84,26 +83,26 @@ Implementację podzielone na następujące moduły:
 
 
 \begin{figure}[!ht]
-	\centering{\includegraphics{Modules.png}}
+	\centering{\includegraphics[scale=0.73]{Modules.png}}
 	\caption{\label{fig:flow_chart}Podział na moduły}
 \end{figure}
 
 \subsection{Model}
 
-Podział na dwie klasy przydatne na różnym etapie procesowania:
+Podział na dwie reprezentacje modelu przydatne na różnym etapie procesowania. Wszystkie klasy implementują interfejs ComparableEvent pozwalają na porównywanie czy dwa obiekty mają te same aktywności:
 
-Gate:
+Klasa Gate:
 Gramatyka zostaje sparsowana na to klasa. Pozwala to zastąpić proces w formie ciągu znaków na formę, na której łatwiej będzie nam operować w przyszłość.
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.4]{GateUML.png}}
+	\centering{\includegraphics[scale=0.5]{GateUML.png}}
 	\caption{\label{fig:subcaption_example}Gate UML}
 \end{figure}
 
-EventGroup:
+Klasa EventGroup:
 Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na duża ilość bramek logicznych 
 Takie modularne podejście pozwala na dodanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie dopasowania, która jest najbardziej złożonym algorytmem występującym w programie. 
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.4]{EventUML.png}}
+	\centering{\includegraphics[scale=0.5]{EventUML.png}}
 	\caption{\label{fig:subcaption_example}Event UML}
 \end{figure}
 
@@ -112,7 +111,7 @@ Takie modularne podejście pozwala na dodanie nowych bramek logiczny bez koniecz
 
 W tej części przedstawiono listingi z pseudokodem opartym na języku Python. Tam gdzie to konieczne pozostawiono słowa kluczowa oraz operatory tego języka.
 
-\subsubsection{Ogólny schemat blokowy}
+\subsection{Ogólny schemat blokowy}
 
 
 \begin{figure}[!ht]
@@ -120,7 +119,7 @@ W tej części przedstawiono listingi z pseudokodem opartym na języku Python. T
 	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
 \end{figure}
 
-\subsubsection{Parsowanie gramatyki}
+\subsection{Parsowanie gramatyki}
 Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
 Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
 To na tym etapie odrzucamy też procesy, które mimo, że gramatyka pozwala na ich stworzenie inie moją sensu z punktu biznesowego, co pozwala na ograniczenie zasobów i nie przeliczanie dalszych rzeczy dla procesow, ktore sa bezwartosciowe. Odrzucamy procesy, ktore  
@@ -163,7 +162,7 @@ def parsuj(wyrażenie: str) -> int:
 \end{lstlisting}
 \end{figure}
 
-\subsubsection{Obliczanie metryk}
+\subsection{Obliczanie metryk}
 Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Obliczanie dopasowanie można rozbić na następujące kroki:
 \begin{itemize}
   \item[•] Znalezienie ścieżek o długości n w modelu.
@@ -216,7 +215,7 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 \end{figure}
 
 \clearpage
-\subsubsection{Obliczanie metryk dla jednego procesu}
+\subsection{Obliczanie metryk dla jednego procesu}
 Ważne jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  W tym celu, co pozwoliło usprawnić cały proces
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
@@ -270,9 +269,9 @@ def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_dłu
 \end{figure}
 
 \clearpage
-\subsubsection{Wyszukiwanie w modelu procesów o określonej długości}
+\subsection{Wyszukiwanie w modelu procesów o określonej długości}
 
-Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. Najprawdopodobn iejsze jest, ze najlepiej dopasowana sciezka bedzie miala dlugosc jak wejscie w logu dlatego zaczyna od tej dlugosci. 
+Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. Najprawdopodobniejsze jest, ze najlepiej dopasowana ścieżka będzie miała długość jak wejście w logu dlatego zaczyna od tej długości. 
 Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki.  
 \begin{figure}[!ht]
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
@@ -325,7 +324,7 @@ def znajdź_wszystkie_ścieżki_długości_n(n, proces) -> []:
 \end{figure}
 
 \clearpage
-\subsubsection{Obliczanie dopasowania}
+\subsection{Obliczanie dopasowania}
 Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczać będziemy rozwiązania. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń. 
 \begin{figure}[!ht]
 \lstset{caption=Obliczanie dopasowania, captionpos=b}
@@ -362,7 +361,7 @@ def oblicz_dopasowanie(model, log):
 \end{figure}
 
 \clearpage
-\subsubsection{Znajdowanie ścieżki w modelu}
+\subsection{Znajdowanie ścieżki w modelu}
 Potrzebne do obliczenia precyzji oraz generalizacji. Z wzgledu na zmiany
 \begin{figure}[!ht]
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
@@ -415,7 +414,7 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
 \end{figure}
 \clearpage
 
-\subsubsection{Pozostałe wnioski dotyczące implementacji}
+\subsection{Pozostałe wnioski dotyczące implementacji}
 Cache
 
 W sytuacji kiedy wiele obliczeń się powtarza można znacząca przyspieszyć czas działania aplikacji poprzez zastosowanie cachowania. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
