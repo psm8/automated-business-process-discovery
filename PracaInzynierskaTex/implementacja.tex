@@ -19,7 +19,7 @@ Przy tworzeniu gramatyki procesu biznesowego ważne jest, żeby znaleźć balans
 
 Zgodnie z zaleceniami w sekcji \ref{sec:modelling} przyjmuje się, że dobrą praktyką jest, żeby model zawierał tylko jedno zdarzenie początkowe i końcowe. Z tego powodu przyjęto, że zdarzenia te są domyślnie odpowiednio na początku i końcu wygenerowanego słowa i nie są one jawnie reprezentowane w gramatyce.
 
-W sekcji \ref{grammarCreation} opisano problemem ewolucji gramatyki dla metod opartych o krzyżowanie i mutację punktową lub n-punktową, dlatego zdecydowano się na stworzenie gramatyki pod kątem wersji tych operatorów używających fenotypu - drzewa. Lokalne przeszukiwanie często staje się słabym punktem algorytmów ewolucyjnych. Stosując wspomniane operatory, prawdopodobna jest sytuacja, że mała modyfikacja blisko korzenia może poprawić rozwiązanie, jednak jej zaistnienie wymaga wygenerowania identycznego poddrzewa na nowo, przez co prawdopodobieństwo zaistnienia takiej sytuacji jest niskie. Do rozwiązania tego problemu mogą służyć metody inspirowane algorytmami memetycznymi, a  działające na drzewach \cite{memetic}. Dają one możliwość aplikowania lokalnych zmian bez konieczności powtórnego generowania całego poddrzewa, co pozwala na usprawnienie procesu ewolucji. Niestety, użyta biblioteka nie posiada podobnych metod lokalnej optymalizacji. Żeby w pewnym stopniu zaradzić temu problemowi, zmniejszono głębokość potrzebnego do reprezentacji modelu drzewa, jednocześnie zwiększać szanse na lokalne mutacje poprzez wprowadzenie symbolu nieterminalnego <slots>. Sprawia to, że drzewo rośnie bardziej wszerz i oprócz jednego symbolu <anygate>, którego użycie ma zapewnić tworzenie poprawnych, niepustych rozwiązań, generowane są symbole <slot>, które mogą pozostać puste lub wygenerować symbol <anygate> z 10\% prawdopodobieństwem. Przekłada się to na większą ilość lokalnych zmian na późniejszych etapach ewolucji. Lokalne przeszukiwania wspomaga także poprzez reprezentowanie bramki jako dwa odrębne symbole - <name>(<slots>). Dzięki temu w wyprowadzeniu nazwa bramki <name> jest oddzielona on jej zawartości, co sprawia, że możliwa jest zmiana nazwy bramki bez modyfikacji jej wnętrza.
+W sekcji \ref{grammarCreation} opisano problemem ewolucji gramatyki dla metod opartych o krzyżowanie i mutację punktową lub n-punktową, dlatego zdecydowano się na stworzenie gramatyki pod kątem wersji tych operatorów używających fenotypu - drzewa. Lokalne przeszukiwanie często staje się słabym punktem algorytmów ewolucyjnych. Stosując wspomniane operatory, prawdopodobna jest sytuacja, że mała modyfikacja blisko korzenia może poprawić rozwiązanie, jednak jej zaistnienie wymaga wygenerowania identycznego poddrzewa na nowo, przez co prawdopodobieństwo zaistnienia takiej sytuacji jest niskie. Do rozwiązania tego problemu mogą służyć metody inspirowane algorytmami memetycznymi, a działające na drzewach \cite{memetic}. Dają one możliwość aplikowania lokalnych zmian bez konieczności powtórnego generowania całego poddrzewa, co pozwala na usprawnienie procesu ewolucji. Niestety, użyta biblioteka nie posiada podobnych metod lokalnej optymalizacji. Żeby w pewnym stopniu zaradzić temu problemowi, zmniejszono głębokość potrzebnego do reprezentacji modelu drzewa, jednocześnie zwiększać szanse na lokalne mutacje poprzez wprowadzenie symbolu nieterminalnego <slots>. Sprawia to, że drzewo rośnie bardziej wszerz i oprócz jednego symbolu <anygate>, którego użycie ma zapewnić tworzenie poprawnych, niepustych rozwiązań, generowane są symbole <slot>, które mogą pozostać puste lub wygenerować symbol <anygate> z 10\% prawdopodobieństwem. Przekłada się to na większą ilość lokalnych zmian na późniejszych etapach ewolucji. Lokalne przeszukiwania wspomaga także poprzez reprezentowanie bramki jako dwa odrębne symbole - <name>(<slots>). Dzięki temu w wyprowadzeniu nazwa bramki <name> jest oddzielona on jej zawartości, co sprawia, że możliwa jest zmiana nazwy bramki bez modyfikacji jej wnętrza.
 
 Zaadresowano również konieczność odwzorowania w gramatyce częstotliwości występowania poszczególnych bramek logicznych. Zgodnie z \cite{10.1007/978-3-540-69534-9_35} połączenia i bramki XOR - ALBO, AND - I są tworzone przez większą ilość produkcji niż rzadziej występujące pętle i bramki OR - LUB. 
 
@@ -115,7 +115,7 @@ Pojedyncze aktywności lub ich grupy są przechowywane jako tablica. Jedyna meto
 
 \section{Implementacja}
 
-W tej części przedstawiono listingi z pseudokodem opartym na języku Python. Tam gdzie to konieczne pozostawiono słowa kluczowa oraz operatory tego języka.
+W tej części przedstawiono listingi z pseudokodem opartym na języku Python. Tam, gdzie to konieczne pozostawiono słowa kluczowa oraz operatory tego języka.
 
 \subsection{Ogólny schemat blokowy}
 
@@ -126,43 +126,50 @@ W tej części przedstawiono listingi z pseudokodem opartym na języku Python. T
 \end{figure}
 
 \subsection{Parsowanie gramatyki}
-Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci drzewa obiektów Gate, którego liśćmi będą obiekty Event.
+Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci zagnieżdżonych obiektów Gate, które zawierają obiekty Event.
 
-Na tym etapie przeprowadzane są operacje takie jak:
-Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
-To na tym etapie odrzucamy też procesy, które mimo, że gramatyka pozwala na ich stworzenie inie moją sensu z punktu biznesowego, co pozwala na ograniczenie zasobów i nie przeliczanie dalszych rzeczy dla procesow, ktore sa bezwartosciowe. Odrzucamy procesy, ktore  
+To na tym etapie odrzucamy też procesy, które, mimo że gramatyka pozwala na ich stworzenie, nie mają sensu z punktu widzenia biznesowego. Pozwala na ograniczenie zbędnego wykorzystania zasobów i niekontynuowanie obliczeń dla modeli, które są bezwartościowe. Są to na przykład procesy, które pozwalają na posiadanie w jednej bramce dwóch takich samych aktywności. Parsując, korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3-literowymi symbolami, a wszystkie aktywności otoczone są nawiasami klamrowymi. Pasowanie bramek można podzielić na trzy przypadki:
+\begin{itemize}   
+  \item[•] Bramki seq wewnątrz bramek lop lub seq są redundantne i mogą zostać pominięte.
+  \item[•] Pętle ze względu na konieczność specjalnego parsowanie ze względu na problem opisany w sekcji \ref{sec:businessGrammarCreation}.
+  \item[•] Pozostałe przypadki.
+\end{itemize}
+
 
 \lstset{caption=Parser gramatyki, captionpos=b}
 \lstset{label=src:passive, frame=single}
 \begin{lstlisting}[escapeinside=``]
 def parsuj(wyrażenie: str) -> int:
 
-   for i w zakresie długość_wyrażenia:
+   for i in range długość_wyrażenia:
       if wyrażenie[i] == "{":
          zdarzenie := Event(wyrażenia[i + 1])
-         dodaj zdarzenie do aktualnie parsowanej bramki 
+         dodaj_zdarzenie_do_aktualnie_parsowanej_bramki 
          i += 2
       elif wyrażenie[i] == ")":
          return i+1
       elif i+4 < długość_wyrażenia:
           if wyrażenie[i:i + 3] == "seq" and (self.name == "seq" or self.name == "lop"):
-             usuń_niepotrzebe_bramki
+             # pomiń zbędne bramki
+             i += 3
+             przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
+             i += ilość_przeparsowanych_znaków
           else:
              if wyrażenie[i:i+2] == 'lo' and wyrażenie[i:i+3] != 'lop':  
-                bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
+                bramka := stwórz_nową_bramkę_Gate_typu_zgodnego_z_wyrażeniem 
                 i += 3
                 przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
                 if self.name == "seq" or self.name == "lop":
-                   if int(wyrażenie[i+2]) <= długpść(gate.elementy):
+                   if int(wyrażenie[i+2]) <= długość(gate.elementy):
                       for x in gate.elementy[int(wyrażenie[i+2]):]:
                          self.dodaj_element(x)
-                dodaj zdarzenie do aktualnie parsowanej bramki 
+                dodaj_zdarzenie_do_aktualnie_parsowanej_bramki 
                 i += ilość_przeparsowanych_znaków
              else:
-                bramka := stwórz nową bramkę Gate typu zgodnego z wyrażeniem 
+                bramka := stwórz_nową_bramkę_Gate_typu_zgodnego_z_wyrażeniem 
                 i += 3
                 przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
-                dodaj zdarzenie do aktualnie parsowanej bramki 
+                dodaj_zdarzenie_do_aktualnie_parsowanej_bramki 
                 i += ilość_przeparsowanych_znaków
        else:
           wyrzuć wyjątek
