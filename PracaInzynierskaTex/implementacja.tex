@@ -89,7 +89,7 @@ Implementację podzielone na następujące moduły:
 
 \subsection{Model}
 
-Zdecydowano się na podział na dwie reprezentacje modelu procesu biznesowego wykorzystywane na różnym etapie procesowania. Wszystkie klasy implementują interfejs ComparableEvent pozwalający na ich porównywanie definiowanych przez nie obiektów. Aktywności są reprezentowane przez obiekty Event, które przechowują także informacje o ilości przejść w modelu przez dane zdarzenie, potrzebną do obliczenia generalizacji.   
+Zdecydowano się na podział na dwie reprezentacje modelu procesu biznesowego wykorzystywane na różnym etapie procesowania. Wszystkie klasy implementują interfejs ComparableEvent pozwalający na ich porównywanie definiowanych przez nie obiektów. Aktywności są reprezentowane przez obiekty Event, które przechowują także informacje o ilości przejść w modelu przez dane zdarzenie, potrzebną do obliczenia generalizacji.  
 
 Klasa Gate i klasy po niej dziedziczące są reprezentacją bliższą realnemu modelowi. 
 
@@ -104,14 +104,14 @@ Model w formie ciągu znaków musi być zamieniony na formę, na której łatwie
   \item[•] get$\_$all$\_$n$\_$length$\_$routes() - zwraca możliwe ścieżki w modelu o danej długości jako tablicę obiektów BaseGroup, co jest potrzebne przy liczeniu odwzorowania
 \end{itemize}
 
-Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na duża ilość bramek logicznych i konieczne jest przerobienie tych obiektów na formę pośrednią. Są nią obiekty klas dziedziczących po BaseGroup, które mają mieć formę ułatwiającą znajdowania dopasowania. Takie modularne podejście pozwala też na dodanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie dopasowania, która jest najbardziej złożonym algorytmem występującym w programie. 
+Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na dużą ilość bramek logicznych, dlatego konieczne jest przerobienie tych obiektów na uproszczoną formę pośrednią. Są nią obiekty klas dziedziczących po BaseGroup, które dzielą się pod względem tego, czy aktywności w nich zgrupowane mogą być wykonywane w dowolnej kolejność - EventGroupParallel czy muszą być wykonywane kolejno po sobie - EventGroup. Są to wystarczające informacje do obliczenia dopasowania, a dzięki temu algorytmu ten jest prostszy. Takie rozgraniczenie pozwala również na dodawanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie dopasowania, która jest najbardziej złożonym algorytmem występującym w programie i warto ograniczyć do minimum szansę na konieczność ewentualnych jego modyfikacji. 
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{EventUML.png}}
 	\caption{\label{fig:subcaption_example}BaseGroup UML}
 \end{figure}
 
-W tej reprezentacji aktywności - obiekty Event są pogrupowane, jeśli występują razem, jednak zostawiamy tylko informacje potrzebne do liczenia dopasowania, czyli czy zdarzenia te mogą być wykonywane w dowolnej kolejność czy muszą być wykonywane kolejno po sobie. Dzięki temu stworzenie algorytmu do obliczania dopasowania jest łatwiejsze. Aktywności lub ich grupy są przechowywane jako lista. Jedyna metoda, która musi zostać nadpisana w klasach rozszerzających BaseGroup to to$\_$bytes() potrzebna przy cachowaniu. 
+Pojedyncze aktywności lub ich grupy są przechowywane jako tablica. Jedyna metoda, która musi zostać nadpisana w klasach rozszerzających BaseGroup to to$\_$bytes() potrzebna przy cachowaniu. 
 
 \section{Implementacja}
 
