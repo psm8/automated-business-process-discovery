@@ -126,11 +126,11 @@ W tej części przedstawiono listingi z pseudokodem opartym na języku Python. T
 \end{figure}
 
 \subsection{Parsowanie gramatyki}
-Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze rewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci zagnieżdżonych obiektów Gate, które zawierają obiekty Event.
+Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze ewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci zagnieżdżonych obiektów Gate, które zawierają obiekty Event.
 
-To na tym etapie odrzucamy też procesy, które, mimo że gramatyka pozwala na ich stworzenie, nie mają sensu z punktu widzenia biznesowego. Pozwala na ograniczenie zbędnego wykorzystania zasobów i niekontynuowanie obliczeń dla modeli, które są bezwartościowe. Są to na przykład procesy, które pozwalają na posiadanie w jednej bramce dwóch takich samych aktywności. Parsując, korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3-literowymi symbolami, a wszystkie aktywności otoczone są nawiasami klamrowymi. Pasowanie bramek można podzielić na trzy przypadki:
+Metoda należy do obiektu Gate i bezpośrednio modyfikuje obiekt, na którym jest wywoływana. Argumentem metody jest wyrażenie wygenerowane w procesie ewolucji. Zwracana jest natomiast ilość przeparsowanych znaków. To na tym etapie odrzucamy też procesy, które, mimo że gramatyka pozwala na ich stworzenie, nie mają sensu z punktu widzenia biznesowego. Pozwala na ograniczenie zbędnego wykorzystania zasobów i niekontynuowanie obliczeń dla modeli, które są bezwartościowe. Są to na przykład procesy, które pozwalają na posiadanie w jednej bramce dwóch takich samych aktywności. Parsując, korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3-literowymi symbolami, a wszystkie aktywności otoczone są nawiasami klamrowymi. Pasowanie bramek można podzielić na trzy przypadki:
 \begin{itemize}   
-  \item[•] Bramki seq wewnątrz bramek lop lub seq są redundantne i mogą zostać pominięte.
+  \item[•] Bramki ,,seq'' wewnątrz bramek ,,lop'' lub ,,seq'' są redundantne i mogą zostać pominięte.
   \item[•] Pętle ze względu na konieczność specjalnego parsowanie ze względu na problem opisany w sekcji \ref{sec:businessGrammarCreation}.
   \item[•] Pozostałe przypadki.
 \end{itemize}
@@ -149,7 +149,8 @@ def parsuj(wyrażenie: str) -> int:
       elif wyrażenie[i] == ")":
          return i+1
       elif i+4 < długość_wyrażenia:
-          if wyrażenie[i:i + 3] == "seq" and (self.name == "seq" or self.name == "lop"):
+          if wyrażenie[i:i + 3] == "seq" and 
+             (self.name == "seq" or self.name == "lop"):
              # pomiń zbędne bramki
              i += 3
              przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
@@ -160,8 +161,8 @@ def parsuj(wyrażenie: str) -> int:
                 i += 3
                 przeparsowane_znaki = bramka.parsuj(wyrażenie[i+4:])
                 if self.name == "seq" or self.name == "lop":
-                   if int(wyrażenie[i+2]) <= długość(gate.elementy):
-                      for x in gate.elementy[int(wyrażenie[i+2]):]:
+                   if int(wyrażenie[i+2]) <= długość(bramka.elementy):
+                      for x in bramka.elementy[int(wyrażenie[i+2]):]:
                          self.dodaj_element(x)
                 dodaj_zdarzenie_do_aktualnie_parsowanej_bramki 
                 i += ilość_przeparsowanych_znaków
@@ -176,15 +177,11 @@ def parsuj(wyrażenie: str) -> int:
 \end{lstlisting}
 
 \subsection{Obliczanie metryk}
-Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Obliczanie dopasowanie można rozbić na następujące kroki:
-\begin{itemize}
-  \item[•] Znalezienie ścieżek o długości n w modelu.
-  \item[•] Przerobienie ścieżek na postać zawierającą BaseGroup.
-  \item[•] Obliczenie dopasowania.
-\end{itemize}
-Metryką, która nie wymaga obliczenia dopasowania jest prostota, dlatego możemy ją obliczyć wcześniej co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów bez konieczności kosztownego obliczania dopasowania. 
-Pozostałe metryki wymagają obliczenia dopasowania i są obliczane dla najlepiej dopasowanej gramatyki.
-Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu dopasowanie nie będzie dobre. Pozwala to odrzucić rezultaty, które nie przekraczają progu. 
+Argumentami metody są obiekt LogInfo zawierający dane i metody dotyczące wariantów, model, czyli obiekt Gate, najkrótsza i najdłuższa dozwolona długość modelu obliczane na podstawie parametru podanego w konfiguracji programu, dzięki czemu możliwe jest zmniejszenie ilości obliczeń oraz cache. Zwracana jest natomiast średnia ważona metryk, czyli wartość funkcji dopasowania. Metryką, która nie wymaga czasochłonnego obliczenia dopasowania, jest prostota, dlatego możemy ją obliczyć wcześniej, co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów. Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu, dopasowanie nie będzie dobre. Pozwala to przerwać obliczenia, jeżeli stosunek wspólnych zdarzeń w logu i modelu jest mniejszy niż skonfigurowany parametr. Pozostałe metryki wymagają już obliczenia odwzorowania i są obliczane dla najlepiej dopasowanej gramatyki. 
+
+Odwzorowanie obliczane jest osobno dla każdego wariantu w logu. Pozostałe metryki są obliczane dla najlepiej dopasowanej gramatyki. Jeśli błąd odwzorowania wynosi 0, to ilość wystąpień danego wariantu konieczny do obliczenia precyzji jest zapisywany w słowniku. Dodawana do każdej aktywności jest też ilość jej dotychczasowych wystąpień potrzebna we wzorze na generalizację.
+
+Po uzyskaniu tych informacji dla wszystkich wariantów obliczamy średnią ważoną metryk zgodnie ze wzorami w sekcji \ref{sec:metrics-details} i uzyskujemy w ten sposób wartość funkcji dopasowania.
 
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
@@ -192,12 +189,14 @@ Pozostałe metryki wymagają obliczenia dopasowania i są obliczane dla najlepie
 def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość, 
                    najdłuższa_dozwolona_długość, cache) -> int:
                    
-   metryki['PROSTOTA'] := oblicz_metrykę_prostota(lista_zdarzeń_w_procesie), 
-      unikalne_zdarzenia_w_logu)
-   if metryki['PROSTOTA'] < 2/3:
+   lista_zdarzeń_w_modelu = model.zwróć_listę_zdarzeń_w_modelu()
+   metryki['PROSTOTA'] := oblicz_metrykę_prostota(lista_zdarzeń_w_modelu, 
+                                                  unikalne_zdarzenia_w_logu)
+   if metryki['PROSTOTA'] < MINIMALNY_PRÓG_PROSOTY:
       return 0
    stosunek_wspólnych_zdarzeń_w_logu_i_modelu := 
-      oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
+      oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu(lista_zdarzeń_w_modelu, 
+                                                        unikalne_zdarzenia_w_logu)		   
       if stosunek_wspólnych_zdarzeń_w_logu_i_modelu <
          MINIMALNY_STOSUNUK_WSPÓLNYCH_ZDARZEŃ_W_LOGU_I_MODELU:
       return stosunek_wspólnych_zdarzeń_w_logu_i_modelu/10
@@ -205,32 +204,35 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
    idealnie_dopasowane_logi := pusty_słownik
    skumulowany_błąd := 0
     
-   for proces w log:
-      najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_process := 
-      oblicz_metryki_dla_jednego_procesu(proces, model, minimalna_długość, 
-      maksymalna_długość, cache)
-      if jakikolwiek proces w najlepiej_dopasowanej_ścieżce nie znajduje się w modelu:
-         value, best_aligned_process = obilcz_dopasowanie_bez_cache(best_event_group, 
-            list(process), dict())
-         best_local_error = calculate_alignment_metric(value, oblicz_długość(proces),
-            oblicz_długość(best_event_group))
+   for wariant in log:
+      najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_wariant := 
+      oblicz_odwzorowanie_dla_jednego_wariantu(wariant, model, 
+                                          najkrótsza_dozwolona_długość, 
+                                          najdłuższa_dozwolona_długość, cache)
       if najlepszy_błąd_lokalny == 0:
-         idealnie_dopasowane_logi.dodaj()
-         [tuple(best_aligned_process)] = log_info.log[process]
-      dodaj_wystąpienia(model_events_list, best_aligned_process, log_info.log[process])
+         idealnie_dopasowane_logi[najlepiej_dopasowana_ścieżka] := 
+         log_info[wariant].ilość_wystąpień
+      dodaj_wystąpienia(lista_zdarzeń_w_modelu, najlepiej_dopasowana_ścieżka, 
+                        log_info[wariant].ilość_wystąpień)
 
    metryki := oblicz_metryki 
-   najlepszy_wynik := oblicz_średnią_ważoną_metryk
-   return najlepszy_wynik
+   fitness := oblicz_średnią_ważoną_metryk
+   return fitness
 \end{lstlisting}
 
-\subsection{Obliczanie metryk dla jednego procesu}
+\subsection{Obliczanie odwzorowania dla pojedynczego wariantu}
+Mając już sparsowany model, kolejnym krokiem jest obliczenie metryk. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Całą procedurę można podzielić następująco:
+\begin{itemize}
+  \item[•] Znalezienie ścieżek o długości n w modelu.
+  \item[•] Przerobienie ścieżek na postać zawierającą BaseGroup.
+  \item[•] Obliczenie dopasowania.
+\end{itemize}
 Ważne jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  W tym celu, co pozwoliło usprawnić cały proces
 
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_długość, 
+def oblicz_odwzorowanie_dla_jednego_wariantu(proces, model, najkrótsza_dozwolona_długość, 
 				               najdłuższa_dozwolona_długość, cache):
    dłogość_procesu := oblicz_długość(proces)
    n := dłogość_procesu

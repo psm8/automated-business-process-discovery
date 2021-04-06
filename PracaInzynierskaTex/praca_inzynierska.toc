@@ -47,12 +47,12 @@
 \contentsline {subsection}{\numberline {3.4.1}Og\IeC {\'o}lny schemat blokowy}{35}% 
 \contentsline {subsection}{\numberline {3.4.2}Parsowanie gramatyki}{35}% 
 \contentsline {subsection}{\numberline {3.4.3}Obliczanie metryk}{37}% 
-\contentsline {subsection}{\numberline {3.4.4}Obliczanie metryk dla jednego procesu}{38}% 
+\contentsline {subsection}{\numberline {3.4.4}Obliczanie odwzorowania dla pojedynczego wariantu}{38}% 
 \contentsline {subsection}{\numberline {3.4.5}Wyszukiwanie w modelu proces\IeC {\'o}w o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{39}% 
-\contentsline {subsection}{\numberline {3.4.6}Obliczanie dopasowania}{40}% 
+\contentsline {subsection}{\numberline {3.4.6}Obliczanie dopasowania}{41}% 
 \contentsline {subsection}{\numberline {3.4.7}Znajdowanie \IeC {\'s}cie\IeC {\.z}ki w modelu}{41}% 
 \contentsline {subsection}{\numberline {3.4.8}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{42}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{42}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{43}% 
 \contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{45}% 
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{45}% 
 \contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{45}% 

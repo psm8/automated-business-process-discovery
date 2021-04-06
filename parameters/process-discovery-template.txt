@@ -30,6 +30,7 @@ MAX_WRAPS:                      3
 ALIGNMENT_CACHE_SIZE:           32*1024
 DATASET:                        discovered-processes.csv
 MAX_ALLOWED_COMPLEXITY_FACTOR:  300
+MIN_SIMPLICITY_THRESHOLD:       2/3
 MINIMIZE_SOLUTION_LENGTH:       True
 RESULT_TOLERANCE_PERCENT:       5
 TIMEOUT:                        5

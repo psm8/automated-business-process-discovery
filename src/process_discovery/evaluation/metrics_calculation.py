@@ -59,7 +59,7 @@ def calculate_metrics(log_info, model, min_length, max_length, alignment_cache, 
     for x in model.get_all_child_gates(LopGate):
         x.set_twin_events_and_complexity()
     metrics['SIMPLICITY'] = calculate_simplicity_metric(model_events_list, log_info.log_unique_events)
-    if metrics['SIMPLICITY'] < 2/3:
+    if metrics['SIMPLICITY'] < params['MIN_SIMPLICITY_THRESHOLD']:
         return 0
 
     model_to_log_events_ratio = compare_model_with_log_events(model_events_list, log_info.log_unique_events)
