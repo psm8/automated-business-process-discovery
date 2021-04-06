@@ -55,8 +55,7 @@
 \contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{42}% 
 \contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{45}% 
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{45}% 
-\contentsline {section}{\numberline {4.2}Por\IeC {\'o}wnanie z innymi algorytmami}{45}% 
-\contentsline {section}{\numberline {4.3}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych metryk}{45}% 
-\contentsline {subsection}{\numberline {4.3.1}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{45}% 
-\contentsline {section}{\numberline {4.4}Wnioski}{45}% 
+\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{45}% 
+\contentsline {subsection}{\numberline {4.2.1}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{45}% 
+\contentsline {section}{\numberline {4.3}Wnioski}{45}% 
 \contentsline {chapter}{\numberline {5}Podsumowanie}{47}% 
