@@ -12,7 +12,7 @@ PonyGE2 \cite{Fenton_2017} jest implementacją ewolucji genetycznej w języku Py
 \end{figure}
 
 \section{Tworzenie gramatyki procesu biznesowego}
-
+\label{sec:businessGrammarCreation}
 Projektując gramatykę procesu biznesowego, przyjęto dwa początkowe założenia. Uznano, że generowane modele muszą być łatwe do przełożenia na notację BPMN oraz nie powinny być tworzone modele niespójne strukturalnie, co pozwali na zredukowanie przestrzeni rozwiązań, jednocześnie gwarantując tworzenie niegenerujących błędów modeli.
 
 Przy tworzeniu gramatyki procesu biznesowego ważne jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania modelu, jaki będzie możliwy do wygenerowania, używając zaproponowanej gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} przeanalizowano składniki języka BPMN pod kątem częstotliwości ich stosowania. Najczęściej używanymi elementami modelów procesu biznesowego, jeśli chodzi o bramki, są: XOR - ALBO kodowane w proponowanej gramatyce jako xor, AND - I jako and oraz pętle jako lo<0$\_$n>. Do przedstawionej dalej gramatyki dodano także bramki OR - LUB reprezentowane jako opt. Ponadto konieczne jest użycie symbolu seq, która oznacza, że aktywności następują kolejno po sobie.
@@ -76,37 +76,43 @@ Użycie powyższego zapisu jest poprawne, jednak kodowanie pętli w ten sposób 
 
 Implementację podzielone na następujące moduły:
 \begin{itemize}
-    \item wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego żeby oddzielić kod PonyGE2 od naszego kodu należało rozszerzyć lub nadpisać cześć z modułów PonyGE2. Także w tym modele znajdują się rozszerzenia do PonyGE2 dodające nowe funkcjonalności.
-  \item fitness{\_}functions - bazowy moduł, gdzie znajduje się klasa dla obliczania dopasowania, która korzysta z metod w module process{\_}discovery.
-  \item process{\_}discovery - moduł zawiera całą logikę obliczenia metryk.
+  \item[•] wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego, żeby oddzielić kod PonyGE2 od logiki odkrywania procesów biznesowych, w tym module rozszerzono lub nadpisano cześć z modułów tej biblioteki. Dodano także rozszerzenia do PonyGE2 dodające nowe, brakujące funkcjonalności.
+  \item[•] fitness{\_}functions - moduł, w którym znajduje się klasa do obliczania dopasowania, która korzysta z metod w module process{\_}discovery.
+  \item[•] process{\_}discovery - moduł zawiera całą logikę parsowania modelu i obliczenia metryk.
 \end{itemize}
 
 
 \begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.73]{Modules.png}}
+	\centering{\includegraphics[scale=0.6]{Modules.png}}
 	\caption{\label{fig:flow_chart}Podział na moduły}
 \end{figure}
 
 \subsection{Model}
 
-Podział na dwie reprezentacje modelu przydatne na różnym etapie procesowania. Wszystkie klasy implementują interfejs ComparableEvent pozwalają na porównywanie czy dwa obiekty mają te same aktywności:
+Zdecydowano się na podział na dwie reprezentacje modelu procesu biznesowego wykorzystywane na różnym etapie procesowania. Wszystkie klasy implementują interfejs ComparableEvent pozwalający na ich porównywanie definiowanych przez nie obiektów. Aktywności są reprezentowane przez obiekty Event, które przechowują także informacje o ilości przejść w modelu przez dane zdarzenie, potrzebną do obliczenia generalizacji.   
 
-Klasa Gate:
-Gramatyka zostaje sparsowana na to klasa. Pozwala to zastąpić proces w formie ciągu znaków na formę, na której łatwiej będzie nam operować w przyszłość.
+Klasa Gate i klasy po niej dziedziczące są reprezentacją bliższą realnemu modelowi. 
+
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{GateUML.png}}
 	\caption{\label{fig:subcaption_example}Gate UML}
 \end{figure}
 
-Klasa EventGroup:
-Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na duża ilość bramek logicznych 
-Takie modularne podejście pozwala na dodanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie dopasowania, która jest najbardziej złożonym algorytmem występującym w programie. 
+Model w formie ciągu znaków musi być zamieniony na formę, na której łatwiej będzie operować. Zakodowane zgodnie z zasadami gramatyki słowo zostaje sparsowane w metodzie parse() klasy Gate na obiekty klas po niej dziedziczących odpowiadające poszczególnym bramką logicznym. Obiekty posiadają wskaźnik na swojego rodzica, czyli bramkę - obiekt Gate, w której się znajduję oraz na bramki lub aktywności - obiekty Event, które zawierają. Przechowują też leniwie obliczaną informacja o złożoności. Najważniejsze metody, które klasy dziedziczące po Gate muszą nadpisać to:
+\begin{itemize}
+  \item[•] get$\_$next$\_$possible$\_$states() - zwraca jako generator możliwe kolejne aktywności, co jest potrzebne przy liczeniu precyzji.
+  \item[•] get$\_$all$\_$n$\_$length$\_$routes() - zwraca możliwe ścieżki w modelu o danej długości jako tablicę obiektów BaseGroup, co jest potrzebne przy liczeniu odwzorowania
+\end{itemize}
+
+Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na duża ilość bramek logicznych i konieczne jest przerobienie tych obiektów na formę pośrednią. Są nią obiekty klas dziedziczących po BaseGroup, które mają mieć formę ułatwiającą znajdowania dopasowania. Takie modularne podejście pozwala też na dodanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie dopasowania, która jest najbardziej złożonym algorytmem występującym w programie. 
+
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{EventUML.png}}
-	\caption{\label{fig:subcaption_example}Event UML}
+	\caption{\label{fig:subcaption_example}BaseGroup UML}
 \end{figure}
 
-\clearpage
+W tej reprezentacji aktywności - obiekty Event są pogrupowane, jeśli występują razem, jednak zostawiamy tylko informacje potrzebne do liczenia dopasowania, czyli czy zdarzenia te mogą być wykonywane w dowolnej kolejność czy muszą być wykonywane kolejno po sobie. Dzięki temu stworzenie algorytmu do obliczania dopasowania jest łatwiejsze. Aktywności lub ich grupy są przechowywane jako lista. Jedyna metoda, która musi zostać nadpisana w klasach rozszerzających BaseGroup to to$\_$bytes() potrzebna przy cachowaniu. 
+
 \section{Implementacja}
 
 W tej części przedstawiono listingi z pseudokodem opartym na języku Python. Tam gdzie to konieczne pozostawiono słowa kluczowa oraz operatory tego języka.
@@ -126,7 +132,6 @@ Na tym etapie przeprowadzane są operacje takie jak:
 Parsując korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3 literowymi symbolami, a wszystkie zdarzenia otoczone nawiasami klamrowymi. Tworząc każdy obiekt Event dodajemy informację o liczbie dzieci tego obiektu, co przyda nam się przy obliczaniu metryki precyzja.
 To na tym etapie odrzucamy też procesy, które mimo, że gramatyka pozwala na ich stworzenie inie moją sensu z punktu biznesowego, co pozwala na ograniczenie zasobów i nie przeliczanie dalszych rzeczy dla procesow, ktore sa bezwartosciowe. Odrzucamy procesy, ktore  
 
-\begin{figure}[!ht]
 \lstset{caption=Parser gramatyki, captionpos=b}
 \lstset{label=src:passive, frame=single}
 \begin{lstlisting}[escapeinside=``]
@@ -162,7 +167,6 @@ def parsuj(wyrażenie: str) -> int:
        else:
           wyrzuć wyjątek
 \end{lstlisting}
-\end{figure}
 
 \subsection{Obliczanie metryk}
 Mając już sparsowany model musimy obliczyć metryki. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Obliczanie dopasowanie można rozbić na następujące kroki:
@@ -175,7 +179,6 @@ Metryką, która nie wymaga obliczenia dopasowania jest prostota, dlatego możem
 Pozostałe metryki wymagają obliczenia dopasowania i są obliczane dla najlepiej dopasowanej gramatyki.
 Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu dopasowanie nie będzie dobre. Pozwala to odrzucić rezultaty, które nie przekraczają progu. 
 
-\begin{figure}[!ht]
 \lstset{caption=Obliczanie metryk, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}[escapeinside=``]
@@ -186,7 +189,6 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
       unikalne_zdarzenia_w_logu)
    if metryki['PROSTOTA'] < 2/3:
       return 0
-
    stosunek_wspólnych_zdarzeń_w_logu_i_modelu := 
       oblicz_stosunek_wspólnych_zdarzeń_w_logu_i_modelu()		   
       if stosunek_wspólnych_zdarzeń_w_logu_i_modelu <
@@ -206,20 +208,18 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
          best_local_error = calculate_alignment_metric(value, oblicz_długość(proces),
             oblicz_długość(best_event_group))
       if najlepszy_błąd_lokalny == 0:
-         idealnie_dopasowane_logi.dodaj()[tuple(best_aligned_process)] = 
-         log_info.log[process]
-      add_executions(model_events_list, best_aligned_process, log_info.log[process])
+         idealnie_dopasowane_logi.dodaj()
+         [tuple(best_aligned_process)] = log_info.log[process]
+      dodaj_wystąpienia(model_events_list, best_aligned_process, log_info.log[process])
 
    metryki := oblicz_metryki 
    najlepszy_wynik := oblicz_średnią_ważoną_metryk
    return najlepszy_wynik
 \end{lstlisting}
-\end{figure}
 
-\clearpage
 \subsection{Obliczanie metryk dla jednego procesu}
 Ważne jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  W tym celu, co pozwoliło usprawnić cały proces
-\begin{figure}[!ht]
+
 \lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
@@ -268,14 +268,11 @@ def oblicz_metryki_dla_jednego_procesu(proces, model, najkrótsza_dozwolona_dłu
    return minimalny_błąd_dopasowania, najlepsze_dopasowane_zdarzenia, 
           najlepsza_ścieżka, jest_najlepszy_z_cache
 \end{lstlisting}
-\end{figure}
 
-\clearpage
 \subsection{Wyszukiwanie w modelu procesów o określonej długości}
 
 Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. Najprawdopodobniejsze jest, ze najlepiej dopasowana ścieżka będzie miała długość jak wejście w logu dlatego zaczyna od tej długości. 
 Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki.  
-\begin{figure}[!ht]
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}[escapeinside=``]
@@ -323,12 +320,9 @@ def znajdź_wszystkie_ścieżki_długości_n(n, proces) -> []:
     else:
         return None
 \end{lstlisting}
-\end{figure}
 
-\clearpage
 \subsection{Obliczanie dopasowania}
 Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczać będziemy rozwiązania. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń. 
-\begin{figure}[!ht]
 \lstset{caption=Obliczanie dopasowania, captionpos=b}
 \lstset{label=src:alignment_calculation, frame=single}
 \begin{lstlisting}[escapeinside=``]
@@ -360,12 +354,9 @@ def oblicz_dopasowanie(model, log):
 
     return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
 \end{lstlisting}
-\end{figure}
 
-\clearpage
 \subsection{Znajdowanie ścieżki w modelu}
 Potrzebne do obliczenia precyzji oraz generalizacji. Z wzgledu na zmiany
-\begin{figure}[!ht]
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
 \begin{lstlisting}[escapeinside=``]
@@ -413,8 +404,6 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
                 i -= 1; j -= 1
     return sciezka
 \end{lstlisting}
-\end{figure}
-\clearpage
 
 \subsection{Pozostałe wnioski dotyczące implementacji}
 Cache
