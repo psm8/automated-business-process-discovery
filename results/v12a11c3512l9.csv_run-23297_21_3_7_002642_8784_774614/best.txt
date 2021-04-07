@@ -1,0 +1,19 @@
+Generation:
+23297
+
+Phenotype:
+{a}xor({b}seq({j}{k}{d}){j})lo3({c}{d})opt({e})opt(and({g}{f}{h})){i}
+
+Genotype:
+[58642, 85260, 31899, 10418, 30843, 69379, 58961, 78665, 51921, 37320, 57665, 21253, 76164, 57559, 19747, 53912, 44710, 2084, 44393, 79161, 33701, 24715, 92810, 55055, 2445, 3071, 11783, 29664, 45081, 7801, 7031, 18207, 96310, 58849, 92023, 49715, 98111, 1840, 23792, 34028, 58202, 93470, 72851, 26901, 16273, 21523, 86767, 72851, 14401, 23714, 57173, 50111, 45081, 40390, 20859, 67438, 34113, 8333, 42741, 9961, 20041, 79195, 72122, 80451, 82480, 43137, 46034, 91225, 63710, 2090, 49556, 90149, 91481, 15561, 29391, 44291, 11528, 68493, 31681, 56509, 97342, 49480, 96775, 47484, 23140, 22482, 51150, 31419, 21090, 37163, 62095, 5985, 16287, 63433, 80816, 36574, 23565, 25751, 88403, 89658, 15322, 21134, 56561, 40328, 90095, 26340, 53164, 14930, 28919, 20354, 78, 34694, 76559, 46767, 16132, 21978, 5140, 42508, 44944]
+Tree:
+(<e> (<slot> (<anygate> (<anygate> { (<event> a) }) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> (<anygate> { (<event> b) })) (<anygate> (<anygate> (<name> seq) ( (<slots> (<slot> (<anygate> { (<event> j) })) (<slot> ) (<anygate> { (<event> k) }) (<slot> (<anygate> { (<event> d) })) (<slot> )) )) (<anygate> { (<event> j) })) (<slot> ) (<slot> )) )))) (<slot> ) (<anygate> (<anygate> (<name> lo (<0_n> 3)) ( (<slots> (<slot> ) (<slot> (<anygate> { (<event> c) })) (<anygate> { (<event> d) }) (<slot> ) (<slot> )) )) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> e) }) (<slot> ) (<slot> )) ))) (<slot> (<anygate> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> and) ( (<slots> (<slot> ) (<slot> (<anygate> (<anygate> { (<event> g) }) (<anygate> { (<event> f) }))) (<anygate> { (<event> h) }) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) )) (<anygate> { (<event> i) }))) (<slot> ))
+
+Fitness:
+0.9807332635638996
+Metrics:
+Alignment:	1.0
+Complexity:	1
+Generalization:	0.9747390142452398
+Precision:	0.9435718717454167
+Simplicity:	0.9166666666666666

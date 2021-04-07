@@ -1,0 +1,41 @@
+digraph G {
+  rankdir=LR;
+  subgraph place {
+    node [shape=circle,fixedsize=true,label="",height=.3,width=.3];
+    in [label="&bull;", fontsize=20];
+    out [style=filled,fillcolor=black];
+  }
+  subgraph xorgate {
+    node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#x2715;>,fontsize=12,style=filled,fillcolor=yellow]
+    x1;x2;
+  }
+  subgraph andgate {
+  node [shape=diamond,fixedsize=true,width=.4,height=.4 label=<&#43;>,fontsize=20,style=filled,fillcolor=yellow]
+  }
+  subgraph optgate {
+    node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#9711;>,fontsize=12,style=filled,fillcolor=yellow]
+    o1;o2;o3;o4;
+  }
+  subgraph transitions {
+    node [shape=rect,height=0.4,width=.4];
+    a; ba [label ="b"]; bb [label ="b"]; c; d; e; f
+  }
+  subgraph skip {
+    node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
+    s1;s2;
+  }
+
+  # align horizontally
+  {edge [weight=1]; a;d}
+
+  in->a->x1;
+  x1->o1->ba->o2;
+  x1->f->x2;
+  o2->c->bb->o3;
+  o3->e->o4
+  o3->s2->o4;
+  o4->x2;
+  o1->s1->o2;
+  x2->d->out
+  # align vertically
+}
