@@ -205,7 +205,7 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
    skumulowany_błąd := 0
     
    for wariant in log:
-      minimalny_błąd_dopasowania, najlepiej_dopasowane_zdarzenia, najlepsza_ścieżka := 
+      minimalny_błąd_dopasowania,najlepiej_dopasowane_zdarzenia,najlepsza_ścieżka := 
       oblicz_dopasowanie_dla_jednego_wariantu(wariant, model, 
                                               najkrótsza_dozwolona_długość, 
                                               najdłuższa_dozwolona_długość, cache)
@@ -299,49 +299,49 @@ Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwan
 \lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}[escapeinside=``]
 def znajdź_wszystkie_ścieżki_długości_n(n, wariant) -> [BaseGroup]:
-    if n == 0:
-        return []
-    if self.minimalna_długość_modelu < n or n < self.maksymalna_długość_modelu:
-        return None
+   if n == 0:
+      return []
+   if self.minimalna_długość_modelu < n or n < self.maksymalna_długość_modelu:
+      return None
 
-    minimalne_długości := self.oblicz_minimalne_długości_dzieci()
-    maksymalne_długości := self.oblicz_maksymalne_długości_dzieci()
-    globalna_lista := []
+   minimalne_długości := self.oblicz_minimalne_długości_dzieci()
+   maksymalne_długości := self.oblicz_maksymalne_długości_dzieci()
+   globalna_lista := []
 
-    for element in self.elementy:
-        lokalna_lista := []
-        if isinstance(elem, Event):
-            lokalna_lista.dodaj(elem)
-            minimalne_długości.usuń_na_pozycji(0)
-            maksymalne_długości.usuń_na_pozycji(0)
-        else:
-            dolny_limit, górny_limit := 
-            self.oblicz_docelowy_zakres(n, global_list, min_lengths, max_lengths)
-            for i in range(dolny_limit, górny_limit + 1):
-                try:
-                    wszystkie_ścieżki_dziecka_o_długości_n := 
-                    element.znajdź_wszystkie_ścieżki_długości_n(i, wariant)
-                except ValueError:
-                    return None
-                if wszystkie_ścieżki_dziecka_o_długości_n is not None:
-                    loklana_lista.dodaj(wszystkie_ścieżki_dziecka_o_długości_n)
+   for element in self.elementy:
+      lokalna_lista := []
+      if isinstance(elem, Event):
+         lokalna_lista.dodaj(elem)
+         minimalne_długości.usuń_na_pozycji(0)
+         maksymalne_długości.usuń_na_pozycji(0)
+      else:
+         dolny_limit, górny_limit := 
+         self.oblicz_docelowy_zakres(n, global_list, min_lengths, max_lengths)
+         for i in range(dolny_limit, górny_limit + 1):
+            try:
+               wszystkie_ścieżki_dziecka_o_długości_n := 
+               element.znajdź_wszystkie_ścieżki_długości_n(i, wariant)
+            except ValueError:
+               return None
+            if wszystkie_ścieżki_dziecka_o_długości_n is not None:
+               loklana_lista.dodaj(wszystkie_ścieżki_dziecka_o_długości_n)
 
-        if lokalna_lista:
+         if lokalna_lista:
             globalna_lista.dodaj(local_list)
 
-    ścieżki = []
-    if globalna_lista:
-        for element in flatten_values(globalna_lista):
-            if self.sprawdź_długość(n, elem):
-                if n == 1:
-                    ścieżki.dodaj(element[0])
-                else:
-                    self.check_valid_for_get_n_length(element)
-                    ścieżki.dodaj(EventGroupParallel(element))
-    if ścieżki:
-        return ścieżki
-    else:
-        return None
+   ścieżki = []
+   if globalna_lista:
+      for element in flatten_values(globalna_lista):
+         if self.sprawdź_długość(n, elem):
+            if n == 1:
+               ścieżki.dodaj(element[0])
+            else:
+               self.check_valid_for_get_n_length(element)
+               ścieżki.dodaj(EventGroupParallel(element))
+   if ścieżki:
+      return ścieżki
+   else:
+      return None
 \end{lstlisting}
 
 \subsection{Obliczanie dopasowania}
@@ -350,32 +350,32 @@ Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e
 \lstset{label=src:alignment_calculation, frame=single}
 \begin{lstlisting}[escapeinside=``]
 def oblicz_dopasowanie(model, log):
-    błąd := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
-    m = długość(model) + 1  # Macierz rozwiązań ilość wierszy.
-    n = długość(log) + 1  # Macierz rozwiązań ilość kolumn.
-    najlepiej_dopasowana_ścieżka := [None] * m
-    macierz_rozwiazań := Zainicjalizuj macierz zerami
-    # Wypelnij osie macierzy właściwymi wartościami
-    for j in range(n):
-        macierz_rozwiązań[0][j] := błąd['PRZERWA'] * j
+   błąd := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
+   m = długość(model) + 1  # Macierz rozwiązań ilość wierszy.
+   n = długość(log) + 1  # Macierz rozwiązań ilość kolumn.
+   najlepiej_dopasowana_ścieżka := [None] * m
+   macierz_rozwiazań := Zainicjalizuj macierz zerami
+   # Wypelnij osie macierzy właściwymi wartościami
+   for j in range(n):
+      macierz_rozwiązań[0][j] := błąd['PRZERWA'] * j
 
-    for i in range(1, m):
-        if should_go_recurrent(model[i-1]):
-            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
-            dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
+   for i in range(1, m):
+      if should_go_recurrent(model[i-1]):
+         macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
+         dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
                                      [x for x in odwrócone_substringi(log)], i)
-        elif długość(model[i-1]) > 1:
-            macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
-            dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
-                                   [x for x in odwrócone_substringi(log)], kara, i)
-        else:
-            macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
-            dopasowanie(macierz_rozwiazań, model[i - 1], log, kara, i, n)
+      elif długość(model[i-1]) > 1:
+         macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
+         dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
+                                [x for x in odwrócone_substringi(log)], kara, i)
+      else:
+         macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
+         dopasowanie(macierz_rozwiazań, model[i - 1], log, kara, i, n)
 
-    ścieżka := znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, 
-    log, najlepiej_dopasowana_ścieżka_podmodelu)
+   ścieżka := znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, 
+   log, najlepiej_dopasowana_ścieżka_podmodelu)
 
-    return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
+   return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
 \end{lstlisting}
 
 \subsection{Znajdowanie najlepiej dopasowanych aktywności w modelu}
@@ -383,49 +383,49 @@ Potrzebne do obliczenia precyzji oraz generalizacji. Ze względu na zmiany
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
 \begin{lstlisting}[escapeinside=``]
-def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli)  -> [Event]:
-    sciezka = []
-    while i != 0:
-        długość_grupy_zdarzeń = długość(model[i - 1])
-        if model_results_local[i] is not None:
-            znaleziono_dopasowanie := False
-            if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + długość_grupy_zdarzeń * błąd['PRZERWA']:
-                [model_result.append(None) for _ in range(długość_grupy_zdarzeń)]
-                macierz_rozwiązań[i][j] := 0
-                i -= 1
-            else:
-                for k in range(j):
-                    zdarzenia := get_not_none(model_results_local[i][k]
-                    [długość(model_results_local[i][k]) - (j-k)], log)
-                    if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][k] + 
-                    	(długość_grupy_zdarzeń + (j-k) - 2 * długość(processes)) * błąd['PRZERWA']:
-                        [model_result.append(x) for x in processes]
-                        for x in processes:
-                            log = log.replace(x.name, "", 1)
-                        [model_result.append(None) 
-                         for _ in range(długość_grupy_zdarzeń - len(processes))]
+def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli) -> [Event]:
+   sciezka = []
+   while i != 0:
+      długość_grupy_zdarzeń = długość(model[i - 1])
+      if model_results_local[i] is not None:
+         znaleziono_dopasowanie := False
+         if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + długość_grupy_zdarzeń * błąd['PRZERWA']:
+            [model_result.append(None) for _ in range(długość_grupy_zdarzeń)]
+            macierz_rozwiązań[i][j] := 0
+            i -= 1
+         else:
+            for k in range(j):
+               zdarzenia := get_not_none(model_results_local[i][k]
+               [długość(model_results_local[i][k]) - (j-k)], log)
+               if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][k] + 
+                  (długość_grupy_zdarzeń + (j-k) - 2 * długość(processes)) * błąd['PRZERWA']:
+                  [model_result.append(x) for x in processes]
+                  for x in processes:
+                     log = log.replace(x.name, "", 1)
+                     [model_result.append(None) 
+                     for _ in range(długość_grupy_zdarzeń - len(processes))]
                         macierz_rozwiązań[i][j] = 0
                         i -= 1; j = k
                         znaleziono_dopasowanie = True
                         break
-                if not znaleziono_dopasowanie:
-                    if macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + błąd['PRZERWA']:
-                        macierz_rozwiązań[i][j] = 0
-                        j -= 1
-        else:
-            if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + kara:
-                model_result.append(None)
-                macierz_rozwiązań[i][j] := 0
-                i -= 1
-            elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + kara:
-                macierz_rozwiązań[i][j] := 0
-                j -= 1
-            elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j - 1]:
-                model_result.append(model[i-1])
-                log = log.replace(model[i-1].name, "", 1)
-                macierz_rozwiązań[i][j] := 0
-                i -= 1; j -= 1
-    return sciezka
+            if not znaleziono_dopasowanie:
+               if macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + błąd['PRZERWA']:
+                  macierz_rozwiązań[i][j] = 0
+                  j -= 1
+      else:
+         if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + kara:
+            model_result.append(None)
+            macierz_rozwiązań[i][j] := 0
+            i -= 1
+         elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + kara:
+            macierz_rozwiązań[i][j] := 0
+            j -= 1
+         elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j - 1]:
+            model_result.append(model[i-1])
+            log = log.replace(model[i-1].name, "", 1)
+            macierz_rozwiązań[i][j] := 0
+            i -= 1; j -= 1
+   return sciezka
 \end{lstlisting}
 
 \subsection{Pozostałe wnioski dotyczące implementacji}
