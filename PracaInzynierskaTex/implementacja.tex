@@ -179,7 +179,7 @@ def parsuj(wyrażenie: str) -> int:
 \subsection{Obliczanie metryk}
 Argumentami metody są obiekt LogInfo zawierający dane i metody dotyczące wariantów, model, czyli obiekt Gate, najkrótsza i najdłuższa dozwolona długość modelu obliczane na podstawie parametru podanego w konfiguracji programu, dzięki czemu możliwe jest zmniejszenie ilości obliczeń oraz cache. Zwracana jest natomiast średnia ważona metryk, czyli wartość funkcji dopasowania. Metryką, która nie wymaga czasochłonnego obliczenia dopasowania, jest prostota, dlatego możemy ją obliczyć wcześniej, co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów. Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu, dopasowanie nie będzie dobre. Pozwala to przerwać obliczenia, jeżeli stosunek wspólnych zdarzeń w logu i modelu jest mniejszy niż skonfigurowany parametr. Pozostałe metryki wymagają już obliczenia odwzorowania i są obliczane dla najlepiej dopasowanej gramatyki. 
 
-Odwzorowanie obliczane jest osobno dla każdego wariantu w logu. Pozostałe metryki są obliczane dla najlepiej dopasowanej gramatyki. Jeśli błąd odwzorowania wynosi 0, to ilość wystąpień danego wariantu konieczny do obliczenia precyzji jest zapisywany w słowniku. Dodawana do każdej aktywności jest też ilość jej dotychczasowych wystąpień potrzebna we wzorze na generalizację.
+Odwzorowanie obliczane jest osobno dla każdego wariantu w logu, który jest reprezentowany jako tablica znaków. Jeśli błąd dopasowania wynosi 0, to ilość wystąpień danego wariantu konieczna do obliczenia precyzji jest zapisywany w słowniku. Dodawana do każdej aktywności jest też ilość jej dotychczasowych wystąpień potrzebna we wzorze na generalizację.
 
 Po uzyskaniu tych informacji dla wszystkich wariantów obliczamy średnią ważoną metryk zgodnie ze wzorami w sekcji \ref{sec:metrics-details} i uzyskujemy w ten sposób wartość funkcji dopasowania.
 
@@ -205,14 +205,14 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
    skumulowany_błąd := 0
     
    for wariant in log:
-      najlepszy_błąd_lokalny, najlepiej_dopasowana_ścieżka, najlepszy_wariant := 
-      oblicz_odwzorowanie_dla_jednego_wariantu(wariant, model, 
-                                          najkrótsza_dozwolona_długość, 
-                                          najdłuższa_dozwolona_długość, cache)
-      if najlepszy_błąd_lokalny == 0:
-         idealnie_dopasowane_logi[najlepiej_dopasowana_ścieżka] := 
+      minimalny_błąd_dopasowania, najlepiej_dopasowane_zdarzenia, najlepsza_ścieżka := 
+      oblicz_dopasowanie_dla_jednego_wariantu(wariant, model, 
+                                              najkrótsza_dozwolona_długość, 
+                                              najdłuższa_dozwolona_długość, cache)
+      if minimalny_błąd_dopasowania == 0:
+         idealnie_dopasowane_logi[najlepiej_dopasowane_zdarzenia] := 
          log_info[wariant].ilość_wystąpień
-      dodaj_wystąpienia(lista_zdarzeń_w_modelu, najlepiej_dopasowana_ścieżka, 
+      dodaj_wystąpienia(lista_zdarzeń_w_modelu, najlepiej_dopasowane_zdarzenia, 
                         log_info[wariant].ilość_wystąpień)
 
    metryki := oblicz_metryki 
@@ -220,112 +220,126 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
    return fitness
 \end{lstlisting}
 
-\subsection{Obliczanie odwzorowania dla pojedynczego wariantu}
-Mając już sparsowany model, kolejnym krokiem jest obliczenie metryk. Najbardziej problematyczną metryką do obliczenia jest dopasowanie. Całą procedurę można podzielić następująco:
+\subsection{Obliczanie dopasowania dla pojedynczego wariantu}
+Procedurę obliczenia dopasowana można podzielić następująco:
 \begin{itemize}
-  \item[•] Znalezienie ścieżek o długości n w modelu.
-  \item[•] Przerobienie ścieżek na postać zawierającą BaseGroup.
+  \item[•] Znalezienie ścieżek o długości \textbf{n} w modelu.
+  \item[•] Przerobienie ścieżek na postać BaseGroup.
   \item[•] Obliczenie dopasowania.
 \end{itemize}
-Ważne jest, żeby jak najbardziej ograniczyć zbędne obliczenia.  W tym celu, co pozwoliło usprawnić cały proces
 
-\lstset{caption=Obliczanie metryk dla jednego procesu, captionpos=b}
+Argumentami metody są wariant, model, najkrótsza i najdłuższa dozwolona długość modelu oraz cache. Zwracane są natomiast minimalny błąd dopasowania jako liczba całkowita niedodatnia, najlepiej dopasowane zdarzenia jako tablica obiektów Event oraz najlepsza ścieżka jako obiekt BaseGroup.
+
+Algorytm obliczania dopasowania wymaga ścieżek o stałej, określonej długość. Ważne jest, żeby jak najbardziej ograniczyć czas potrzebny na znalezienie najlepszej ścieżki, dlatego obliczanie dopasowania rozpoczynamy o \textbf{n} równego długości wariantu. Jeśli \textbf{n} jest różne od długości ścieżki, błąd dopasowania zawsze będzie równy przynajmniej różnicy tych wartości. Jednak wciąż może być lepszy niż aktualnie najmniejszy, więc obliczamy dopasowanie kolejno dla ścieżek o długości n-1, n+1, n-2, n+2... aż do momentu, dopóki jest możliwe uzyskanie mniejszego błędu lub zostanie osiągnięty limit, do którego w konfiguracji zezwolono na szukanie. 
+
+Następnie obliczane jest najwcześniejsze i najpóźniejsze wystąpienie danej aktywności w modelu, co ułatwi dalsze obliczenia. W kolejnym kroku znajdowane są wszystkie ścieżki o długości \textbf{n} w modelu i są one sortowane względem procentu wspólnych zdarzeń w modelu i logu. Możemy z tego wywnioskować jakie najlepsze dopasowanie można otrzymać dla danej ścieżki i ewentualnie jeśli przekroczona jest dopuszczalna tolerancja błędu dopasowania lub nie jest możliwe już zmniejszenie błędu przerwanie obliczeń dla niej.    
+
+W końcu zgodnie z kolejnością po sortowaniu obliczane jest dopasowanie i jeśli błąd jest mniejszy niż aktualnie najmniejszy, zamieniane są wartości minimalnego błędu dopasowania, najlepiej dopasowane zdarzenia i najlepsza ścieżka, a jeśli błąd wynosi 0, algorytm jest przerywany i te wartości są zwracane.
+
+\lstset{caption=Obliczanie dopasowania dla jednego wariantu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-def oblicz_odwzorowanie_dla_jednego_wariantu(proces, model, najkrótsza_dozwolona_długość, 
-				               najdłuższa_dozwolona_długość, cache):
-   dłogość_procesu := oblicz_długość(proces)
-   n := dłogość_procesu
+def oblicz_dopasowanie_dla_jednego_wariantu(wariant, model, 
+                                            najkrótsza_dozwolona_długość, 
+                                            najdłuższa_dozwolona_długość, cache):
+   dłogość_wariantu := oblicz_długość(wariantu)
+   n := dłogość_wariantu
    i := 1
-   minimalny_błąd_dopasowania := -(dłogość_procesu + model.model_min_length)
+   minimalny_błąd_dopasowania := -(dłogość_wariantu + model.minimalna_długość)
+   najlepiej_dopasowane_zdarzenia := []
+   najlepsza_ścieżka := []
+   dolny_limit_osiągnięty := False
+   górny_limit_osiągnięty := False
+   
    while not (dolny_limit_osiągnięty and górny_limit_osiągnięty):
       if n >= min(oblicz_maksymalną_dozwoloną_długość(dłogość_procesu), 
                   dłogość_procesu - minimalny_błąd_dopasowania):
          górny_limit_osiągnięty := True
          n += (-i if i % 2 == 1 else i); i += 1
          continue
-      if n <= max(oblicz_minimalną_dozwoloną_długość(dłogość_procesu), 
-                  dłogość_procesu + minimalny_błąd_dopasowania):
+      if n <= max(oblicz_minimalną_dozwoloną_długość(dłogość_wariantu), 
+                  dłogość_wariantu + minimalny_błąd_dopasowania):
          dolny_limit_osiągnięty := True
          n += (-i if i % 2 == 1 else i); i += 1
          continue
+         
       if najkrótsza_dozwolona_długość <= n <= najdłuższa_dozwolona_długość:
          ustaw_najwcześniejsze_i_najpóźniejsze_wystąpienie_zdarzenia(model, n)
-         ścieżki = model.znajdź_wszystkie_ścieżki_długości_n(n, proces)
+         ścieżki = model.znajdź_wszystkie_ścieżki_długości_n(n, wariant)
          if ścieżki istnieją:
             for ścieżka in ścieżki:
                procent_wspólnych_zdarzeń := oblicz_procent_wspólnych_zdarzeń_
-                  w_modelu_i_logu(ścieżka, proces)
-               if procent_wspólnych_zdarzeń >= 1 - TOLERANCJA:
+                  w_modelu_i_logu(ścieżka, wariant)
+               if procent_wspólnych_zdarzeń >= 1 - TOLERANCJA_BŁĘDU_DOPASOWANIA:
                   dodaj sćiezkę do lista_ścieżek_do_obliczenia
             posortowane_ścieżki := posortuj lista_ścieżek_do_obliczenia
             for ścieżka in posortowane_ścieżki:
                if procent_wspólnych_zdarzeń <= 1 + minimalny_błąd_dopasowania /
-                  długość_procesu:
+                  długość_wariantu:
                   break
-               błąd_dopasowania, najlepsze_dopasowane_zdarzenia, jest_z_cache :=
-                  oblicz_najlepsze_dopasowanie_z_cache(ścieżka, proces, cache)
+               błąd_dopasowania, najlepiej_dopasowane_zdarzenia :=
+               oblicz_dopasowanie(ścieżka, wariant, cache)
                if błąd_dopasowania > minimalny_błąd_dopasowania:
                   minimalny_błąd_dopasowania := błąd_dopasowania
-                  najlepsze_dopasowane_zdarzenia := dopasowane_zdarzenia
+                  najlepiej_dopasowane_zdarzenia := dopasowane_zdarzenia
                   najlepsza_ścieżka := scieżka
-                  jest_najlepszy_z_cache := jest_z_cache
                if błąd_dopasowania == 0:
-                  return minimalny_błąd_dopasowania, najlepsze_dopasowane_
-                         zdarzenia, najlepsza_ścieżka, jest_najlepszy_z_cache
+                  return minimalny_błąd_dopasowania, najlepiej_dopasowane_
+                         zdarzenia, najlepsza_ścieżka
       n += (-i if i % 2 == 1 else i); i += 1
-   return minimalny_błąd_dopasowania, najlepsze_dopasowane_zdarzenia, 
-          najlepsza_ścieżka, jest_najlepszy_z_cache
+   return minimalny_błąd_dopasowania, najlepiej_dopasowane_zdarzenia, 
+          najlepsza_ścieżka
 \end{lstlisting}
 
-\subsection{Wyszukiwanie w modelu procesów o określonej długości}
+\subsection{Wyszukiwanie w modelu ścieżek o określonej długości}
 
 Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. Najprawdopodobniejsze jest, ze najlepiej dopasowana ścieżka będzie miała długość jak wejście w logu dlatego zaczyna od tej długości. 
-Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki.  
+Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki ,,and''.  
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}[escapeinside=``]
-def znajdź_wszystkie_ścieżki_długości_n(n, proces) -> []:
+def znajdź_wszystkie_ścieżki_długości_n(n, wariant) -> [BaseGroup]:
     if n == 0:
         return []
-    if self.model_max_length < n or n < self.model_min_length:
+    if self.minimalna_długość_modelu < n or n < self.maksymalna_długość_modelu:
         return None
 
-    min_lengths = self.get_children_min_length()
-    max_lengths = self.get_children_max_length()
-    global_list = []
+    minimalne_długości := self.oblicz_minimalne_długości_dzieci()
+    maksymalne_długości := self.oblicz_maksymalne_długości_dzieci()
+    globalna_lista := []
 
-    for elem in self.elements:
-        local_list = []
+    for element in self.elementy:
+        lokalna_lista := []
         if isinstance(elem, Event):
-            local_list.append(elem)
-            min_lengths.pop(0)
-            max_lengths.pop(0)
+            lokalna_lista.dodaj(elem)
+            minimalne_długości.usuń_na_pozycji(0)
+            maksymalne_długości.usuń_na_pozycji(0)
         else:
-            lower_limit, upper_limit = self.get_goal_length_range(n, global_list, min_lengths, max_lengths)
-            for i in range(lower_limit, upper_limit + 1):
+            dolny_limit, górny_limit := 
+            self.oblicz_docelowy_zakres(n, global_list, min_lengths, max_lengths)
+            for i in range(dolny_limit, górny_limit + 1):
                 try:
-                    child_all_n_length_routes = elem.get_all_n_length_routes(i, process)
+                    wszystkie_ścieżki_dziecka_o_długości_n := 
+                    element.znajdź_wszystkie_ścieżki_długości_n(i, wariant)
                 except ValueError:
                     return None
-                if child_all_n_length_routes is not None:
-                    local_list.append(child_all_n_length_routes)
+                if wszystkie_ścieżki_dziecka_o_długości_n is not None:
+                    loklana_lista.dodaj(wszystkie_ścieżki_dziecka_o_długości_n)
 
-        if local_list:
-            global_list.append(local_list)
+        if lokalna_lista:
+            globalna_lista.dodaj(local_list)
 
-    result = []
-    if global_list:
-        for elem in flatten_values(global_list):
-            if self.check_length(n, elem):
+    ścieżki = []
+    if globalna_lista:
+        for element in flatten_values(globalna_lista):
+            if self.sprawdź_długość(n, elem):
                 if n == 1:
-                    # because always 1 elem list
-                    result.append(elem[0])
+                    ścieżki.dodaj(element[0])
                 else:
-                    self.check_valid_for_get_n_length(elem)
-                    result.append(EventGroupParallel(elem))
-    if result:
-        return result
+                    self.check_valid_for_get_n_length(element)
+                    ścieżki.dodaj(EventGroupParallel(element))
+    if ścieżki:
+        return ścieżki
     else:
         return None
 \end{lstlisting}
@@ -364,12 +378,12 @@ def oblicz_dopasowanie(model, log):
     return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
 \end{lstlisting}
 
-\subsection{Znajdowanie ścieżki w modelu}
-Potrzebne do obliczenia precyzji oraz generalizacji. Z wzgledu na zmiany
+\subsection{Znajdowanie najlepiej dopasowanych aktywności w modelu}
+Potrzebne do obliczenia precyzji oraz generalizacji. Ze względu na zmiany
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
 \begin{lstlisting}[escapeinside=``]
-def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
+def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli)  -> [Event]:
     sciezka = []
     while i != 0:
         długość_grupy_zdarzeń = długość(model[i - 1])
@@ -415,11 +429,19 @@ def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli):
 \end{lstlisting}
 
 \subsection{Pozostałe wnioski dotyczące implementacji}
-Cache
+Duży nacisk na czas obliczeń
 
+Cache
 W sytuacji kiedy wiele obliczeń się powtarza można znacząca przyspieszyć czas działania aplikacji poprzez zastosowanie cachowania. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
 Poprzednio obliczone rozwiązanie może się powtórzyć. W tym wypadku możemy skorzystać z cache genotypów, dostarczane przez bibliotekę PonyGE2.
 Podczas obliczania dopasowania, które jest najbardziej kosztownym obliczeniem. Ponadto z uwagi na duża ilość obliczeń, żeby ograniczyć rozmiar cache zaimplementowano cachowanie LRU.
+
+Timeout
+
+Rozszerzanie i oddzielenie od biblioteki
+
+Możliwość konfiguracji, ale nie przesadna
+
 \section{Wybór parametrów algorytmu}
 Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezienia rozwiązania. Jest kilka zasad, którymi należy się kierować przy tym wyborze właśnie. Ilość parametrów wymagana przez ponyGE2 jest duża, dodatkowo tworząc mimo, że starano się ograniczyć możliwość konfiguracji, która nie daje dużo korzyści do minimum tworząc aplikacje dodano kilka innych niezbędnych parametrów. Z tego powodu, poniżej przedstawiono i krótko omówiono niezbędne do działania aplikacji parametry.
 
