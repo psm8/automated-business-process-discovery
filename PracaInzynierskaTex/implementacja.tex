@@ -293,8 +293,15 @@ def oblicz_dopasowanie_dla_jednego_wariantu(wariant, model,
 
 \subsection{Wyszukiwanie w modelu ścieżek o określonej długości}
 
-Łatwiejszym jest znalezienie wszystkich ścieżek o określonej długości. Najprawdopodobniejsze jest, ze najlepiej dopasowana ścieżka będzie miała długość jak wejście w logu dlatego zaczyna od tej długości. 
-Algorytm rekurencyjny. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki ,,and''.  
+Łatwiejszym niż obliczenie dopasowania dla modelu składającego się z bramek logicznych jest znalezienie najpierw w modelu wszystkich ścieżek o określonej długości. Algorytm służący do tego jest kolejno wywoływane dla wszystkich bramek - podmodeli, a następnie na podstawie ścieżek znalezionych w podmodelach są tworzone ścieżki dla całego modelu. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki ,,and''.  
+
+Argumentami metody długość szukanej ścieżki oraz wariant jako tablica znaków potrzebny wyszukiwanie ścieżek dla obiektu LopGate. Zwracana jest natomiast lista wszystkich ścieżek o określonej długość jako obiekty BaseGroup, a w przypadku błędu None.
+
+Bramki mogą zawierać różną ilość elementów, dlatego należy obliczyć minimalne i maksymalne długości, czyli ilość zdarzeń dla wszystkich dzieci. Jeśli dziecko jest obiektem Event, wtedy dodawane jest bezpośrednio do listy rezultatów. W innym wypadku, kiedy jest obiektem Gate, na podstawie długości dzieci obliczany jest dolny i górny limit długości, dla jakich zostanie dla danego elementu wywołana metoda znajdź{\_}wszystkie{\_}ścieżki{\_}długości{\_}n. Dzięki temu może znacznie ograniczyć ilość długości, dla jakich trzeba przeszukiwać podmodele. Wszystkie znalezione ścieżki są dodawane do listy, a całość do globalnej listy. 
+
+Rezultat nie może być jednak zagnieżdżoną listą, więc musi ona zostać przerobiony na listę jednowymiarową rozwiązań. Każda lista składa się 2-wymiarowej listy ścieżek dla każdego elementów modelu. Ścieżki każdego podmodelu są łączone ze ścieżkami kolejnych podmodeli każda z każdą, żeby utworzyć możliwe przejścia dla całego modelu. Celem jest znalezienie tylko tych o długości \textbf{n}, więc pozostałe odrzucamy. Na końcu, jako że jest to bramka ,,and"" wszystkie ścieżki o długości większej niż 1 są opakowywane w EventGorupParrallel, żeby zachować informacje o tym, ze zdarzenia mogą być wykonywane w dowolnej kolejności.
+\clearpage
+
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
 \begin{lstlisting}[escapeinside=``]
@@ -310,13 +317,14 @@ def znajdź_wszystkie_ścieżki_długości_n(n, wariant) -> [BaseGroup]:
 
    for element in self.elementy:
       lokalna_lista := []
-      if isinstance(elem, Event):
+      if isinstance(element, Event):
          lokalna_lista.dodaj(elem)
          minimalne_długości.usuń_na_pozycji(0)
          maksymalne_długości.usuń_na_pozycji(0)
       else:
          dolny_limit, górny_limit := 
-         self.oblicz_docelowy_zakres(n, global_list, min_lengths, max_lengths)
+         self.oblicz_docelowy_zakres(n, globalna_lista, minimalne_długości, 
+                                     maksymalne_długości)
          for i in range(dolny_limit, górny_limit + 1):
             try:
                wszystkie_ścieżki_dziecka_o_długości_n := 
@@ -327,16 +335,15 @@ def znajdź_wszystkie_ścieżki_długości_n(n, wariant) -> [BaseGroup]:
                loklana_lista.dodaj(wszystkie_ścieżki_dziecka_o_długości_n)
 
          if lokalna_lista:
-            globalna_lista.dodaj(local_list)
+            globalna_lista.dodaj(lokalna_lista)
 
    ścieżki = []
    if globalna_lista:
-      for element in flatten_values(globalna_lista):
+      for element in spłaszcz_listę(globalna_lista):
          if self.sprawdź_długość(n, elem):
             if n == 1:
                ścieżki.dodaj(element[0])
             else:
-               self.check_valid_for_get_n_length(element)
                ścieżki.dodaj(EventGroupParallel(element))
    if ścieżki:
       return ścieżki
@@ -345,14 +352,17 @@ def znajdź_wszystkie_ścieżki_długości_n(n, wariant) -> [BaseGroup]:
 \end{lstlisting}
 
 \subsection{Obliczanie dopasowania}
-Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczać będziemy rozwiązania. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń. 
+Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczać będziemy rozwiązania. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń.
+
+Argumentami metody model jako obiekt Gate oraz wariant jako tablica znakow. Zwracane sa natomiast lista
+ 
 \lstset{caption=Obliczanie dopasowania, captionpos=b}
 \lstset{label=src:alignment_calculation, frame=single}
 \begin{lstlisting}[escapeinside=``]
-def oblicz_dopasowanie(model, log):
+def oblicz_dopasowanie(model, wariant):
    błąd := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
    m = długość(model) + 1  # Macierz rozwiązań ilość wierszy.
-   n = długość(log) + 1  # Macierz rozwiązań ilość kolumn.
+   n = długość(wariant) + 1  # Macierz rozwiązań ilość kolumn.
    najlepiej_dopasowana_ścieżka := [None] * m
    macierz_rozwiazań := Zainicjalizuj macierz zerami
    # Wypelnij osie macierzy właściwymi wartościami
@@ -363,33 +373,37 @@ def oblicz_dopasowanie(model, log):
       if should_go_recurrent(model[i-1]):
          macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
          dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
-                                     [x for x in odwrócone_substringi(log)], i)
+                                     [x for x in odwrócone_substringi(wariant)], i)
       elif długość(model[i-1]) > 1:
          macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
          dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
-                                [x for x in odwrócone_substringi(log)], kara, i)
+                                [x for x in odwrócone_substringi(wariant)], kara, i)
       else:
          macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
-         dopasowanie(macierz_rozwiazań, model[i - 1], log, kara, i, n)
+         dopasowanie(macierz_rozwiazań, model[i - 1], wariant, kara, i, n)
 
-   ścieżka := znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, 
-   log, najlepiej_dopasowana_ścieżka_podmodelu)
+   ścieżka := znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, wariant,                
+                             najlepiej_dopasowana_ścieżka_podmodelu)
 
    return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
 \end{lstlisting}
 
 \subsection{Znajdowanie najlepiej dopasowanych aktywności w modelu}
 Potrzebne do obliczenia precyzji oraz generalizacji. Ze względu na zmiany
+
+Argumentami metody długość szukanej ścieżki oraz wariant potrzebny dla obiektu LopGate. Zwracana jest natomiast lista wszystkich ścieżek o określonej długość jako obiekty BaseGroup.
+
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
 \begin{lstlisting}[escapeinside=``]
-def znajdź_sciezkę(macierz_rozwiązań, model, log, rozwiązania_podmodeli) -> [Event]:
+def znajdź_sciezkę(macierz_rozwiązań, model, wariant, rozwiązania_podmodeli) -> [Event]:
    sciezka = []
    while i != 0:
       długość_grupy_zdarzeń = długość(model[i - 1])
       if model_results_local[i] is not None:
          znaleziono_dopasowanie := False
-         if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + długość_grupy_zdarzeń * błąd['PRZERWA']:
+         if macierz_rozwiązań[i][j] == 
+            macierz_rozwiązań[i - 1][j] + długość_grupy_zdarzeń * błąd['PRZERWA']:
             [model_result.append(None) for _ in range(długość_grupy_zdarzeń)]
             macierz_rozwiązań[i][j] := 0
             i -= 1
