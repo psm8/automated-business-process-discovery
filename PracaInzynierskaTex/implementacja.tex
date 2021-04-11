@@ -473,67 +473,87 @@ def znajdź_ścieżkę(macierz_rozwiązań, model, wariant,
 \end{lstlisting}
 
 \subsection{Pozostałe wnioski dotyczące implementacji}
-Duży nacisk na czas obliczeń
+Używając algorytmów genetycznych, konieczne jest wielokrotne obliczenie metryk, żeby znaleźć rozwiązanie. Z tego powodu, duży nacisk na położono na ograniczenie czasu obliczeń. W wiele miejscach zaimplementowano mechanizm przerywający obliczenia, jeżeli nie dają one perspektyw na znalezienie lepszego niż aktualnie najlepsze rozwiązanie. Użytkownik może też zdefiniować maksymalną złożoność modelu, co przełoży się także na czas jego znajdowania. Duże znaczenie ma też fakt, że algorytm pozwala na równoległe procesowanie. 
 
-Cache
-W sytuacji kiedy wiele obliczeń się powtarza można znacząca przyspieszyć czas działania aplikacji poprzez zastosowanie cachowania. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
+W sytuacji, kiedy wiele obliczeń się powtarza, można znacząca przyspieszyć czas działania aplikacji poprzez zastosowanie cachowania. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
 Poprzednio obliczone rozwiązanie może się powtórzyć. W tym wypadku możemy skorzystać z cache genotypów, dostarczane przez bibliotekę PonyGE2.
-Podczas obliczania dopasowania, które jest najbardziej kosztownym obliczeniem. Ponadto z uwagi na duża ilość obliczeń, żeby ograniczyć rozmiar cache zaimplementowano cachowanie LRU.
+Podczas obliczania dopasowania, które jest najbardziej kosztownym obliczeniem. Ponadto z uwagi na dużą ilość obliczeń, żeby ograniczyć rozmiar cache, zaimplementowano cachowanie LRU.
 
-Timeout
+Żeby ograniczyć czas pojedynczej iteracji, można wprowadzić ograniczenie czasowe na obliczanie metryk dla danego osobnika. Czas obliczania jest powiązany ze złożonością modelu. Przy odpowiednim ustawieniu timeoutu będzie on oddziaływał tylko na zbyt złożone rozwiązania i zostanie dla nich zwrócona wartość funkcji dopasowania równa 0.
 
-Rozszerzanie i oddzielenie od biblioteki
+Tworząc program, nacisk położono na możliwość łatwego rozszerzania i oddzielenie od biblioteki PonyGE2. Dzięki temu zwiększono niezależność od biblioteki i zmian w niej. Program może być też łatwo modyfikowany i ewentualnie usprawniany. 
 
-Możliwość konfiguracji, ale nie przesadna
+Rozszerzono także możliwość konfiguracji o nowe parametry, jednak aby umożliwić użytkownikowi niski próg wejścia w korzystanie z programu, starano się ograniczyć ilość parametrów potrzebnych do skonfigurowania i tam, gdzie to możliwe postarano się wstawić domyślne wartości, jeśli są one wystarczająco dobre. 
 
 \section{Wybór parametrów algorytmu}
-Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezienia rozwiązania. Jest kilka zasad, którymi należy się kierować przy tym wyborze właśnie. Ilość parametrów wymagana przez ponyGE2 jest duża, dodatkowo tworząc mimo, że starano się ograniczyć możliwość konfiguracji, która nie daje dużo korzyści do minimum tworząc aplikacje dodano kilka innych niezbędnych parametrów. Z tego powodu, poniżej przedstawiono i krótko omówiono niezbędne do działania aplikacji parametry.
+Wybór parametrów algorytmu ma ogromny wpływ na jakość i szybkość znalezienia rozwiązania. Jest kilka zasad, którymi należy się kierować przy tym wyborze właśnie. Ilość parametrów wymagana przez ponyGE2 jest duża, mimo że starano się ograniczyć możliwość konfiguracji, która nie daje dużo korzyści do minimum, tworząc aplikacje, konieczne było dodanie kilku innych niezbędnych parametrów. Z tego powodu, poniżej przedstawiono i krótko omówiono niezbędne do działania aplikacji parametry.
 
-Włącza cache: \newline
-\textit{CACHE:                         True} \newline
-\textit{CODON\_SIZE:                   100000} \newline
-Ilość wątków procesora:
-\textit{CORES:                         4} \newline
-\textit{CROSSOVER:                     subtree} \newline
-\textit{CROSSOVER\_PROBABILITY:         0.75} \newline
-\textit{DEBUG:                         False} \newline
-\textit{ELITE\_SIZE:                   30} \newline
-\textit{GENERATIONS:                   100000} \newline
-\textit{MAX\_GENOME\_LENGTH:           500} \newline
-\textit{GRAMMAR\_FILE:                  process-subtree.bnf} \newline
-\textit{INITIALISATION:                 PI\_grow} \newline
-\textbf{INVALID\_SELECTION:              False} \newline
-\textbf{LOOKUP\_FITNESS:                 True} \newline
-\textbf{MAX\_INIT\_TREE\_DEPTH:            13} \newline
-\textbf{MAX\_TREE\_DEPTH:                 21} \newline
-\textbf{MULTICORE:                      True} \newline
-\textbf{MULTI\_OBJECTIVE:                False} \newline
-\textbf{MUTATION:                       subtree} \newline
-\textbf{MUTATION\_EVENTS:                1} \newline
-\textbf{POPULATION\_SIZE:                500} \newline
-\textbf{FITNESS\_FUNCTION:               process\_fitness} \newline
-\textbf{REPLACEMENT:                    generational} \newline
-\textbf{SAVE\_STATE\_STEP:                10} \newline
-\textbf{SELECTION:                      tournament} \newline
-\textbf{TOURNAMENT\_SIZE:                16} \newline
-\textbf{VERBOSE:                        True} \newline
-\textbf{MAX\_WRAPS:                      3} \newline
-Dodatkowe dodane parametry PonyGE2: 
-Określa wielkość cache przy liczeniu dopasowania \newline
-\textbf{ALIGNMENT\_CACHE\_SIZE:           32*1024} \newline\
-Plik z wariantami, potrzebny, żeby obliczyć ilość aktywności
-\textbf{DATASET:                        discovered-processes.csv} \newline
-\textbf{MAX\_ALLOWED\_COMPLEXITY\_FACTOR:  300} \newline
-Dodaje małą karę za długość rozwiązania, co pozwala usuń zbędne bramki, nawet jeśli wartość metryk jest taka sama. \newline
-\textbf{MINIMIZE\_SOLUTION\_LENGTH:       True} \newline
+Parametry wymagane przez PonyGE2 \cite{PonyGE2-wiki}:
+\begin{center}
+\begin{tabular}{l}
+\textit{CACHE:                         True} \\
+\textit{CODON\_SIZE:                   100000} \\
+\textit{CROSSOVER:                     subtree} \\
+\textit{CROSSOVER\_PROBABILITY:         0.75} \\
+\textit{ELITE\_SIZE:                   3} \\
+\textit{GENERATIONS:                   100000} \\
+\textit{MAX\_GENOME\_LENGTH:           500} \\
+\textit{GRAMMAR\_FILE:                  process-subtree.bnf} \\
+\textit{INITIALISATION:                 PI\_grow} \\
+\textit{INVALID\_SELECTION:              False} \\
+\textit{LOOKUP\_FITNESS:                 True} \\
+\textit{MAX\_INIT\_TREE\_DEPTH:            13} \\
+\textit{MAX\_TREE\_DEPTH:                 21} \\
+\textit{MULTI\_OBJECTIVE:                False} \\
+\textit{MUTATION:                       subtree} \\
+\textit{MUTATION\_EVENTS:                1} \\
+\textit{POPULATION\_SIZE:                500} \\
+\textit{REPLACEMENT:                    generational} \\
+\textit{SAVE\_STATE\_STEP:                10} \\
+\textit{SELECTION:                      tournament} \\
+\textit{TOURNAMENT\_SIZE:                16} \\
+\textit{MAX\_WRAPS:                      3}
+\end{tabular}
+\end{center}
 
-\textbf{RESULT\_TOLERANCE\_PERCENT:       5} \newline
-Przestaje obliczać dopasowanie po przekroczeniu czasu - najprawdopodobniej model i tak jest zbyt skomplikowany \newline
-\textbf{TIMEOUT:                        5} \newline
+Dodatkowe parametry: \newline
+\begin{center}
+\textit{ALIGNMENT\_CACHE\_SIZE:           32*1024}
+\end{center}
+Określa wielkość cache przy liczeniu dopasowania.
+\begin{center}
+\textit{DATASET:                        discovered-processes.csv}
+\end{center}
+Plik z wariantami. Potrzebny, żeby obliczyć ilość aktywności - GE{\_}RANGE:dataset{\_}vars w gramatyce.
+\begin{center}
+\textit{MAX\_ALLOWED\_COMPLEXITY\_FACTOR:  300}
+\end{center}
+Maksymalne skomplikowanie modelu. Obliczane jako iloczyn ilości unikalnych aktywności w modelu i powyższego parametru.
+\begin{center}
+\textit{MIN\_SIMPLICITY\_THRESHOLD:       2/3}
+\end{center}
+Minimalna wartość prostoty, powyżej której metryki będą dalej obliczane. 
+\begin{center}
+\textit{MINIMIZE\_SOLUTION\_LENGTH:       True}
+\end{center}
+Dodaje małą karę za długość rozwiązania, co pozwala usunąć zbędne bramki, nawet jeśli wartość metryk jest taka sama.
+\begin{center}
+\textit{RESULT\_TOLERANCE\_PERCENT:       5}
+\end{center}
+Używany w kilku miejscach w programie. Określa jak złe pod względem wartości metryk modele, będą tolerowane i dalej procesowane. Zaleca się nie przekraczać wartości 10.
+\begin{center}
+\textit{TIMEOUT:                        5}
+\end{center}
+Przestaje obliczać dopasowanie po przekroczeniu czasu - najprawdopodobniej model i tak jest zbyt skomplikowany
 
-Rekomendowane wagi poszczególnych metryk: \newline
-\textbf{WEIGHT\_ALIGNMENT:              8} \newline
-\textbf{WEIGHT\_COMPLEXITY:              2} \newline
-\textbf{WEIGHT\_GENERALIZATION:          2} \newline
-\textbf{WEIGHT\_PRECISION:               2} \newline
-\textbf{WEIGHT\_SIMPLICITY:              2} \newline
+Rekomendowane wagi poszczególnych metryk: 
+ \begin{center}
+  \begin{tabular}{l}
+    \textit{WEIGHT\_ALIGNMENT:              8} \\
+	\textit{WEIGHT\_COMPLEXITY:              2} \\
+	\textit{WEIGHT\_GENERALIZATION:          2} \\
+	\textit{WEIGHT\_PRECISION:               4} \\
+	\textit{WEIGHT\_SIMPLICITY:              2}
+  \end{tabular}
+ \end{center}
+

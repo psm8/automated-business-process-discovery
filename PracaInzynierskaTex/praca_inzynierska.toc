@@ -52,7 +52,7 @@
 \contentsline {subsection}{\numberline {3.4.6}Obliczanie dopasowania}{42}% 
 \contentsline {subsection}{\numberline {3.4.7}Znajdowanie najlepiej dopasowanych aktywno\IeC {\'s}ci w modelu}{43}% 
 \contentsline {subsection}{\numberline {3.4.8}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{45}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{45}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{46}% 
 \contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{49}% 
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{49}% 
 \contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{49}% 

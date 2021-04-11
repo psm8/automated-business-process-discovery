@@ -1601,5 +1601,13 @@
     \field{month}{03}
     \field{year}{1970}
   \endentry
+
+  \entry{PonyGE2-wiki}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{title}{https://github.com/PonyGE/PonyGE2/wiki}
+    \verb{url}
+    \verb https://github.com/PonyGE/PonyGE2/wiki
+    \endverb
+  \endentry
 \enddatalist
 \endinput

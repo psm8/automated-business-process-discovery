@@ -28,7 +28,7 @@ class process_fitness(base_ff, metaclass=Singleton):
         self.guess = ''
         self.vars = LogInfo(params["DATASET"]).log_unique_events
         self.log_info = LogInfo(params["DATASET"])
-        self.max_allowed_complexity = len(self.log_info.log) * params["MAX_ALLOWED_COMPLEXITY_FACTOR"]
+        self.max_allowed_complexity = len(self.log_info.log_unique_events) * params["MAX_ALLOWED_COMPLEXITY_FACTOR"]
         self.metrics = {'SIMPLICITY': 0, 'PRECISION': 0, 'GENERALIZATION': 0, 'COMPLEXITY': 0, 'ALIGNMENT': 0}
 
     def __call__(self, ind, **kwargs):
