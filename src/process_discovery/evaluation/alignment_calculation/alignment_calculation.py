@@ -60,33 +60,32 @@ def get_maxes(results):
            [result_models[maxes[i + 1]][i] for i in range(len(maxes) - 1)]
 
 
-def parallel_event_permutations(events):
-    event_permutations = []
-    grouped_events = set()
-    simple_events = set()
-    for event in events:
-        if isinstance(event, BaseGroup):
-            grouped_events.add(event)
-        else:
-            simple_events.add(event)
-
-    n = len(simple_events)
-    max_len = len(grouped_events) + 1
-
-    subsets = subset_sum([i for i in range(1, n+1)], n, max_len)
-
-    all_grouped_events = list(permutations(grouped_events))
-
-    grouped_simple_events = []
-    for subset in subsets:
-        local_grouped_simple_events = {combinations(simple_events, subset[0])}
-        test = list(next(iter(local_grouped_simple_events)))
-        left = [simple_events.difference(x) for x in local_grouped_simple_events]
-        for i in range(1, len(subset)):
-            local_local_grouped_simple_events = combinations(left, subset[i])
-            left = [left.difference(x) for x in local_grouped_simple_events]
-
-    return event_permutations
+# def parallel_event_permutations(events):
+#     event_permutations = []
+#     grouped_events = set()
+#     simple_events = set()
+#     for event in events:
+#         if isinstance(event, BaseGroup):
+#             grouped_events.add(event)
+#         else:
+#             simple_events.add(event)
+#
+#     n = len(simple_events)
+#     max_len = len(grouped_events) + 1
+#
+#     subsets = subset_sum([i for i in range(1, n+1)], n, max_len)
+#
+#     all_grouped_events = list(permutations(grouped_events))
+#
+#     grouped_simple_events = []
+#     for subset in subsets:
+#         local_grouped_simple_events = {combinations(simple_events, subset[0])}
+#         left = [simple_events.difference(x) for x in local_grouped_simple_events]
+#         for i in range(1, len(subset)):
+#             local_local_grouped_simple_events = combinations(left, subset[i])
+#             left = [left.difference(x) for x in local_grouped_simple_events]
+#
+#     return event_permutations
 
 
 def diagonal(model, log, pt):

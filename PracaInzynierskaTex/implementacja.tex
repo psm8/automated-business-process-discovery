@@ -352,94 +352,124 @@ def znajdź_wszystkie_ścieżki_długości_n(n, wariant) -> [BaseGroup]:
 \end{lstlisting}
 
 \subsection{Obliczanie dopasowania}
-Pomysł zaczerpnięty z algorytmu Needlessmann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczać będziemy rozwiązania. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń.
+Pomysł zaczerpnięty z algorytmu Needlemann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina dla dowolnych wartości błędów. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczana jest najmniejsza suma błędów. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń.
 
-Argumentami metody model jako obiekt Gate oraz wariant jako tablica znakow. Zwracane sa natomiast lista
- 
+Podstawowy algorytm można opisać za pomocą czterech kroków dla każdego zdarzenia:  
+\begin{enumerate}
+  \item Oblicz wartość w poprzednim wierszu i kolumnie dodać błąd ,,dopasowanie'' lub ,,brak dopasowania''.
+  \item Oblicz wartość w poprzednim wierszu dodać błąd ,,przerwa''.
+  \item Oblicz wartość w poprzedniej kolumnie dodać błąd ,,przerwa''.
+  \item Wybierz najmniejszą wartość.
+\end{enumerate}
+
+\begin{figure}[h]
+	\centering{\includegraphics[scale=0.8]{needlemann-wunsch-algo.png}}
+	\caption{\label{fig:algo_example}Klasyczny algorytm Needlemann-Wunsch}
+\end{figure}
+
+
+Argumentami metody model jako obiekt Gate oraz wariant jako tablica znaków. Zwracane są natomiast ostatni wiersz, który zawiera błąd dopasowania modelu oraz pośrednie błędy dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu, co jest potrzebne, jeśli model zawiera podmodele oraz najlepiej dopasowana ścieżka. Metoda opakowana jest w metodę, która jeśli dla danego modelu i wariantu zostało już obliczone dopasowanie, zwraca rozwiązanie z cache bez powtarzania obliczeń.
+
+Zgodnie z \ref{alignment-calculation} brakujące zdarzenie to błąd wynosi 1, a jeśli się nie zgadzają - 2. Stworzona macierz jest inicjalizowana zerami, a następnie pierwsza kolumna jest wypełniana stosownymi wartościami błędu. Są trzy opcja normalne obliczenie zgodne z klasycznym algorytmem, a także sytuacja, w której model zawiera podmodele, gdzie algorytm jest powtórnie wywoływany dla podmodelu i dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu lub gdy zawiera zdarzenia równoległe - EventGroupParallel wtedy stosujemy inny algorytm, który bezpośrednio porównuje wszystkie zdarzenia w wariancie ze zdarzeniami w obiekcie EventGroupParallel. 
+     
 \lstset{caption=Obliczanie dopasowania, captionpos=b}
 \lstset{label=src:alignment_calculation, frame=single}
 \begin{lstlisting}[escapeinside=``]
 def oblicz_dopasowanie(model, wariant):
    błąd := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
-   m = długość(model) + 1  # Macierz rozwiązań ilość wierszy.
-   n = długość(wariant) + 1  # Macierz rozwiązań ilość kolumn.
-   najlepiej_dopasowana_ścieżka := [None] * m
-   macierz_rozwiazań := Zainicjalizuj macierz zerami
-   # Wypelnij osie macierzy właściwymi wartościami
-   for j in range(n):
+   ilość_wierszy = długość(model) + 1
+   ilość_kolumn = długość(wariant) + 1
+   najlepiej_dopasowane_ścieżki_podmodeli := [None] * ilość_wierszy
+   macierz_rozwiazań := zainicjalizuj_macierz_zerami()
+
+   for j in range(ilość_kolumn):
       macierz_rozwiązań[0][j] := błąd['PRZERWA'] * j
 
-   for i in range(1, m):
-      if should_go_recurrent(model[i-1]):
-         macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
-         dopasowanie_rekurencyjne(macierz_rozwiazań[i - 1], model[i - 1],
-                                     [x for x in odwrócone_substringi(wariant)], i)
+   for i in range(1, ilość_wierszy):
+      if jest_podmodelem(model[i-1]):
+         macierz_rozwiązań[i], najlepiej_dopasowane_ścieżki_podmodeli[i] := 
+         dopasowanie_podmodeli(macierz_rozwiazań[i - 1], model[i - 1],
+                                  [x for x in odwrócone_substringi(wariant)], i)
       elif długość(model[i-1]) > 1:
-         macierz_rozwiązań[i], najlepiej_dopasowana_ścieżka_podmodelu[i] := 
+         macierz_rozwiązań[i], najlepiej_dopasowane_ścieżki_podmodelu[i] := 
          dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
                                 [x for x in odwrócone_substringi(wariant)], kara, i)
       else:
          macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
-         dopasowanie(macierz_rozwiazań, model[i - 1], wariant, kara, i, n)
+         dopasowanie(macierz_rozwiazań, model[i - 1], wariant, kara, i, ilość_kolumn)
 
-   ścieżka := znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, wariant,                
-                             najlepiej_dopasowana_ścieżka_podmodelu)
+   najlepiej_dopasowana_ścieżka := 
+   znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, wariant, 
+                  najlepiej_dopasowana_ścieżka_podmodelu)
 
-   return macierz_rozwiązań[m-1], najlepiej_dopasowana_ścieżka
+   return macierz_rozwiązań[ilość_wierszy-1], najlepiej_dopasowana_ścieżka
 \end{lstlisting}
 
 \subsection{Znajdowanie najlepiej dopasowanych aktywności w modelu}
-Potrzebne do obliczenia precyzji oraz generalizacji. Ze względu na zmiany
+Potrzebne do obliczenia precyzji oraz generalizacji. Algorytm obliczanie dopasowania zwraca najmniejszy błąd, ale nie daje informacji o tym, dla jakiej ścieżki otrzymano ten błąd. Dodatkowo Znajdowanie najlepiej dopasowanych aktywności w modelu jest utrudnione przez fakt, że modele może składać się z podmodeli - BaseGroup. 
 
-Argumentami metody długość szukanej ścieżki oraz wariant potrzebny dla obiektu LopGate. Zwracana jest natomiast lista wszystkich ścieżek o określonej długość jako obiekty BaseGroup.
+Argumentami metody są kopia macierzy rozwiązań, model, kopia wariantu oraz rozwiązania podmodeli. Zwracana jest natomiast najlepiej dopasowana ścieżka.
+
+Algorytm zaczyna znajdowanie ścieżki od ostatniego elementu i cofa się do początku. W komórkach, dla których znaleziono dopasowanie, wpisywane jest 0. Tak jak poprzednio, są trzy możliwość brak zdarzenia w modelu, w logu, oraz zupełna niezgodność. Ścieżki szuka się poprzez porównywanie wartości w komórce z suma błędów z wartościami odpowiednich kolumn. Znalezioną ścieżkę pokazano na rysunku \ref{fig:algo_example}. Uwzględnione muszą być dwie sytuacje - taka, w której dana pozycja została obliczona dla podmodelu lub nie.
+
+W tym drugim, jeśli zdarzenie zostało pominięte w modelu, to wpisywane jest do ścieżki None, natomiast jeżeli zostało znalezione dopasowanie, to dodajemy zdarzenie do modelu i usuwamy z wariantu.
+
+Jeśli dana pozycja została obliczona dla podmodelu, algorytm działa podobnie, największą różnicą jest to, że w takiej sytuacji nie ma jednego zdarzenie tylko kilka i tylko część może się zgadzać. Dlatego znajdujemy ostatnie \textbf{k} zdarzeń w podmodelu dla każdego podwariantu i kolejno porównujemy ich ilość i różnicę w błędzie, dzięki czemu dowiemy się, dla którego podwaiantu znaleziono najlepsze dopasowanie. 
 
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
 \begin{lstlisting}[escapeinside=``]
-def znajdź_sciezkę(macierz_rozwiązań, model, wariant, rozwiązania_podmodeli) -> [Event]:
-   sciezka = []
+def znajdź_ścieżkę(macierz_rozwiązań, model, wariant, 
+                   rozwiązania_podmodeli) -> [Event]:
+   ścieżka = []
+   i = długość(model)
+   j = długość(wariant) 
+    
    while i != 0:
-      długość_grupy_zdarzeń = długość(model[i - 1])
-      if model_results_local[i] is not None:
+      długość_podmodelu = długość(model[i - 1])
+      if rozwiązania_podmodeli[i] is not None:
          znaleziono_dopasowanie := False
          if macierz_rozwiązań[i][j] == 
-            macierz_rozwiązań[i - 1][j] + długość_grupy_zdarzeń * błąd['PRZERWA']:
-            [model_result.append(None) for _ in range(długość_grupy_zdarzeń)]
+            macierz_rozwiązań[i - 1][j] + długość_podmodelu * błąd['PRZERWA']:
+            [ścieżka.dodaj(None) for _ in range(długość_podmodelu)]
             macierz_rozwiązań[i][j] := 0
             i -= 1
          else:
             for k in range(j):
-               zdarzenia := get_not_none(model_results_local[i][k]
-               [długość(model_results_local[i][k]) - (j-k)], log)
+               zdarzenia := znajdź_nie_none(rozwiązania_podmodeli[i][k])
+                            [długość(rozwiązania_podmodeli[i][k]) - (j-k)], wariant)
                if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][k] + 
-                  (długość_grupy_zdarzeń + (j-k) - 2 * długość(processes)) * błąd['PRZERWA']:
-                  [model_result.append(x) for x in processes]
-                  for x in processes:
-                     log = log.replace(x.name, "", 1)
-                     [model_result.append(None) 
-                     for _ in range(długość_grupy_zdarzeń - len(processes))]
-                        macierz_rozwiązań[i][j] = 0
-                        i -= 1; j = k
-                        znaleziono_dopasowanie = True
-                        break
+                  (długość_podmodelu + (j-k) - 2*długość(zdarzenia))*błąd['PRZERWA']:
+                  [ścieżka.dodaj(x) for x in odwróć(zdarzenia)]
+                  for x in zdarzenia:
+                     wariant = wariant.usuń(x.nazwa)
+                  [ścieżka.dodaj(None) 
+                   for _ in range(długość_podmodelu - długość(zdarzenia))]
+                  macierz_rozwiązań[i][j] := 0
+                  i -= 1
+                  j = k
+                  znaleziono_dopasowanie = True
+                  break
             if not znaleziono_dopasowanie:
-               if macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + błąd['PRZERWA']:
-                  macierz_rozwiązań[i][j] = 0
+               if macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + 
+                                             błąd['PRZERWA']:
+                  macierz_rozwiązań[i][j] := 0
                   j -= 1
       else:
          if macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j] + kara:
-            model_result.append(None)
+            ścieżka.dodaj(None)
             macierz_rozwiązań[i][j] := 0
             i -= 1
          elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i][j - 1] + kara:
             macierz_rozwiązań[i][j] := 0
             j -= 1
          elif macierz_rozwiązań[i][j] == macierz_rozwiązań[i - 1][j - 1]:
-            model_result.append(model[i-1])
-            log = log.replace(model[i-1].name, "", 1)
+            ścieżka.dodaj(model[i-1])
+            wariant = wariant.usuń(model[i-1].nazwa)
             macierz_rozwiązań[i][j] := 0
-            i -= 1; j -= 1
-   return sciezka
+            i -= 1 
+            j -= 1
+   return ścieżka
 \end{lstlisting}
 
 \subsection{Pozostałe wnioski dotyczące implementacji}
@@ -488,11 +518,17 @@ Ilość wątków procesora:
 \textbf{TOURNAMENT\_SIZE:                16} \newline
 \textbf{VERBOSE:                        True} \newline
 \textbf{MAX\_WRAPS:                      3} \newline
-\textbf{ALIGNMENT\_CACHE\_SIZE:           32*1024} \newline
+Dodatkowe dodane parametry PonyGE2: 
+Określa wielkość cache przy liczeniu dopasowania \newline
+\textbf{ALIGNMENT\_CACHE\_SIZE:           32*1024} \newline\
+Plik z wariantami, potrzebny, żeby obliczyć ilość aktywności
 \textbf{DATASET:                        discovered-processes.csv} \newline
 \textbf{MAX\_ALLOWED\_COMPLEXITY\_FACTOR:  300} \newline
+Dodaje małą karę za długość rozwiązania, co pozwala usuń zbędne bramki, nawet jeśli wartość metryk jest taka sama. \newline
 \textbf{MINIMIZE\_SOLUTION\_LENGTH:       True} \newline
+
 \textbf{RESULT\_TOLERANCE\_PERCENT:       5} \newline
+Przestaje obliczać dopasowanie po przekroczeniu czasu - najprawdopodobniej model i tak jest zbyt skomplikowany \newline
 \textbf{TIMEOUT:                        5} \newline
 
 Rekomendowane wagi poszczególnych metryk: \newline

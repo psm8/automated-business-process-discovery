@@ -50,12 +50,12 @@
 \contentsline {subsection}{\numberline {3.4.4}Obliczanie dopasowania dla pojedynczego wariantu}{38}% 
 \contentsline {subsection}{\numberline {3.4.5}Wyszukiwanie w modelu \IeC {\'s}cie\IeC {\.z}ek o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{40}% 
 \contentsline {subsection}{\numberline {3.4.6}Obliczanie dopasowania}{42}% 
-\contentsline {subsection}{\numberline {3.4.7}Znajdowanie najlepiej dopasowanych aktywno\IeC {\'s}ci w modelu}{42}% 
-\contentsline {subsection}{\numberline {3.4.8}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{44}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{44}% 
-\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{47}% 
-\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{47}% 
-\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{47}% 
-\contentsline {subsection}{\numberline {4.2.1}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{47}% 
-\contentsline {section}{\numberline {4.3}Wnioski}{47}% 
-\contentsline {chapter}{\numberline {5}Podsumowanie}{49}% 
+\contentsline {subsection}{\numberline {3.4.7}Znajdowanie najlepiej dopasowanych aktywno\IeC {\'s}ci w modelu}{43}% 
+\contentsline {subsection}{\numberline {3.4.8}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{45}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{45}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{49}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{49}% 
+\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{49}% 
+\contentsline {subsection}{\numberline {4.2.1}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{49}% 
+\contentsline {section}{\numberline {4.3}Wnioski}{49}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{51}% 
