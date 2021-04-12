@@ -8,7 +8,6 @@ from stats.stats import get_moo_stats
 from utilities.algorithm.state import create_state
 from utilities.stats import trackers
 from utilities.stats.file_io import save_stats_headers, save_stats_to_file
-from utilities.stats.save_plots import save_plot_from_data
 from wrappers import trackers_ext
 from wrappers.file_io_wrapper import save_best_ind_to_file
 from wrappers.save_plots_ext import save_plots_from_data
