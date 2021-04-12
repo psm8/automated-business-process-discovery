@@ -50,9 +50,9 @@ Przykładowe dziennik zdarzeń wzięto z \cite{}. Część z nich została wygen
 	\caption{\label{fig:flow_chart}Warianty procesu}
 \end{figure}
 
-Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 18, złożoność = 2, generalizacja = 2, precyzja = 12, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
+Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 2, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
 \begin{center}
-	\{a\}xor(seq(opt(\{b\})\{c\}\{b\}opt(\{e\}))\{f\})\{d\}
+	\{a\}and(\{b\}\{c\})lo4(\{e\}\{f\}and(\{b\}\{c\}))\{d\}
 \end{center}
 oraz graficznie:
 
@@ -61,16 +61,16 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 1052.8 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne były 83 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 321.5 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
-	Średnia ważona: 0.9550 \\
+	Średnia ważona: 0.9606 \\
 	Odwzorowanie: 1.0 \\
 	Złożoność: 1.0 \\
-	Generalizacja: 0.3426 \\
-	Precyzja: 0.9875 \\
-	Prostota: 0.9231
+	Generalizacja:0.7019 \\
+	Precyzja: 0.9830 \\
+	Prostota: 1.0
   \end{tabular}
  \end{center}
  
@@ -85,9 +85,9 @@ Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukan
 	\caption{\label{fig:flow_chart}Warianty procesu}
 \end{figure}
 
-Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 18, złożoność = 2, generalizacja = 2, precyzja = 12, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
+Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 2, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
 \begin{center}
-	\{a\}xor(seq(opt(\{b\})\{c\}\{b\}opt(\{e\}))\{f\})\{d\}
+	\{a\}lo2(\{d\})opt(\{b\}\{c\})\{e\}
 \end{center}
 oraz graficznie:
 
@@ -96,16 +96,16 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 1052.8 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne było 11 generacji, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 75.1730625629425 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
-	Średnia ważona: 0.9550 \\
+	Średnia ważona: 0.9722 \\
 	Odwzorowanie: 1.0 \\
 	Złożoność: 1.0 \\
-	Generalizacja: 0.3426 \\
-	Precyzja: 0.9875 \\
-	Prostota: 0.9231
+	Generalizacja: 0.7940 \\
+	Precyzja: 0.9834 \\
+	Prostota: 1.0
   \end{tabular}
  \end{center}
  
@@ -120,9 +120,9 @@ Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukan
 	\caption{\label{fig:flow_chart}Warianty procesu}
 \end{figure}
 
-Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 18, złożoność = 2, generalizacja = 2, precyzja = 12, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
+Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 4, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
 \begin{center}
-	\{a\}xor(seq(opt(\{b\})\{c\}\{b\}opt(\{e\}))\{f\})\{d\}
+	\{a\}and(opt(\{c\}\{b\})\{d\})\{e\}xor(\{h\}\{g\})
 \end{center}
 oraz graficznie:
 
@@ -131,16 +131,16 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 1052.8 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne były 233 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 504.201382637023 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
-	Średnia ważona: 0.9550 \\
+	Średnia ważona: 0.9836 \\
 	Odwzorowanie: 1.0 \\
 	Złożoność: 1.0 \\
-	Generalizacja: 0.3426 \\
-	Precyzja: 0.9875 \\
-	Prostota: 0.9231
+	Generalizacja: 0.9641 \\
+	Precyzja: 0.9440 \\
+	Prostota: 1.0
   \end{tabular}
  \end{center}
  
@@ -155,9 +155,9 @@ Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukan
 	\caption{\label{fig:flow_chart}Warianty procesu}
 \end{figure}
 
-Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 18, złożoność = 2, generalizacja = 2, precyzja = 12, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
+Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 2, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
 \begin{center}
-	\{a\}xor(seq(opt(\{b\})\{c\}\{b\}opt(\{e\}))\{f\})\{d\}
+	\{a\}opt(xor(\{j\}\{b\})\{k\})opt(opt(\{d\}\{e\})\{c\})opt(and(\{f\}\{h\}\{g\}))\{i\}
 \end{center}
 oraz graficznie:
 
@@ -166,16 +166,16 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 1052.8 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne było 4110 generacji, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 17157.7 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
-	Średnia ważona: 0.9550 \\
+	Średnia ważona: 0.9748 \\
 	Odwzorowanie: 1.0 \\
 	Złożoność: 1.0 \\
-	Generalizacja: 0.3426 \\
-	Precyzja: 0.9875 \\
-	Prostota: 0.9231
+	Generalizacja: 0.9782 \\
+	Precyzja: 0.8204 \\
+	Prostota: 1.0
   \end{tabular}
  \end{center}
  
@@ -190,9 +190,9 @@ Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukan
 	\caption{\label{fig:flow_chart}Warianty procesu}
 \end{figure}
 
-Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 18, złożoność = 2, generalizacja = 2, precyzja = 12, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
+Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 2, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
 \begin{center}
-	\{a\}xor(seq(opt(\{b\})\{c\}\{b\}opt(\{e\}))\{f\})\{d\}
+	\{a\}lo1(\{f\}and(\{d\}xor(\{b\}\{c\}))\{e\})xor(\{g\}\{h\})
 \end{center}
 oraz graficznie:
 
@@ -201,16 +201,16 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 1052.8 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne było 2270 generacji, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 15123.3 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
-	Średnia ważona: 0.9550 \\
+	Średnia ważona: 0.9940 \\
 	Odwzorowanie: 1.0 \\
 	Złożoność: 1.0 \\
-	Generalizacja: 0.3426 \\
-	Precyzja: 0.9875 \\
-	Prostota: 0.9231
+	Generalizacja: 0.9624 \\
+	Precyzja: 0.9899 \\
+	Prostota: 1.0
   \end{tabular}
  \end{center}
  
@@ -225,9 +225,9 @@ Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukan
 	\caption{\label{fig:flow_chart}Warianty procesu}
 \end{figure}
 
-Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 18, złożoność = 2, generalizacja = 2, precyzja = 12, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
+Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 4, prostota = 1. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
 \begin{center}
-	\{a\}xor(seq(opt(\{b\})\{c\}\{b\}opt(\{e\}))\{f\})\{d\}
+	\{a\}xor(\{f\}\{b\})and(\{d\}opt(\{c\}))lo3(\{g\}xor(\{f\}\{b\})and(\{d\}opt(\{c\})))\{e\}
 \end{center}
 oraz graficznie:
 
@@ -236,16 +236,16 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne były 522 generacje, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 1052.8 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne było 436 generacji, podczas których przeszukano 97771 unikalnych osobników. Zajęło to 4675.0 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
-	Średnia ważona: 0.9550 \\
-	Odwzorowanie: 1.0 \\
-	Złożoność: 1.0 \\
-	Generalizacja: 0.3426 \\
-	Precyzja: 0.9875 \\
-	Prostota: 0.9231
+	Średnia ważona: 0.9859 \\
+	Odwzorowanie: 0.9896 \\
+	Złożoność: 0.9891 \\
+	Generalizacja: 0.9614 \\
+	Precyzja: 0.9859 \\
+	Prostota: 1.0
   \end{tabular}
  \end{center}
  
