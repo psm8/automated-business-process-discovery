@@ -1,0 +1,19 @@
+Generation:
+24
+
+Phenotype:
+{a}opt({c}{b})lo3({d}){e}
+
+Genotype:
+[98482, 64770, 11861, 76795, 30580, 22099, 57663, 2795, 8871, 76671, 13947, 56771, 69322, 91769, 33328, 38601, 67281, 3586, 64429, 67623, 2795, 42101, 71411, 42437, 72244, 38601, 31031, 19950, 61628, 13226, 97261, 97737, 77217, 92286, 7035, 53153, 23756, 32819, 3232, 3808, 39361, 92254, 30189, 87691, 87041, 24309, 56714, 1493, 8903, 94183, 47279, 40322, 94521, 12245, 10083, 31399, 13167, 65573, 22476]
+Tree:
+(<e> (<slot> (<anygate> { (<event> a) })) (<slot> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> c) }) (<anygate> { (<event> b) })) (<slot> ) (<slot> )) ))) (<anygate> (<name> lo (<0_n> 3)) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> d) }) (<slot> ) (<slot> )) )) (<slot> (<anygate> { (<event> e) })) (<slot> ))
+
+Fitness:
+0.9733992337593173
+Metrics:
+Alignment:	1.0
+Complexity:	1
+Generalization:	0.8138567327193489
+Precision:	0.973337137355389
+Simplicity:	1.0

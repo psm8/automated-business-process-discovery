@@ -70,9 +70,9 @@ TIMEOUT:                       5
 TIME_STAMP:                    v4a6c5l5.csv_21_3_21_184242_35664_645567
 TOURNAMENT_SIZE:               8
 VERBOSE:                       True
-WEIGHT_ALIGNMENT:              36
-WEIGHT_COMPLEXITY:             4
-WEIGHT_GENERALIZATION:         4
-WEIGHT_PRECISION:              24
-WEIGHT_SIMPLICITY:             4
+WEIGHT_ALIGNMENT:              18
+WEIGHT_COMPLEXITY:             2
+WEIGHT_GENERALIZATION:         2
+WEIGHT_PRECISION:              12
+WEIGHT_SIMPLICITY:             2
 WITHIN_USED:                   True
