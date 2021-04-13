@@ -1,0 +1,19 @@
+Generation:
+1000
+
+Phenotype:
+{a}opt({b})and({d}opt({c}))lo2({f}seq(and({d}opt({c})){e}))opt({g})opt({h})
+
+Genotype:
+[16733, 31921, 86791, 73509, 30795, 24291, 71339, 69213, 96610, 8027, 80705, 33081, 59901, 83978, 25308, 4401, 82841, 98281, 32850, 94035, 83530, 7754, 36552, 23741, 18928, 76481, 54441, 94761, 17601, 32210, 45587, 60481, 46101, 75091, 78021, 12354, 99283, 82761, 39087, 75200, 32041, 18451, 12467, 87559, 79630, 14449, 14474, 83907, 21250, 98281, 32850, 94035, 83530, 7754, 36552, 38741, 18928, 76481, 54441, 11211, 85511, 32210, 45587, 2581, 46101, 83101, 78021, 87541, 30290, 97666, 65231, 2311, 80451, 57193, 8027, 58283, 80951, 23741, 11942, 6953, 89411, 97061, 73940, 57193, 76481, 9998, 92731, 69421, 36344, 28006, 54301, 27691, 31941, 66085, 63485, 6425, 85824, 18029, 37730, 43486, 73885, 76167, 10033, 62490, 18607, 62398, 52576, 56178, 91196, 3732, 67195, 69579, 39244, 79226, 40840, 33858, 53441, 9916, 34956, 6670, 41042, 30833, 34512, 60606, 98997, 59727, 44851, 57025, 24412, 8482, 47655, 37985, 43686, 77469]
+Tree:
+(<e> (<slot> ) (<slot> ) (<anygate> (<anygate> (<anygate> (<anygate> { (<event> a) }) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> b) }) (<slot> ) (<slot> )) ))) (<anygate> (<name> and) ( (<slots> (<slot> (<anygate> { (<event> d) })) (<slot> ) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> c) }) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) ))) (<anygate> (<anygate> (<name> lo (<0_n> 2)) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> f) }) (<slot> (<anygate> (<name> seq) ( (<slots> (<slot> (<anygate> (<name> and) ( (<slots> (<slot> (<anygate> { (<event> d) })) (<slot> ) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> c) }) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) ))) (<slot> ) (<anygate> { (<event> e) }) (<slot> ) (<slot> )) ))) (<slot> )) )) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> g) }) (<slot> ) (<slot> )) )))) (<slot> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> h) }) (<slot> ) (<slot> )) ))) (<slot> ))
+
+Fitness:
+0.9794695941755137
+Metrics:
+Alignment:	0.9879642439315574
+Complexity:	0.9814145714012021
+Generalization:	0.9622373710857466
+Precision:	0.9402478351915327
+Simplicity:	1.0

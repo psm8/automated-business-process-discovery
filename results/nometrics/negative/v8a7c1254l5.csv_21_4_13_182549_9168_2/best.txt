@@ -1,0 +1,19 @@
+Generation:
+285
+
+Phenotype:
+{a}xor({b}{d}{c})xor({b}{d}{c}seq(lo0({a})lo0(lo0({c}{e}{a})))){e}xor({g}{h})
+
+Genotype:
+[85993, 70311, 77430, 23156, 84382, 28621, 4699, 41456, 55890, 70367, 61356, 55311, 56310, 19325, 87030, 83384, 30746, 28841, 58711, 64210, 28621, 60283, 41456, 90, 26264, 20126, 94671, 56310, 19325, 56223, 7919, 78360, 52321, 44710, 22420, 88274, 87084, 22511, 44501, 82788, 28147, 35493, 14405, 50297, 74821, 28101, 16649, 35228, 97601, 55071, 48226, 21273, 15690, 78448, 67211, 39741, 99187, 21273, 15690, 20938, 26001, 19081, 55566, 33161, 29563, 76734, 12944, 23292, 11972, 95470, 47251, 43471, 29961, 46941, 90311, 82441, 12430, 95253, 82952, 31153, 32788, 35227, 68176, 19591, 6291, 76734, 98663, 12164, 11972, 57554, 21891, 60371, 77102, 23472, 91222, 73251, 3211, 40441, 37588, 93692, 97669, 98900, 99250, 32716, 95918, 82874, 5461, 78932, 15813, 88181, 27994, 76507, 88328, 27786, 19820, 73168, 71173, 13924]
+Tree:
+(<e> (<slot> ) (<slot> (<anygate> { (<event> a) })) (<anygate> (<name> xor) ( (<slots> (<slot> (<anygate> { (<event> b) })) (<slot> ) (<anygate> (<anygate> { (<event> d) }) (<anygate> { (<event> c) })) (<slot> ) (<slot> )) )) (<slot> (<anygate> (<name> xor) ( (<slots> (<slot> (<anygate> { (<event> b) })) (<slot> ) (<anygate> (<anygate> { (<event> d) }) (<anygate> { (<event> c) })) (<slot> ) (<slot> (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> (<name> lo (<0_n> 0)) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> a) }) (<slot> ) (<slot> )) )) (<anygate> (<name> lo (<0_n> 0)) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> lo (<0_n> 0)) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> c) }) (<anygate> (<anygate> { (<event> e) }) (<anygate> { (<event> a) }))) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) ))) (<slot> ) (<slot> )) )))) ))) (<slot> (<anygate> (<anygate> { (<event> e) }) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> g) }) (<anygate> { (<event> h) })) (<slot> ) (<slot> )) )))))
+
+Fitness:
+1.005713680752157
+Metrics:
+Alignment:	1.0
+Complexity:	1
+Generalization:	0.3963202590529459
+Precision:	0.9607203553962658
+Simplicity:	0.6666666666666667

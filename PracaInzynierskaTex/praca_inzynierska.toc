@@ -69,5 +69,5 @@
 \contentsline {subsubsection}{\numberline {4.2.2.2}Brak precyzji}{59}% 
 \contentsline {subsubsection}{\numberline {4.2.2.3}Brak prostoty}{59}% 
 \contentsline {subsubsection}{\numberline {4.2.2.4}Brak generalizacji}{59}% 
-\contentsline {section}{\numberline {4.3}Wnioski}{59}% 
+\contentsline {section}{\numberline {4.3}Wnioski}{60}% 
 \contentsline {chapter}{\numberline {5}Podsumowanie}{61}% 
