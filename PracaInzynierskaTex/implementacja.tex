@@ -546,13 +546,13 @@ Używany w kilku miejscach w programie. Określa jak złe pod względem wartośc
 \end{center}
 Przestaje obliczać dopasowanie po przekroczeniu czasu - najprawdopodobniej model i tak jest zbyt skomplikowany
 
-Rekomendowane wagi poszczególnych metryk. Dla małych modeli warto zwiększyć wagę precyzji: 
+Rekomendowane wagi poszczególnych metryk. Dla małych modeli, kiedy łatwo znaleźć model z odwzorowaniem = 1 warto zwiększyć wagę precyzji, żeby sprawdzić, czy możliwe jest znalezienie precyzyjniejszego modelu, wciąż zachowując perfekcyjne odwzorowanie: 
  \begin{center}
   \begin{tabular}{l}
     \textit{WEIGHT\_ALIGNMENT:              8} \\
 	\textit{WEIGHT\_COMPLEXITY:              2} \\
 	\textit{WEIGHT\_GENERALIZATION:          2} \\
-	\textit{WEIGHT\_PRECISION:               4} \\
+	\textit{WEIGHT\_PRECISION:               2} \\
 	\textit{WEIGHT\_SIMPLICITY:              2}
   \end{tabular}
  \end{center}

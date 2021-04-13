@@ -58,12 +58,16 @@
 \contentsline {subsection}{\numberline {4.1.1}Wynik dla przyk\IeC {\l }adu ze wst\IeC {\k e}pu}{49}% 
 \contentsline {subsection}{\numberline {4.1.2}Inne przyk\IeC {\l }ady dzia\IeC {\l }ania}{51}% 
 \contentsline {subsubsection}{\numberline {4.1.2.1}Przyk\IeC {\l }ad \#1}{51}% 
-\contentsline {subsubsection}{\numberline {4.1.2.2}Przyk\IeC {\l }ad \#2}{51}% 
-\contentsline {subsubsection}{\numberline {4.1.2.3}Przyk\IeC {\l }ad \#3}{53}% 
-\contentsline {subsubsection}{\numberline {4.1.2.4}Przyk\IeC {\l }ad \#4}{54}% 
-\contentsline {subsubsection}{\numberline {4.1.2.5}Przyk\IeC {\l }ad \#5}{55}% 
-\contentsline {subsubsection}{\numberline {4.1.2.6}Przyk\IeC {\l }ad \#6}{57}% 
-\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{59}% 
-\contentsline {subsection}{\numberline {4.2.1}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{59}% 
+\contentsline {subsubsection}{\numberline {4.1.2.2}Przyk\IeC {\l }ad \#2}{52}% 
+\contentsline {subsubsection}{\numberline {4.1.2.3}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga roszcze\IeC {\'n} w firmie ubezpieczeniowej}{53}% 
+\contentsline {subsubsection}{\numberline {4.1.2.4}Przyk\IeC {\l }ad \#Naprawa telefonu}{55}% 
+\contentsline {subsubsection}{\numberline {4.1.2.5}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga wniosku o odszkodowanie}{56}% 
+\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{58}% 
+\contentsline {subsection}{\numberline {4.2.1}Brak z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{58}% 
+\contentsline {subsection}{\numberline {4.2.2}Brak innych metryk}{58}% 
+\contentsline {subsubsection}{\numberline {4.2.2.1}Poprawny przyk\IeC {\l }ad}{58}% 
+\contentsline {subsubsection}{\numberline {4.2.2.2}Brak precyzji}{59}% 
+\contentsline {subsubsection}{\numberline {4.2.2.3}Brak prostoty}{59}% 
+\contentsline {subsubsection}{\numberline {4.2.2.4}Brak generalizacji}{59}% 
 \contentsline {section}{\numberline {4.3}Wnioski}{59}% 
 \contentsline {chapter}{\numberline {5}Podsumowanie}{61}% 

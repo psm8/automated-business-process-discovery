@@ -38,10 +38,10 @@ digraph G {
   a1->d->a2;
   o1->c->o2;
   o1->s1->o2;
-  g->e;
+  a2->e;
   a2->g->x1
   e->out;
   # align vertically
-  {rank=same; d;c,s1}
+  {rank=same; d;c,s1,g}
   {rank=same; b;f}
 }
