@@ -138,7 +138,7 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne było 4110 generacji. Zajęło to 17157.7 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne było 4110 generacji. Zajęło to 17157.7 sekund, używając 32 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
@@ -176,7 +176,7 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne było 436 generacji. Zajęło to 4675.0 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne było 436 generacji. Zajęło to 4675.0 sekund, używając 32 wątków procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
@@ -214,7 +214,7 @@ oraz graficznie:
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Do znalezienia modelu potrzebne było 2270 generacji, podczas których przeszukano 319963 unikalnych osobników. Zajęło to 15123.3 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
+Do znalezienia modelu potrzebne było 685 generacji. Zajęło to 14728.9 sekund, używając 1 wątku procesora. Natomiast, metryki mają następujące wartości: 
 
  \begin{center}
   \begin{tabular}{l}
@@ -228,7 +228,7 @@ Do znalezienia modelu potrzebne było 2270 generacji, podczas których przeszuka
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.83]{examples/v21a81391l17.csv_run-15614_21_3_1_225455/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.83]{examples/v21a81391l17.csv_21_4_13_201133_15092_996333/best_fitness.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
@@ -270,16 +270,15 @@ Do znalezienia modelu potrzebne były 233 generacje, podczas których przeszukan
  \end{center}
 
 \subsubsection{Brak precyzji}
-W kolejnym przykładzie użyto tych samych metryki, jednak przyjęto wartość precyzji równą 0.
-Poniżej zaprezntowano odkryty model: 
+W kolejnym przykładzie użyto tych samych wag dla poszczególnych metryk, z wyjątkiem precyzji, dla której przyjęto wagę równą 0.
 \begin{figure}[!ht]
 	\centering{\includegraphics[scale=0.37]{examples/v8a7c1254l5.csv_21_4_13_211038_8672_3/graphviz.png}}
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Cechą charakterystyczną modelu ze słabą precyzją będzie zastąpienia bramek ,,xor'' bardziej skomplikowanymi bramkami ,,opt'' i ,,and'' oraz niewystarczające ,,dopasowanie się'' do logu, przez co model pozwala na nie mające sensu zachowania. Ze względy na mniejszą ilość bramek potrzebną w modelu ze słabym dopasowanie i przez większą ilość uchwyconych przypadków większą szanse na opisanie tych w logu, powstanie modelu w niską precyzją jest łatwiejsze niż precyzyjnego.
+Cechą charakterystyczną modelu ze słabą precyzją będzie zastąpienia bramek ,,xor'' bardziej skomplikowanymi bramkami ,,opt'' i ,,and'' oraz niewystarczające ,,dopasowanie się'' do logu, przez co model pozwala na nie mające biznesowego sensu zachowania. Ze względy na mniejszą ilość bramek zazwyczaj potrzebną w modelu ze słabą precyzją oraz z uwagi na większą ilość przypadków uchwyconych w takim modelu i większą szansę na opisanie także tych w logu, wygenerowanie modelu mniej precyzyjnego jest łatwiejsze.
  
-Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu  oraz wartości poszczególnych metryk. 
+Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu oraz wartości poszczególnych metryk. 
  \begin{center}
   \begin{tabular}{l}
 	Średnia ważona: 0.9289 \\
@@ -292,18 +291,18 @@ Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z popraw
  \end{center}
  
 \subsubsection{Brak generalizacji i prostoty}
-Brak użycia generalizacji miał niezauważalny wpływ na otrzymany model. Ciężko było znaleźć model, który miałby słabą generalizację. Powodem takiej sytuacji może być duża zależność generalizacji od prostoty, gdyż ciężko o słabą generalizacje bez dodatkowych elementów, czyli słabszej prostoty. Z tego powody poszukując modeli bez użycie tych metryk obie ustawiono na 0.
+Brak użycia generalizacji miał niezauważalny wpływ na otrzymany model. Ciężko było znaleźć model, który miałby słabą generalizację. Powodem takiej sytuacji może być duża zależność generalizacji od prostoty, gdyż ciężko o niską wartość generalizacji bez obecności dodatkowych elementów w modelu, co obniży wartość jego prostoty. Z tego powodu w tym przykładzie dla wag obu tych metryk przyjęto wartość 0.
 
-Wciąż jednak ciężkie było znalezienie modelu ze słabą generalizacją i precyzją. Może to wynikać z natury algorytmów ewolucyjnych, gdyż bardziej prawdopodobne jest wygenerowanie prostszego ciągu znaków, dlatego częściej będziemy otrzymywać proste modele z dobrą generalizacją. Szansa na wygenerowania modelu z wysoką wartością funkcji dopasowania spada ze wzrostem ilości elementów. Niemniej, nadal jest możliwe otrzymanie takiego modelu. Poniżej zaprezentowano przykład:
+Mimo tego wciąż ciężkie okazało się znalezienie modelu ze słabą generalizacją i precyzją. Wynika to z natury ewolucji gramatycznej, gdyż bardziej prawdopodobne jest wygenerowanie prostszego ciągu znaków, dlatego częściej będziemy otrzymywać proste modele z dobrą generalizacją. Szansa na otrzymanie modelu z wysoką wartością funkcji dopasowania spada ze wzrostem ilości elementów. Niemniej, nadal jest możliwe otrzymanie takiego modelu, więc obecność tych metryk nie jest zupełnie bez znaczenia.
 
-\begin{figure}[!ht]
+Cechą charakterystyczną modelu ze słabą generalizacją będzie zastąpienia bramek ,,and'' i ,,opt'' prostszymi bramkami ,,xor'' oraz nadmierne ,,dopasowanie się'' do jak największej ilości pojedynczych wariantów w logu, przez co nieuchwycone mogą zostać brakujące w logu zachowania.
+
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.37]{no-generalization-and-simplicity.png}}
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
-Cechą charakterystyczną modelu ze słabą genralizacją będzie zastąpienia bramek ,,and'' i ,,opt'' prostszymi bramkami ,,xor'' oraz nadmierne ,,dopasowanie się'' do jak największej ilości pojedynczych wariantów w logu, przez co nie uchwycone mogą zostać brakujące w logu zachowania.
-
-Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu  oraz wartości poszczególnych metryk.
+Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu  oraz wartości poszczególnych metryk. Co ciekawe generalizacja, wciąż nie jest dużo niższa niż w poprawnym modelu.
  
  \begin{center}
   \begin{tabular}{l}
