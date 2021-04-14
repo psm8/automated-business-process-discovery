@@ -13,7 +13,7 @@ DEBUG:                         False
 ELITE_SIZE:                    3
 ERROR_METRIC:                  None
 EXPERIMENT_NAME:               withoutComplexity
-FILE_PATH:                     C:\Users\PRIVATE\Semestr7\Inzynierka\automated-business-process-discovery\src\..\results\withoutComplexity\v8a7c1254l5.csv_21_4_13_182351_48744_2
+FILE_PATH:                     C:\Users\PRIVATE\Semestr7\Inzynierka\automated-business-process-discovery\src\..\results\withoutComplexity\v8a7c1254l5.csv_21_4_13_211038_8672_3
 FITNESS_FUNCTION:              process_fitness
 GENERATIONS:                   1000
 GENERATION_SIZE:               497
@@ -49,7 +49,7 @@ OPTIMIZE_CONSTANTS:            False
 PARAMETERS:                    process-discovery.txt
 PERMUTATION_RAMPS:             5
 POPULATION_SIZE:               500
-RANDOM_SEED:                   2
+RANDOM_SEED:                   3
 REPLACEMENT:                   generational
 RESULT_TOLERANCE_PERCENT:      5
 REVERSE_MAPPING_TARGET:        None
@@ -68,12 +68,12 @@ STEP:                          step_with_metrics
 TARGET:                        ponyge_rocks
 TARGET_SEED_FOLDER:            None
 TIMEOUT:                       5
-TIME_STAMP:                    v8a7c1254l5.csv_21_4_13_182351_48744_2
+TIME_STAMP:                    v8a7c1254l5.csv_21_4_13_211038_8672_3
 TOURNAMENT_SIZE:               8
 VERBOSE:                       True
-WEIGHT_ALIGNMENT:              8
-WEIGHT_COMPLEXITY:             2
-WEIGHT_GENERALIZATION:         -4
-WEIGHT_PRECISION:              4
-WEIGHT_SIMPLICITY:             -4
+WEIGHT_ALIGNMENT:              160
+WEIGHT_COMPLEXITY:             10
+WEIGHT_GENERALIZATION:         10
+WEIGHT_PRECISION:              -1
+WEIGHT_SIMPLICITY:             10
 WITHIN_USED:                   True

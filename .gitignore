@@ -129,7 +129,6 @@ dmypy.json
 results/*
 !*\.csv_run-*
 !results/complexity*
-!results/nometrics*
 cache/*
 parameters/*
 !parameters/process-discovery-template.txt

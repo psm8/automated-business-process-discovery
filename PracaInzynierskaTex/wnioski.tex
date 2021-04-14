@@ -36,7 +36,7 @@ Dla porównania poszczególne metryki obliczone w sekcji \ref{sec:alignment-calc
 
 Poniżej zaprezentowano również wykres, na który zaprezentowano zmianę wartości metryk w kolejnych generacjach. Jest on generowany podczas działania algorytmu i kończy się w momencie przerwania działania algorytmu lub po określonej ilości iteracji, a nie znalezienia rozwiązania, gdyż przy algorytmach ewolucyjnych nie można być pewnym, czy znaleziono najlepsze rozwiązanie.
 \begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.8]{examples/v4a6c5l5.csv_run-686_21_3_21_184242_35664_645567/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.85]{examples/v4a6c5l5.csv_run-686_21_3_21_184242_35664_645567/best_fitness.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 \clearpage
@@ -77,7 +77,7 @@ Do znalezienia modelu potrzebne były 83 generacje, podczas których przeszukano
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.8]{examples/v6a6c13l12.csv_run-84_21_3_2_222502/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.83]{examples/v6a6c13l12.csv_run-84_21_3_2_222502/best_fitness.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
@@ -114,13 +114,13 @@ Do znalezienia modelu potrzebne było 11 generacji, podczas których przeszukano
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.8]{examples/v8a5c40l5.csv_run-24_21_3_6_211037_47336_515221/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.83]{examples/v8a5c40l5.csv_run-24_21_3_6_211037_47336_515221/best_fitness.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
 \subsubsection{Przykład \#Obsługa roszczeń w firmie ubezpieczeniowej}
-contain an event log describing the handling of claims in an insurance company. The log contains 46138 events related to 3512 cases (claims). The process deals with the handling of inbound phone calls, whereby different types of insurance claims (household, car, etc.) are lodged over the phone. The process is supported by two separate call centers operating for two different organizational entities (Brisbane and Sydney).
-Zawiera 11 unikalnych aktywności, 3512 przypadków, 12 wariantów, z których najdłuższy ma 9 zdarzeń. 
+Dziennik danych zawiera dane opisujące obsługa roszczeń w firmie ubezpieczeniowej. Proces może być obsługiwany przez dwie różne działy w Brisbane i Sydney. Możliwe jest połączenie danych dla tych działów, ale nie zrobiono tego, żeby utrudnić odkrywanie modelu.
+Przykład składa się z 11 unikalnych aktywności, 3512 przypadków, 12 wariantów, z których najdłuższy ma 9 zdarzeń. 
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.8]{datasets/v12a11c3512l9.png}}
@@ -152,12 +152,13 @@ Do znalezienia modelu potrzebne było 4110 generacji. Zajęło to 17157.7 sekund
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.37]{examples/v12a11c3512l9.csv_run-10231_21_3_1_042344_29708_523416/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.73]{examples/v12a11c3512l9.csv_run-10231_21_3_1_042344_29708_523416/best_fitness.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
 \subsubsection{Przykład \#Naprawa telefonu}
-Zawiera 7 unikalnych aktywności, 1000 przypadków, 45 wariantów, z których najdłuższy ma 14 zdarzeń. 
+Dziennik zdarzeń zawiera dane dotyczące procesu naprawy telefonu.
+Przykład składa się z 7 unikalnych aktywności, 1000 przypadków, 45 wariantów, z których najdłuższy ma 14 zdarzeń. 
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.8]{datasets/v45a7c1000l14.png}}
@@ -189,14 +190,14 @@ Do znalezienia modelu potrzebne było 436 generacji. Zajęło to 4675.0 sekund, 
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.8]{examples/v45a7c1000l14.csv_run-1366_21_3_6_143708_2144_563150/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.72]{examples/v45a7c1000l14.csv_run-1366_21_3_6_143708_2144_563150/best_fitness.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
 \subsubsection{Przykład \#Obsługa wniosku o odszkodowanie}
-Obsługa wniosku o odszkodowanie
-
-Zawiera 8 unikalnych aktywności, 1391 przypadków, 21 wariantów, z których najdłuższy ma 17 zdarzeń. 
+\label{sec:example5}
+Dziennik zdarzeń zawiera dane obsługi wniosku o odszkodowanie.
+Przykład składa się z 8 unikalnych aktywności, 1391 przypadków, 21 wariantów, z których najdłuższy ma 17 zdarzeń. 
 \begin{figure}[!ht]
 	\centering{\includegraphics[scale=0.8]{datasets/v21a81391l17.png}}
 	\caption{\label{fig:flow_chart}Warianty procesu}
@@ -227,17 +228,18 @@ Do znalezienia modelu potrzebne było 2270 generacji, podczas których przeszuka
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.37]{examples/v21a81391l17.csv_run-15614_21_3_1_225455/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.83]{examples/v21a81391l17.csv_run-15614_21_3_1_225455/best_fitness.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
 \section{Wyniki w zależności od przyjętych wag poszczególnych metryk}
 
-\subsection{Brak złożoność}
+\subsection{Brak poszczególnych metryk}
+Odwzorowanie jest kluczowe, gdyż jest jedyną metryką, która sprawdza zgodność modelu z dziennikiem zdarzeń i bez tej metryki model byłby pozbawiony wartości. Pozostałe metryki wpływają na jego jakość. Warto więc sprawdzić jak ich brak wpłynąłby na jego odkryty model.
 
-\subsection{Brak innych metryk}
-
-\subsubsection{Poprawny przykład}
+\subsubsection{Poprawny model}
+Wpływ brak poszczególny metryk sprawdzony dla podzbioru dziennika zdarzeń z sekcji \ref{sec:example5} uproszczonego poprzez pozbawienie go pętli. Dla porównania przedstawiono poprawny model, odkryty używając wszystkich metryk.
+Składa się on z 7 unikalnych aktywności, 1254 przypadków, 8 wariantów, które mają po 5 zdarzeń. 
 \begin{figure}[!ht]
 	\centering{\includegraphics[scale=0.8]{datasets/v8a7c1254l5.png}}
 	\caption{\label{fig:flow_chart}Warianty procesu}
@@ -271,20 +273,42 @@ Do znalezienia modelu potrzebne były 233 generacje, podczas których przeszukan
 Te same metryki jednak precyzja = 0.
 Model graficznie:
 \begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.37]{examples/v8a7c1254l5.csv_run-303_21_3_5_003759/graphviz.png}}
+	\centering{\includegraphics[scale=0.37]{examples/v8a7c1254l5.csv_21_4_13_211038_8672_3/graphviz.png}}
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
-\subsubsection{Brak prostoty}
-Te same metryki jednak prostota = 0.
-Model graficznie:
 
-\subsubsection{Brak generalizacji}
-Te same metryki jednak precyzja = 0 oraz prostota = 0.
+ \begin{center}
+  \begin{tabular}{l}
+	Średnia ważona: 0.9289 \\
+	Odwzorowanie: 1.0 \\
+	Złożoność: 1.0 \\
+	Generalizacja: 0.9641 \\
+	Precyzja: 0.6982 \\
+	Prostota: 1.0
+  \end{tabular}
+ \end{center}
+ 
+\subsubsection{Brak prostoty i generalizacji}
+Te same metryki jednak prostota = 0 i generalizacja = 0.
 Model graficznie:
 \begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.37]{examples/v8a7c1254l5.csv_run-303_21_3_5_003759/graphviz.png}}
+	\centering{\includegraphics[scale=0.37]{no-generalization-and-simplicity.png}}
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
+
+ \begin{center}
+  \begin{tabular}{l}
+	Średnia ważona: 0.9697 \\
+	Odwzorowanie: 1.0 \\
+	Złożoność: 1.0 \\
+	Generalizacja: 0.9498 \\
+	Precyzja: 1.0 \\
+	Prostota: 0.7778
+  \end{tabular}
+ \end{center}
+
+\subsection{Wpływ złożoności na wynik}
+
 \section{Wnioski}
 Najbardziej na działanie wpływa
 

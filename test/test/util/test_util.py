@@ -41,10 +41,11 @@ def get_event_names2(event_group: BaseGroup):
 
 
 def set_params():
+    params['MIN_SIMPLICITY_THRESHOLD'] = 0
     params['RESULT_TOLERANCE_PERCENT'] = 5
     params['WEIGHT_ALIGNMENT'] = 8
     params['WEIGHT_COMPLEXITY'] = 2
     params['WEIGHT_GENERALIZATION'] = 2
     params['WEIGHT_PRECISION'] = 2
     params['WEIGHT_SIMPLICITY'] = 2
-    params['MINIMIZE_SOLUTION_LENGTH'] = True
+    params['MINIMIZE_SOLUTION_LENGTH'] = False
