@@ -18,7 +18,7 @@ digraph G {
   }
   subgraph transitions {
     node [shape=rect,height=0.4,width=.4];
-    a; b; ba[label="b"]; c; ca[label="c"]; d; da[label="d"]; db[label="d"]; e; ga[label="g"]; ha[label="h"];
+    a; b; ba[label="b"]; c; ca[label="c"]; d; da[label="d"]; db[label="d"]; e; g; h;
   }
   subgraph skip {
     node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
@@ -37,7 +37,8 @@ digraph G {
   x5->c->x6
   d->x5;
   x2->e->x3;
-  x3->ga->ha->x4;
+  x3->g->x4;
+  x3->h->x4;
   x4->out;
   # align vertically
     {rank=same; b;c}

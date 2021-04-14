@@ -270,13 +270,16 @@ Do znalezienia modelu potrzebne były 233 generacje, podczas których przeszukan
  \end{center}
 
 \subsubsection{Brak precyzji}
-Te same metryki jednak precyzja = 0.
-Model graficznie:
+W kolejnym przykładzie użyto tych samych metryki, jednak przyjęto wartość precyzji równą 0.
+Poniżej zaprezntowano odkryty model: 
 \begin{figure}[!ht]
 	\centering{\includegraphics[scale=0.37]{examples/v8a7c1254l5.csv_21_4_13_211038_8672_3/graphviz.png}}
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
+Cechą charakterystyczną modelu ze słabą precyzją będzie zastąpienia bramek ,,xor'' bardziej skomplikowanymi bramkami ,,opt'' i ,,and'' oraz niewystarczające ,,dopasowanie się'' do logu, przez co model pozwala na nie mające sensu zachowania. Ze względy na mniejszą ilość bramek potrzebną w modelu ze słabym dopasowanie i przez większą ilość uchwyconych przypadków większą szanse na opisanie tych w logu, powstanie modelu w niską precyzją jest łatwiejsze niż precyzyjnego.
+ 
+Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu  oraz wartości poszczególnych metryk. 
  \begin{center}
   \begin{tabular}{l}
 	Średnia ważona: 0.9289 \\
@@ -288,14 +291,20 @@ Model graficznie:
   \end{tabular}
  \end{center}
  
-\subsubsection{Brak prostoty i generalizacji}
-Te same metryki jednak prostota = 0 i generalizacja = 0.
-Model graficznie:
+\subsubsection{Brak generalizacji i prostoty}
+Brak użycia generalizacji miał niezauważalny wpływ na otrzymany model. Ciężko było znaleźć model, który miałby słabą generalizację. Powodem takiej sytuacji może być duża zależność generalizacji od prostoty, gdyż ciężko o słabą generalizacje bez dodatkowych elementów, czyli słabszej prostoty. Z tego powody poszukując modeli bez użycie tych metryk obie ustawiono na 0.
+
+Wciąż jednak ciężkie było znalezienie modelu ze słabą generalizacją i precyzją. Może to wynikać z natury algorytmów ewolucyjnych, gdyż bardziej prawdopodobne jest wygenerowanie prostszego ciągu znaków, dlatego częściej będziemy otrzymywać proste modele z dobrą generalizacją. Szansa na wygenerowania modelu z wysoką wartością funkcji dopasowania spada ze wzrostem ilości elementów. Niemniej, nadal jest możliwe otrzymanie takiego modelu. Poniżej zaprezentowano przykład:
+
 \begin{figure}[!ht]
 	\centering{\includegraphics[scale=0.37]{no-generalization-and-simplicity.png}}
 	\caption{\label{fig:flow_chart}Znaleziony model}
 \end{figure}
 
+Cechą charakterystyczną modelu ze słabą genralizacją będzie zastąpienia bramek ,,and'' i ,,opt'' prostszymi bramkami ,,xor'' oraz nadmierne ,,dopasowanie się'' do jak największej ilości pojedynczych wariantów w logu, przez co nie uchwycone mogą zostać brakujące w logu zachowania.
+
+Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu  oraz wartości poszczególnych metryk.
+ 
  \begin{center}
   \begin{tabular}{l}
 	Średnia ważona: 0.9697 \\
