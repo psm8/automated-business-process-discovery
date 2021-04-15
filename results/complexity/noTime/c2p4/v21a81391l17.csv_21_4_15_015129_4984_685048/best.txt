@@ -1,0 +1,19 @@
+Generation:
+80
+
+Phenotype:
+{a}seq(xor({b}opt({c})){d}lo3({f}xor({b}opt({c})){d}{e}))opt({g})opt({h})
+
+Genotype:
+[62029, 61, 36620, 26801, 23916, 12949, 15590, 88102, 24810, 80809, 41365, 37585, 34881, 68461, 43677, 20483, 54463, 4396, 65303, 21613, 64701, 36191, 71309, 69600, 23461, 94061, 86281, 48521, 58791, 45659, 68029, 35511, 55390, 19231, 11265, 41188, 96745, 73851, 22590, 41558, 19098, 5440, 38197, 37585, 34881, 68461, 43677, 20483, 54463, 4396, 65303, 21613, 64701, 36191, 71309, 69600, 47801, 94061, 9641, 48521, 7000, 51168, 45659, 68029, 2903, 62817, 45451, 15990, 19231, 65303, 12319, 27701, 74571, 29147, 1758, 76511, 36501, 55390, 96544, 65303, 96832, 77731, 63971, 14810, 61483, 6981, 69351, 88263, 27836, 35480, 44443, 87817, 93254, 54197, 40698, 21245, 95991, 55814, 20482, 96420, 799, 61193, 13868, 56586, 29782, 44847, 41185, 61384, 22524, 72686]
+Tree:
+(<e> (<slot> ) (<slot> (<anygate> { (<event> a) })) (<anygate> (<name> seq) ( (<slots> (<slot> (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> b) }) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> c) }) (<slot> ) (<slot> )) ))) (<slot> ) (<slot> )) ))) (<slot> ) (<anygate> { (<event> d) }) (<slot> ) (<slot> (<anygate> (<name> lo (<0_n> 3)) ( (<slots> (<slot> ) (<slot> (<anygate> { (<event> f) })) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> b) }) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> c) }) (<slot> ) (<slot> )) ))) (<slot> ) (<slot> )) )) (<slot> (<anygate> (<anygate> { (<event> d) }) (<anygate> { (<event> e) }))) (<slot> )) )))) )) (<slot> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> g) }) (<slot> ) (<slot> )) ))) (<slot> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> h) }) (<slot> ) (<slot> )) ))))
+
+Fitness:
+0.9693464426664598
+Metrics:
+Alignment:	0.9722179962654034
+Complexity:	0.9765376115171757
+Generalization:	0.9601575580561085
+Precision:	0.9492754146819483
+Simplicity:	1.0

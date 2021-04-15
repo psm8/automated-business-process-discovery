@@ -1,0 +1,19 @@
+Generation:
+50
+
+Phenotype:
+xor(xor(xor(xor(seq(and(and({a}){d}{c}{e}){h}))seq({a}{b}seq(lo4({f}{b})){d}{e}{g}))))
+
+Genotype:
+[43614, 47291, 37281, 74683, 34885, 97013, 94301, 73421, 53029, 24517, 45717, 16241, 94121, 14431, 69103, 94740, 88081, 39951, 88750, 69103, 96248, 59251, 90641, 29974, 61544, 78499, 21051, 49751, 23952, 37231, 20286, 98895, 30901, 16891, 72003, 6085, 10098, 505, 71701, 59641, 79055, 62252, 5391, 64481, 17508, 72171, 50177, 76083, 70976, 71153, 34685, 16717, 27781, 23151, 69248, 83591, 74821, 41111, 13581, 3771, 66361, 11520, 61477, 68618, 56385, 3871, 59111, 19044, 40515, 85713, 88880, 62252, 24272, 64, 77065, 40412, 2864, 77611, 38061, 22750, 96909, 95644, 75678, 99021, 51091, 95801, 17150, 30901, 78660, 48326, 15912, 57701, 80681, 15885, 41702, 52115, 50822, 67453, 88551, 11170, 68378, 64330, 92221, 7881, 35211, 38821, 54961, 58271, 87929, 60788, 13030, 91518, 81334, 17771, 7547, 69746, 17395, 36981, 16695, 97717, 73502, 35963, 93408, 70854, 88859, 80429, 57012, 42763, 36294]
+Tree:
+(<e> (<slot> ) (<slot> ) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> (<name> and) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> (<name> and) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> a) }) (<slot> ) (<slot> )) )) (<anygate> (<anygate> (<anygate> { (<event> d) }) (<anygate> { (<event> c) })) (<anygate> { (<event> e) }))) (<slot> ) (<slot> )) )) (<anygate> { (<event> h) })) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) )) (<slot> ) (<slot> (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> (<anygate> (<anygate> { (<event> a) }) (<anygate> { (<event> b) })) (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> lo (<0_n> 4)) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> f) }) (<slot> ) (<slot> (<anygate> { (<event> b) }))) )) (<slot> ) (<slot> )) ))) (<anygate> (<anygate> { (<event> d) }) (<anygate> { (<event> e) }))) (<slot> ) (<slot> (<anygate> { (<event> g) }))) )))) )) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) )) (<slot> ) (<slot> ))
+
+Fitness:
+0.9199964150658287
+Metrics:
+Alignment:	0.9331679333848273
+Complexity:	0.9589632355148938
+Generalization:	0.9488908438270203
+Precision:	0.9181517400015473
+Simplicity:	0.8421052631578947

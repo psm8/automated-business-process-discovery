@@ -1,0 +1,19 @@
+Generation:
+774
+
+Phenotype:
+xor(seq({a}lo3(xor(opt({c}{d}{f}){b}))xor(seq({e}))))xor(seq({g})seq({h}))
+
+Genotype:
+[55679, 98761, 57411, 91366, 32923, 631, 91501, 28531, 81313, 49808, 79982, 23550, 64997, 74199, 90630, 43051, 45447, 99263, 36194, 83301, 77291, 75787, 69553, 44352, 7560, 41806, 85769, 14422, 54651, 68531, 16434, 55143, 5333, 88992, 8147, 27049, 62966, 52668, 96271, 92211, 46261, 56486, 93462, 25241, 68631, 41621, 98621, 65356, 85645, 1532, 58371, 61931, 2650, 63740, 49950, 36261, 13501, 22538, 62803, 37841, 70011, 83301, 19851, 94051, 20711, 62211, 85741, 65130, 2338, 1189, 77660, 62590, 45865, 10100, 73171, 79951, 96271, 59615, 75658, 89221, 29501, 71801, 59272, 89210, 36869, 37211, 61741, 4301, 15797, 44671, 15811, 41701, 42091, 74631, 60358, 89233, 26530, 66869, 89401, 99574, 85035, 99845]
+Tree:
+(<e> (<slot> ) (<slot> ) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> seq) ( (<slots> (<slot> (<anygate> { (<event> a) })) (<slot> (<anygate> (<name> lo (<0_n> 3)) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> xor) ( (<slots> (<slot> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> (<anygate> { (<event> c) }) (<anygate> { (<event> d) })) (<anygate> { (<event> f) })) (<slot> ) (<slot> )) ))) (<slot> ) (<anygate> { (<event> b) }) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) ))) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> e) }) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) )) (<slot> (<anygate> (<name> xor) ( (<slots> (<slot> (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> g) }) (<slot> ) (<slot> )) ))) (<slot> ) (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> h) }) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) ))) (<slot> ))
+
+Fitness:
+0.9729060747712797
+Metrics:
+Alignment:	0.993166539945932
+Complexity:	0.9794646511228168
+Generalization:	0.9600164420941593
+Precision:	0.8776599215215888
+Simplicity:	1.0

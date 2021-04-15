@@ -1,0 +1,19 @@
+Generation:
+69
+
+Phenotype:
+{a}opt({b}lo0({f}))and({d}opt({c})){e}xor({h}{g})
+
+Genotype:
+[22990, 51050, 72593, 38179, 80170, 93994, 51533, 48145, 43231, 21721, 14324, 7565, 80170, 69877, 72735, 99865, 44288, 18021, 59901, 96215, 25809, 54741, 93451, 72691, 39199, 53316, 51971, 8031, 13311, 15519, 32792, 42487, 19219, 51533, 60064, 69161, 59901, 28943, 12598, 67901, 81441, 54331, 82791, 93260, 91964, 82432, 89430, 79969, 16939, 85032, 45821, 29201, 21204, 89294, 81732, 72515, 51466, 67061, 41731, 64805, 65231, 94894, 18446, 96048, 1712, 95935, 51778, 38367, 87298, 23293, 74890, 29884, 96757, 21760, 62670, 386, 62004, 53386, 45573, 60625, 8810, 52352, 80062, 93982, 52233, 1084, 20856]
+Tree:
+(<e> (<slot> (<anygate> { (<event> a) })) (<slot> (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> b) }) (<slot> (<anygate> (<name> lo (<0_n> 0)) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> f) }) (<slot> ) (<slot> )) ))) (<slot> )) ))) (<anygate> (<name> and) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> d) }) (<anygate> (<name> opt) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> c) }) (<slot> ) (<slot> )) ))) (<slot> ) (<slot> )) )) (<slot> (<anygate> { (<event> e) })) (<slot> (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> h) }) (<anygate> { (<event> g) })) (<slot> ) (<slot> )) ))))
+
+Fitness:
+0.971724748334355
+Metrics:
+Alignment:	0.9739924024055628
+Complexity:	0.9718679231891345
+Generalization:	0.9586701834838062
+Precision:	0.9595790967845865
+Simplicity:	1.0
