@@ -151,7 +151,7 @@ def parse_stats_from_runs(experiment_name, gen_no=1000, skip=False):
 
     gen_num = int(gen_no)
     if skip:
-        gen_no += "S"
+        gen_no += "S2"
     if not path.exists(path.join(file_path + "-results", gen_no)):
         makedirs(path.join(file_path + "-results", gen_no))
     
@@ -173,9 +173,9 @@ def parse_stats_from_runs(experiment_name, gen_no=1000, skip=False):
                 # Try to extract specific stat from the data.
                 if list(data[stat]):
                     data_local = list(data[stat])
-                    if len(data_local) < gen_num:
-                        if skip:
-                            break
+                    if len(data_local):
+                        if skip and len(data_local) < 3/4 * gen_num:
+                            continue
                         for i in range(len(data_local), gen_num):
                             data_local.append(data_local[-1])
                     summary_stats.append(data_local[:gen_num])
@@ -231,9 +231,41 @@ def parse_stats_from_runs(experiment_name, gen_no=1000, skip=False):
 
         try:
             alignment = list(data['alignment'])
+
+            if alignment:
+                if len(alignment) < gen_num:
+                    print(len(alignment))
+                    if skip and len(data_local) < 3/4 * gen_num:
+                        continue
+                    for i in range(len(alignment), gen_num):
+                        alignment.append(alignment[-1])
+
             generalization = list(data['generalization'])
+
+            if generalization:
+                if len(generalization) < gen_num:
+                    if skip and len(data_local) < 3/4 * gen_num:
+                        continue
+                    for i in range(len(generalization), gen_num):
+                        generalization.append(generalization[-1])
+
             precision = list(data['precision'])
+
+            if precision:
+                if len(precision) < gen_num:
+                    if skip and len(data_local) < 3/4 * gen_num:
+                        continue
+                    for i in range(len(precision), gen_num):
+                        precision.append(precision[-1])
+
             simplicity = list(data['simplicity'])
+
+            if simplicity:
+                if len(simplicity) < gen_num:
+                    if skip and len(data_local) < 3/4 * gen_num:
+                        continue
+                    for i in range(len(simplicity), gen_num):
+                        simplicity.append(simplicity[-1])
 
             data_local = []
             for i in range(gen_num):
@@ -416,6 +448,7 @@ def multi_save_average_plot_across_runs(filename, filename2):
 
     # Set x-axis limits.
     plt.xlim(0, max_gens + 1)
+    # plt.ylim(0.9, 1.0)
 
     # Set title and axes.
     plt.title("Average " + stat_name)
@@ -424,11 +457,119 @@ def multi_save_average_plot_across_runs(filename, filename2):
 
     # Save graph under the same name as the original .csv file but with a
     # .pdf extension instead.
-    new_filename = filename[:-3] + "pdf"
+    new_filename = filename[:-4] + "multi2.pdf"
     plt.savefig(str(new_filename))
 
     plt.close()
 
+
+def multi2_save_average_plot_across_runs(filename, filename2, filename3, filename4):
+    """
+    Saves an average plot of multiple runs. Input file data must be of the
+    format:
+
+        run0_gen0       run1_gen0       .   .   .   run(n-1)_gen0
+        run0_gen1       run1_gen1       .   .   .   run(n-1)_gen1
+        run0_gen2       run1_gen2       .   .   .   run(n-1)_gen2
+        .               .               .   .   .   .
+        .               .               .   .   .   .
+        .               .               .   .   .   .
+        run0_gen(n-1)   run1_gen(n-1)   .   .   .   run(n-1)_gen(n-1)
+        run0_gen(n)     run1_gen(n)     .   .   .   run(n-1)_gen(n)
+
+    The required file can be generated using
+
+        stats.parse_stats.parse_stats_from_runs()
+
+    Generates a .pdf graph of average value with standard deviation.
+    :param filename: the full file name of a .csv file containing the fitnesses
+    of each generation of multiple runs. Must be comma separated.
+    :return: Nothing.
+    """
+
+    # Get stat name from the filename. Used later for saving graph.
+    stat_name = filename.split(sep)[-1].split(".")[0]
+
+    # Load in data.
+    data = np.genfromtxt(filename, delimiter=',')[:, :-1]
+
+    # Generate average and standard deviations of loaded data.
+    ave = np.nanmean(data, axis=1)
+    std = np.nanstd(data, axis=1)
+
+    # Calculate max and min of standard deviation.
+    stdmax = ave + std
+    stdmin = ave - std
+
+    # Load in data.
+    data2 = np.genfromtxt(filename2, delimiter=',')[:, :-1]
+
+    # Generate average and standard deviations of loaded data.
+    ave2 = np.nanmean(data2, axis=1)
+    std2 = np.nanstd(data2, axis=1)
+
+    # Calculate max and min of standard deviation.
+    stdmax2 = ave2 + std2
+    stdmin2 = ave2 - std2
+
+    data3 = np.genfromtxt(filename3, delimiter=',')[:, :-1]
+
+    # Generate average and standard deviations of loaded data.
+    ave3 = np.nanmean(data3, axis=1)
+    std3 = np.nanstd(data3, axis=1)
+
+    # Calculate max and min of standard deviation.
+    stdmax3 = ave3 + std3
+    stdmin3 = ave3 - std3
+
+    data4 = np.genfromtxt(filename4, delimiter=',')[:, :-1]
+
+    # Generate average and standard deviations of loaded data.
+    ave4 = np.nanmean(data4, axis=1)
+    std4 = np.nanstd(data4, axis=1)
+
+    # Calculate max and min of standard deviation.
+    stdmax4 = ave4 + std4
+    stdmin4 = ave4 - std4
+
+    # Generate generation range over which data is to be graphed.
+    max_gens = len(ave)
+    r = range(1, max_gens + 1)
+
+    # Initialise figure plot.
+    fig = plt.figure()
+    ax1 = fig.add_subplot(1, 1, 1)
+
+    # Plot data and standard deviation infill.
+    ax1.plot(r, ave, color="blue", label="złożoność = 0; precyzja = 2")
+    ax1.fill_between(r, stdmin, stdmax, color="DodgerBlue", alpha=0.5)
+
+    ax1.plot(r, ave2, color="red", label="złożoność = 2; precyzja = 2")
+    ax1.fill_between(r, stdmin2, stdmax2, color="pink", alpha=0.5)
+
+    ax1.plot(r, ave3, color="green", label="złożoność = 0; precyzja = 4")
+    ax1.fill_between(r, stdmin3, stdmax3, color="lime", alpha=0.5)
+
+    ax1.plot(r, ave4, color="orange", label="złożoność = 2; precyzja = 4")
+    ax1.fill_between(r, stdmin4, stdmax4, color="yellow", alpha=0.5)
+
+    # Set x-axis limits.
+    plt.xlim(0, max_gens + 1)
+    # plt.ylim(0.9, 1.0)
+
+    plt.legend(loc="upper left")
+
+    # Set title and axes.
+    plt.title("Average " + stat_name)
+    plt.xlabel('Generation', fontsize=14)
+    plt.ylabel('Average ' + stat_name, fontsize=14)
+
+    # Save graph under the same name as the original .csv file but with a
+    # .pdf extension instead.
+    new_filename = filename[:-4] + "multi4.pdf"
+    plt.savefig(str(new_filename))
+
+    plt.close()
 
 if __name__ == "__main__":
     # # Get experiment name and graphing flag from command line parser.
