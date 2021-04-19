@@ -329,7 +329,7 @@ Pierwszy aspektem, który zbadano, był czas trwania ewolucji. Na rysunku \ref{f
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.6]{total_timemulti4.pdf}}
-	\caption{\label{fig:total_timemulti4}Czas trwania ewolucji}
+	\caption{\label{fig:total_timemulti4}Czas i odchylenie standardowe trwania ewolucji}
 \end{figure}
 
  \begin{center}
@@ -353,7 +353,7 @@ Warto zaznaczyć, że licząc średnią, nie wzięto pod uwagę złożoności, g
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.5]{complexity-summary-part23.png}}
-	\caption{\label{fig:complexity-summary}Wartości poszczególnych metryk}
+	\caption{\label{fig:complexity-summary}Wartości i odchylenie standardowe poszczególnych metryk}
 \end{figure}
 
  \begin{center}
@@ -377,3 +377,4 @@ Analizując czasy ewolucji dla przedstawionych przykładów, można zauważyć, 
 
 Dobór wag metryk oddziałuje nie tylko na końcowy model, ale także na każdy model - osobnika w populacji na każdym etapie ewolucji, dlatego wagi metryk powinny być dobierane nie tylko pod kątem końcowego rozwiązania, ale także z myślą o tym, czy wybrany zbiór wag pozwoli na otrzymanie tego rezultatu. Na wykresach pokazujących przebieg ewolucji można zaobserwować wiele przykładów gdzie, aby model mógł stać się ogólnie lepszy, konieczne było tymczasowe pogorszenie się, którejś z metryk. Z tego powodu ważne jest, żeby zachować balans pomiędzy nimi i nawet jeśli w pożądane jest zoptymalizowanie końcowego modelu pod kątem konkretnej metryki, należy ustalić ją tak, żeby nie zdominowała całego procesu ewolucji. 
 
+Po eksperymentach można dojść do wniosku, że wybierając metryki, należy się kierować się ich wpływem na proces ewolucji, a nie końcowy rezultat. Powszechnie używane w eksploracji procesów metryki jak generalizacja nie mają dużego wpływu na działanie algorytmu ewolucyjnego, podczas gdy nowe, nieznane metryki jak złożoność niemające zastosowania do oceny końcowego modelu mogą mieć korzystny wpływ na przebieg ewolucji poprzez ukierunkowanie doboru pośrednich osobników we właściwą stronę, co pozwoli znaleźć lepszy finalny model.

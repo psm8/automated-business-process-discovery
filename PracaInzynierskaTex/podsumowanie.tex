@@ -1,10 +1,17 @@
 \chapter{Podsumowanie}
-Obie technologie przyszłościowe i wraz ze wzrostem mocy obliczeniowych.
 
-Jest pole do rozwoju tak jak dla obu dziedziny 
+Przy użyciu stworzonego programu możliwe jest odkrywanie najlepszych lub będących blisko optymalnych modeli procesów biznesowych. Może on być łatwo konfigurowany i pozwala na swobodnie eksperymentowanie podczas znajdowania modeli celem znalezienia tego, który najlepiej spełnia założenia i potrzeby. Przy jego pomocy możliwe jest znalezienie dowolnie dobrego modelu i nie dotykają go ograniczenia znane z klasycznych algorytmów. Ze sposobu działania algorytmów ewolucyjnych wynika jednak problem - program nie daje on gwarancji znalezienia najlepszego rozwiązania, a w niektórych przypadkach konieczne było kilkanaście jego uruchomień, żeby znaleźć rozwiązania z wartością odwzorowania równą jeden, czyli bezbłędnie opisujące wszystkie warianty procesu. Uruchomianie kilku instancji programu równolegle nie jest jednak problemem, dlatego sugerowany jest podział dostępnej mocy obliczeniowej i wybór najlepszego modelu spośród otrzymanych rozwiązań. 
 
-Trzeba się trochę namęczyć
+Główną przeszkodą podczas tworzenia programu było połączenie wiedzy z dziedzin eksploracji procesów, algorytmów ewolucyjnych oraz lingwistyka we wspólną całość. Zmiany dotyczące jednego zagadnienia nie mogą być traktowane oddzielnie, a wprowadzając do programu rozwiązania dotyczące jednej z jego części konieczna była modyfikacja innych, w celu ich jak najlepszego współdziałania.
 
-Wszystko się udało 
+Przykładem przenikania się wiedzy z dwóch dziedzin jest dodatkowa zaproponowana metryka - złożoność. Jej użycie daje obiecujące rezultaty i wpływa korzystnie na czas potrzebny do znalezienia rozwiązania. Należy zaznaczyć, że jej użycie powinno przede wszystkim sygnalizować możliwość ewoluowania modelu uwzględniający fakt, że odkrywanie procesu odbywa się właśnie metodą ewolucyjną. Sama metryka jest tylko jedną z możliwych propozycji, ale patrząc szerzej, można zaproponować inne sposoby jej obliczania, jak i inne techniki poprawiające działanie podobnych programów poprzez metody wychodzące poza dziedzinę eksploracji procesów. Pokazano też, że niektóre metryki takie jak generalizacja i prostota nie są konieczne podczas ewolucji.
 
-Złożoność można pewnie znaleźć lepszą, ale jest przepotężna i ma potencjał
+Podczas implementacji duży nacisk został położony na minimalizację czasu obliczeń. Algorytmy ewolucyjne rozwiązują problem metodą prób i błędów bazując na przeszukaniu jak największej ilości możliwych rozwiązań, dlatego tak ważne jest, żeby pojedyncza iteracja zajmowała jak najmniej czasu. Konieczne było więc nie tylko stworzenie działającego programu, ale też ciągłe wprowadzenie poprawek zmniejszających czas potrzebny na znalezienie modelu.
+
+W algorytmach ewolucyjnych najważniejsza jest eksploracja, więc czerpiąc z tego podejścia i z obserwacji podczas tworzenia pracy tematyka w niej poruszana może być rozwijana, w szczególności poprzez wprowadzenie bardziej zaawansowanych metod ewolucji oraz eksperymentowanie z innymi gramatykami opisującymi procesy biznesowe. 
+
+Same algorytmy ewolucyjne są ciekawym sposobem rozwiązywania problemów, bo mniejsze znaczenie ma przy nich ekspercka wiedza z danej dziedziny, a ważniejsze jest zoptymalizowanie sposobu rozwiązania problemu pod kątem takich algorytmów, do czego może być konieczne wyjście poza przyjęta w danej dziedzinie schematy. Rozwiązania znalezione przez takie algorytmy mogą być innowacyjne, a same algorytmy świetnie sprawdzają się tam, gdzie nie ma powszechnie przyjętych, klasycznych metod. 
+
+Zarówno dla eksploracji procesów, jak i algorytmów ewolucyjnych istnieje pole do rozwoju, gdyż głównym problemem, z którym obecnie się borykają, są możliwości obliczeniowe współczesnych komputerów. Wraz z ich wzrostem w przyszłości można się więc spodziewać rozkwitu obu dziedzin. 
+
+
