@@ -77,7 +77,7 @@ Użycie powyższego zapisu jest poprawne, jednak kodowanie pętli w ten sposób 
 Implementację podzielone na następujące moduły:
 \begin{itemize}
   \item[•] wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego, żeby oddzielić kod PonyGE2 od logiki odkrywania procesów biznesowych, w tym module rozszerzono lub nadpisano cześć z modułów tej biblioteki. Dodano także rozszerzenia do PonyGE2 dodające nowe, brakujące funkcjonalności.
-  \item[•] fitness{\_}functions - moduł, w którym znajduje się klasa do obliczania dopasowania, która korzysta z metod w module process{\_}discovery.
+  \item[•] fitness{\_}functions - moduł, w którym znajduje się klasa do obliczania funkcji dopasowania, która korzysta z metod w module process{\_}discovery.
   \item[•] process{\_}discovery - moduł zawiera całą logikę parsowania modelu i obliczenia metryk.
 \end{itemize}
 
@@ -104,7 +104,7 @@ Model w formie ciągu znaków musi być zamieniony na formę, na której łatwie
   \item[•] get$\_$all$\_$n$\_$length$\_$routes() - zwraca możliwe ścieżki w modelu o danej długości jako tablicę obiektów BaseGroup, co jest potrzebne przy liczeniu odwzorowania
 \end{itemize}
 
-Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na dużą ilość bramek logicznych, dlatego konieczne jest przerobienie tych obiektów na uproszczoną formę pośrednią. Są nią obiekty klas dziedziczących po BaseGroup, które dzielą się pod względem tego, czy aktywności w nich zgrupowane mogą być wykonywane w dowolnej kolejność - EventGroupParallel czy muszą być wykonywane kolejno po sobie - EventGroup. Są to wystarczające informacje do obliczenia dopasowania, a dzięki temu algorytmu ten jest prostszy. Takie rozgraniczenie pozwala również na dodawanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie dopasowania, która jest najbardziej złożonym algorytmem występującym w programie i warto ograniczyć do minimum szansę na konieczność ewentualnych jego modyfikacji. 
+Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na dużą ilość bramek logicznych, dlatego konieczne jest przerobienie tych obiektów na uproszczoną formę pośrednią. Są nią obiekty klas dziedziczących po BaseGroup, które dzielą się pod względem tego, czy aktywności w nich zgrupowane mogą być wykonywane w dowolnej kolejność - EventGroupParallel czy muszą być wykonywane kolejno po sobie - EventGroup. Są to wystarczające informacje do obliczenia odwzorowania, a dzięki temu algorytmu ten jest prostszy. Takie rozgraniczenie pozwala również na dodawanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie odwzorowania, która jest najbardziej złożonym algorytmem występującym w programie i warto ograniczyć do minimum szansę na konieczność ewentualnych jego modyfikacji. 
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{EventUML.png}}
@@ -128,7 +128,7 @@ W tej części przedstawiono listingi z pseudokodem opartym na języku Python. T
 \subsection{Parsowanie gramatyki}
 Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze ewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci zagnieżdżonych obiektów Gate, które zawierają obiekty Event.
 
-Metoda należy do obiektu Gate i bezpośrednio modyfikuje obiekt, na którym jest wywoływana. Argumentem metody jest wyrażenie wygenerowane w procesie ewolucji. Zwracana jest natomiast ilość przeparsowanych znaków. To na tym etapie odrzucamy też procesy, które, mimo że gramatyka pozwala na ich stworzenie, nie mają sensu z punktu widzenia biznesowego. Pozwala na ograniczenie zbędnego wykorzystania zasobów i niekontynuowanie obliczeń dla modeli, które są bezwartościowe. Są to na przykład procesy, które pozwalają na posiadanie w jednej bramce dwóch takich samych aktywności. Parsując, korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3-literowymi symbolami, a wszystkie aktywności otoczone są nawiasami klamrowymi. Pasowanie bramek można podzielić na trzy przypadki:
+Metoda należy do obiektu Gate i bezpośrednio modyfikuje obiekt, na którym jest wywoływana. Argumentem metody jest wyrażenie wygenerowane w procesie ewolucji. Zwracana jest natomiast ilość przeparsowanych znaków. To na tym etapie odrzucamy też procesy, które, mimo że gramatyka pozwala na ich stworzenie, nie mają sensu z punktu widzenia biznesowego. Pozwala na ograniczenie zbędnego wykorzystania zasobów i niekontynuowanie obliczeń dla modeli, które są bezwartościowe. Na przykład takie, które pozwalają na posiadanie w jednej bramce dwóch takich samych aktywności. Parsując, korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3-literowymi symbolami, a wszystkie aktywności otoczone są nawiasami klamrowymi. Pasowanie bramek można podzielić na trzy przypadki:
 \begin{itemize}   
   \item[•] Bramki ,,seq'' wewnątrz bramek ,,lop'' lub ,,seq'' są redundantne i mogą zostać pominięte.
   \item[•] Pętle ze względu na konieczność specjalnego parsowanie ze względu na problem opisany w sekcji \ref{sec:businessGrammarCreation}.
@@ -177,9 +177,9 @@ def parsuj(wyrażenie: str) -> int:
 \end{lstlisting}
 
 \subsection{Obliczanie metryk}
-Argumentami metody są obiekt LogInfo zawierający dane i metody dotyczące wariantów, model, czyli obiekt Gate, najkrótsza i najdłuższa dozwolona długość modelu obliczane na podstawie parametru podanego w konfiguracji programu, dzięki czemu możliwe jest zmniejszenie ilości obliczeń oraz cache. Zwracana jest natomiast średnia ważona metryk, czyli wartość funkcji dopasowania. Metryką, która nie wymaga czasochłonnego obliczenia dopasowania, jest prostota, dlatego możemy ją obliczyć wcześniej, co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów. Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu, dopasowanie nie będzie dobre. Pozwala to przerwać obliczenia, jeżeli stosunek wspólnych zdarzeń w logu i modelu jest mniejszy niż skonfigurowany parametr. Pozostałe metryki wymagają już obliczenia odwzorowania i są obliczane dla najlepiej dopasowanej gramatyki. 
+Argumentami metody są obiekt LogInfo zawierający dane i metody dotyczące wariantów, model, czyli obiekt Gate, najkrótsza i najdłuższa dozwolona długość modelu obliczane na podstawie parametru podanego w konfiguracji programu, dzięki czemu możliwe jest zmniejszenie ilości obliczeń oraz cache. Zwracana jest natomiast średnia ważona metryk, czyli wartość funkcji dopasowania. Metryką, która nie wymaga czasochłonnego obliczenia odwzorowania, jest prostota, dlatego możemy ją obliczyć wcześniej, co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów. Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu, odwzorowanie nie będzie dobre. Pozwala to przerwać obliczenia, jeżeli stosunek wspólnych zdarzeń w logu i modelu jest mniejszy niż skonfigurowany parametr. Pozostałe metryki wymagają już obliczenia odwzorowania i są obliczane dla najlepiej odwzorowanej ścieżki. 
 
-Odwzorowanie obliczane jest osobno dla każdego wariantu w logu, który jest reprezentowany jako tablica znaków. Jeśli błąd dopasowania wynosi 0, to ilość wystąpień danego wariantu konieczna do obliczenia precyzji jest zapisywany w słowniku. Dodawana do każdej aktywności jest też ilość jej dotychczasowych wystąpień potrzebna we wzorze na generalizację.
+Odwzorowanie obliczane jest osobno dla każdego wariantu w logu, który jest reprezentowany jako tablica znaków. Jeśli błąd odwzorowania wynosi 0, to ilość wystąpień danego wariantu konieczna do obliczenia precyzji jest zapisywany w słowniku. Dodawana do każdej aktywności jest też ilość jej dotychczasowych wystąpień potrzebna we wzorze na generalizację.
 
 Po uzyskaniu tych informacji dla wszystkich wariantów obliczamy średnią ważoną metryk zgodnie ze wzorami w sekcji \ref{sec:metrics-details} i uzyskujemy w ten sposób wartość funkcji dopasowania.
 
@@ -205,11 +205,11 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
    skumulowany_błąd := 0
     
    for wariant in log:
-      minimalny_błąd_dopasowania,najlepiej_dopasowane_zdarzenia,najlepsza_ścieżka := 
-      oblicz_dopasowanie_dla_jednego_wariantu(wariant, model, 
+      minimalny_błąd_odwzorowania,najlepiej_dopasowane_zdarzenia,najlepsza_ścieżka := 
+      oblicz_odwzorowanie_dla_jednego_wariantu(wariant, model, 
                                               najkrótsza_dozwolona_długość, 
                                               najdłuższa_dozwolona_długość, cache)
-      if minimalny_błąd_dopasowania == 0:
+      if minimalny_błąd_odwzorowania == 0:
          idealnie_dopasowane_logi[najlepiej_dopasowane_zdarzenia] := 
          log_info[wariant].ilość_wystąpień
       dodaj_wystąpienia(lista_zdarzeń_w_modelu, najlepiej_dopasowane_zdarzenia, 
@@ -220,32 +220,32 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
    return fitness
 \end{lstlisting}
 
-\subsection{Obliczanie dopasowania dla pojedynczego wariantu}
-Procedurę obliczenia dopasowana można podzielić następująco:
+\subsection{Obliczanie odwzorowania dla pojedynczego wariantu}
+Procedurę obliczenia odwzorowania można podzielić następująco:
 \begin{itemize}
   \item[•] Znalezienie ścieżek o długości \textbf{n} w modelu.
   \item[•] Przerobienie ścieżek na postać BaseGroup.
-  \item[•] Obliczenie dopasowania.
+  \item[•] Obliczenie odwzorowania.
 \end{itemize}
 
-Argumentami metody są wariant, model, najkrótsza i najdłuższa dozwolona długość modelu oraz cache. Zwracane są natomiast minimalny błąd dopasowania jako liczba całkowita niedodatnia, najlepiej dopasowane zdarzenia jako tablica obiektów Event oraz najlepsza ścieżka jako obiekt BaseGroup.
+Argumentami metody są wariant, model, najkrótsza i najdłuższa dozwolona długość modelu oraz cache. Zwracane są natomiast minimalny błąd odwzorowania jako liczba całkowita niedodatnia, najlepiej dopasowane zdarzenia jako tablica obiektów Event oraz najlepsza ścieżka jako obiekt BaseGroup.
 
-Algorytm obliczania dopasowania wymaga ścieżek o stałej, określonej długość. Ważne jest, żeby jak najbardziej ograniczyć czas potrzebny na znalezienie najlepszej ścieżki, dlatego obliczanie dopasowania rozpoczynamy o \textbf{n} równego długości wariantu. Jeśli \textbf{n} jest różne od długości ścieżki, błąd dopasowania zawsze będzie równy przynajmniej różnicy tych wartości. Jednak wciąż może być lepszy niż aktualnie najmniejszy, więc obliczamy dopasowanie kolejno dla ścieżek o długości n-1, n+1, n-2, n+2... aż do momentu, dopóki jest możliwe uzyskanie mniejszego błędu lub zostanie osiągnięty limit, do którego w konfiguracji zezwolono na szukanie. 
+Algorytm obliczania odwzorowania wymaga ścieżek o stałej, określonej długość. Ważne jest, żeby jak najbardziej ograniczyć czas potrzebny na znalezienie najlepszej ścieżki, dlatego obliczanie odwzorowania rozpoczynamy o \textbf{n} równego długości wariantu. Jeśli \textbf{n} jest różne od długości ścieżki, błąd odwzorowania zawsze będzie równy przynajmniej różnicy tych wartości. Jednak wciąż może być lepszy niż aktualnie najmniejszy, więc obliczamy odwzorowanie kolejno dla ścieżek o długości n-1, n+1, n-2, n+2... aż do momentu, dopóki jest możliwe uzyskanie mniejszego błędu lub zostanie osiągnięty limit, do którego w konfiguracji zezwolono na szukanie. 
 
-Następnie obliczane jest najwcześniejsze i najpóźniejsze wystąpienie danej aktywności w modelu, co ułatwi dalsze obliczenia. W kolejnym kroku znajdowane są wszystkie ścieżki o długości \textbf{n} w modelu i są one sortowane względem procentu wspólnych zdarzeń w modelu i logu. Możemy z tego wywnioskować jakie najlepsze dopasowanie można otrzymać dla danej ścieżki i ewentualnie jeśli przekroczona jest dopuszczalna tolerancja błędu dopasowania lub nie jest możliwe już zmniejszenie błędu przerwanie obliczeń dla niej.    
+Następnie obliczane jest najwcześniejsze i najpóźniejsze wystąpienie danej aktywności w modelu, co ułatwi dalsze obliczenia. W kolejnym kroku znajdowane są wszystkie ścieżki o długości \textbf{n} w modelu i są one sortowane względem procentu wspólnych zdarzeń w modelu i logu. Możemy z tego wywnioskować jakie najlepsze odwzorowanie można otrzymać dla danej ścieżki i ewentualnie jeśli przekroczona jest dopuszczalna tolerancja błędu odwzorowania lub nie jest możliwe już zmniejszenie błędu przerwanie obliczeń dla niej.    
 
-W końcu zgodnie z kolejnością po sortowaniu obliczane jest dopasowanie i jeśli błąd jest mniejszy niż aktualnie najmniejszy, zamieniane są wartości minimalnego błędu dopasowania, najlepiej dopasowane zdarzenia i najlepsza ścieżka, a jeśli błąd wynosi 0, algorytm jest przerywany i te wartości są zwracane.
+W końcu zgodnie z kolejnością po sortowaniu obliczane jest odwzorowanie i jeśli błąd jest mniejszy niż aktualnie najmniejszy, zamieniane są wartości minimalnego błędu odwzorowania, najlepiej dopasowane zdarzenia i najlepsza ścieżka, a jeśli błąd wynosi 0, algorytm jest przerywany i te wartości są zwracane.
 
-\lstset{caption=Obliczanie dopasowania dla jednego wariantu, captionpos=b}
+\lstset{caption=Obliczanie odwzorowania dla jednego wariantu, captionpos=b}
 \lstset{label=src:best_result, frame=single}
 \begin{lstlisting}
-def oblicz_dopasowanie_dla_jednego_wariantu(wariant, model, 
+def oblicz_odwzorowanie_dla_jednego_wariantu(wariant, model, 
                                             najkrótsza_dozwolona_długość, 
                                             najdłuższa_dozwolona_długość, cache):
    dłogość_wariantu := oblicz_długość(wariantu)
    n := dłogość_wariantu
    i := 1
-   minimalny_błąd_dopasowania := -(dłogość_wariantu + model.minimalna_długość)
+   minimalny_błąd_odwzorowania := -(dłogość_wariantu + model.minimalna_długość)
    najlepiej_dopasowane_zdarzenia := []
    najlepsza_ścieżka := []
    dolny_limit_osiągnięty := False
@@ -253,12 +253,12 @@ def oblicz_dopasowanie_dla_jednego_wariantu(wariant, model,
    
    while not (dolny_limit_osiągnięty and górny_limit_osiągnięty):
       if n >= min(oblicz_maksymalną_dozwoloną_długość(dłogość_procesu), 
-                  dłogość_procesu - minimalny_błąd_dopasowania):
+                  dłogość_procesu - minimalny_błąd_odwzorowania):
          górny_limit_osiągnięty := True
          n += (-i if i % 2 == 1 else i); i += 1
          continue
       if n <= max(oblicz_minimalną_dozwoloną_długość(dłogość_wariantu), 
-                  dłogość_wariantu + minimalny_błąd_dopasowania):
+                  dłogość_wariantu + minimalny_błąd_odwzorowania):
          dolny_limit_osiągnięty := True
          n += (-i if i % 2 == 1 else i); i += 1
          continue
@@ -270,30 +270,30 @@ def oblicz_dopasowanie_dla_jednego_wariantu(wariant, model,
             for ścieżka in ścieżki:
                procent_wspólnych_zdarzeń := oblicz_procent_wspólnych_zdarzeń_
                   w_modelu_i_logu(ścieżka, wariant)
-               if procent_wspólnych_zdarzeń >= 1 - TOLERANCJA_BŁĘDU_DOPASOWANIA:
+               if procent_wspólnych_zdarzeń >= 1 - TOLERANCJA_BŁĘDU_ODWZOROWANIA:
                   dodaj sćiezkę do lista_ścieżek_do_obliczenia
             posortowane_ścieżki := posortuj lista_ścieżek_do_obliczenia
             for ścieżka in posortowane_ścieżki:
-               if procent_wspólnych_zdarzeń <= 1 + minimalny_błąd_dopasowania /
+               if procent_wspólnych_zdarzeń <= 1 + minimalny_błąd_odwzorowania /
                   długość_wariantu:
                   break
-               błąd_dopasowania, najlepiej_dopasowane_zdarzenia :=
-               oblicz_dopasowanie(ścieżka, wariant, cache)
-               if błąd_dopasowania > minimalny_błąd_dopasowania:
-                  minimalny_błąd_dopasowania := błąd_dopasowania
+               błąd_odwzorowania, najlepiej_dopasowane_zdarzenia :=
+               oblicz_odwzorowanie(ścieżka, wariant, cache)
+               if błąd_odwzorowania > minimalny_błąd_odwzorowania:
+                  minimalny_błąd_odwzorowania := błąd_odwzorowania
                   najlepiej_dopasowane_zdarzenia := dopasowane_zdarzenia
                   najlepsza_ścieżka := scieżka
-               if błąd_dopasowania == 0:
-                  return minimalny_błąd_dopasowania, najlepiej_dopasowane_
+               if błąd_odwzorowania == 0:
+                  return minimalny_błąd_odwzorowania, najlepiej_dopasowane_
                          zdarzenia, najlepsza_ścieżka
       n += (-i if i % 2 == 1 else i); i += 1
-   return minimalny_błąd_dopasowania, najlepiej_dopasowane_zdarzenia, 
+   return minimalny_błąd_odwzorowania, najlepiej_dopasowane_zdarzenia, 
           najlepsza_ścieżka
 \end{lstlisting}
 
 \subsection{Wyszukiwanie w modelu ścieżek o określonej długości}
 
-Łatwiejszym niż obliczenie dopasowania dla modelu składającego się z bramek logicznych jest znalezienie najpierw w modelu wszystkich ścieżek o określonej długości. Algorytm służący do tego jest kolejno wywoływane dla wszystkich bramek - podmodeli, a następnie na podstawie ścieżek znalezionych w podmodelach są tworzone ścieżki dla całego modelu. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki ,,and''.  
+Łatwiejszym niż obliczenie odwzorowania dla modelu składającego się z bramek logicznych jest znalezienie najpierw w modelu wszystkich ścieżek o określonej długości i następnie jego obliczenie dla nich. Algorytm służący do tego jest kolejno wywoływane dla wszystkich bramek - podmodeli, a następnie na podstawie ścieżek znalezionych w podmodelach są tworzone ścieżki dla całego modelu. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki ,,and''.  
 
 Argumentami metody długość szukanej ścieżki oraz wariant jako tablica znaków potrzebny wyszukiwanie ścieżek dla obiektu LopGate. Zwracana jest natomiast lista wszystkich ścieżek o określonej długość jako obiekty BaseGroup, a w przypadku błędu None.
 
@@ -351,12 +351,12 @@ def znajdź_wszystkie_ścieżki_długości_n(n, wariant) -> [BaseGroup]:
       return None
 \end{lstlisting}
 
-\subsection{Obliczanie dopasowania}
+\subsection{Obliczanie odwzorowania}
 Pomysł zaczerpnięty z algorytmu Needlemann-Wunsch \cite{ea252fd3937a4a309a5e07e61e5531a7}, który jest uogólnieniem odległości Levenshteina dla dowolnych wartości błędów. Tworzymy macierz o wymiarach długość modelu i długość logu, w której obliczana jest najmniejsza suma błędów. Rozwinięty o możliwość przeszukiwania modelu rekurencyjnie oraz o możliwość podawania listy równoległych zdarzeń.
 
 Podstawowy algorytm można opisać za pomocą czterech kroków dla każdego zdarzenia:  
 \begin{enumerate}
-  \item Oblicz wartość w poprzednim wierszu i kolumnie dodać błąd ,,dopasowanie'' lub ,,brak dopasowania''.
+  \item Oblicz wartość w poprzednim wierszu i kolumnie dodać błąd ,,odwzorowanie'' lub ,,brak odwzorowania''.
   \item Oblicz wartość w poprzednim wierszu dodać błąd ,,przerwa''.
   \item Oblicz wartość w poprzedniej kolumnie dodać błąd ,,przerwa''.
   \item Wybierz najmniejszą wartość.
@@ -368,15 +368,15 @@ Podstawowy algorytm można opisać za pomocą czterech kroków dla każdego zdar
 \end{figure}
 
 
-Argumentami metody model jako obiekt Gate oraz wariant jako tablica znaków. Zwracane są natomiast ostatni wiersz, który zawiera błąd dopasowania modelu oraz pośrednie błędy dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu, co jest potrzebne, jeśli model zawiera podmodele oraz najlepiej dopasowana ścieżka. Metoda opakowana jest w metodę, która jeśli dla danego modelu i wariantu zostało już obliczone dopasowanie, zwraca rozwiązanie z cache bez powtarzania obliczeń.
+Argumentami metody model jako obiekt Gate oraz wariant jako tablica znaków. Zwracane są natomiast ostatni wiersz, który zawiera błąd odwzorowania modelu oraz pośrednie błędy dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu, co jest potrzebne, jeśli model zawiera podmodele oraz najlepiej dopasowana ścieżka. Metoda opakowana jest w metodę, która jeśli dla danego modelu i wariantu zostało już obliczone odwzorowanie, zwraca rozwiązanie z cache bez powtarzania obliczeń.
 
 Zgodnie z \ref{sec:alignment-calculation} brakujące zdarzenie to błąd wynosi 1, a jeśli się nie zgadzają - 2. Stworzona macierz jest inicjalizowana zerami, a następnie pierwsza kolumna jest wypełniana stosownymi wartościami błędu. Są trzy opcja normalne obliczenie zgodne z klasycznym algorytmem, a także sytuacja, w której model zawiera podmodele, gdzie algorytm jest powtórnie wywoływany dla podmodelu i dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu lub gdy zawiera zdarzenia równoległe - EventGroupParallel wtedy stosujemy inny algorytm, który bezpośrednio porównuje wszystkie zdarzenia w wariancie ze zdarzeniami w obiekcie EventGroupParallel. 
      
-\lstset{caption=Obliczanie dopasowania, captionpos=b}
+\lstset{caption=Obliczanie odwzorowania, captionpos=b}
 \lstset{label=src:alignment_calculation, frame=single}
 \begin{lstlisting}[escapeinside=``]
-def oblicz_dopasowanie(model, wariant):
-   błąd := {'DOPASOWANIE': 0, 'BRAK_DOPASOWANIA': -2, 'PRZERWA': -1}
+def oblicz_odwzorowanie(model, wariant):
+   błąd := {'ODWZOROWANIE': 0, 'BRAK_ODWZOROWANIA': -2, 'PRZERWA': -1}
    ilość_wierszy = długość(model) + 1
    ilość_kolumn = długość(wariant) + 1
    najlepiej_dopasowane_ścieżki_podmodeli := [None] * ilość_wierszy
@@ -388,15 +388,15 @@ def oblicz_dopasowanie(model, wariant):
    for i in range(1, ilość_wierszy):
       if jest_podmodelem(model[i-1]):
          macierz_rozwiązań[i], najlepiej_dopasowane_ścieżki_podmodeli[i] := 
-         dopasowanie_podmodeli(macierz_rozwiazań[i - 1], model[i - 1],
+         odwzorowanie_podmodeli(macierz_rozwiazań[i - 1], model[i - 1],
                                   [x for x in odwrócone_substringi(wariant)], i)
       elif długość(model[i-1]) > 1:
          macierz_rozwiązań[i], najlepiej_dopasowane_ścieżki_podmodelu[i] := 
-         dopasowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
+         odwzorowanie_równoległe(macierz_rozwiazan[i - 1], model[i - 1],
                                 [x for x in odwrócone_substringi(wariant)], kara, i)
       else:
          macierz_rozwiazań[i][0] := macierz_rozwiązań[i-1][0] + kara['PRZERWA']
-         dopasowanie(macierz_rozwiazań, model[i - 1], wariant, kara, i, ilość_kolumn)
+         odwzorowanie(macierz_rozwiazań, model[i - 1], wariant, kara, i, ilość_kolumn)
 
    najlepiej_dopasowana_ścieżka := 
    znajdź_ściezkę(macierz_rozwiązań, błąd['PRZERWA'], model, wariant, 
@@ -406,15 +406,15 @@ def oblicz_dopasowanie(model, wariant):
 \end{lstlisting}
 
 \subsection{Znajdowanie najlepiej dopasowanych aktywności w modelu}
-Potrzebne do obliczenia precyzji oraz generalizacji. Algorytm obliczanie dopasowania zwraca najmniejszy błąd, ale nie daje informacji o tym, dla jakiej ścieżki otrzymano ten błąd. Dodatkowo Znajdowanie najlepiej dopasowanych aktywności w modelu jest utrudnione przez fakt, że modele może składać się z podmodeli - BaseGroup. 
+Potrzebne do obliczenia precyzji oraz generalizacji. Algorytm obliczanie odwzorowania zwraca najmniejszy błąd, ale nie daje informacji o tym, dla jakiej ścieżki otrzymano ten błąd. Dodatkowo znajdowanie najlepiej dopasowanych aktywności w modelu jest utrudnione przez fakt, że modele może składać się z podmodeli - BaseGroup. 
 
 Argumentami metody są kopia macierzy rozwiązań, model, kopia wariantu oraz rozwiązania podmodeli. Zwracana jest natomiast najlepiej dopasowana ścieżka.
 
-Algorytm zaczyna znajdowanie ścieżki od ostatniego elementu i cofa się do początku. W komórkach, dla których znaleziono dopasowanie, wpisywane jest 0. Tak jak poprzednio, są trzy możliwość brak zdarzenia w modelu, w logu, oraz zupełna niezgodność. Ścieżki szuka się poprzez porównywanie wartości w komórce z suma błędów z wartościami odpowiednich kolumn. Znalezioną ścieżkę pokazano na rysunku \ref{fig:algo_example}. Uwzględnione muszą być dwie sytuacje - taka, w której dana pozycja została obliczona dla podmodelu lub nie.
+Algorytm zaczyna znajdowanie ścieżki od ostatniego elementu i cofa się do początku. W komórkach, dla których znaleziono dopasowanie, wpisywane jest 0. Tak jak poprzednio, są trzy możliwość brak zdarzenia w modelu, w logu, oraz zupełna niezgodność. Ścieżki szuka się poprzez porównywanie wartości w komórce z suma błędów z wartościami odpowiednich kolumn. Znalezioną ścieżkę pokazano na rysunku \ref{fig:algo_example}. Uwzględnione muszą być dwie sytuacje - taką, w której dana pozycja została obliczona dla podmodelu lub nie.
 
-W tym drugim, jeśli zdarzenie zostało pominięte w modelu, to wpisywane jest do ścieżki None, natomiast jeżeli zostało znalezione dopasowanie, to dodajemy zdarzenie do modelu i usuwamy z wariantu.
+W tym drugim przypadku, jeśli zdarzenie zostało pominięte w modelu, to wpisywane jest do ścieżki None, natomiast jeżeli zostało znalezione dopasowanie, to zdarzenie jest dodawane do ścieżki i usuwane z wariantu.
 
-Jeśli dana pozycja została obliczona dla podmodelu, algorytm działa podobnie, największą różnicą jest to, że w takiej sytuacji nie ma jednego zdarzenie tylko kilka i tylko część może się zgadzać. Dlatego znajdujemy ostatnie \textbf{k} zdarzeń w podmodelu dla każdego podwariantu i kolejno porównujemy ich ilość i różnicę w błędzie, dzięki czemu dowiemy się, dla którego podwariantu znaleziono najlepsze dopasowanie. 
+Jeśli dana pozycja została obliczona dla podmodelu, algorytm działa podobnie, największą różnicą jest to, że w takiej sytuacji nie ma jednego zdarzenie tylko kilka i tylko część może się zgadzać. Dlatego znajdowane jest ostatnie \textbf{k} zdarzeń w podmodelu dla każdego podwariantu i kolejno porównywane są ich ilość i różnica w błędzie, dzięki czemu można stwierdzić, dla którego podwariantu znaleziono najlepsze odwzorowanie. 
 
 \lstset{caption=Znajdowanie ścieżki w modelu, captionpos=b}
 \lstset{label=src:traceback, frame=single}
@@ -476,10 +476,12 @@ def znajdź_ścieżkę(macierz_rozwiązań, model, wariant,
 Używając algorytmów genetycznych, konieczne jest wielokrotne obliczenie metryk, żeby znaleźć rozwiązanie. Z tego powodu, duży nacisk na położono na ograniczenie czasu obliczeń. W wiele miejscach zaimplementowano mechanizm przerywający obliczenia, jeżeli nie dają one perspektyw na znalezienie lepszego niż aktualnie najlepsze rozwiązanie. Użytkownik może też zdefiniować maksymalną złożoność modelu, co przełoży się także na czas jego znajdowania. Duże znaczenie ma też fakt, że algorytm pozwala na równoległe procesowanie. 
 
 W sytuacji, kiedy wiele obliczeń się powtarza, można znacząca przyspieszyć czas działania aplikacji poprzez zastosowanie cachowania. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
-Poprzednio obliczone rozwiązanie może się powtórzyć. W tym wypadku możemy skorzystać z cache genotypów, dostarczane przez bibliotekę PonyGE2.
-Podczas obliczania dopasowania, które jest najbardziej kosztownym obliczeniem. Ponadto z uwagi na dużą ilość obliczeń, żeby ograniczyć rozmiar cache, zaimplementowano cachowanie LRU.
+\begin{itemize}
+  \item[•] Poprzednio obliczone rozwiązanie - model może się powtórzyć. W tym wypadku możemy skorzystać z cache genotypów, dostarczane przez bibliotekę PonyGE2.
+  \item[•] Podczas obliczania odwzorowania, które jest najbardziej czasochłonne. Z uwagi na dużą ilość obliczeń, żeby ograniczyć rozmiar cache, zaimplementowano tutaj cachowanie LRU.
+\end{itemize}
 
-Żeby ograniczyć czas pojedynczej iteracji, można wprowadzić ograniczenie czasowe na obliczanie metryk dla danego osobnika. Czas obliczania jest powiązany ze złożonością modelu. Przy odpowiednim ustawieniu timeoutu będzie on oddziaływał tylko na zbyt złożone rozwiązania i zostanie dla nich zwrócona wartość funkcji dopasowania równa 0.
+Żeby ograniczyć czas pojedynczej iteracji, można wprowadzić ograniczenie czasowe na obliczanie metryk dla danego osobnika. Czas obliczania jest powiązany ze złożonością modelu. Przy właściwym ustawieniu timeoutu będzie on oddziaływał tylko na zbyt złożone rozwiązania i zostanie dla nich zwrócona wartość funkcji dopasowania równa 0.
 
 Tworząc program, nacisk położono na możliwość łatwego rozszerzania i oddzielenie od biblioteki PonyGE2. Dzięki temu zwiększono niezależność od biblioteki i zmian w niej. Program może być też łatwo modyfikowany i ewentualnie usprawniany. 
 
@@ -496,9 +498,8 @@ Parametry wymagane przez PonyGE2 \cite{PonyGE2-wiki}:
 \textit{CROSSOVER:                     subtree} \\
 \textit{CROSSOVER\_PROBABILITY:         0.75} \\
 \textit{ELITE\_SIZE:                   3} \\
-\textit{GENERATIONS:                   100000} \\
+\textit{GENERATIONS:                   2000} \\
 \textit{MAX\_GENOME\_LENGTH:           500} \\
-\textit{GRAMMAR\_FILE:                  process-subtree.bnf} \\
 \textit{INITIALISATION:                 PI\_grow} \\
 \textit{INVALID\_SELECTION:              False} \\
 \textit{LOOKUP\_FITNESS:                 True} \\
@@ -509,7 +510,6 @@ Parametry wymagane przez PonyGE2 \cite{PonyGE2-wiki}:
 \textit{MUTATION\_EVENTS:                1} \\
 \textit{POPULATION\_SIZE:                500} \\
 \textit{REPLACEMENT:                    generational} \\
-\textit{SAVE\_STATE\_STEP:                10} \\
 \textit{SELECTION:                      tournament} \\
 \textit{TOURNAMENT\_SIZE:                8} \\
 \textit{MAX\_WRAPS:                      3}
@@ -520,7 +520,7 @@ Dodatkowe parametry: \newline
 \begin{center}
 \textit{ALIGNMENT\_CACHE\_SIZE:           32*1024}
 \end{center}
-Określa wielkość cache przy liczeniu dopasowania.
+Określa wielkość cache przy liczeniu odwzorowania.
 \begin{center}
 \textit{DATASET:                        discovered-processes.csv}
 \end{center}
@@ -544,7 +544,7 @@ Używany w kilku miejscach w programie. Określa jak złe pod względem wartośc
 \begin{center}
 \textit{TIMEOUT:                        5}
 \end{center}
-Przestaje obliczać dopasowanie po przekroczeniu czasu - najprawdopodobniej model i tak jest zbyt skomplikowany
+Przestaje obliczać metryki po przekroczeniu czasu - najprawdopodobniej model i tak jest zbyt skomplikowany.
 
 Rekomendowane wagi poszczególnych metryk. Dla małych modeli, kiedy łatwo znaleźć model z odwzorowaniem = 1 warto zwiększyć wagę precyzji, żeby sprawdzić, czy możliwe jest znalezienie precyzyjniejszego modelu, wciąż zachowując perfekcyjne odwzorowanie: 
  \begin{center}
