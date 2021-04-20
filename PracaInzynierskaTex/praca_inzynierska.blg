@@ -8,12 +8,12 @@ A level-1 auxiliary file: podsumowanie.aux
 Database file #1: praca_inzynierska-blx.bib
 Database file #2: bibliografia.bib
 Warning--entry type for "inductive-miner" isn't style-file defined
---line 322 of file bibliografia.bib
+--line 321 of file bibliografia.bib
+Warning--I'm ignoring icga85:cramer's extra "url" field
+--line 435 of file bibliografia.bib
 Warning--I'm ignoring icga85:cramer's extra "url" field
 --line 436 of file bibliografia.bib
-Warning--I'm ignoring icga85:cramer's extra "url" field
---line 437 of file bibliografia.bib
 Warning--entry type for "SSvsGen" isn't style-file defined
---line 490 of file bibliografia.bib
+--line 489 of file bibliografia.bib
 Biblatex version: 3.13
 (There were 4 warnings)
