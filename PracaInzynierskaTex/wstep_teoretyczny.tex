@@ -314,10 +314,10 @@ Używając tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramaty
 
 \subsection{Metryki a funkcja dopasowania}
 
-Funkcja dopasowania jest obliczana w każdej iteracji, dla każdego osobnika w populacji, dlatego powinna być możliwie najmniej kosztowna obliczeniowo. Nie warto więc nadmiernie jej komplikować, gdyż nawet jeśli taka wersja lepiej określi, jak dobre jest dane rozwiązanie, to jej obliczenie, może stać się wąskim gardłem całego algorytmu, co poprzez zwiększenie czasu potrzebnego na znalezienie rozwiązania pogorszy jego działanie. 
+Funkcja dopasowania jest obliczana w każdej iteracji, dla każdego osobnika w populacji, dlatego powinna być możliwie najmniej kosztowna obliczeniowo. Nie warto więc nadmiernie jej komplikować, gdyż nawet jeśli taka wersja lepiej określi, jak dobre jest dane rozwiązanie, to jej obliczenie, może stać się wąskim gardłem całego algorytmu, co zwiększy czas potrzebny na znalezienie rozwiązania i pogorszy jego działanie. 
 
 Dobierając funkcje dopasowania, ważne jest, że była ona regularna, gdyż duża ilość lokalnych ekstremów może spowolnić ewolucję, a nawet całkowicie uniemożliwić znalezienie globalnie najlepszego rozwiązania.
-Nie może więc ona jedynie bezwzględnie mierzyć, jak dobre jest rozwiązanie. Dobry przykładem jest tutaj problem układanie planów (\textit eng. timetabling problem), gdzie większość otrzymanych rozwiązań będzie nieprawidłowa, a fitness będzie wynosił zero, nawet jeśli mała zmiana może sprawić, że znalezione zostanie właściwe rozwiązanie, dlatego konieczne jest, jak najlepsze uchwycenie jak blisko algorytm jest prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}.
+Nie może więc ona jedynie bezwzględnie mierzyć, jak dobre jest rozwiązanie. Dobry przykładem jest tutaj problem układanie planów (\textit eng. timetabling problem), gdzie większość otrzymanych rozwiązań będzie nieprawidłowa, a wartość funkcji dopasowania będzie wynosiła zero, nawet jeśli mała zmiana może sprawić, że znalezione zostanie właściwe rozwiązanie, dlatego konieczne jest, jak najlepsze uchwycenie jak blisko algorytm jest prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}.
 
 Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk wymienionych w sekcji \ref{sec:discovery}, jednak oprócz tego dodano kolejną metrykę złożoność, która ma poprawiać funkcje dopasowania zgodnie z powyższymi zasadami. Użytkownik może określić, z jakimi wagami wziąć pod uwagę poszczególne metryki.
 
