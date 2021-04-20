@@ -325,11 +325,10 @@ Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metr
 \label{sec:additional-metric-complexity}
 Dodatkowa metryka zawiera informacje niedotyczące bezpośrednio jakości odkrytego modelu. Istnieją jednak  teoretyczne przesłanki, że powinna wpłynąć pozytywnie na działanie algorytmu. W odróżnieniu od innych metryk celem jej używania jest poprawa wydajności algorytmu ewolucji i próba zminimalizowania czasu potrzebnego na znalezienie rozwiązania.
  
-Zamysłem jest promowanie rozwiązywania prostych problemów w prosty sposób i unikanie lokalnych ekstremów - w tym wypadku sytuacji, w której populacja zostanie zdominowana przez zbyt skomplikowane osobniki na wczesnym etapie ewolucji, zamiast tego ewolucja jest bardziej nakierowana na znajdowanie coraz lepszego rozwiązania wraz ze wzrostem stopnia skomplikowania modelu. Analogię można odnaleźć w naturze, w pewnym momencie na Ziemii dinozaury były najlepiej przystosowanymi do życia na tej planecie organizmami - lokalne maksimum i blokowały powstawanie mniej skomplikowanych form życia, jednak jak pokazuje historia, po wyginięciu dinozaurów, te były w stanie stać się jeszcze lepiej przystosowanymi istotami.
+Zamysłem jest promowanie rozwiązywania prostych problemów w prosty sposób i unikanie lokalnych ekstremów - w tym wypadku sytuacji, w której populacja zostanie zdominowana przez zbyt skomplikowane osobniki na wczesnym etapie ewolucji, zamiast tego ewolucja jest bardziej nakierowana na znajdowanie coraz lepszego rozwiązania wraz ze wzrostem skomplikowania modelu. Analogię można odnaleźć w naturze, w pewnym momencie na Ziemii dinozaury były najlepiej przystosowanymi do życia na tej planecie organizmami - lokalne maksimum i blokowały powstawanie mniej skomplikowanych form życia, jednak jak pokazuje historia, po wyginięciu dinozaurów, te były w stanie stać się jeszcze lepiej przystosowanymi istotami.
 
-Większa złożoność każdego modelu przekłada się także na dłuższe obliczanie metryk dla niego, przez co znalezienie ostatecznego rozwiązania zajmuje więcej czasu.
+Metryka korzysta z istniejących już obliczeń, przez co nie zwiększa w istotny sposób czasu każdej iteracji algorytmu. Większa złożoność każdego modelu przekłada się także na dłuższe obliczanie pozostałych metryk dla niego, przez co znalezienie ostatecznego rozwiązania zajmuje więcej czasu.
 
-Kolejną zaletą jest to, że złożoność korzysta z istniejących już obliczeń, przez co nie zwiększa w istotny sposób czasu każdej iteracji algorytmu, co dodatkowo pozwala na łatwiejsze porównanie działania algorytmu z i bez tej metryki.
 
 \subsection{Metryki - szczegóły}
 \label{sec:metrics-details}
