@@ -112,13 +112,13 @@ Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienn
 	\caption{\label{fig:event_log_example}Przykład dziennika zdarzeń}
 \end{figure}
 
-Przyjmuje się, że aby mówić o dzienniku zdarzeń powinien on zawierać 3 informacje: numer przypadku, czyli unikalny identyfikator zbioru aktywności, nazwę poszczególnych aktywności oraz datę jej wykonania - ważną tylko w kontekście kolejności wykonywania pojedynczych aktywności. Ponadto może on zawiera inne zbędne w kontekście odkrywania procesów biznesowych dodatkowa informacje, takie jak: podmiot wykonującym daną aktywność, miejsce, koszt czy aktualny postęp wykonania. Oczywiście te pozostałe dane mogą być wykorzystywane w kolejnych etapach analizy i usprawniania procesu.
+Przyjmuje się, że aby mówić o dzienniku zdarzeń powinien on zawierać 3 informacje: numer przypadku, czyli unikalny identyfikator zbioru aktywności, nazwę aktywności oraz datę jej wykonania - ważną tylko w kontekście kolejności wykonywania pojedynczych aktywności. Ponadto może on zawiera inne zbędne w kontekście odkrywania procesów biznesowych dodatkowe informacje, takie jak: podmiot wykonującym daną aktywność, miejsce, koszt czy aktualny postęp wykonania. Oczywiście te pozostałe dane mogą być wykorzystywane w kolejnych etapach analizy i usprawniania procesu.
 
-Mając do dyspozycji te 3 informacje - poszczególne przypadki, aktywności na nie się składające oraz ich kolejność, zliczamy, jak często poszczególne aktywności występują w danej kolejności. Każdy taki przypadek zwany jest wariantem procesu. Oprócz tego musimy wiedzieć, jak często dany wariant wystąpił.
+Mając do dyspozycji te 3 informacje - poszczególne przypadki, aktywności na nie się składające oraz ich kolejność, zliczane jest, jak często poszczególne aktywności występują w danej kolejności. Każdy taki przypadek zwany jest wariantem procesu. Oprócz tego niezbędna jest wiedza, jak często dany wariant wystąpił.
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.6]{variants-example.png}}
-	\caption{\label{fig:process_variants_example}Przykład wariantów procesu}
+	\caption{\label{fig:process_variants_example}Warianty procesu odpowiadające przykładowemu dziennikowi zdarzeń}
 \end{figure}
 
 Dla poprawy czytelności aktywności często reprezentowane są jako symbole, np. kolejne litery alfabetu, zamiast pełnej nazwy.
@@ -126,9 +126,9 @@ Dla poprawy czytelności aktywności często reprezentowane są jako symbole, np
 \subsection{Automatyczne odkrywanie procesów biznesowych}
 \label{sec:discovery}
 
-Automatyczne odkrywanie procesów biznesowych jest podgrupą i obejmuję techniki przekształcania danych w procesy. Ważne, że proces już istnieje, a my tylko go odkrywamy. Wejściem jest dziennik zdarzeń, a wyjściem jest mapa lub model procesu.
+Automatyczne odkrywanie procesów biznesowych jest poddziedziną eksploracji procesów i obejmuje techniki przekształcania danych w procesy. Ważne, że proces już istnieje i jest on jedynie odkrywany. Wejściem jest dziennik zdarzeń, a wyjściem mapa lub model procesu.
 
-Procesy zaprojektowane nie zawsze są realizowane w praktyce. Ważne jest, żeby proces był oparty na analizie prawdziwych danych, a nie spekulacjach i założeniach. Pozwala na znajdowanie procesu takim, jaki jest, a nie takim, jakim chciano by, żeby był.
+Zaprojektowane procesy nie zawsze są realizowane w praktyce. Ważne jest, żeby proces był oparty na analizie prawdziwych danych, a nie spekulacjach i założeniach. Pozwala na znajdowanie procesu takim, jaki jest, a nie takim, jakim chciano by, żeby był.
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{model-vs-real.png}}
@@ -146,17 +146,17 @@ Celem automatycznego odkrywania procesów biznesowych jest zaprojektowanie funkc
 
 Istnieją 4 powszechnie używane kryteria do określania jakości otrzymanego model. Są to:
 \begin{itemize}
-  \item[•] odwzorowanie (\textit{eng. fitness}) - zgodność modelu z dziennikiem zdarzeń
+  \item[•] odwzorowanie (\textit{eng. fitness}) - zgodność modelu z dziennikiem zdarzeń.
   \item[•] prostota (\textit{eng. simplicity}) - złożoność i łatwość zrozumienia modelu.
-  \item[•] precyzja (\textit{eng. precision}) - brak zachowań niezwiązanych z logiem, a możliwych w modelu
+  \item[•] precyzja (\textit{eng. precision}) - brak zachowań niezwiązanych z logiem, a możliwych w modelu.
   \item[•] generalizacja (\textit{eng. genralization}) - odzwierciedlenie w modelu prawdopodobnych aktywności, mimo że nie znajdują się one w logu.
 \end{itemize}
-Koniecznym jest znalezienie balansu między nimi, gdyż często starając się poprawiać model pod kątem jednego kryterium, pogorszy się on pod względem innych. Powstało wiele metryk przedstawiających te kryteria za pomocą wzorów matematycznych \cite{conf-propositions} \cite{Blum2015MetricsIP}.
+Konieczne jest znalezienie balansu między nimi, gdyż często starając się poprawiać model pod kątem jednego kryterium, pogorszy się on pod względem innych. Powstało wiele metryk przedstawiających te kryteria za pomocą wzorów matematycznych \cite{conf-propositions} \cite{Blum2015MetricsIP}.
 Bardziej szczegółowo wybór metryk omówiono w sekcji \ref{sec:metryki}.
 
-Wśród problemów dotykających istniejące algorytmy można wymienić problem ze znajdowaniem aktywności zachodzących równolegle, brak możliwości pomijania aktywności czy reprezentowania duplikatów, nieradzenie sobie z zakłóceniami w logu, tworzenie zbyt skomplikowanych modeli, czy trudność z odwzorowaniem niektórych zachowań. Modele stworzone mogą nie być spójne strukturalnie \cite{dongen2006b} \cite{StructuralDetectionofDeadlocks}, przez co rozumie się takie modele, w których istnieje taka aktywność, z której nie możemy osiągnąć zdarzenia końcowego lub nie może być ona w żaden sposób osiągnięta ze zdarzenia początkowego. Metody te zazwyczaj oparte są na grafach bezpośrednich następstw (\textit{eng. directly follows graphs}), przez co problemem może być sytuacja, kiedy log jest niekompletny. 
+Wśród problemów dotykających istniejące algorytmy można wymienić problem ze znajdowaniem aktywności zachodzących równolegle, brak możliwości pomijania aktywności czy reprezentowania duplikatów, nieradzenie sobie z zakłóceniami w logu, tworzenie zbyt skomplikowanych modeli, czy trudność z odwzorowaniem niektórych zachowań. Modele stworzone mogą nie być spójne strukturalnie \cite{dongen2006b} \cite{StructuralDetectionofDeadlocks}, przez co rozumie się modele, w których istnieje aktywność, z której nie możemy osiągnąć zdarzenia końcowego lub nie może być ona w żaden sposób osiągnięta ze zdarzenia początkowego. Metody te zazwyczaj oparte są na grafach bezpośrednich następstw (\textit{eng. directly follows graphs}), przez co problemem może być sytuacja, kiedy log jest niekompletny. 
 
-Zastosowanie algorytmy genetyczne do automatycznego odkrywania procesów biznesowych może być odpowiedzią na te problemy. Takie podejście pozwala na wyeliminowanie części problemów często dotyczących innych metod. Najważniejszą jednak przewagą algorytmów genetycznych jest pełna dowolność w kwestii generowania modelu pod kątem metryk zdefiniowanych przez użytkownika. Często znalezienie dobrze dopasowanego do logu modelu może być okupione stworzeniem bardzo skomplikowanego modelu - prostota, pozwalającego na wiele zachowań nieobecnych w logu - precyzja. Algorytm ewolucyjny pozwala na dowolnie dużą możliwość manipulacji parametrami, żeby znaleźć oczekiwany balans między wszystkimi metrykami. Możliwe jest też stworzenie nowych własnych metryk, gdyż są one niezależne od samego algorytmu ewolucyjnego. Algorytmy klasyczne mają problem z uzyskanie dobrych rezultatów dla wszystkich metryk i nie mają możliwości zmiany parametrów startowych.
+Zastosowanie algorytmów genetycznych do automatycznego odkrywania procesów biznesowych może być odpowiedzią na te kłopoty. Takie podejście pozwala na wyeliminowanie części problemów często dotyczących innych metod. Najważniejszą jednak przewagą algorytmów genetycznych jest pełna dowolność w kwestii generowania modelu pod kątem metryk zdefiniowanych przez użytkownika. Często znalezienie dobrze dopasowanego do logu modelu może być okupione stworzeniem bardzo skomplikowanego modelu - niewystarczająca prostota, pozwalającego na wiele zachowań nieobecnych w logu - niewystarczająca precyzja. Algorytm ewolucyjny pozwala na nieograniczoną możliwość manipulacji parametrami, żeby znaleźć oczekiwany balans między wszystkimi metrykami. Możliwe jest też stworzenie nowych, własnych metryk, gdyż są one niezależne od samego algorytmu ewolucyjnego. Klasyczne algorytmy mają problem z uzyskaniem dobrych rezultatów dla wszystkich metryk i nie mają możliwości zmiany parametrów startowych.
 
 %---------------------------------------------------------------------------
 
