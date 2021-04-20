@@ -56,9 +56,9 @@ Na rys. \ref{fig:simple_business_process} przedstawiono przykład uproszczonego 
 W sytuacji, w której zamówiony przez klienta towar będzie niedostępny, logiczne wydaje się poinformowanie go o opóźnieniu oraz danie mu możliwości anulowanie zamówienia lub jego kontynuacja i ponowne sprawdzenie dostępności. Ponadto, czynności takie jak wysłanie faktury oraz spakowanie i wysłanie zamówienia mogą być wykonane w dowolnej kolejności czy nawet jednocześnie przez dwie różne osoby. Proces staje się bardziej skomplikowany i konieczna do stworzenia jego modelu jest bardziej złożona notacja niż użyta do przedstawienia prostego procesu. 
 Istnieje wiele notacji do modelowania procesów biznesowych, wśród nich można wymienić schematy blokowe, diagramy aktywności UML, łańcuchy procesu sterowanego zdarzeniami (\textit{eng. Event-driven Process Chains}), sieci Petriego \cite{BPMComparission}. Obecnie najpopularniejszą notacją używaną do opisu procesów biznesowych jest Business Process  Model and Notation, w skrócie BPMN \cite{omg2011bpmn}. Daje ona możliwość opisania w jednoznaczny sposób skomplikowanych procesów czy stworzenia diagramów współdziałania procesów, jednocześnie pozostając łatwą do zrozumienia.
 
-Na grafice poniżej przedstawiono notację opartą o elementy BPMN, używaną w dalszej części pracy. Składają się na nią zdarzenia początkowe i końcowe, połączenia, bramki logiczne oraz aktywności. Czarnym kwadratem oznaczono sytuację, w której żadna aktywność nie jest wykonywana, możliwe tylko w bramce LUB. 
-\clearpage
-\begin{figure}[h]
+Na grafice poniżej przedstawiono notację opartą o elementy BPMN, używaną w dalszej części pracy. Składają się na nią zdarzenia początkowe i końcowe, połączenia, bramki logiczne oraz aktywności. Czarnym kwadratem oznaczono sytuację, w której żadna aktywność nie jest wykonywana, co jest możliwe w bramce LUB. Także pętle mogą być pominięte, czyli wykonane zero razy.
+
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.41]{BPMNelements.png}}
 	\caption{\label{fig:bpmn_example}Elementy BPMN}
 	\label{fig:lifecycle}
@@ -71,7 +71,7 @@ Korzystając z tej notacji, można przedstawić opisany wcześniej proces. Na ry
 	\caption{\label{fig:complicated_business_process_1}Rozbudowany model procesu - przykład 1}
 \end{figure}
 
-Możliwe jest teraz poinformowanie klienta o opóźnieniu, a następnie anulowanie zamówienia lub powtórne sprawdzenie dostępności. Model ten jednak nie jest wystarczająco precyzyjny i pozwala na potwierdzenie zamówienia po informacji o jego opóźnieniu, a bez uprzedniego ponownego sprawdzenia dostępności. Można zaproponować inny model (rys. \ref{fig:complicated_business_process_2}), który rozwiązuje powyższe problemy, jednak aktywność - poinformowanie o opóźnieniu - występuje w nim dwukrotnie, co jest niepożądane i  pogarsza jego czytelność.
+Możliwe jest teraz poinformowanie klienta o opóźnieniu, a następnie anulowanie zamówienia lub powtórne sprawdzenie dostępności. Model ten jednak nie jest wystarczająco precyzyjny i pozwala na potwierdzenie zamówienia po informacji o jego opóźnieniu, a bez uprzedniego ponownego sprawdzenia dostępności. Można zaproponować inny model (rys. \ref{fig:complicated_business_process_2}), który rozwiązuje powyższe problemy, jednak aktywność - poinformowanie o opóźnieniu - występuje w nim dwukrotnie, co jest niepożądane i pogarsza jego czytelność.
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.35]{complicated-process-example-2.png}}
