@@ -360,7 +360,7 @@ Metryka jest powiązana z odwzorowaniem. Jeśli ono rośnie, pozwala się na two
 $M_z = 1 - \frac{1}{\sqrt{1\ +\ blad\_odwzorowania\ *\ \sqrt{zlozonosc\ modelu}}} $
 \end{center}
 \subsection{Obliczanie metryk}
-W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane z niego. Poniżej przedstawiono, jak mógłby wyglądać model tego procesu - na czerwono zaznaczono ilość wykonań danej aktywności - oraz zademonstrowano obliczanie metryk:
+W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane dla niego. Poniżej przedstawiono, jak mógłby wyglądać model tego procesu - na czerwono zaznaczono ilość wykonań danej aktywności - oraz zademonstrowano obliczanie metryk:
 
 \begin{figure}[h]
 	\centering{\includegraphics[scale=0.5]{model-metrics.png}}
@@ -375,17 +375,17 @@ $M_{pro} = 1 - \frac{1\ +\ 1}{6\ +\ 6} = 0.8333$
 
 \subsubsection{Obliczanie odwzorowania}
 \label{sec:alignment-calculation}
-Są trzy możliwość na niezgodność modelu z logiem -  brak zdarzenia w modelu, brak zdarzenia w logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być utożsamiane z brakiem zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. W powyższym przykładzie nieprawidłowe odwzorowanie zachodzi tylko dla jednego wariantu, co można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd zawsze wynosi 3:
+Są trzy możliwość na niezgodności modelu z logiem -  brak zdarzenia w modelu, brak zdarzenia w logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być utożsamiane z brakiem zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. W powyższym przykładzie nieprawidłowe odwzorowanie zachodzi tylko dla jednego wariantu, co można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd zawsze wynosi 3:
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.7]{bad-alignment.png}}
 	\caption{\label{fig:bad-alignment}Nieprawidłowe odwzorowanie}
 \end{figure}
 Dla pozostałych wariantów odwzorowanie jest pełne i błąd wynosi 0:
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.7]{good-alignment.png}}
 	\caption{\label{fig:good-alignment}Prawidłowe odwzorowanie}
 \end{figure}
-\newline Podstawiając wszystkie odwzorowania do wzoru:
+Podstawiając wszystkie odwzorowania do wzoru:
 \begin{center}
 \begin{tabular}{l}
 $blad\_odwzorowania = \frac{2 * \frac{0}{5 +\ 5} + \frac{0}{4 +\ 4} + \frac{0}{5 +\ 5} + \frac{3}{4 +\ 3}}{22} = 0.0195$ \\
@@ -395,13 +395,11 @@ $M_o = (1 - 0.0195)^4 = 0.9243$
 \end{center}
 
 \subsubsection{Obliczanie precyzji}
-Potrzebna jest ilość osiągalnych kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu, w jakim dana aktywność jest wykonywana np. dla bramki I - AND można jako kolejne wykonać tyle aktywności, ile nie zostało do tej pory wykonanych w tej bramce, z wyjątkiem ostatniej i gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu wygląda to następująco:
-
-\begin{figure}[h]
+Potrzebna jest ilość osiągalnych, kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu, w jakim dana aktywność jest wykonywana np. dla bramki I - AND można jako kolejne wykonać tyle aktywności, ile nie zostało do tej pory wykonanych w tej bramce, z wyjątkiem ostatniej, gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu wygląda to następująco:
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.7]{precision-calculation.png}}
 	\caption{\label{fig:directly-follows}Kolejne zdarzenia}
 \end{figure}
-
 Podstawiając te dane do wzoru:
 \begin{center}
 $M_{pre} = (1 - (\frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 2}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 1}{3}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{3\ -\ 2}{3}\ +\ \frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 1}{2}\ +\ \frac{1\ -\ 1}{1}))^{\frac{1}{3}} = 0.9465 $
