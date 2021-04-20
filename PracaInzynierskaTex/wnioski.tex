@@ -238,7 +238,7 @@ Do znalezienia modelu potrzebne było 685 generacji. Zajęło to 14728.9 sekund,
 Odwzorowanie jest kluczowe, gdyż jest jedyną metryką, która sprawdza zgodność modelu z dziennikiem zdarzeń i bez tej metryki model byłby pozbawiony wartości. Pozostałe metryki wpływają na jego jakość. Warto więc sprawdzić jak ich brak wpłynąłby na jego odkryty model.
 
 \subsubsection{Poprawny model}
-Wpływ brak poszczególny metryk sprawdzony dla podzbioru dziennika zdarzeń z sekcji \ref{sec:example5} uproszczonego poprzez pozbawienie go pętli. Dla porównania przedstawiono poprawny model, odkryty używając wszystkich metryk.
+Wpływ braku poszczególnych metryk został sprawdzony dla podzbioru dziennika zdarzeń z sekcji \ref{sec:example5} uproszczonego poprzez pozbawienie go pętli. Dla porównania przedstawiono poprawny model, odkryty używając wszystkich metryk.
 Składa się on z 7 unikalnych aktywności, 1254 przypadków, 8 wariantów, które mają po 5 zdarzeń. 
 \begin{figure}[!ht]
 	\centering{\includegraphics[scale=0.8]{datasets/v8a7c1254l5.png}}
@@ -303,7 +303,7 @@ Cechą charakterystyczną modelu ze słabą generalizacją będzie zastąpienia 
 	\caption{\label{fig:no-generalization-and-simplicity}Znaleziony model}
 \end{figure}
 
-Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu  oraz wartości poszczególnych metryk. Co ciekawe generalizacja, wciąż nie jest dużo niższa niż w poprawnym modelu.
+Poniżej zaprezentowano średnią ważoną, gdyby przyjąć wagi metryk z poprawnego modelu oraz wartości poszczególnych metryk. Co ciekawe generalizacja, wciąż nie jest dużo niższa niż w poprawnym modelu.
  
  \begin{center}
   \begin{tabular}{l}
