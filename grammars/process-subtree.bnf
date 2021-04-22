@@ -6,7 +6,7 @@
 
 <slots> ::= <slot><slot><anygate><slot><slot>
 
-<name> ::= and | xor | seq | and | xor | seq | and | xor | seq | and | xor | seq | and | xor | seq | lo<0_n> | lo<0_n> |opt
+<name> ::= and | xor | seq | and | xor | seq | and | xor | seq | and | xor | seq | and | xor | seq | lo<0_n> | lo<0_n> |opt | osq
 
 <event> ::= GE_RANGE:dataset_vars
 

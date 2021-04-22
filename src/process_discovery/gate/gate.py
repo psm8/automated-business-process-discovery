@@ -112,6 +112,18 @@ class Gate(ComparableEvent):
                                     self.add_element(to_add)
                         self.add_element(gate)
                         consume(numbers, processed_characters)
+                    elif expression[i:i + 3] == "osq":
+                        outer_gate_class = getattr(importlib.import_module("process_discovery.gate.opt_gate"),
+                                                   "OptGate")
+                        outer_gate = outer_gate_class(self)
+                        gate_class = getattr(importlib.import_module("process_discovery.gate.seq_gate"),
+                                             "SeqGate")
+                        gate = gate_class(outer_gate)
+                        outer_gate.add_element(gate)
+                        consume(numbers, 3)
+                        processed_characters = gate.parse(expression[i + 4:])
+                        self.add_element(outer_gate)
+                        consume(numbers, processed_characters)
                     else:
                         gate_class = getattr(importlib.import_module("process_discovery.gate." + expression[i:i+3] + "_gate"),
                                              expression[i:i+3].capitalize() + "Gate")
