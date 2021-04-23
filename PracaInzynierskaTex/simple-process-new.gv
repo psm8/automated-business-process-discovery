@@ -7,40 +7,29 @@ digraph G {
   }
   subgraph xorgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#x2715;>,fontsize=12,style=filled,fillcolor=yellow]
-    x1; x2; x3; x4; x5; x6
   }
   subgraph andgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4 label=<&#43;>,fontsize=20,style=filled,fillcolor=yellow]
-    a1; a2;
   }
   subgraph optgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#9711;>,fontsize=12,style=filled,fillcolor=yellow]
-
   }
   subgraph transitions {
     node [shape=Mrecord,height=0.4,width=.65];
-    a; b; c; d; e; f; g; h;
+    a[label="sprawdzenie\n dostępności"]; 
+    d[label="potwierdzenie\n zamówienia"]; 
+    e[label="wysłanie\n faktury"]; 
+    f[label="spakowanie\n zamówienia"]; 
+    g[label="wysłanie\n zamówienia"];
   }
   subgraph skip {
     node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
-
   }
 
   # align horizontally
-  {edge [weight=1]; a;e}
+  {edge [weight=1]; a;g;e}
 
-  in->a->x5;
-  x1->b->x2;
-  x1->c->x2;
-  x5->a1->x1;
-  x2->a2;
-  a1->d->a2;
-  a2->e;
-  x6->x3;
-  e->x6->f->x5;
-  x3->g->x4;
-  x3->h->x4;
-  x4->out;
+  in->a->d->e->f->g->out;
   # align vertically
-  {rank=same; b;c;d;f}
+  {rank=same; d}
 }
