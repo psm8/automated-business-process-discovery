@@ -36,7 +36,7 @@ Dla porównania poszczególne metryki obliczone w sekcji \ref{sec:alignment-calc
 
 Poniżej zaprezentowano również wykres, na który zaprezentowano zmianę wartości metryk w kolejnych generacjach. Jest on generowany podczas działania algorytmu i kończy się w momencie przerwania działania algorytmu lub po określonej ilości iteracji, a nie znalezienia rozwiązania, gdyż przy algorytmach ewolucyjnych nie można być pewnym, czy znaleziono najlepsze rozwiązanie.
 \begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.85]{examples/v4a6c5l5.csv_run-686_21_3_21_184242_35664_645567/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.85]{examples/v4a6c5l5.csv_run-648_21_4_23_005638_10340_1/result_graph.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 \clearpage
@@ -45,44 +45,8 @@ Poniżej zaprezentowano również wykres, na który zaprezentowano zmianę warto
 
 Przykładowe dziennik zdarzeń wzięto z \cite{pm-book}. Część z nich została wygenerowania sztucznie, a część zawiera realne dane. Następnie przerobiono je na warianty procesu. 
 
-\subsubsection{Przykład \#1}
-Prosty sztucznie wygenerowany przykład. Zawiera 6 unikalnych aktywności, 13 przypadków, 6 wariantów, z których najdłuższy ma 12 zdarzeń. 
-\begin{figure}[H]
-	\centering{\includegraphics[scale=0.8]{datasets/v6a6c13l12.png}}
-	\caption{\label{fig:flow_chart}Warianty procesu}
-\end{figure}
-
-Przy odkrywaniu modelu dla tego wariantu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 2, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
-\begin{center}
-	\{a\}and(\{b\}\{c\})lo4(\{e\}\{f\}and(\{b\}\{c\}))\{d\}
-\end{center}
-oraz graficznie:
-
-\begin{figure}[H]
-	\centering{\includegraphics[scale=0.37]{examples/v6a6c13l12.csv_run-84_21_3_2_222502/graphviz.png}}
-	\caption{\label{fig:flow_chart}Znaleziony model}
-\end{figure}
-
-Do znalezienia modelu potrzebne były 83 generacje, podczas których przeszukano 20338 unikalnych osobników. Zajęło to 321.5 sekund, używając 4 wątków procesora. Natomiast, metryki mają następujące wartości: 
-
- \begin{center}
-  \begin{tabular}{l}
-	Średnia ważona: 0.9606 \\
-	Odwzorowanie: 1.0 \\
-	Złożoność: 1.0 \\
-	Generalizacja: 0.7019 \\
-	Precyzja: 0.9830 \\
-	Prostota: 1.0
-  \end{tabular}
- \end{center}
- 
-\begin{figure}[H]
-	\centering{\includegraphics[scale=0.83]{examples/v6a6c13l12.csv_run-84_21_3_2_222502/best_fitness.pdf}}
-	\caption{\label{fig:flow_chart}Przebieg ewolucji}
-\end{figure}
-
-\subsubsection{Przykład \#2}
-Kolejny prosty sztucznie wygenerowany przykład. Zawiera 5 unikalnych aktywności, 40 przypadków, 8 wariantów, z których najdłuższy ma 5 zdarzeń. 
+\subsubsection{Przykład \#Sztucznie wygenerowany}
+Prosty sztucznie wygenerowany przykład. Zawiera 5 unikalnych aktywności, 40 przypadków, 8 wariantów, z których najdłuższy ma 5 zdarzeń. 
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.8]{datasets/v8a5c40l5.png}}
@@ -114,7 +78,7 @@ Do znalezienia modelu potrzebne było 11 generacji, podczas których przeszukano
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.83]{examples/v8a5c40l5.csv_run-24_21_3_6_211037_47336_515221/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.83]{examples/v8a5c40l5.csv_run-24_21_3_6_211037_47336_515221/result_graph.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
@@ -152,7 +116,7 @@ Do znalezienia modelu potrzebne było 4110 generacji. Zajęło to 17157.7 sekund
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.73]{examples/v12a11c3512l9.csv_run-10231_21_3_1_042344_29708_523416/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.73]{examples/v12a11c3512l9.csv_run-10231_21_3_1_042344_29708_523416/result_graph.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
@@ -190,7 +154,7 @@ Do znalezienia modelu potrzebne było 436 generacji. Zajęło to 4675.0 sekund, 
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.72]{examples/v45a7c1000l14.csv_run-1366_21_3_6_143708_2144_563150/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.72]{examples/v45a7c1000l14.csv_run-1366_21_3_6_143708_2144_563150/result_graph.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
@@ -228,7 +192,7 @@ Do znalezienia modelu potrzebne było 685 generacji. Zajęło to 14728.9 sekund,
  \end{center}
  
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.83]{examples/v21a81391l17.csv_21_4_13_201133_15092_996333/best_fitness.pdf}}
+	\centering{\includegraphics[scale=0.83]{examples/v21a81391l17.csv_21_4_13_201133_15092_996333/result_graph.pdf}}
 	\caption{\label{fig:flow_chart}Przebieg ewolucji}
 \end{figure}
 
@@ -329,7 +293,7 @@ Pierwszy aspektem, który zbadano, był czas trwania ewolucji. Na rysunku \ref{f
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.6]{total_timemulti4.pdf}}
-	\caption{\label{fig:total_timemulti4}Czas i odchylenie standardowe trwania ewolucji}
+	\caption{\label{fig:total_timemulti4}Średni czas i odchylenie standardowe trwania ewolucji}
 \end{figure}
 
  \begin{center}
@@ -353,7 +317,7 @@ Warto zaznaczyć, że licząc średnią, nie wzięto pod uwagę złożoności, g
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.5]{complexity-summary-part23.png}}
-	\caption{\label{fig:complexity-summary}Wartości i odchylenie standardowe poszczególnych metryk}
+	\caption{\label{fig:complexity-summary}Średnie wartości i odchylenie standardowe poszczególnych metryk}
 \end{figure}
 
  \begin{center}

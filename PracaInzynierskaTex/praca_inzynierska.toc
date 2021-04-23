@@ -6,35 +6,33 @@
 \contentsline {section}{\numberline {1.3}Zawarto\IeC {\'s}\IeC {\'c} pracy}{8}% 
 \contentsline {chapter}{\numberline {2}Wst\IeC {\k e}p teoretyczny}{9}% 
 \contentsline {section}{\numberline {2.1}Procesy biznesowe}{9}% 
-\contentsline {subsection}{\numberline {2.1.1}Procesy biznesowe}{9}% 
-\contentsline {subsection}{\numberline {2.1.2}Zarz\IeC {\k a}dzanie procesami biznesowymi}{11}% 
-\contentsline {section}{\numberline {2.2}Eksploracja proces\IeC {\'o}w}{12}% 
+\contentsline {section}{\numberline {2.2}Metody modelowania i eksploracji proces\IeC {\'o}w}{12}% 
 \contentsline {subsection}{\numberline {2.2.1}Modelowanie proces\IeC {\'o}w biznesowych}{12}% 
 \contentsline {subsection}{\numberline {2.2.2}Eksploracja proces\IeC {\'o}w}{14}% 
 \contentsline {subsection}{\numberline {2.2.3}Dzienniki zdarze\IeC {\'n}}{15}% 
 \contentsline {subsection}{\numberline {2.2.4}Automatyczne odkrywanie proces\IeC {\'o}w biznesowych}{16}% 
 \contentsline {section}{\numberline {2.3}Ewolucja gramatyczna}{17}% 
 \contentsline {subsection}{\numberline {2.3.1}Algorytmy ewolucyjne}{17}% 
-\contentsline {subsection}{\numberline {2.3.2}Szczeg\IeC {\'o}\IeC {\l }owe om\IeC {\'o}wienie operator\IeC {\'o}w i dzia\IeC {\l }ania algorytm\IeC {\'o}w ewolucyjnych}{18}% 
+\contentsline {subsection}{\numberline {2.3.2}Operatory i dzia\IeC {\l }anie algorytm\IeC {\'o}w ewolucyjnych}{18}% 
 \contentsline {subsection}{\numberline {2.3.3}Ewolucja gramatyczna}{20}% 
-\contentsline {subsection}{\numberline {2.3.4}BNF}{20}% 
+\contentsline {subsection}{\numberline {2.3.4}Notacja Backusa-Naura}{20}% 
 \contentsline {subsection}{\numberline {2.3.5}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{21}% 
-\contentsline {subsection}{\numberline {2.3.6}Om\IeC {\'o}wienia dzia\IeC {\l }ania algorytmu ewolucji genetycznej}{22}% 
+\contentsline {subsection}{\numberline {2.3.6}Om\IeC {\'o}wienia dzia\IeC {\l }ania algorytmu ewolucji gramatycznej}{22}% 
 \contentsline {section}{\numberline {2.4}Metryki}{23}% 
 \contentsline {subsection}{\numberline {2.4.1}Metryki a funkcja dopasowania}{23}% 
 \contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka - z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{24}% 
 \contentsline {subsection}{\numberline {2.4.3}Metryki - szczeg\IeC {\'o}\IeC {\l }y}{24}% 
 \contentsline {subsubsection}{\numberline {2.4.3.1}Prostota}{24}% 
-\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{24}% 
 \contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{25}% 
 \contentsline {subsubsection}{\numberline {2.4.3.4}Generalizacja}{25}% 
-\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{26}% 
+\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{25}% 
 \contentsline {subsection}{\numberline {2.4.4}Obliczanie metryk}{26}% 
 \contentsline {subsubsection}{\numberline {2.4.4.1}Obliczanie prostoty}{26}% 
 \contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{26}% 
 \contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{27}% 
 \contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{27}% 
-\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{28}% 
+\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{27}% 
 \contentsline {chapter}{\numberline {3}Projekt i implementacja}{29}% 
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{29}% 
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{29}% 
@@ -57,16 +55,15 @@
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{49}% 
 \contentsline {subsection}{\numberline {4.1.1}Wynik dla przyk\IeC {\l }adu ze wst\IeC {\k e}pu}{49}% 
 \contentsline {subsection}{\numberline {4.1.2}Inne przyk\IeC {\l }ady dzia\IeC {\l }ania}{51}% 
-\contentsline {subsubsection}{\numberline {4.1.2.1}Przyk\IeC {\l }ad \#1}{51}% 
-\contentsline {subsubsection}{\numberline {4.1.2.2}Przyk\IeC {\l }ad \#2}{52}% 
-\contentsline {subsubsection}{\numberline {4.1.2.3}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga roszcze\IeC {\'n} w firmie ubezpieczeniowej}{53}% 
-\contentsline {subsubsection}{\numberline {4.1.2.4}Przyk\IeC {\l }ad \#Naprawa telefonu}{55}% 
-\contentsline {subsubsection}{\numberline {4.1.2.5}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga wniosku o odszkodowanie}{57}% 
-\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{58}% 
-\contentsline {subsection}{\numberline {4.2.1}Brak poszczeg\IeC {\'o}lnych metryk}{58}% 
-\contentsline {subsubsection}{\numberline {4.2.1.1}Poprawny model}{58}% 
-\contentsline {subsubsection}{\numberline {4.2.1.2}Brak precyzji}{59}% 
-\contentsline {subsubsection}{\numberline {4.2.1.3}Brak generalizacji i prostoty}{60}% 
-\contentsline {subsection}{\numberline {4.2.2}Wp\IeC {\l }yw z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci na wynik}{61}% 
-\contentsline {section}{\numberline {4.3}Wnioski dotycz\IeC {\k a}ce ewolucji}{64}% 
+\contentsline {subsubsection}{\numberline {4.1.2.1}Przyk\IeC {\l }ad \#Sztucznie wygenerowany}{51}% 
+\contentsline {subsubsection}{\numberline {4.1.2.2}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga roszcze\IeC {\'n} w firmie ubezpieczeniowej}{52}% 
+\contentsline {subsubsection}{\numberline {4.1.2.3}Przyk\IeC {\l }ad \#Naprawa telefonu}{54}% 
+\contentsline {subsubsection}{\numberline {4.1.2.4}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga wniosku o odszkodowanie}{55}% 
+\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{57}% 
+\contentsline {subsection}{\numberline {4.2.1}Brak poszczeg\IeC {\'o}lnych metryk}{57}% 
+\contentsline {subsubsection}{\numberline {4.2.1.1}Poprawny model}{57}% 
+\contentsline {subsubsection}{\numberline {4.2.1.2}Brak precyzji}{58}% 
+\contentsline {subsubsection}{\numberline {4.2.1.3}Brak generalizacji i prostoty}{59}% 
+\contentsline {subsection}{\numberline {4.2.2}Wp\IeC {\l }yw z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci na wynik}{60}% 
+\contentsline {section}{\numberline {4.3}Wnioski dotycz\IeC {\k a}ce ewolucji}{63}% 
 \contentsline {chapter}{\numberline {5}Podsumowanie}{65}% 

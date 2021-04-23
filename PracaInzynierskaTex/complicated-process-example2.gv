@@ -1,13 +1,14 @@
 digraph G {
   rankdir=LR;
+
   subgraph place {
     node [shape=circle,fixedsize=true,label="",height=.3,width=.3];
-    in [label="&bull;", fontsize=20];
-    out [style=filled,fillcolor=black];
+    in;
+    out[penwidth=3];
   }
   subgraph xorgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#x2715;>,fontsize=12,style=filled,fillcolor=yellow]
-    x1; x2;
+    x1; x2; x4;
   }
   subgraph andgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4 label=<&#43;>,fontsize=20,style=filled,fillcolor=yellow]
@@ -17,30 +18,32 @@ digraph G {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#9711;>,fontsize=12,style=filled,fillcolor=yellow]
   }
   subgraph transitions {
-    node [shape=rect,height=0.4,width=.4];
+    node [shape=Mrecord,height=0.4,width=.65];
     a[label="sprawdzenie dostępności"]; 
     ba[label="poinformowanie o opóźnieniu"]; 
-    bb[label="poinformowanie o opóźnieniu"]; 
-    c[label="anulowanie zamówienia"]; 
-    d[label="potwierdzenie zamówienia"]; 
-    e[label="wysłanie faktury"]; 
-    f[label="spakowanie zamówienia"]; 
-    g[label="wysłanie zamówienia"];
+    bb[label="poinformowanie\n o opóźnieniu"]; 
+    c[label="anulowanie\n zamówienia"]; 
+    d[label="potwierdzenie\n zamówienia"]; 
+    e[label="wysłanie\n faktury"]; 
+    f[label="spakowanie\n zamówienia"]; 
+    g[label="wysłanie\n zamówienia"];
   }
   subgraph skip {
     node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
   }
 
   # align horizontally
-  in->a->x1
-  a->ba;
-  ba->a;
+  in->a
+
+  a->x4
+  x4->ba;
+  x4->x1;
   x1->bb->c->x2;
   x1->d->a1;
   a2->x2;
   a1->e->a2;
   a1->f->g->a2
   x2->out;
-  # align vertically
+
   {rank=same; a;ba}
 }
