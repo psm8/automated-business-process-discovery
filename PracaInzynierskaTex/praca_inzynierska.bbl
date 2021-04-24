@@ -1623,6 +1623,15 @@
     \field{year}{1970}
   \endentry
 
+  \entry{NW-example}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{note}{dostęp: 20 marca 2020}
+    \field{title}{http://experiments.mostafa.io/public/needleman-wunsch/}
+    \verb{url}
+    \verb http://experiments.mostafa.io/public/needleman-wunsch/
+    \endverb
+  \endentry
+
   \entry{PonyGE2-wiki}{misc}{}
     \field{labeltitlesource}{title}
     \field{note}{dostęp: 15 lutego 2020}
