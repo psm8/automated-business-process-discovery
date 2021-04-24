@@ -1,32 +1,37 @@
 \chapter{Projekt i implementacja}
 
+W tej części zaprezentowana została stworzona gramatyka procesu biznesowego. Zaprezentowano również listingi kodu i omówiono najważniejsze elementy stworzonego programu. Na koniec zaproponowano, jakie parametry startowe wybrać z~niego korzystając.
+
 \section{Wykorzystane technologie}
+Do implementacji algorytmu został użyty język Python oraz PonyGE2. 
+
 \subsection{Python 3.8.1}
-Do implementacji algorytmu został użyty Python. Jest to najpopularniejszy język programowania w domenie uczenia maszynowego. Wymagana jest wersja 3.8 lub wyższa ze względu na użycie w implementacji metod dostępnych od tej wersji.  
+Python jest to najpopularniejszy język programowania w~domenie uczenia maszynowego. Wymagana jest wersja 3.8 lub wyższa ze względu na użycie w~implementacji metod dostępnych od tej wersji.  
+
 \subsection{PonyGE2}
-PonyGE2 \cite{Fenton_2017} jest implementacją ewolucji genetycznej w języku Python. Pozwala na łatwą konfigurację parametrów ewolucji genetycznej oraz możliwość dodania własnych problemów, a także sposobów ewaluacji rozwiązań. Niestety, PonyGE2 nie jest przystosowane do bycia dołączaną jako niezależna biblioteka i nie umożliwia dostępu poprzez wygodny interfejs.
+PonyGE2 \cite{Fenton_2017}, którego ogólny schemat działania pokazano na rys. \ref{fig:PonyGE2-search-loop} jest implementacją ewolucji genetycznej w języku Python. Pozwala na łatwą konfigurację parametrów ewolucji genetycznej oraz możliwość dodania własnych problemów, a także sposobów ewaluacji rozwiązań. Niestety, PonyGE2 nie jest przystosowane do bycia dołączaną jako niezależna biblioteka i nie umożliwia dostępu poprzez wygodny interfejs. 
 
 \begin{figure}[h]
-	\centering{\includegraphics{PonyGE2-search-loop.jpg}}
-	\caption{\label{fig:PonyGE2-search-loop}Ogólny schemat działania PonyGE2}
+	\centering{\includegraphics[scale=0.8]{PonyGE2-search-loop.jpg}}
+	\caption{\label{fig:PonyGE2-search-loop}Ogólny schemat działania PonyGE2 \cite{Fenton_2017}}
 \end{figure}
 
 \section{Tworzenie gramatyki procesu biznesowego}
 \label{sec:businessGrammarCreation}
 Projektując gramatykę procesu biznesowego, przyjęto dwa początkowe założenia. Uznano, że generowane modele muszą być łatwe do przełożenia na notację BPMN oraz nie powinny być tworzone modele niespójne strukturalnie, co pozwali na zredukowanie przestrzeni rozwiązań, jednocześnie gwarantując tworzenie niegenerujących błędów modeli.
 
-Przy tworzeniu gramatyki procesu biznesowego ważne jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania modelu, jaki będzie możliwy do wygenerowania, używając zaproponowanej gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} przeanalizowano składniki języka BPMN pod kątem częstotliwości ich stosowania. Najczęściej używanymi elementami, jeśli chodzi o bramki, są: XOR - ALBO kodowane w proponowanej gramatyce jako xor, AND - I jako and oraz pętle jako lo<0$\_$n>. Do przedstawionej dalej gramatyki dodano także bramki OR - LUB reprezentowane jako opt. Ponadto konieczne jest użycie symbolu seq, która oznacza, że aktywności następują kolejno po sobie.
+Przy tworzeniu gramatyki procesu biznesowego ważne jest, żeby znaleźć balans, jeśli chodzi o poziom skomplikowania modelu, jaki będzie możliwy do wygenerowania używając zaproponowanej gramatyki.  W pracy \cite{10.1007/978-3-540-69534-9_35} przeanalizowano składniki języka BPMN pod kątem częstotliwości ich stosowania. Najczęściej używanymi elementami, jeśli chodzi o bramki, są: XOR -- ALBO kodowane w proponowanej gramatyce jako \textit{xor}, AND -- I jako and oraz pętle jako \textit{lo<0$\_$n>}. Do przedstawionej dalej gramatyki dodano także bramki OR -- LUB reprezentowane jako \textit{opt}. Ponadto konieczne jest użycie symbolu \textit{seq}, która oznacza, że aktywności następują kolejno po sobie.
 
-Zgodnie z zaleceniami w sekcji \ref{sec:modelling} przyjmuje się, że dobrą praktyką jest, żeby model zawierał tylko jedno zdarzenie początkowe i końcowe. Z tego powodu przyjęto, że zdarzenia te są domyślnie odpowiednio na początku i końcu wygenerowanego słowa i nie są one jawnie reprezentowane w gramatyce.
+Zgodnie z zaleceniami z sekcji \ref{sec:modelling} przyjmuje się, że dobrą praktyką jest, żeby model zawierał tylko jedno zdarzenie początkowe i końcowe. Z tego powodu przyjęto, że zdarzenia te są domyślnie odpowiednio na początku i końcu wygenerowanego słowa i nie są one jawnie reprezentowane w gramatyce.
 
-W sekcji \ref{grammarCreation} opisano problemem ewolucji gramatyki dla metod opartych o krzyżowanie i mutację punktową lub n-punktową, dlatego zdecydowano się na stworzenie gramatyki pod kątem wersji tych operatorów używających fenotypu - drzewa. Lokalne przeszukiwanie często staje się słabym punktem algorytmów ewolucyjnych. Stosując wspomniane operatory, prawdopodobna jest sytuacja, że mała modyfikacja blisko korzenia może poprawić rozwiązanie, jednak jej zaistnienie wymaga wygenerowania identycznego z istniejącym poddrzewa na nowo, przez co prawdopodobieństwo wystąpienia takiej sytuacji jest niskie. Do rozwiązania tego problemu mogą służyć metody inspirowane algorytmami memetycznymi, a działające na drzewach \cite{memetic}. Dają one możliwość aplikowania lokalnych zmian bez konieczności powtórnego generowania całego poddrzewa, co pozwala na usprawnienie procesu ewolucji. Niestety, użyta biblioteka nie posiada podobnych metod lokalnej optymalizacji. Żeby w pewnym stopniu zaradzić temu problemowi, zmniejszono głębokość potrzebnego do reprezentacji modelu drzewa, jednocześnie zwiększając szanse na lokalne mutacje poprzez wprowadzenie symbolu nieterminalnego <slots>. Sprawia to, że drzewo rośnie bardziej wszerz i oprócz jednego symbolu <anygate>, którego użycie ma zapewnić tworzenie poprawnych, niepustych rozwiązań, generowane są symbole <slot>, które mogą pozostać puste lub wygenerować symbol <anygate> z 10\% prawdopodobieństwem. Przekłada się to na większą ilość lokalnych zmian na późniejszych etapach ewolucji. Lokalne przeszukiwania wspomaga także poprzez reprezentowanie bramki jako dwa odrębne symbole - <name>(<slots>). Dzięki temu w wyprowadzeniu nazwa bramki <name> jest oddzielona on jej zawartości, co sprawia, że możliwa jest zmiana nazwy bramki bez modyfikacji jej wnętrza.
+W sekcji \ref{grammarCreation} opisano problemem ewolucji gramatyki dla metod opartych o krzyżowanie i mutację punktową lub n-punktową, dlatego zdecydowano się na stworzenie gramatyki pod kątem wersji tych operatorów używających fenotypu -- drzewa. Lokalne przeszukiwanie często staje się słabym punktem algorytmów ewolucyjnych. Stosując wspomniane operatory, prawdopodobna jest sytuacja, że mała modyfikacja blisko korzenia może poprawić rozwiązanie, jednak jej zaistnienie wymaga wygenerowania identycznego z istniejącym poddrzewa na nowo, przez co prawdopodobieństwo wystąpienia takiej sytuacji jest niskie. Do rozwiązania tego problemu mogą służyć metody inspirowane algorytmami memetycznymi, a~działające na drzewach \cite{memetic}. Dają one możliwość aplikowania lokalnych zmian bez konieczności powtórnego generowania całego poddrzewa, co pozwala na usprawnienie procesu ewolucji. Niestety, użyta biblioteka nie posiada podobnych metod lokalnej optymalizacji. Żeby w pewnym stopniu zaradzić temu problemowi, zmniejszono głębokość potrzebnego do reprezentacji modelu drzewa, jednocześnie zwiększając szanse na lokalne mutacje poprzez wprowadzenie symbolu nieterminalnego \textit{<slots>}. Sprawia to, że drzewo rośnie bardziej wszerz i oprócz jednego symbolu \textit{<anygate>}, którego użycie ma zapewnić tworzenie poprawnych, niepustych rozwiązań, generowane są symbole \textit{<slot>}, które mogą pozostać puste lub wygenerować symbol \textit{<anygate>} z 10\% prawdopodobieństwem. Z tego powodu produkcja dla symbolu \textit{<slot>} zawiera 9 zapisów ' ' oznaczających pusty znak. Przekłada się to na większą ilość lokalnych zmian na późniejszych etapach ewolucji. Lokalne przeszukiwania jest także wspierane poprzez reprezentowanie bramki jako dwa odrębne symbole -- \textit{<name>(<slots>)}. Dzięki temu w~wyprowadzeniu nazwa bramki \textit{<name>} jest oddzielona on jej zawartości, co sprawia, że możliwa jest zmiana nazwy bramki bez modyfikacji jej wnętrza.
 
-Zaadresowano również konieczność odwzorowania w gramatyce częstotliwości występowania poszczególnych bramek logicznych. Zgodnie z \cite{10.1007/978-3-540-69534-9_35} połączenia i bramki XOR - ALBO, AND - I są tworzone przez większą ilość produkcji niż rzadziej występujące pętle i bramki OR - LUB. 
+Wzięto również pod uwagę odwzorowania w gramatyce częstotliwości występowania poszczególnych bramek logicznych. Zgodnie z \cite{10.1007/978-3-540-69534-9_35} połączenia i bramki XOR -- ALBO, AND -- I są tworzone przez większą ilość produkcji niż rzadziej występujące pętle i bramki OR -- LUB. 
 
-Zapis GE{\_}RANGE:n jest rozszerzeniem notacji zapewnianym przez PonyGE2, które umożliwia dodanie wygodne dodanie n zmiennych, czyli GE{\_}RANGE:2 w BNF oznacza 0|1|2.
-Podobny jest zapis GE{\_}RANGE:dataset{\_}vars, który umożliwia dodanie ilości zmiennych odpowiadającej ich ilości w zbiorze danych w tym wypadku w liczbie aktywności w dzienniku zdarzeń. Został on dodany, dzięki rozszerzeniu standardowego, zapewnianego przez PonyGE2 parsera gramatyki.
+Zapis GE{\_}RANGE:n jest rozszerzeniem notacji zapewnianym przez PonyGE2, które umożliwia wygodne dodanie n zmiennych, czyli GE{\_}RANGE:2 w BNF oznacza 0|1|2.
+Podobny jest zapis GE{\_}RANGE:dataset{\_}vars, który umożliwia dodanie ilości zmiennych odpowiadającej ich ilości w zbiorze danych w tym wypadku liczbie aktywności w dzienniku zdarzeń. Został on dodany, dzięki rozszerzeniu standardowego, zapewnianego przez PonyGE2, parsera gramatyki.
 
-Wszystkie bramki mają nazwy tej samej długości - 3 znaki, co ułatwia parsowanie gramatyki. Symbol startowy to <e>.
+Wszystkie bramki mają nazwy tej samej długości -- 3 znaki, co ułatwia parsowanie gramatyki. Symbol startowy to \textit{<e>}.
 
 \begin{figure}[!ht]
 \lstset{caption=Proponowana gramatyka procesu biznesowego, captionpos=b}
@@ -49,22 +54,22 @@ Wszystkie bramki mają nazwy tej samej długości - 3 znaki, co ułatwia parsowa
 \end{lstlisting}
 \end{figure}
 
-Model, dla którego zaprezentowanie obliczanie metryk (rys. \ref{fig:metrics_business_process}) byłby za pomocą powyższej notacji zakodowany jako:
+Model, dla którego zaprezentowano obliczanie metryk (rys. \ref{fig:metrics_business_process}) byłby za pomocą powyższej notacji zakodowany jako:
 \begin{center}
 (\{a\}and(\{b\}\{c\})opt(\{b\}\{e\})\{d\}
 \end{center}
 
-Zapis lo<0$\_$n> jest nieoczywisty, jednak konieczny do reprezentacji pętli, które mogą być przerywane na innej aktywności, niż kończy się ich pojedyncza iteracja.  
+Zapis \textit{lo<0$\_$n>} jest nieoczywisty, jednak konieczny do reprezentacji pętli, które mogą być przerywane na innej aktywności, niż kończy się ich pojedyncza iteracja.  
 Poniższy przykład pokazuje model, który ciężko opisać przy pomocy podstawowych bramek logicznych: 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.4]{grammar-lop-example.png}}
 	\caption{\label{fig:subcaption_example}Przykład problemu z pętlą}
 \end{figure}
-\noindent Jest to możliwe za pomocą słowa - lop oznacza pętle: 
+\noindent Jest to możliwe za pomocą słowa -- lop oznacza pętle: 
 \begin{center}
 \{a\}and(\{b\}\{c\})\{d\}lop(\{e\}and(\{b\}\{c\})\{d\})xor(\{f\}\{g\})
 \end{center}
-Użycie powyższego zapisu jest poprawne, jednak kodowanie pętli w ten sposób sprawia, że powstałe słowo jest skomplikowane, a jego wyewoluowanie mało prawdopodobne. Problem ten rozwiązano, używając zapisu  lo<0$\_$n>, gdzie <0$\_$n> oznacza, ile znaków ma być pominięte w pierwszej iteracji pętli, dzięki czemu możliwe jest zakodowanie takiej pętli przy użyciu znacznie mniejszej liczb symboli, co ułatwia wyewoluowania takiego modelu. Ten sam model opisany za pomocą stworzonej gramatyki wygląda następująco:
+Użycie powyższego zapisu jest poprawne, jednak kodowanie pętli w ten sposób sprawia, że powstałe słowo jest skomplikowane, a jego wyewoluowanie mało prawdopodobne. Problem ten rozwiązano, używając zapisu  \textit{lo<0$\_$n>}, gdzie \textit{<0$\_$n>} oznacza, ile znaków ma być pominięte w pierwszej iteracji pętli, dzięki czemu możliwe jest zakodowanie takiej pętli przy użyciu znacznie mniejszej liczb symboli, co ułatwia wyewoluowania takiego modelu. Ten sam model opisany za pomocą stworzonej gramatyki wygląda następująco:
 
 \begin{center}
 \{a\}lo1(\{e\}and(\{b\}\{c\})\{d\})xor(\{f\}\{g\})
@@ -72,63 +77,58 @@ Użycie powyższego zapisu jest poprawne, jednak kodowanie pętli w ten sposób 
 
 \section{Projekt systemu}
 
+W tej sekcji pokazano, w jaki sposób podzielono program na modułu oraz przedstawiono modele najważniejszych klas w nim używanych.
+
 \subsection{Podział na moduły}
 
-Implementację podzielone na następujące moduły:
-\begin{itemize}
-  \item[•] wrappers - PonyGE2 nie jest przystosowane do zaimportowania jako biblioteka, dlatego, żeby oddzielić kod PonyGE2 od logiki odkrywania procesów biznesowych, w tym module rozszerzono lub nadpisano cześć z modułów tej biblioteki. Dodano także rozszerzenia do PonyGE2 dodające nowe, brakujące funkcjonalności.
-  \item[•] fitness{\_}functions - moduł, w którym znajduje się klasa do obliczania funkcji dopasowania, która korzysta z metod w module process{\_}discovery.
-  \item[•] process{\_}discovery - moduł zawiera całą logikę parsowania modelu i obliczenia metryk.
-\end{itemize}
+Sposób podziału programu przestawiono na rys. \ref{fig:modules}. 
 
-
-\begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.6]{Modules.png}}
-	\caption{\label{fig:flow_chart}Podział na moduły}
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.45]{modules-light.png}}
+	\caption{\label{fig:modules}Podział na moduły}
 \end{figure}
 
-\subsection{Model}
+Główne moduły to:
 
-Zdecydowano się na podział na dwie reprezentacje modelu procesu biznesowego wykorzystywane na różnym etapie procesowania. Wszystkie klasy implementują interfejs ComparableEvent pozwalający na ich porównywanie definiowanych przez nie obiektów. Aktywności są reprezentowane przez obiekty Event, które przechowują także informacje o ilości przejść w modelu przez dane zdarzenie, potrzebną do obliczenia generalizacji.  
+\begin{itemize}
+  \item[•] wrappers -- PonyGE2 nie zostało przystosowane do zaimportowania go jako bibliotekę, dlatego, żeby oddzielić kod PonyGE2 od logiki odkrywania procesów biznesowych, w tym module rozszerzono lub nadpisano część z modułów tej biblioteki. Dodano także rozszerzenia do PonyGE2 dodające nowe, brakujące funkcjonalności.
+  \item[•] fitness{\_}functions -- moduł, w którym znajduje się klasa do obliczania funkcji dopasowania, która korzysta z metod w module process{\_}discovery.
+  \item[•] process{\_}discovery -- moduł zawiera całą logikę parsowania modelu i obliczenia metryk.
+\end{itemize}
 
-Klasa Gate i klasy po niej dziedziczące są reprezentacją bliższą realnemu modelowi. 
+\subsection{Model} 
+Klasa \textit{Gate} i klasy po niej dziedziczące przedstawione na rys. \ref{fig:GateUML} są reprezentacją bliższą realnemu modelowi. 
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.5]{GateUML.png}}
-	\caption{\label{fig:subcaption_example}Gate UML}
+	\caption{\label{fig:GateUML}Klasa \textit{Gate} i klasy po niej dziedziczące reprezentowane jako UML}
 \end{figure}
 
-Model w formie ciągu znaków musi być zamieniony na formę, na której łatwiej będzie operować. Zakodowane zgodnie z zasadami gramatyki słowo zostaje sparsowane w metodzie parse() klasy Gate na obiekty klas po niej dziedziczących odpowiadające poszczególnym bramką logicznym. Obiekty posiadają wskaźnik na swojego rodzica, czyli bramkę - obiekt Gate, w której się znajduję oraz na bramki lub aktywności - obiekty Event, które zawierają. Przechowują też leniwie obliczaną informacja o złożoności. Najważniejsze metody, które klasy dziedziczące po Gate muszą nadpisać to:
+Zdecydowano się na podział na dwie reprezentacje modelu procesu biznesowego wykorzystywane na różnym etapie przetwarzania. Wszystkie klasy implementują interfejs \textit{ComparableEvent} pozwalający na ich porównywanie definiowanych przez nie obiektów. Aktywności są reprezentowane przez obiekty \textit{Event}, które przechowują także informacje o ilości przejść w modelu przez dane zdarzenie, potrzebną do obliczenia generalizacji. 
+
+Model w formie ciągu znaków musi być zamieniony na formę, na której łatwiej będzie operować. Zakodowane zgodnie z zasadami gramatyki słowo zostaje sparsowane w metodzie \textit{parse()} klasy \textit{Gate} na obiekty klas po niej dziedziczących odpowiadające poszczególnym bramkom logicznym. Obiekty posiadają wskaźnik na swojego rodzica, czyli bramkę -- obiekt \textit{Gate}, w której się znajdują oraz na bramki lub aktywności -- obiekty \textit{Event}, które zawierają. Przechowują też leniwie obliczaną informację o złożoności. Najważniejsze metody, które klasy dziedziczące po \textit{Gate} muszą nadpisać to:
 \begin{itemize}
-  \item[•] get$\_$next$\_$possible$\_$states() - zwraca jako generator możliwe kolejne aktywności, co jest potrzebne przy liczeniu precyzji.
-  \item[•] get$\_$all$\_$n$\_$length$\_$routes() - zwraca możliwe ścieżki w modelu o danej długości jako tablicę obiektów BaseGroup, co jest potrzebne przy liczeniu odwzorowania
+  \item[•] \textit{get$\_$next$\_$possible$\_$states()} -- zwraca jako generator możliwe kolejne aktywności, co jest potrzebne przy liczeniu precyzji.
+  \item[•] \textit{get$\_$all$\_$n$\_$length$\_$routes()} -- zwraca możliwe ścieżki w modelu o danej długości jako tablicę obiektów \textit{BaseGroup}, co jest potrzebne przy liczeniu odwzorowania.
 \end{itemize}
 
-Obliczanie metryk dla klasy Gate byłoby utrudnione z uwagi na dużą ilość bramek logicznych, dlatego konieczne jest przerobienie tych obiektów na uproszczoną formę pośrednią. Są nią obiekty klas dziedziczących po BaseGroup, które dzielą się pod względem tego, czy aktywności w nich zgrupowane mogą być wykonywane w dowolnej kolejność - EventGroupParallel czy muszą być wykonywane kolejno po sobie - EventGroup. Są to wystarczające informacje do obliczenia odwzorowania, a dzięki temu algorytmu ten jest prostszy. Takie rozgraniczenie pozwala również na dodawanie nowych bramek logiczny bez konieczności zmieniana metody obliczanie odwzorowania, która jest najbardziej złożonym algorytmem występującym w programie i warto ograniczyć do minimum szansę na konieczność ewentualnych jego modyfikacji. 
+Obliczanie metryk dla klasy \textit{Gate} byłoby utrudnione z uwagi na dużą ilość bramek logicznych, dlatego konieczne jest przerobienie tych obiektów na uproszczoną formę pośrednią. Są nią obiekty klas dziedziczących po \textit{BaseGroup} (rys. \ref{fig:EventUML}), które dzielą się pod względem tego, czy aktywności w nich zgrupowane mogą być wykonywane w dowolnej kolejność -- \textit{EventGroupParallel} czy muszą być wykonywane kolejno po sobie -- \textit{EventGroup}. Są to wystarczające informacje do obliczenia odwzorowania, a~dzięki temu algorytm ten jest prostszy. Takie rozgraniczenie pozwala również na dodawanie nowych bramek logicznych bez konieczności zmieniania metody obliczania odwzorowania.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.5]{EventUML.png}}
-	\caption{\label{fig:subcaption_example}BaseGroup UML}
+	\caption{\label{fig:EventUML}Klasa \textit{BaseGroup} i klasy po niej dziedziczące reprezentowane jako UML}
 \end{figure}
 
-Pojedyncze aktywności lub ich grupy są przechowywane jako tablica. Jedyna metoda, która musi zostać nadpisana w klasach rozszerzających BaseGroup to to$\_$bytes() potrzebna przy cachowaniu. 
+Pojedyncze aktywności lub ich grupy są przechowywane jako tablica. Jedyna metoda, która musi zostać nadpisana w klasach rozszerzających \textit{BaseGroup} to \textit{to$\_$bytes()} potrzebna do przechowywania obiektów w pamięci podręcznej (\textit{ang. cache}). 
 
 \section{Implementacja}
 
-W tej części przedstawiono listingi z pseudokodem opartym na języku Python. Tam, gdzie to konieczne pozostawiono słowa kluczowa oraz operatory tego języka.
-
-\subsection{Ogólny schemat blokowy}
-
-
-\begin{figure}[!ht]
-	\centering{\includegraphics[scale=0.5]{OgolnySchematBlokowy.png}}
-	\caption{\label{fig:flow_chart}Ogólny schemat blokowy}
-\end{figure}
+W tej części przedstawiono listingi z pseudokodem opartym na języku Python. Tam, gdzie to konieczne pozostawiono słowa kluczowe oraz operatory tego języka.
 
 \subsection{Parsowanie gramatyki}
-Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze ewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci zagnieżdżonych obiektów Gate, które zawierają obiekty Event.
+Parser pozwala na przetworzenie wyników uzyskanych na drodze ewolucji gramatycznej na postać, na której łatwiej będzie operować. Rezultaty uzyskane na drodze ewolucji gramatycznej w PonyGE2 są w formie tekstowej, z którą praca byłaby niewygodna, dlatego używamy parsera, żeby otrzymać wynik w postaci zagnieżdżonych obiektów \textit{Gate}, które zawierają obiekty \textit{Event}.
 
-Metoda należy do obiektu Gate i bezpośrednio modyfikuje obiekt, na którym jest wywoływana. Argumentem metody jest wyrażenie wygenerowane w procesie ewolucji. Zwracana jest natomiast ilość przeparsowanych znaków. To na tym etapie odrzucamy też procesy, które, mimo że gramatyka pozwala na ich stworzenie, nie mają sensu z punktu widzenia biznesowego. Pozwala na ograniczenie zbędnego wykorzystania zasobów i niekontynuowanie obliczeń dla modeli, które są bezwartościowe. Na przykład takie, które pozwalają na posiadanie w jednej bramce dwóch takich samych aktywności. Parsując, korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3-literowymi symbolami, a wszystkie aktywności otoczone są nawiasami klamrowymi. Pasowanie bramek można podzielić na trzy przypadki:
+Metoda należy do obiektu \textit{Gate} i bezpośrednio modyfikuje obiekt, na którym jest wywoływana. Argumentem metody jest wyrażenie wygenerowane w procesie ewolucji. Zwracana jest natomiast ilość przeparsowanych znaków. To na tym etapie odrzucamy też procesy, które, mimo że gramatyka pozwala na ich stworzenie, nie mają sensu z punktu widzenia biznesowego. Pozwala na ograniczenie zbędnego wykorzystania zasobów i niekontynuowanie obliczeń dla modeli, które są bezwartościowe. Na przykład takie, które pozwalają na posiadanie w jednej bramce dwóch takich samych aktywności. Parsując, korzystamy z faktu, że przy projektowaniu gramatyki wszystkie bramki logiczne zostały oznaczone 3-literowymi symbolami, a wszystkie aktywności otoczone są nawiasami klamrowymi. Pasowanie bramek można podzielić na trzy przypadki:
 \begin{itemize}   
   \item[•] Bramki ,,seq'' wewnątrz bramek ,,lop'' lub ,,seq'' są redundantne i mogą zostać pominięte.
   \item[•] Pętle ze względu na konieczność specjalnego parsowanie ze względu na problem opisany w sekcji \ref{sec:businessGrammarCreation}.
@@ -177,7 +177,7 @@ def parsuj(wyrażenie: str) -> int:
 \end{lstlisting}
 
 \subsection{Obliczanie metryk}
-Argumentami metody są obiekt LogInfo zawierający dane i metody dotyczące wariantów, model, czyli obiekt Gate, najkrótsza i najdłuższa dozwolona długość modelu obliczane na podstawie parametru podanego w konfiguracji programu, dzięki czemu możliwe jest zmniejszenie ilości obliczeń oraz cache. Zwracana jest natomiast średnia ważona metryk, czyli wartość funkcji dopasowania. Metryką, która nie wymaga czasochłonnego obliczenia odwzorowania, jest prostota, dlatego możemy ją obliczyć wcześniej, co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów. Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu, odwzorowanie nie będzie dobre. Pozwala to przerwać obliczenia, jeżeli stosunek wspólnych zdarzeń w logu i modelu jest mniejszy niż skonfigurowany parametr. Pozostałe metryki wymagają już obliczenia odwzorowania i są obliczane dla najlepiej odwzorowanej ścieżki. 
+Argumentami metody są obiekt \textit{LogInfo} zawierający dane i metody dotyczące wariantów, model, czyli obiekt \textit{Gate}, najkrótsza i najdłuższa dozwolona długość modelu obliczane na podstawie parametru podanego w konfiguracji programu, dzięki czemu możliwe jest zmniejszenie ilości obliczeń oraz cache. Zwracana jest natomiast średnia ważona metryk, czyli wartość funkcji dopasowania. Metryką, która nie wymaga czasochłonnego obliczenia odwzorowania, jest prostota, dlatego możemy ją obliczyć wcześniej, co przy niskim wyniku pozwala na wstępne odrzucenie części rezultatów. Łatwo można zauważyć, że jeżeli zdarzenie znajduję się w logu, a nie znajduje się w modelu, odwzorowanie nie będzie dobre. Pozwala to przerwać obliczenia, jeżeli stosunek wspólnych zdarzeń w logu i modelu jest mniejszy niż skonfigurowany parametr. Pozostałe metryki wymagają już obliczenia odwzorowania i są obliczane dla najlepiej odwzorowanej ścieżki. 
 
 Odwzorowanie obliczane jest osobno dla każdego wariantu w logu, który jest reprezentowany jako tablica znaków. Jeśli błąd odwzorowania wynosi 0, to ilość wystąpień danego wariantu konieczna do obliczenia precyzji jest zapisywany w słowniku. Dodawana do każdej aktywności jest też ilość jej dotychczasowych wystąpień potrzebna we wzorze na generalizację.
 
@@ -224,11 +224,11 @@ def oblicz_metryki(log_info, model, najkrótsza_dozwolona_długość,
 Procedurę obliczenia odwzorowania można podzielić następująco:
 \begin{itemize}
   \item[•] Znalezienie ścieżek o długości \textbf{n} w modelu.
-  \item[•] Przerobienie ścieżek na postać BaseGroup.
+  \item[•] Przerobienie ścieżek na postać \textit{BaseGroup}.
   \item[•] Obliczenie odwzorowania.
 \end{itemize}
 
-Argumentami metody są wariant, model, najkrótsza i najdłuższa dozwolona długość modelu oraz cache. Zwracane są natomiast minimalny błąd odwzorowania jako liczba całkowita niedodatnia, najlepiej dopasowane zdarzenia jako tablica obiektów Event oraz najlepsza ścieżka jako obiekt BaseGroup.
+Argumentami metody są wariant, model, najkrótsza i najdłuższa dozwolona długość modelu oraz cache. Zwracane są natomiast minimalny błąd odwzorowania jako liczba całkowita niedodatnia, najlepiej dopasowane zdarzenia jako tablica obiektów \textit{Event} oraz najlepsza ścieżka jako obiekt \textit{BaseGroup}.
 
 Algorytm obliczania odwzorowania wymaga ścieżek o stałej, określonej długość. Ważne jest, żeby jak najbardziej ograniczyć czas potrzebny na znalezienie najlepszej ścieżki, dlatego obliczanie odwzorowania rozpoczynamy o \textbf{n} równego długości wariantu. Jeśli \textbf{n} jest różne od długości ścieżki, błąd odwzorowania zawsze będzie równy przynajmniej różnicy tych wartości. Jednak wciąż może być lepszy niż aktualnie najmniejszy, więc obliczamy odwzorowanie kolejno dla ścieżek o długości n-1, n+1, n-2, n+2... aż do momentu, dopóki jest możliwe uzyskanie mniejszego błędu lub zostanie osiągnięty limit, do którego w konfiguracji zezwolono na szukanie. 
 
@@ -295,12 +295,11 @@ def oblicz_odwzorowanie_dla_jednego_wariantu(wariant, model,
 
 Łatwiejszym niż obliczenie odwzorowania dla modelu składającego się z bramek logicznych jest znalezienie najpierw w modelu wszystkich ścieżek o określonej długości i następnie jego obliczenie dla nich. Algorytm służący do tego jest kolejno wywoływane dla wszystkich bramek - podmodeli, a następnie na podstawie ścieżek znalezionych w podmodelach są tworzone ścieżki dla całego modelu. Implementacja różni się w zależności od przeszukiwanej bramki logicznej. Poniżej zaprezentowano przykład dla bramki ,,and''.  
 
-Argumentami metody długość szukanej ścieżki oraz wariant jako tablica znaków potrzebny wyszukiwanie ścieżek dla obiektu LopGate. Zwracana jest natomiast lista wszystkich ścieżek o określonej długość jako obiekty BaseGroup, a w przypadku błędu None.
+Argumentami metody długość szukanej ścieżki oraz wariant jako tablica znaków potrzebny wyszukiwanie ścieżek dla obiektu \textit{LopGate}. Zwracana jest natomiast lista wszystkich ścieżek o określonej długość jako obiekty \textit{BaseGroup}, a w przypadku błędu None.
 
-Bramki mogą zawierać różną ilość elementów, dlatego należy obliczyć minimalne i maksymalne długości, czyli ilość zdarzeń dla wszystkich dzieci. Jeśli dziecko jest obiektem Event, wtedy dodawane jest bezpośrednio do listy rezultatów. W innym wypadku, kiedy jest obiektem Gate, na podstawie długości dzieci obliczany jest dolny i górny limit długości, dla jakich zostanie dla danego elementu wywołana metoda znajdź{\_}wszystkie{\_}ścieżki{\_}długości{\_}n. Dzięki temu może znacznie ograniczyć ilość długości, dla jakich trzeba przeszukiwać podmodele. Wszystkie znalezione ścieżki są dodawane do listy, a całość do globalnej listy. 
+Bramki mogą zawierać różną ilość elementów, dlatego należy obliczyć minimalne i maksymalne długości, czyli ilość zdarzeń dla wszystkich dzieci. Jeśli dziecko jest obiektem \textit{Event}, wtedy dodawane jest bezpośrednio do listy rezultatów. W innym wypadku, kiedy jest obiektem \textit{Gate}, na podstawie długości dzieci obliczany jest dolny i górny limit długości, dla jakich zostanie dla danego elementu wywołana metoda znajdź{\_}wszystkie{\_}ścieżki{\_}długości{\_}n. Dzięki temu może znacznie ograniczyć ilość długości, dla jakich trzeba przeszukiwać podmodele. Wszystkie znalezione ścieżki są dodawane do listy, a całość do globalnej listy. 
 
-Rezultat nie może być jednak zagnieżdżoną listą, więc musi ona zostać przerobiony na listę jednowymiarową rozwiązań. Każda lista składa się 2-wymiarowej listy ścieżek dla każdego elementów modelu. Ścieżki każdego podmodelu są łączone ze ścieżkami kolejnych podmodeli każda z każdą, żeby utworzyć możliwe przejścia dla całego modelu. Celem jest znalezienie tylko tych o długości \textbf{n}, więc pozostałe odrzucamy. Na końcu, jako że jest to bramka ,,and"" wszystkie ścieżki o długości większej niż 1 są opakowywane w EventGorupParrallel, żeby zachować informacje o tym, ze zdarzenia mogą być wykonywane w dowolnej kolejności.
-\clearpage
+Rezultat nie może być jednak zagnieżdżoną listą, więc musi ona zostać przerobiony na listę jednowymiarową rozwiązań. Każda lista składa się 2-wymiarowej listy ścieżek dla każdego elementów modelu. Ścieżki każdego podmodelu są łączone ze ścieżkami kolejnych podmodeli każda z każdą, żeby utworzyć możliwe przejścia dla całego modelu. Celem jest znalezienie tylko tych o długości \textbf{n}, więc pozostałe odrzucamy. Na końcu, jako że jest to bramka ,,and"" wszystkie ścieżki o długości większej niż 1 są opakowywane w \textit{EventGorupParrallel}, żeby zachować informacje o tym, ze zdarzenia mogą być wykonywane w dowolnej kolejności.
 
 \lstset{caption=Wyszukiwanie procesów o długości n, captionpos=b}
 \lstset{label=src:get_n_length, frame=single}
@@ -368,9 +367,9 @@ Podstawowy algorytm można opisać za pomocą czterech kroków dla każdego zdar
 \end{figure}
 
 
-Argumentami metody model jako obiekt Gate oraz wariant jako tablica znaków. Zwracane są natomiast ostatni wiersz, który zawiera błąd odwzorowania modelu oraz pośrednie błędy dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu, co jest potrzebne, jeśli model zawiera podmodele oraz najlepiej dopasowana ścieżka. Metoda opakowana jest w metodę, która jeśli dla danego modelu i wariantu zostało już obliczone odwzorowanie, zwraca rozwiązanie z cache bez powtarzania obliczeń.
+Argumentami metody model jako obiekt \textit{Gate} oraz wariant jako tablica znaków. Zwracane są natomiast ostatni wiersz, który zawiera błąd odwzorowania modelu oraz pośrednie błędy dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu, co jest potrzebne, jeśli model zawiera podmodele oraz najlepiej dopasowana ścieżka. Metoda opakowana jest w metodę, która jeśli dla danego modelu i wariantu zostało już obliczone odwzorowanie, zwraca rozwiązanie z cache bez powtarzania obliczeń.
 
-Zgodnie z \ref{sec:alignment-calculation} brakujące zdarzenie to błąd wynosi 1, a jeśli się nie zgadzają - 2. Stworzona macierz jest inicjalizowana zerami, a następnie pierwsza kolumna jest wypełniana stosownymi wartościami błędu. Są trzy opcja normalne obliczenie zgodne z klasycznym algorytmem, a także sytuacja, w której model zawiera podmodele, gdzie algorytm jest powtórnie wywoływany dla podmodelu i dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu lub gdy zawiera zdarzenia równoległe - EventGroupParallel wtedy stosujemy inny algorytm, który bezpośrednio porównuje wszystkie zdarzenia w wariancie ze zdarzeniami w obiekcie EventGroupParallel. 
+Zgodnie z \ref{sec:alignment-calculation} brakujące zdarzenie to błąd wynosi 1, a jeśli się nie zgadzają - 2. Stworzona macierz jest inicjalizowana zerami, a następnie pierwsza kolumna jest wypełniana stosownymi wartościami błędu. Są trzy opcja normalne obliczenie zgodne z klasycznym algorytmem, a także sytuacja, w której model zawiera podmodele, gdzie algorytm jest powtórnie wywoływany dla podmodelu i dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu lub gdy zawiera zdarzenia równoległe - \textit{EventGroupParallel} wtedy stosujemy inny algorytm, który bezpośrednio porównuje wszystkie zdarzenia w wariancie ze zdarzeniami w obiekcie \textit{EventGroupParallel}. 
      
 \lstset{caption=Obliczanie odwzorowania, captionpos=b}
 \lstset{label=src:alignment_calculation, frame=single}
@@ -406,7 +405,7 @@ def oblicz_odwzorowanie(model, wariant):
 \end{lstlisting}
 
 \subsection{Znajdowanie najlepiej dopasowanych aktywności w modelu}
-Potrzebne do obliczenia precyzji oraz generalizacji. Algorytm obliczanie odwzorowania zwraca najmniejszy błąd, ale nie daje informacji o tym, dla jakiej ścieżki otrzymano ten błąd. Dodatkowo znajdowanie najlepiej dopasowanych aktywności w modelu jest utrudnione przez fakt, że modele może składać się z podmodeli - BaseGroup. 
+Potrzebne do obliczenia precyzji oraz generalizacji. Algorytm obliczanie odwzorowania zwraca najmniejszy błąd, ale nie daje informacji o tym, dla jakiej ścieżki otrzymano ten błąd. Dodatkowo znajdowanie najlepiej dopasowanych aktywności w modelu jest utrudnione przez fakt, że modele może składać się z podmodeli - \textit{BaseGroup}. 
 
 Argumentami metody są kopia macierzy rozwiązań, model, kopia wariantu oraz rozwiązania podmodeli. Zwracana jest natomiast najlepiej dopasowana ścieżka.
 

@@ -180,15 +180,18 @@
 
   \entry{BPMDemystified}{inproceedings}{}
     \name{author}{1}{}{%
-      {{hash=AW}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
     }
-    \strng{namehash}{AW1}
-    \strng{fullhash}{AW1}
+    \strng{namehash}{AWMPvd1}
+    \strng{fullhash}{AWMPvd1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
@@ -216,7 +219,8 @@
     \strng{fullhash}{PN1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{What is BPM?}
+    \field{note}{dostęp: 12 lutego 2020}
+    \field{title}{https://bpm.com/what-is-bpm}
     \verb{url}
     \verb https://bpm.com/what-is-bpm
     \endverb
@@ -224,22 +228,25 @@
 
   \entry{BPMSurvey}{article}{}
     \name{author}{1}{}{%
-      {{hash=AW}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
     }
-    \strng{namehash}{AW1}
-    \strng{fullhash}{AW1}
+    \strng{namehash}{AWMPvd1}
+    \strng{fullhash}{AWMPvd1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
     \verb 10.1155/2013/507984
     \endverb
-    \field{title}{Aalst, W.M.P.: Business process management: a comprehensive
-  survey. ISRN Softw. Eng. 1-37}
+    \field{title}{van der Aalst, W.M.P.: Business process management: a
+  comprehensive survey. ISRN Softw. Eng. 1-37}
     \field{journaltitle}{ISRN Software Engineering}
     \field{month}{01}
     \field{year}{2012}
@@ -371,15 +378,16 @@
          given={H.A.},
          giveni={H\bibinitperiod},
       }}%
-      {{hash=AW}{%
+      {{hash=AWMP}{%
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
     }
-    \strng{namehash}{MJRHAW1}
-    \strng{fullhash}{MJRHAW1}
+    \strng{namehash}{MJRHAWMP1}
+    \strng{fullhash}{MJRHAWMP1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
@@ -414,11 +422,14 @@
 
   \entry{pm-manifesto}{inproceedings}{}
     \name{author}{19}{}{%
-      {{hash=AW}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
       {{hash=AA}{%
          family={Adriansyah},
@@ -532,8 +543,8 @@
          giveni={M\bibinitperiod},
       }}%
     }
-    \strng{namehash}{AW+1}
-    \strng{fullhash}{AWAAAFBTBTRJCBBPBRBJBACJCMCJCJCNCFDELMdWM1}
+    \strng{namehash}{AWMPvd+1}
+    \strng{fullhash}{AWMPvdAAAFBTBTRJCBBPBRBJBACJCMCJCJCNCFDELMdWM1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
@@ -550,15 +561,18 @@
 
   \entry{mining-overview}{article}{}
     \name{author}{1}{}{%
-      {{hash=AW}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
     }
-    \strng{namehash}{AW1}
-    \strng{fullhash}{AW1}
+    \strng{namehash}{AWMPvd1}
+    \strng{fullhash}{AWMPvd1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
@@ -605,11 +619,14 @@
 
   \entry{alpha-algorithm}{article}{}
     \name{author}{3}{}{%
-      {{hash=AW}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
       {{hash=WA}{%
          family={Weijters},
@@ -624,8 +641,8 @@
          giveni={L\bibinitperiod},
       }}%
     }
-    \strng{namehash}{AWWAML1}
-    \strng{fullhash}{AWWAML1}
+    \strng{namehash}{AWMPvdWAML1}
+    \strng{fullhash}{AWMPvdWAML1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
@@ -692,11 +709,14 @@
          given={A.},
          giveni={A\bibinitperiod},
       }}%
-      {{hash=AW}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
       {{hash=MA}{%
          family={Medeiros},
@@ -705,8 +725,8 @@
          giveni={A\bibinitperiod},
       }}%
     }
-    \strng{namehash}{WAAWMA1}
-    \strng{fullhash}{WAAWMA1}
+    \strng{namehash}{WAAWMPvdMA1}
+    \strng{fullhash}{WAAWMPvdMA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{title}{Process Mining with the Heuristics Miner-algorithm}
@@ -725,15 +745,18 @@
          given={B},
          giveni={B},
       }}%
-      {{hash=AW}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
     }
-    \strng{namehash}{DBAW1}
-    \strng{fullhash}{DBAW1}
+    \strng{namehash}{DBAWMPvd1}
+    \strng{fullhash}{DBAWMPvd1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{title}{Multi-phase process mining: Aggregating instance graphs into
@@ -957,11 +980,9 @@
     \field{labeltitlesource}{title}
     \field{title}{Memetic Programming Algorithm with Automatically Defined
   Functions}
-    \field{month}{12}
-    \field{year}{2010}
   \endentry
 
-  \entry{SSvsGen}{misc}{}
+  \entry{SSvsGen}{article}{}
     \name{author}{2}{}{%
       {{hash=ND}{%
          family={Noever},
@@ -1321,13 +1342,14 @@
 
   \entry{metric-calculation}{article}{}
     \name{author}{3}{}{%
-      {{hash=vdAW}{%
+      {{hash=vdAWMP}{%
          prefix={van\bibnamedelima der},
          prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
-         given={Wil},
-         giveni={W\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
       {{hash=AA}{%
          family={Adriansyah},
@@ -1344,8 +1366,8 @@
          giveni={B\bibinitperiod},
       }}%
     }
-    \strng{namehash}{AWvdAADBv1}
-    \strng{fullhash}{AWvdAADBv1}
+    \strng{namehash}{AWMPvdAADBv1}
+    \strng{fullhash}{AWMPvdAADBv1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{abstract}{%
@@ -1603,6 +1625,7 @@
 
   \entry{PonyGE2-wiki}{misc}{}
     \field{labeltitlesource}{title}
+    \field{note}{dostęp: 15 lutego 2020}
     \field{title}{https://github.com/PonyGE/PonyGE2/wiki}
     \verb{url}
     \verb https://github.com/PonyGE/PonyGE2/wiki

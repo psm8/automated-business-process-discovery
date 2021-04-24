@@ -38,20 +38,19 @@
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie}{29}% 
 \contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{29}% 
 \contentsline {subsection}{\numberline {3.1.2}PonyGE2}{29}% 
-\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{29}% 
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{30}% 
 \contentsline {section}{\numberline {3.3}Projekt systemu}{32}% 
 \contentsline {subsection}{\numberline {3.3.1}Podzia\IeC {\l } na modu\IeC {\l }y}{32}% 
 \contentsline {subsection}{\numberline {3.3.2}Model}{33}% 
 \contentsline {section}{\numberline {3.4}Implementacja}{35}% 
-\contentsline {subsection}{\numberline {3.4.1}Og\IeC {\'o}lny schemat blokowy}{35}% 
-\contentsline {subsection}{\numberline {3.4.2}Parsowanie gramatyki}{35}% 
-\contentsline {subsection}{\numberline {3.4.3}Obliczanie metryk}{37}% 
-\contentsline {subsection}{\numberline {3.4.4}Obliczanie odwzorowania dla pojedynczego wariantu}{38}% 
-\contentsline {subsection}{\numberline {3.4.5}Wyszukiwanie w modelu \IeC {\'s}cie\IeC {\.z}ek o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{40}% 
-\contentsline {subsection}{\numberline {3.4.6}Obliczanie odwzorowania}{42}% 
-\contentsline {subsection}{\numberline {3.4.7}Znajdowanie najlepiej dopasowanych aktywno\IeC {\'s}ci w modelu}{43}% 
-\contentsline {subsection}{\numberline {3.4.8}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{45}% 
-\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{46}% 
+\contentsline {subsection}{\numberline {3.4.1}Parsowanie gramatyki}{35}% 
+\contentsline {subsection}{\numberline {3.4.2}Obliczanie metryk}{36}% 
+\contentsline {subsection}{\numberline {3.4.3}Obliczanie odwzorowania dla pojedynczego wariantu}{37}% 
+\contentsline {subsection}{\numberline {3.4.4}Wyszukiwanie w modelu \IeC {\'s}cie\IeC {\.z}ek o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{39}% 
+\contentsline {subsection}{\numberline {3.4.5}Obliczanie odwzorowania}{41}% 
+\contentsline {subsection}{\numberline {3.4.6}Znajdowanie najlepiej dopasowanych aktywno\IeC {\'s}ci w modelu}{43}% 
+\contentsline {subsection}{\numberline {3.4.7}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{45}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{45}% 
 \contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{49}% 
 \contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{49}% 
 \contentsline {subsection}{\numberline {4.1.1}Wynik dla przyk\IeC {\l }adu ze wst\IeC {\k e}pu}{49}% 
