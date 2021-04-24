@@ -1,122 +1,122 @@
 \chapter{Wstęp teoretyczny}
 \label{cha:wstepTeoretyczny}
 
+W celu wprowadzenia do tematyki odkrywania procesów biznesowych oraz programowania genetycznego w tej części zostały przybliżone niezbędne zagadnienia teoretyczne. Zaprezentowana tematyka obejmuje procesy biznesowe, zarządzanie nimi oraz ich eksplorację. Przedstawiono również notacje używaną  do reprezentowania procesów w~dalszej części pracy. Następnie, przybliżono programowanie genetyczne oraz ewolucję gramatyczną, a także omówiono, jakiej gramatyki używać w tej technice. Do oceny jakości modelu konieczne są metryki, dlatego opisano używane metryki i pokazano, jak je obliczać.
+
+
 %---------------------------------------------------------------------------
 
 \section{Procesy biznesowe}
 \label{sec:procesyBiznesowe}
 
-\subsection{Procesy biznesowe}
-W każdym dużym przedsiębiorstwie każdego dnia wykonywana jest ogromna ilość czynności koniecznych do funkcjonowania tej organizacji. Ludzie oraz systemy realizują rozmaite działania związane z różnymi, często niemającymi wiele wspólnego zadaniami jak, chociażby procesowanie płatności, składnie zamówień, wytwarzanie produktów czy ich transport. Przykłady te można mnożyć w zależności od sektora, w jakim obraca się dana firma. Im jest ona większa, tym trudniej jest osobom nią zarządzającym zrozumieć i opisać poszczególne czynności. W pewnym momencie, kiedy ilość różnych zadań rośnie do setek czy tysięcy, staje się to niemożliwe i potrzebny jest sposób na zebranie wiedzy o pojedynczych operacjach i zamknięcie ich w uporządkowaną strukturę. Stąd narodził się pomysł na wykorzystanie procesów biznesowych.
+W każdym dużym przedsiębiorstwie codziennie wykonywana jest ogromna ilość czynności koniecznych do funkcjonowania tej organizacji. Ludzie oraz systemy realizują rozmaite działania związane~z~różnymi, często niemającymi wiele wspólnego zadaniami, jak np. przetwarzanie płatności, składnie zamówień, wytwarzanie produktów czy ich transport. Przykłady te można mnożyć w zależności od~sektora, do~jakiego należy dana firma. Im jest ona większa, tym trudniej jest osobom nią zarządzającym zrozumieć i opisać poszczególne czynności. W pewnym momencie, kiedy ilość różnych zadań rośnie do~setek czy tysięcy, staje się to niemożliwe i potrzebny jest sposób na zebranie wiedzy o pojedynczych operacjach i zamknięcie ich w uporządkowaną strukturę. Stąd narodził się pomysł na wykorzystanie procesów biznesowych.
 
-Procesy biznesowe opisują zbiór aktywność, które podejmuje grupa podmiotów w celu osiągnięcia celu biznesowego. W literaturze brakuje jednej ogólnie przyjętej definicji procesu biznesowego. W latach 90. XX wieku proponenci BPR, czyli przeprojektowania procesów biznesowych (\textit{eng. business process re-engineering}) starali się sprecyzować pojęcie procesu biznesowego. W książce ,,Process Innovation: Reengineering Work through Information Technology'' \cite{davenport1993process} określono termin ten jako: ,,Ustrukturyzowany, mierzalny zbiór działań, których celem jest wytworzenie określonego produktu dla określonego klienta lub rynku''. Autor położył nacisk na zbiór kroków prowadzących do celu, raczej niż na końcowy efekt. W dalszej części podsumowano: ,,Proces jest zatem określonym uporządkowaniem czynności roboczych w czasie i przestrzeni, z początkiem i końcem oraz jasno określonymi wejściami i wyjściami: strukturą działania.''. Inni pionierzy BPR Michael Hammer i James Champy zaproponowali  podejście: ,,Proces biznesowy to zbiór działań, który pobiera jeden lub więcej rodzajów danych wejściowych i tworzy wynik, który ma wartość dla klienta'' \cite{HAMMER199390}. Autorzy dają większą dowolność, co do definicji procesu, nie wspominając o konieczności jego logicznej organizacji czy mierzalności. Z kolei Ivar Jacobson zupełnie pomija konieczność zamknięcia procesu w jakiekolwiek ramy, określając go jako: ,,Zestaw czynności wewnętrznych wykonywanych w celu obsługi klienta'' \cite{JacobsonObjectAdvantage}. Nacisk na konieczność odniesienia procesów do wymiernych środków firmy widzimy w definicji: ,,Procesy biznesowe są aktywną częścią biznesu. Opisują funkcje firmy i obejmują zasoby, które są używane, przekształcane lub wytwarzane. Proces biznesowy to abstrakcja, która pokazuje współpracę między zasobami i transformację zasobów w biznesie. Podkreśla, w jaki sposób wykonywana jest praca, zamiast opisywać produkty lub usługi wynikające z tego procesu.'' \cite{Eriksson2000BusinessMW}. Szczególnie ważny jest tutaj fragment o transformacji zasobów, gdyż każe on rozumieć poszczególne aktywności w procesie jako powiązane ze sobą i kończące się namacalnymi rezultatami. Definicja ,,Proces biznesowy to seria kroków mających na celu wytworzenie produktu lub usługi. W wyniku niektórych procesów produkt lub usługa jest odbierana przez zewnętrznego klienta organizacji. Nazywamy je podstawowymi procesami. Inne procesy wytwarzają produkty, które są niewidoczne dla klienta zewnętrznego, ale są niezbędne do efektywnego zarządzania firmą. Nazywamy je procesami wsparcia'' \cite{rummler_brache_1995} wprowadza rozgraniczenie na podtypy procesów. Ważnym jest jednak, że nie jest koniecznością, aby rezultaty procesu były widoczne na zewnątrz organizacji. Warto też zaznaczyć, że procesy biznesowe nie dotyczą jednej osoby czy nawet działu, a raczej udział w nich bierze wiele ludzi, maszyn czy systemów z różnych działów połączonych celem dostarczenia wspólnej wartości biznesowej.
+Procesy biznesowe opisują zbiór aktywności, które podejmuje grupa podmiotów w celu osiągnięcia celu biznesowego. W literaturze brakuje jednej ogólnie przyjętej definicji procesu biznesowego. W latach 90. XX wieku orędownicy BPR, czyli przeprojektowania procesów biznesowych (\textit{ang. Business Process Re-engineering}) starali się sprecyzować pojęcie procesu biznesowego. W książce ,,Process Innovation: Reengineering Work through Information Technology''~\cite{davenport1993process} określono termin ten jako: \textit{,,Ustrukturyzowany, mierzalny zbiór działań, których celem jest wytworzenie określonego produktu dla określonego klienta lub rynku''}. Autor położył nacisk na zbiór kroków prowadzących do celu, raczej niż na końcowy efekt. W dalszej części podsumowano: \textit{,,Proces jest zatem określonym uporządkowaniem czynności roboczych w czasie i przestrzeni, z początkiem i końcem oraz jasno określonymi wejściami i wyjściami: strukturą działania.''}. Inni pionierzy BPR Michael Hammer i James Champy zdefiniowali proces biznesowy jako: \textit{,,zbiór działań, który pobiera jeden lub więcej rodzajów danych wejściowych i tworzy wynik, który ma wartość dla klienta''}~\cite{HAMMER199390}. Autorzy dają większą dowolność, co do definicji procesu, nie wspominając o konieczności jego logicznej organizacji czy mierzalności. Z kolei Ivar Jacobson zupełnie pomija konieczność zamknięcia procesu w jakiekolwiek ramy, określając go jako: \textit{,,Zestaw czynności wewnętrznych wykonywanych w celu obsługi klienta''}~\cite{JacobsonObjectAdvantage}. Nacisk na konieczność odniesienia procesów do wymiernych środków firmy widzimy w definicji zaproponowanej przez Hans-Erika Erikssona: \textit{,,Procesy biznesowe są aktywną częścią biznesu. Opisują funkcje firmy i obejmują zasoby, które są używane, przekształcane lub wytwarzane. Proces biznesowy to abstrakcja, która pokazuje współpracę między zasobami~i~transformację zasobów w biznesie. Podkreśla, w jaki sposób wykonywana jest praca, zamiast opisywać produkty lub usługi wynikające z tego procesu.''}~\cite{Eriksson2000BusinessMW}. Szczególnie ważny jest tutaj fragment~o~transformacji zasobów, gdyż każe on rozumieć poszczególne aktywności w procesie jako powiązane ze sobą~i~kończące się namacalnymi rezultatami. Definicja \textit{,,Proces biznesowy to seria kroków mających na celu wytworzenie produktu lub usługi. W wyniku niektórych procesów produkt lub usługa jest odbierana przez zewnętrznego klienta organizacji. Nazywamy je podstawowymi procesami. Inne procesy wytwarzają produkty, które są niewidoczne dla klienta zewnętrznego, ale są niezbędne do efektywnego zarządzania firmą. Nazywamy je procesami wsparcia''}~\cite{rummler_brache_1995} wprowadza rozgraniczenie na podtypy procesów. Ważnym jest jednak, że nie jest koniecznością, aby rezultaty procesu były widoczne na zewnątrz organizacji. Warto też zaznaczyć, że procesy biznesowe nie dotyczą jednej osoby czy nawet działu,~a~raczej udział w nich bierze wiele ludzi, maszyn czy systemów z różnych działów połączonych celem dostarczenia wspólnej wartości biznesowej.
 
-Powyższe definicje skupiają się na delikatnie odmiennych aspektach procesów biznesowych, nie zawsze szczegółowo wspominając o innych. Starając się usystematyzować powyższe sformułowania, chcąc zbudować bazę do dalszej analizy tematu, można przyjąć, że procesy biznesowe charakteryzują:
+Powyższe definicje skupiają się na odmiennych aspektach procesów biznesowych, nie zawsze szczegółowo wspominając o innych. Starając się usystematyzować powyższe sformułowania, chcąc zbudować bazę do dalszej analizy tematu, można przyjąć, że procesy biznesowe charakteryzują:
 \begin{itemize}
-  \item[•] Określony cel, którym jest wytworzenie wartości dla klienta zewnętrznego lub pośrednio firmy - klienta wewnętrznego. Jednak warto jeszcze raz zaznaczyć, że proces biznesowy skupia się na sposobie osiągnięcia celu, a nie opisie celu samego w sobie. 
+  \item[•] Określony cel, którym jest wytworzenie wartości dla klienta zewnętrznego lub pośrednio firmy -- klienta wewnętrznego. Jednak warto jeszcze raz zaznaczyć, że proces biznesowy skupia się na~sposobie osiągnięcia celu, a nie opisie celu samego w sobie. 
   \item[•] Dyskretny, jasno zdefiniowany i identyfikowalny zbiór aktywności. 
-  \item[•] Jasno określony początek - wejście i koniec - wyjście.
+  \item[•] Jasno określony początek -- wejście i koniec -- wyjście.
   \item[•] Zależność przyczynowo-skutkowa pomiędzy kolejnymi aktywnościami.
 \end{itemize}
 
-Żeby lepiej zilustrować, czym jest proces biznesowy, poniżej znajduje się prosty przykład często spotykanego procesu.
+Aby lepiej zilustrować, czym jest proces biznesowy, na rys. \ref{fig:simple_business_process} znajduje się prosty przykład często spotykanego procesu.
 
-\begin{figure}[h]
-	\centering{\includegraphics[scale=0.7]{simple-business-process.png}}
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.57]{simple-process-new.png}}
 	\caption{\label{fig:simple_business_process}Przykład prostego procesu}
 \end{figure}
 
-Zauważmy, że mamy jasno zdefiniowany wejście - otrzymanie zamówienia od klienta oraz wyjście, kiedy dostarczamy oczekiwaną wartość dla klienta, a całość składa się z serii tworzących logiczną całość aktywności. Są one konkretnie zdefiniowane. Standardem jest zapisywanie aktywności w formie równoważników zdań.
+Zauważmy, że mamy jasno zdefiniowany wejście -- otrzymanie zamówienia od klienta oraz wyjście, kiedy dostarczamy oczekiwaną wartość dla klienta, a całość składa się z serii tworzących logiczną całość aktywności. Są one konkretnie zdefiniowane.
 
+Zdefiniowanie procesu biznesowego otwiera wiele możliwości analizy działań przedsiębiorstwa~i~wskutek tego wprowadzanie usprawnień. Dziedziną, która się tym zajmuje, jest zarządzanie procesami biznesowymi (\textit{ang. Business Process Managment}) zwane w skrócie BPM. Sercem jest proces,~a~samo BPM jest dyscypliną używającą różnych metod, technik i sposobów w celu projektowania, wprowadzania w życie, zarządzania i analizy procesów biznesowych~\cite{BPMDemystified}. 
 
-\subsection{Zarządzanie procesami biznesowymi}
-Zdefiniowanie procesu biznesowego otwiera wiele możliwości analizy działań przedsiębiorstwa i wskutek tego wprowadzanie usprawnień. Dziedziną, która się tym zajmuje, jest zarządzanie procesami biznesowymi (\textit{eng. Business process managment}) zwane w skrócie BPM. Sercem jest proces, a samo BPM jest dyscypliną używającą różnych metod, technik i sposobów w celu projektowania, wprowadzania w życie, zarządzania i analizy procesów biznesowych \cite{BPMDemystified}. 
+Celem stosowania metod zarządzania procesami biznesowym jest udoskonalanie procesów w danej organizacji biznesowej. Udoskonalanie może być rozumiane w różnoraki sposób w zależności od~kierunku rozwoju firmy. Może to być na przykład redukcja czasu, kosztów, czy dostarczanie lepszego produktu końcowego. Ważne jest, aby było to podejście całościowe i odnosiło się do całego zbioru aktywności w ramach danego procesu. Usprawnianie pojedynczej aktywności to nie jest BPM. Patrząc na~przykład powyżej, jeśli wprowadzono by usprawnienia w ramach wysyłania faktury, robiąc to elektronicznie zamiast tradycyjną pocztą, mimo że taka zmiana przyniosłaby poprawę wydajności, nie byłoby to zarządzaniem procesami biznesowymi. O BPM można by mówić, gdyby znaleziono sposób, żeby przeprojektować cały proces tak, aby wysyłanie faktury nie było potrzebne lub odwrotnie, jeśli dodano by nowe aktywności, co usprawniłoby proces jako całość czy nawet zmieniono kolejności zdarzeń w procesie, gdyż zmiana ilości poszczególnych, jednostkowych aktywności nie są konieczna, żeby ulepszyć proces jako całość \cite{BPMWhat}.
 
-Celem stosowania metod zarządzania procesami biznesowym jest udoskonalanie procesów w danej organizacji biznesowej. Udoskonalanie może być rozumiane w różnoraki sposób w zależności od kierunku rozwoju firmy. Może to być na przykład redukcja czasu, kosztów, czy dostarczanie lepszego produktu końcowego. Ważne jest, aby było to podejście całościowe i odnosiło się do całego zbioru aktywności w ramach danego procesu. Usprawnianie pojedynczej aktywności to nie jest BPM. Patrząc na przykład powyżej, jeśli wprowadzono by usprawnienia w ramach wysyłania faktury, robiąc to elektronicznie zamiast tradycyjną pocztą, mimo że taka zmiana przyniosłaby poprawę wydajności, nie byłoby to zarządzaniem procesami biznesowymi. O BPM można by mówić, gdyby znaleziono sposób, żeby przeprojektować cały proces tak, żeby wysyłanie faktury nie było potrzebne lub odwrotnie, jeśli dodano by nowe aktywności, co usprawniłoby proces jako całość czy nawet zmieniono kolejności zdarzeń w procesie, gdyż zmiana ilości poszczególnych, jednostkowych aktywności nie są konieczna, żeby ulepszyć proces jako całość \cite{BPMWhat}.
+Zarządzanie procesami biznesowymi jest zbiorem praktyk mających na celu udoskonalanie procesów. Trzeba więc rozumieć BPM jako pojęcie abstrakcyjne, jednak szczególnie w dzisiejszym świecie, zarządzanie procesami biznesowymi nie może się obyć bez wsparcia ze strony oprogramowania czy technik znanych z różnych dziedzin informatyki \cite{BPMSurvey}.
 
-Zarządzanie procesami biznesowymi jest zbiorem praktyk, działań mających na celu udoskonalanie procesów. Trzeba więc rozumieć BPM jako pojęcie abstrakcyjne, jednak szczególnie w dzisiejszym świecie, zarządzanie procesami biznesowymi nie może się obyć bez wsparcia ze strony oprogramowania czy technik znanych z różnych dziedzin informatyki \cite{BPMSurvey}. Na lepsze zrozumienie czym zajmuje się zarządzanie procesami biznesowymi oraz w jaki sposób możemy zastosować informatykę, a w szczególności eksplorację procesów w tej dziedzinie, może pozwolić zrozumienie cyklu życia procesu biznesowego.
-
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.55]{lifecycle.png}}
-	\caption{\label{fig:lifecycle}Cykl życia procesu biznesowego}
+	\caption{\label{fig:lifecycle}Cykl życia procesu biznesowego \cite{dumas2013fundamentals}}
 \end{figure}
 
-Cykl życia procesu biznesowego (\textit{eng. Business process lifecycle}) przedstawiono na rys. \ref{fig:lifecycle} \cite{dumas2013fundamentals}. Jest to zbiór kroków niezbędnych do skutecznego zarządzania procesami biznesowymi. W celu dostosowania do zmieniającej się rzeczywistości poszczególne kroki powinny być co pewien czas powtarzane. 
-
-Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuje przewagę komputerów i algorytmów nad wykonywaniem tych operacji przez człowieka. Metody informatyczne są stosowane, na każdym z wymienionych etapów. W szczególności dane zebrane w wyniku monitorowania procesów dają możliwość zastosowania metod z zakresu eksploracji procesów (sekcja \ref{sec:eksploracja}). Praca skupia się w głównej mierze na odkrywaniu procesów, czyli znajdowaniu istniejących już procesów na podstawie realnych danych. Należy zaznaczyć, że identyfikacja polega na ogólnym rozpoznaniu i nazwaniu zachodzących procesów, podczas gdy odkrywanie jest bardziej szczegółowe, a w jego wyniku otrzymujemy dokładny model.  
+Cykl życia procesu biznesowego (\textit{ang. Business Process Lifecycle}) przedstawiono na rys. \ref{fig:lifecycle}. Jest to~zbiór kroków niezbędnych do skutecznego zarządzania procesami biznesowymi. W celu dostosowania do zmieniającej się rzeczywistości poszczególne kroki powinny być co pewien czas powtarzane. Konieczność powtarzania elementów cyklu życia procesu biznesowego sygnalizuje przewagę komputerów~i~algorytmów nad wykonywaniem tych operacji przez człowieka. Metody informatyczne są~stosowane na każdym z wymienionych etapów. W szczególności dane zebrane w wyniku monitorowania procesów dają możliwość zastosowania metod z zakresu eksploracji procesów (sekcja \ref{sec:eksploracja}). Praca skupia się w~głównej mierze na odkrywaniu procesów, czyli znajdowaniu istniejących już procesów na podstawie realnych danych. Należy zaznaczyć, że identyfikacja polega na ogólnym rozpoznaniu~i~nazwaniu zachodzących procesów, podczas gdy odkrywanie jest bardziej szczegółowe, a w jego wyniku otrzymujemy dokładny model.  
 
 %---------------------------------------------------------------------------
 
-\section{Eksploracja procesów}
+\section{Metody modelowania i eksploracji procesów}
 \label{sec:eksploracja}
+W tej sekcji rozwinięto tematykę procesów biznesowych o~metody ich modelowania oraz eksploracji na podstawie danych zawartych w dziennikach zdarzeń.
+
 \subsection{Modelowanie procesów biznesowych}
 \label{sec:modelling}
-Na rys. \ref{fig:simple_business_process} przedstawiono przykład uproszczonego procesu biznesowego. Łatwo sobie wyobrazić, że proces ten w rzeczywistości może być znacznie bardziej skomplikowany. Część aktywności może być wykonywana równolegle, niektóre zdarzenia w ogóle nie zaistnieją lub będą występować kilkukrotnie w ramach jednego procesu. 
+Na rys. \ref{fig:simple_business_process} przedstawiono przykład uproszczonego procesu biznesowego. Łatwo sobie wyobrazić, że proces ten w rzeczywistości może być znacznie bardziej skomplikowany. Część aktywności może być wykonywana równolegle, niektóre zdarzenia w ogóle nie zaistnieją lub będą występować kilkukrotnie~w~ramach jednego procesu. 
 
-W sytuacji, w której zamówiony przez klienta towar będzie niedostępny, logiczne wydaje się poinformowanie go o opóźnieniu oraz danie mu możliwości anulowanie zamówienia lub jego kontynuacja i ponowne sprawdzenie dostępności. Ponadto, czynności takie jak wysłanie faktury oraz spakowanie i wysłanie zamówienia mogą być wykonane w dowolnej kolejności czy nawet jednocześnie przez dwie różne osoby. Proces staje się bardziej skomplikowany i konieczna do stworzenia jego modelu jest bardziej złożona notacja niż użyta do przedstawienia prostego procesu. 
+W sytuacji, w której zamówiony przez klienta towar będzie niedostępny, logiczne wydaje się poinformowanie go o opóźnieniu oraz danie mu możliwości anulowanie zamówienia lub jego kontynuacja~i~ponowne sprawdzenie dostępności. Ponadto, czynności takie jak wysłanie faktury oraz spakowanie~i~wysłanie zamówienia mogą być wykonane w dowolnej kolejności czy nawet jednocześnie przez dwie różne osoby. Proces staje się bardziej skomplikowany i konieczna do stworzenia jego modelu jest bardziej złożona notacja niż użyta do przedstawienia najprostszego procesu. 
 Istnieje wiele notacji do modelowania procesów biznesowych, wśród nich można wymienić schematy blokowe, diagramy aktywności UML, łańcuchy procesu sterowanego zdarzeniami (\textit{eng. Event-driven Process Chains}), sieci Petriego \cite{BPMComparission}. Obecnie najpopularniejszą notacją używaną do opisu procesów biznesowych jest Business Process  Model and Notation, w skrócie BPMN \cite{omg2011bpmn}. Daje ona możliwość opisania w jednoznaczny sposób skomplikowanych procesów czy stworzenia diagramów współdziałania procesów, jednocześnie pozostając łatwą do zrozumienia.
 
-Na grafice poniżej przedstawiono notację opartą o elementy BPMN, używaną w dalszej części pracy. Składają się na nią zdarzenia początkowe i końcowe, połączenia, bramki logiczne oraz aktywności. Czarnym kwadratem oznaczono sytuację, w której żadna aktywność nie jest wykonywana, co jest możliwe w bramce LUB. Także pętle mogą być pominięte, czyli wykonane zero razy.
+Na grafice na rys. \ref{fig:bpmn_example} przedstawiono notację opartą o elementy BPMN, używaną w dalszej części pracy. Składają się na nią zdarzenia początkowe i końcowe, połączenia, bramki logiczne oraz aktywności. Bramki LUB oraz ALBO mogą zostać pominięte, co pokazano dla bramki LUB. Podobnie pętle mogą zostać wykonane zero razy.
 
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.41]{BPMNelements.png}}
-	\caption{\label{fig:bpmn_example}Elementy BPMN}
+	\centering{\includegraphics[scale=0.4]{BPMNelements.png}}
+	\caption{\label{fig:bpmn_example}Elementy składające się na notację}
 	\label{fig:lifecycle}
 \end{figure}
 
-Korzystając z tej notacji, można przedstawić opisany wcześniej proces. Na rys.  \ref{fig:complicated_business_process_1} widać model po modyfikacjach. 
+Korzystając z tej notacji, można przedstawić opisany wcześniej proces. Na rys.  \ref{fig:complicated_business_process_1} widać model po~modyfikacjach. 
 
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.3]{complicated-process-example-1.png}}
-	\caption{\label{fig:complicated_business_process_1}Rozbudowany model procesu - przykład 1}
+	\centering{\includegraphics[scale=0.28]{complicated-process-example-1-new2.png}}
+	\caption{\label{fig:complicated_business_process_1}Rozbudowany model procesu -- przykład 1}
 \end{figure}
 
-Możliwe jest teraz poinformowanie klienta o opóźnieniu, a następnie anulowanie zamówienia lub powtórne sprawdzenie dostępności. Model ten jednak nie jest wystarczająco precyzyjny i pozwala na potwierdzenie zamówienia po informacji o jego opóźnieniu, a bez uprzedniego ponownego sprawdzenia dostępności. Można zaproponować inny model (rys. \ref{fig:complicated_business_process_2}), który rozwiązuje powyższe problemy, jednak aktywność - poinformowanie o opóźnieniu - występuje w nim dwukrotnie, co jest niepożądane i pogarsza jego czytelność.
+Możliwe jest teraz poinformowanie klienta o opóźnieniu, a następnie anulowanie zamówienia lub powtórne sprawdzenie dostępności. Model ten jednak nie jest wystarczająco precyzyjny i pozwala na~potwierdzenie zamówienia po informacji o jego opóźnieniu, a bez uprzedniego ponownego sprawdzenia dostępności. Można zaproponować inny model (rys. \ref{fig:complicated_business_process_2}), który rozwiązuje powyższe problemy, jednak aktywność -- poinformowanie o opóźnieniu -- występuje w nim dwukrotnie, co jest niepożądane i pogarsza jego czytelność.
 
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.35]{complicated-process-example-2.png}}
-	\caption{\label{fig:complicated_business_process_2}Rozbudowany model procesu - przykład 2}
+	\centering{\includegraphics[scale=0.39]{complicated-process-example-2-new2.png}}
+	\caption{\label{fig:complicated_business_process_2}Rozbudowany model procesu -- przykład 2}
 \end{figure}
 
-Co więcej, w pewnych przypadkach klient może mieć możliwość rezygnacji z zamówienia bez ówczesnego informowania go o opóźnieniu, a z czego nie zdawano sobie sprawy, wtedy konieczne może być stworzenie zupełnie innego modelu. Aby radzić sobie z tymi problemami, powstał szereg zestawów wytycznych, którymi warto się kierować, modelując procesy biznesowe. Wśród takich zasad można wymienić: zminimalizuj liczbę elementów w modelu, zminimalizuj liczbę ścieżek w modelu, używaj jednego zdarzenia początkowego i jednego końcowego, unikaj bramek LUB - OR , zdekomponuj model zawierający więcej niż 50 elementów \cite{7PMG}.
+Niewykluczona jest również sytuacja, że w pewnych przypadkach możliwe jest anulowanie zamówienia bez uprzedniego poinformowania klienta o opóźnieniu, a~z~czego nie zdawano sobie sprawy na~etapie tworzenia modelu. Wtedy konieczne będzie przemodelowanie procesu. Aby radzić sobie z~tymi problemami i~tworzyć lepsze modele, powstał szereg zestawów wytycznych, którymi warto się kierować, modelując procesy biznesowe. Wśród takich zasad można wymienić: zminimalizuj liczbę elementów w~modelu, zminimalizuj liczbę ścieżek w~modelu, używaj jednego zdarzenia początkowego i jednego końcowego, unikaj bramek LUB, zdekomponuj model zawierający więcej niż 50 elementów \cite{7PMG}.
 
-Modelowania procesów biznesowych jest próbą stworzenia uproszonej wersji rzeczywistości na podstawie przewidywań i założeń. Modele dają abstrakcję, użyteczne przybliżenie rzeczywistości, jednak należy pamiętać, że ,,Wszystkie modele są błędne'' i rzeczywisty proces najprawdopodobniej będzie różnił się od nawet najlepszego modelu. 
+Modelowania procesów biznesowych jest próbą stworzenia uproszonej wersji rzeczywistości na podstawie przewidywań i założeń. Modele dają użyteczne przybliżenie rzeczywistości, jednak należy pamiętać, że \textit{,,wszystkie modele są błędne''} i rzeczywisty proces najprawdopodobniej będzie różnił się od~nawet najlepszego modelu. 
 
 
 \subsection{Eksploracja procesów}
 
-W dzisiejszych czasach standardem jest, że organizacje biznesowe korzystają z systemów informatycznych, takich jak, chociażby systemy ERP czy CRM, wspierających ich działalność. Systemy te rejestrują dane o procesach, które wspierają. Dane te mogą być później analizowane i wykorzystane do wprowadzenia usprawnień w działaniu firmy.   
+W dzisiejszych czasach standardem jest, że organizacje biznesowe korzystają z systemów informatycznych, takich jak systemy ERP czy CRM, wspierających ich działalność. Systemy te rejestrują dane~o~procesach, które wspierają. Dane te mogą być później analizowane i wykorzystane do wprowadzenia usprawnień w działaniu firmy.   
 
-Tradycyjne metody są wolne, kosztowne i narażone na błędy ludzkie, a konieczność ich ciągłego powtarzania, połączona z wszechobecnym w biznesie trendem automatyzacji sprawiają, że eksploracja procesów zyskuje na znaczeniu \cite{market-pm}. Ważna jest możliwość szybkiej adaptacji do zmian, a automatyzacja odkrywania procesów biznesowych pozwala na wykonywanie powtarzalnych zadań, eliminując przy tym błędy, co idealnie wpisuje się w ten trend.
+Tradycyjne, ręczne modelowanie procesów jest wolne, kosztowne i narażone na błędy ludzkie, a~konieczność ciągłego powtarzania tej czynności, połączona z wszechobecnym w~biznesie trendem automatyzacji sprawiają, że eksploracja procesów zyskuje na znaczeniu \cite{market-pm}. Ważna jest możliwość szybkiej adaptacji do~zmian, a~automatyzacja odkrywania procesów biznesowych pozwala na wykonywanie powtarzalnych zadań, eliminując przy tym błędy, co idealnie wpisuje się w ten trend.
 
-Jest to szeroko pojęta dziedzina, która zawiera różne aplikacje inteligencji obliczeniowej, uczenia maszynowego i eksploracji danych do modelowania i analizy procesów. 
-Jest wartościowym dodatkiem do innych metod eksploracji danych, gdyż zamiast skupiać się pojedynczym rezultacie i tworzyć dotyczące jego predykcje, celem jest zrozumienie całego procesu i akcji, które prowadzą do końcowego wyniku. Jest to trudniejsze, ale wyjątkowo cenne z punktu widzenia biznesowego, gdyż jakakolwiek zmiana w trakcie procesu może sprawić, że przewidywania będą kompletnie trafione, a zrozumienie całego procesu pozwala na pełniejszy obraz i łatwiejsze dostosowywanie się do zmian. 
+Eksploracja procesów jest to szeroko pojęta dziedzina, która zawiera różne aplikacje inteligencji obliczeniowej, uczenia maszynowego i eksploracji danych do modelowania i analizy procesów. 
+Jest wartościowym dodatkiem do innych metod eksploracji danych, gdyż zamiast skupiać się pojedynczym rezultacie i tworzyć dotyczące jego predykcje, celem jest poznanie akcji, które prowadzą do końcowego wyniku. Jest to trudniejsze, ale wyjątkowo cenne z punktu widzenia biznesowego, gdyż jakakolwiek zmiana w trakcie procesu może sprawić, że przewidywania będą kompletnie nietrafione, a  zrozumienie całego procesu pozwala na pełniejszy obraz i łatwiejsze dostosowywanie się do zmian. 
 
-Procesy biznesowe są zazwyczaj domeną analityków i menadżerów, którzy nie zawsze podchodzą do tematu ich analizy w sposób ścisły i mający odniesie w faktach, często opierając się na własnych przeczuciach czy doświadczeniach, wprowadzając czynnik ludzki, który może być przyczyną błędów. Metoda na stworzenie pomostu między metodami informatycznymi a biznesem i stworzenie możliwości na ścisłe, powtarzalne i sprawdzalne analizowanie procesów jest więc nad wyraz cenna. Eksploracja procesów biznesowych oparta jest bowiem na danych i nie ma w niej wiele miejsca na przypuszczenia i domysły.
+Procesy biznesowe są zazwyczaj domeną analityków i menadżerów, którzy nie zawsze podchodzą do tematu ich analizy w sposób ścisły i mający odniesie w faktach, często opierając się na własnych przeczuciach czy doświadczeniach, wprowadzając czynnik ludzki, który może być przyczyną błędów. Stworzenie pomostu między metodami informatycznymi a~biznesem i~stworzenie możliwości na ścisłe, powtarzalne~i~sprawdzalne analizowanie procesów jest więc nad wyraz cenne. Eksploracja procesów biznesowych oparta jest bowiem na danych i~nie ma w~niej wiele miejsca na przypuszczenia~i~domysły.
 
-Podsumowując, eksploracja procesów są to techniki, narzędzia oraz metody odkrywania, monitorowania i usprawniania rzeczywistych procesów poprzez wiedzę wyodrębnioną z dzienników zdarzeń powszechnie dostępnych w systemach informatycznych \cite{pm-manifesto}\cite{mining-overview}.
-Wyróżnia się 3 podkategorie: 
+Na eksplorację procesów składają się techniki, narzędzia oraz metody odkrywania, monitorowania~i~usprawniania rzeczywistych procesów poprzez wiedzę wyodrębnioną z~dzienników zdarzeń powszechnie dostępnych w~systemach informatycznych \cite{pm-manifesto, mining-overview}.
+Wyróżnia się trzy podkategorie: 
 \begin{itemize}
-  \item[•] automatyczne odkrywanie procesów
-  \item[•] sprawdzanie zgodności (\textit{eng. conformance checking})
-  \item[•] udoskonalanie procesu (\textit{eng. performance mining})
+  \item[•] automatyczne odkrywanie procesów (\textit{ang. process discovery}),
+  \item[•] sprawdzanie zgodności (\textit{ang. conformance checking}),
+  \item[•] udoskonalanie procesu (\textit{ang. performance mining}).
 \end{itemize}
 
 
 \subsection{Dzienniki zdarzeń}
 \label{sec:event_logs}
-Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienniki zdarzeń, zwane często logami.
+Danymi wejściowymi dla algorytmów z dziedziny eksploracji procesów są dzienniki zdarzeń, zwane często logami. Przykład przedstawiono na rys. \ref{fig:event_log_example}.
  
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.6]{event-log-example.png}}
+	\centering{\includegraphics[scale=0.6]{event-log-example-2.png}}
 	\caption{\label{fig:event_log_example}Przykład dziennika zdarzeń}
 \end{figure}
 
-Przyjmuje się, że aby mówić o dzienniku zdarzeń powinien on zawierać 3 informacje: numer przypadku, czyli unikalny identyfikator zbioru aktywności, nazwę aktywności oraz datę jej wykonania - ważną tylko w kontekście kolejności wykonywania pojedynczych aktywności. Ponadto może on zawiera inne zbędne w kontekście odkrywania procesów biznesowych dodatkowe informacje, takie jak: podmiot wykonującym daną aktywność, miejsce, koszt czy aktualny postęp wykonania. Oczywiście te pozostałe dane mogą być wykorzystywane w kolejnych etapach analizy i usprawniania procesu.
+Przyjmuje się, że aby mówić o dzienniku zdarzeń powinien on zawierać trzy informacje niezbędne w kontekście odkrywania procesów biznesowych: numer przypadku, czyli unikalny identyfikator zbioru aktywności, nazwę aktywności oraz datę jej wykonania -- ważną tylko w kontekście kolejności wykonywania pojedynczych aktywności. Ponadto może on zawiera inne dodatkowe informacje, takie jak: podmiot wykonujący daną aktywność, miejsce, koszt czy aktualny postęp wykonania. Te~pozostałe dane mogą być wykorzystywane w kolejnych etapach analizy i usprawniania procesu.
 
-Mając do dyspozycji te 3 informacje - poszczególne przypadki, aktywności na nie się składające oraz ich kolejność, zliczane jest, jak często poszczególne aktywności występują w danej kolejności. Każdy taki przypadek zwany jest wariantem procesu. Oprócz tego niezbędna jest wiedza, jak często dany wariant wystąpił.
+Mając do dyspozycji te trzy informacje -- poszczególne przypadki, aktywności na~nie się składające oraz ich kolejność, zliczane jest, jak często poszczególne aktywności występują w danej kolejności. Każdy taki uporządkowany zbiór aktywności zwany jest wariantem procesu. Przykład odpowiadający dzienniki zdarzeń pokazanemu w tej sekcji przedstawiono na rys. \ref{fig:process_variants_example}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.6]{variants-example.png}}
 	\caption{\label{fig:process_variants_example}Warianty procesu odpowiadające przykładowemu dziennikowi zdarzeń}
 \end{figure}
@@ -126,37 +126,29 @@ Dla poprawy czytelności aktywności często reprezentowane są jako symbole, np
 \subsection{Automatyczne odkrywanie procesów biznesowych}
 \label{sec:discovery}
 
-Automatyczne odkrywanie procesów biznesowych jest poddziedziną eksploracji procesów i obejmuje techniki przekształcania danych w procesy. Ważne, że proces już istnieje i jest on jedynie odkrywany. Wejściem jest dziennik zdarzeń, a wyjściem mapa lub model procesu.
+Automatyczne odkrywanie procesów biznesowych jest poddziedziną eksploracji procesów i~obejmuje techniki przekształcania danych w procesy. Wejściem jest dziennik zdarzeń, a wyjściem mapa lub model procesu. Ważne jest, żeby proces był oparty na analizie prawdziwych danych, a nie spekulacjach i~założeniach. Automatyczne odkrywanie procesów pozwala na znajdowanie procesu takim, jaki jest, a~nie takim, jakim chciano by, żeby był.
 
-Zaprojektowane procesy nie zawsze są realizowane w praktyce. Ważne jest, żeby proces był oparty na analizie prawdziwych danych, a nie spekulacjach i założeniach. Pozwala na znajdowanie procesu takim, jaki jest, a nie takim, jakim chciano by, żeby był.
-
-\begin{figure}[h]
-	\centering{\includegraphics[scale=0.5]{model-vs-real.png}}
-	\caption{\label{fig:subcaption_example}Proces rzeczywisty i pierwotnie zakładany}
-\end{figure}
-
-Celem automatycznego odkrywania procesów biznesowych jest zaprojektowanie funkcji - algorytmu, która przekształci dane z dziennika zdarzeń w model procesu \cite{pm-book}. Istnieje wiele algorytmów do odkrywania procesów biznesowych. Wśród najpopularniejszych można wymienić:
+Celem automatycznego odkrywania procesów biznesowych jest zaprojektowanie funkcji -- algorytmu, która przekształci dane z dziennika zdarzeń w model procesu \cite{pm-book}. Istnieje wiele algorytmów do odkrywania procesów biznesowych. Wśród najpopularniejszych można wymienić:
 \begin{itemize}
-  \item[•] Alpha algorithm \cite{alpha-algorithm}
-  \item[•] The ILP Miner \cite{ILP-miner}
-  \item[•] Heuristic Miner \cite{heuristics-miner}
-  \item[•] Multi-phase Miner \cite{multi-phase-miner}
-  \item[•] Inductive Miner \cite{inductive-miner}
+  \item[•] Alpha algorithm \cite{alpha-algorithm},
+  \item[•] The ILP Miner \cite{ILP-miner},
+  \item[•] Heuristic Miner \cite{heuristics-miner},
+  \item[•] Multi-phase Miner \cite{multi-phase-miner},
+  \item[•] Inductive Miner \cite{inductive-miner}.
 \end{itemize}
 
-Istnieją 4 powszechnie używane kryteria do określania jakości otrzymanego model. Są to:
+Istnieją cztery powszechnie używane kryteria do określania jakości otrzymanego modelu. Konieczne jest znalezienie balansu między nimi, gdyż często starając się poprawiać model pod kątem jednego kryterium, pogorszy się on pod względem innych. Powstało wiele metryk przedstawiających je za pomocą wzorów matematycznych \cite{conf-propositions, Blum2015MetricsIP}. Bardziej szczegółowo wybór metryk omówiono w sekcji \ref{sec:metryki}, a~poniżej przedstawiono jedynie krótki opis poszczególnych kryteriów:
 \begin{itemize}
-  \item[•] odwzorowanie (\textit{eng. fitness}) - zgodność modelu z dziennikiem zdarzeń.
-  \item[•] prostota (\textit{eng. simplicity}) - złożoność i łatwość zrozumienia modelu.
-  \item[•] precyzja (\textit{eng. precision}) - brak zachowań niezwiązanych z logiem, a możliwych w modelu.
-  \item[•] generalizacja (\textit{eng. genralization}) - odzwierciedlenie w modelu prawdopodobnych aktywności, mimo że nie znajdują się one w logu.
+  \item[•] odwzorowanie (\textit{ang. fitness}) -- zgodność modelu z dziennikiem zdarzeń,
+  \item[•] prostota (\textit{ang. simplicity}) -- złożoność i łatwość zrozumienia modelu,
+  \item[•] precyzja (\textit{ang. precision}) -- brak zachowań niezwiązanych z logiem, a możliwych w modelu,
+  \item[•] generalizacja (\textit{ang. genralization}) -- odzwierciedlenie w modelu brakujących aktywności z powodu niekompletnego logu.
 \end{itemize}
-Konieczne jest znalezienie balansu między nimi, gdyż często starając się poprawiać model pod kątem jednego kryterium, pogorszy się on pod względem innych. Powstało wiele metryk przedstawiających te kryteria za pomocą wzorów matematycznych \cite{conf-propositions} \cite{Blum2015MetricsIP}.
-Bardziej szczegółowo wybór metryk omówiono w sekcji \ref{sec:metryki}.
 
-Wśród problemów dotykających istniejące algorytmy można wymienić problem ze znajdowaniem aktywności zachodzących równolegle, brak możliwości pomijania aktywności czy reprezentowania duplikatów, nieradzenie sobie z zakłóceniami w logu, tworzenie zbyt skomplikowanych modeli, czy trudność z odwzorowaniem niektórych zachowań. Modele stworzone mogą nie być spójne strukturalnie \cite{dongen2006b} \cite{StructuralDetectionofDeadlocks}, przez co rozumie się modele, w których istnieje aktywność, z której nie możemy osiągnąć zdarzenia końcowego lub nie może być ona w żaden sposób osiągnięta ze zdarzenia początkowego. Metody te zazwyczaj oparte są na grafach bezpośrednich następstw (\textit{eng. directly follows graphs}), przez co problemem może być sytuacja, kiedy log jest niekompletny. 
 
-Zastosowanie algorytmów genetycznych do automatycznego odkrywania procesów biznesowych może być odpowiedzią na te kłopoty. Takie podejście pozwala na wyeliminowanie części problemów często dotyczących innych metod. Najważniejszą jednak przewagą algorytmów genetycznych jest pełna dowolność w kwestii generowania modelu pod kątem metryk zdefiniowanych przez użytkownika. Często znalezienie dobrze dopasowanego do logu modelu może być okupione stworzeniem bardzo skomplikowanego modelu - niewystarczająca prostota, pozwalającego na wiele zachowań nieobecnych w logu - niewystarczająca precyzja. Algorytm ewolucyjny pozwala na nieograniczoną możliwość manipulacji parametrami, żeby znaleźć oczekiwany balans między wszystkimi metrykami. Możliwe jest też stworzenie nowych, własnych metryk, gdyż są one niezależne od samego algorytmu ewolucyjnego. Klasyczne algorytmy mają problem z uzyskaniem dobrych rezultatów dla wszystkich metryk i nie mają możliwości zmiany parametrów startowych.
+Wśród problemów dotykających istniejące algorytmy można wymienić problem ze znajdowaniem aktywności zachodzących równolegle, brak możliwości pomijania aktywności czy reprezentowania duplikatów, nieradzenie sobie z zakłóceniami w logu, tworzenie zbyt skomplikowanych modeli, czy trudność z odwzorowaniem niektórych zachowań. Modele stworzone mogą nie być spójne strukturalnie~\mbox{\cite{dongen2006b, StructuralDetectionofDeadlocks}}, przez co rozumie się modele, w których istnieje aktywność, z której nie możemy osiągnąć zdarzenia końcowego lub nie może być ona w żaden sposób osiągnięta ze zdarzenia początkowego. Metody te zazwyczaj oparte są na grafach bezpośrednich następstw (\textit{ang. directly follows graphs}), przez co problemem może być sytuacja, kiedy log jest niekompletny. 
+
+Zastosowanie algorytmów genetycznych do automatycznego odkrywania procesów biznesowych może być odpowiedzią na te kłopoty. Takie podejście pozwala na wyeliminowanie części problemów często dotyczących innych metod. Najważniejszą jednak przewagą algorytmów genetycznych jest pełna dowolność w kwestii generowania modelu pod kątem metryk zdefiniowanych przez użytkownika. Często znalezienie dobrze dopasowanego do logu modelu może być okupione stworzeniem bardzo skomplikowanego modelu -- niewystarczająca prostota, pozwalającego na wiele zachowań nieobecnych w logu -- niewystarczająca precyzja. Algorytm ewolucyjny pozwala na nieograniczoną możliwość manipulacji parametrami, żeby znaleźć oczekiwany balans między wszystkimi metrykami. Możliwe jest też stworzenie nowych, własnych metryk, gdyż są one niezależne od samego algorytmu ewolucyjnego. Klasyczne algorytmy mają problem z uzyskaniem dobrych rezultatów dla wszystkich metryk i nie mają możliwości zmiany parametrów startowych.
 
 %---------------------------------------------------------------------------
 
@@ -165,24 +157,24 @@ Zastosowanie algorytmów genetycznych do automatycznego odkrywania procesów biz
 \subsection{Algorytmy ewolucyjne}
 Algorytmy ewolucyjne \cite{EA} są inspirowaną selekcją naturalną metaheurystyką, która używa znanych z ewolucji biologicznej operacji jak selekcja, krzyżowanie czy mutacja do rozwiązywania problemów wyszukiwania i optymalizacji. Są rodziną metod przeszukiwania przestrzeni losowych rozwiązań w celu wyszukania najlepszych z nich. 
 
-Algorytmy ewolucyjne znajdują zastosowanie w problemach, dla których nie jest konieczna gwarancja znalezienia najlepszego rozwiązania. Cechami wyróżniającymi je na tle innych algorytmów uczenia maszynowego jest istnienie puli zamiast jednego rozwiązywania, co umożliwia szersze przeszukiwanie przestrzeni rozwiązań oraz nieograniczoną i łatwą w zaimplementowaniu paralelizację. Algorytmy te są znacznie bardziej nastawione na globalne eksplorowanie nowych rozwiązań, zamiast na jak najszybsze osiągnięcie celu. Z tego względu dobrze nadają się do problemów, gdzie istnieje dużo ekstremów, a przestrzeń poszukiwań jest duża. Jako przeciwieństwo, metody oparte na gradiencie w najprostszej znajdują tylko lokalne ekstrema, nawet po modyfikacjach takich, jak na przykład simulated anneling wciąż nie ma populacji i możliwości tak szerokiego przeszukiwania przestrzeni rozwiązań.
+Algorytmy ewolucyjne znajdują zastosowanie w problemach, dla których nie jest konieczna gwarancja znalezienia najlepszego rozwiązania. Cechami wyróżniającymi je na tle innych algorytmów uczenia maszynowego jest istnienie puli zamiast jednego rozwiązywania, co umożliwia szersze przeszukiwanie przestrzeni rozwiązań oraz nieograniczoną i łatwą w zaimplementowaniu paralelizację. Algorytmy te są znacznie bardziej nastawione na globalne eksplorowanie nowych rozwiązań, zamiast na jak najszybsze osiągnięcie celu. Z tego względu dobrze nadają się do problemów, gdzie istnieje dużo ekstremów, a przestrzeń poszukiwań jest duża. Jako przeciwieństwo, metody oparte na gradiencie w najprostszej znajdują tylko lokalne ekstrema, nawet po modyfikacjach takich, jak na przykład symulowane wyżarzanie (\textit{ang. simulated anneling}) wciąż nie ma populacji i możliwości tak szerokiego przeszukiwania przestrzeni rozwiązań.
 
-Sposób działania algorytmów genetycznych polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowanych przez bity, liczby lub znaki i zapisywanych w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostymi przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią, dla której możliwe jest obliczanie funkcji dopasowania (\textit{eng. fitness function}), co pozwala ocenić, jak dobre jest wygenerowane rozwiązanie. Następnie, istniejąca populacja jest modyfikowana poprzez krzyżowanie i mutacje. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Po zastosowaniu tych operatorów i sklasyfikowaniu rozwiązań, spośród głównie, choć nie tylko najlepszych osobników, utworzona zostaje nowa populacja, dla której cały proces jest powtarzany do momentu znalezienia satysfakcjonującego rezultatu.
+Sposób działania algorytmów genetycznych polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowanych przez bity, liczby lub znaki i zapisywanych w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostymi przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią, dla której możliwe jest obliczanie funkcji dopasowania (\textit{ang. fitness function}), co pozwala ocenić, jak dobre jest wygenerowane rozwiązanie. Następnie, istniejąca populacja jest modyfikowana poprzez krzyżowanie i mutacje. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Po zastosowaniu tych operatorów i sklasyfikowaniu rozwiązań, spośród głównie, choć nie tylko najlepszych osobników, utworzona zostaje nowa populacja, dla której cały proces jest powtarzany do momentu znalezienia satysfakcjonującego rezultatu.
 
-\subsection{Szczegółowe omówienie operatorów i działania algorytmów ewolucyjnych}
+\subsection{Operatory i działanie algorytmów ewolucyjnych}
 Tworzenie populacji jest pierwszym krokiem algorytmu ewolucyjnego. Może ono odbywać się kompletnie losowo lub do tworzenia nowych osobników może zostać użyta odpowiednia heurystyka. 
 
 Kolejny krok - selekcja pozwala na zachowanie w populacji części osobników promując najlepszych z nich, co sprawia, że przeszukiwanie przestrzeni rozwiązań nie jest kompletnie losowe. Można skorzystać z metod takich jak:
 \begin{itemize}
-  \item[•] Selekcja proporcjonalna - wybierane są losowo osobniki z puli wszystkich w populacji z warunkiem, że rozwiązania z największą wartością metryk mają większą szansę na bycie w niej zachowanymi. 
-  \item[•] Selekcja turniejowa - wybierany jest podzbiór ze zbioru rozwiązań i zachowywane w przyszłej populacji są najlepsze osobniki z tego podzbioru. Rozwiązanie to pozwala na wpływ na presję genetyczną - zwiększając wielkość podzbioru, ograniczamy szansę na wybór z niską wartością metryk. Jest to metoda prosta w implementacji, która umożliwia łatwe zrównoleglenie.
+  \item[•] Selekcja proporcjonalna -- wybierane są losowo osobniki z puli wszystkich w populacji z warunkiem, że rozwiązania z największą wartością metryk mają większą szansę na bycie w niej zachowanymi. 
+  \item[•] Selekcja turniejowa -- wybierany jest podzbiór ze zbioru rozwiązań i zachowywane w przyszłej populacji są najlepsze osobniki z tego podzbioru. Rozwiązanie to pozwala na wpływ na presję genetyczną - zwiększając wielkość podzbioru, ograniczamy szansę na wybór z niską wartością metryk. Jest to metoda prosta w implementacji, która umożliwia łatwe zrównoleglenie.
 \end{itemize}
 
 Żeby uniknąć sytuacji, w której najlepsze rozwiązania zostaną zmodyfikowane, możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w populacji niezależnie od wyniku selekcji.
 
 Następnie stosowane są operatory krzyżowania i mutacji. Krzyżowanie jest zamianą materiału genetycznego, czyli części genotypu pomiędzy dwoma osobnikami w populacji tworząc również dwa zmienione osobniku. Mutacja natomiast zachodzi w obrębie jednego osobnika.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering{\includegraphics[scale=0.6]{Mutation-and-crossover-operations.jpg}}
 	\caption{\label{fig:mutation-and-crossover-operations}Mutacja i krzyżowanie}
 \end{figure}
@@ -191,21 +183,21 @@ Operatory te nie muszą i zazwyczaj nie są stosowane do każdego osobnika w pop
 
 Najczęściej używane operatory krzyżowania to:
 \begin{itemize}
-\item[•] Krzyżowanie punktowe - spośród dwóch genotypów losowo wybierany jest jeden punkt, następnie tworzone są dwa nowe genotypy pierwszy z genów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
+\item[•] Krzyżowanie punktowe -- spośród dwóch genotypów losowo wybierany jest jeden punkt, następnie tworzone są dwa nowe genotypy pierwszy z genów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
 
-\item[•] Krzyżowanie dwupunktowe - spośród dwóch genotypów losowo wybierane są dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
+\item[•] Krzyżowanie dwupunktowe -- spośród dwóch genotypów losowo wybierane są dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
 
-\item[•] Krzyżowanie n-punktowe - uogólnienie powyższych krzyżowań dla n punktów.
+\item[•] Krzyżowanie n-punktowe -- uogólnienie powyższych krzyżowań dla n punktów.
 
-\item[•] Krzyżowanie zamiana w drzewie - metoda opiera się na modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie zamieniane są ze sobą dwa poddrzewa. W tym przypadku tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
+\item[•] Krzyżowanie zamiana w drzewie -- metoda opiera się na modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie zamieniane są ze sobą dwa poddrzewa. W tym przypadku tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
 \end{itemize}
 Ponadto krzyżowania możemy podzielić na stało-punktowe, czyli takie, w którym wybierany jest ten sam punktu lub punkty w obu osobnikach, przez co nowe genotypy mieć tą samą długość jak rodzice i zmienno-punktowe, gdzie mogą to być różne punkty, co skutkuje dużą zmienności w rozmiarach utworzonych genotypów. 
 
 Natomiast operatory mutacji to:
 \begin{itemize}
-\item[•] Mutacja punkowa - dowolny gen w genotypie zostaje zmieniony na inną losową wartość. Przez co odpowiadająca mu produkcja tworzy nową wartość. Pozostałe produkcje pozostają niezmienione.
+\item[•] Mutacja punkowa -- dowolny gen w genotypie zostaje zmieniony na inną losową wartość. Przez co odpowiadająca mu produkcja tworzy nową wartość. Pozostałe produkcje pozostają niezmienione.
 
-\item[•] Mutacja zamiana w drzewie - metoda opiera się modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo. Analogicznie jak w przypadku krzyżowania tworzone są tylko prawidłowe rozwiązania, jednak konieczna jest większa ilość obliczeń. 
+\item[•] Mutacja zamiana w drzewie -- metoda opiera się modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo. Analogicznie jak w przypadku krzyżowania tworzone są tylko prawidłowe rozwiązania, jednak konieczna jest większa ilość obliczeń. 
 \end{itemize}
 
 Ostatnim krokiem jest zastąpienie osobników w poprzedniej populacji przez nowych powstałych na skutek zastosowania wcześniej wspomnianych operatorów. Istnieją dwa podejścia, sugerujące zastępowanie całej populacji lub tylko kilku osobników \cite{SSvsGen}.
@@ -216,15 +208,15 @@ Optymalny model procesu biznesowego może mieć różną wielkość, dlatego chc
 
 Oparta na programowaniu genetycznym jest ewolucja gramatyczna \cite{ryan_collins_neill_1998}. Korzysta ona ze standardowych metod ewolucji genetycznej, jednak ewoluuje gramatykę w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana w notacji BNF (sekcja \ref{sec:BNF}). Dzięki zastosowaniu rekursywnych produkcji możliwe jest tworzenie rozwiązań o różnej długości. 
 
-\subsection{BNF}
+\subsection{Notacja Backusa-Naura}
 \label{sec:BNF}
 Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę języka, czyli sposób łączenia poszczególnych symboli, nie mówiąc nic o znaczeniu poszczególnych słów języka. Odnosi się to także do języków formalnych np. języków programowania. Do opisu takich języków służą gramatyki formalne. Na gramatykę formalną składa się z uporządkowana czwórka G = (T,N,P,S), gdzie 
 
 \begin{itemize}
-  \item[•] T - skończony zbiór symboli terminalnych, czyli stałych, symboli, które nie mogą być zastąpione innym ani podzielone na mniejsze 
-  \item[•] N - skończony zbiór symboli nieterminalnych, czyli zmiennych, symboli, które są modyfikowane przy tworzeniu języka
-  \item[•] P - skończony zbiór produkcji, czyli zasad, przekształceń postaci (N$\cup$T)*N(N$\cup$T)* -> (N$\cup$T)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i nieterminalnych.
-  \item[•] S - symbol startowy, gdzie S $\in$ N
+  \item[•] T -- skończony zbiór symboli terminalnych, czyli stałych, symboli, które nie mogą być zastąpione innym ani podzielone na mniejsze 
+  \item[•] N -- skończony zbiór symboli nieterminalnych, czyli zmiennych, symboli, które są modyfikowane przy tworzeniu języka
+  \item[•] P -- skończony zbiór produkcji, czyli zasad, przekształceń postaci (N$\cup$T)*N(N$\cup$T)* -> (N$\cup$T)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i nieterminalnych.
+  \item[•] S -- symbol startowy, gdzie S $\in$ N
 \end{itemize}
 
 W informatyce szczególnie szeroko stosowane są gramatyki bezkontekstowe. Pozwalają one na pokazanie, w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Zaletą jest też ich stosunkowo łatwe parsowanie.
@@ -234,7 +226,7 @@ Gramatyka bezkontekstowa jest to gramatyka, w której wszystkie produkcje mają 
 \end{center}
 gdzie A jest to pojedynczy symbol nieterminalny, a $\alpha$ to dowolny zbiór symboli terminalnych i nieterminalnych.
 	
-Notacja Backusa-Naura (\textit{eng. Backus-Naur Form}) \cite{Backus1959TheSA}\cite{Naur}\cite{Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
+Notacja Backusa-Naura (\textit{ang. Backus-Naur Form}) \cite{Backus1959TheSA}\cite{Naur}\cite{Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
 
 \begin{itemize}
   \item[•] ::= - produkcja
@@ -261,8 +253,8 @@ Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramaty
   \item[•] Stworzona gramatyka powinna umożliwić na tworzenie jak najmniejszej ilości rozwiązań, które nie należą do języka, co prawda nie uniemożliwi to działania algorytmu, gdyż można odrzucić te rozwiązania na etapie parsowania, ale warto oszczędzić niepotrzebnych obliczeń i rozwiązań ten problem już na etapie tworzenia gramatyki. 
 \end{itemize}
 
-\subsection{Omówienia działania algorytmu ewolucji genetycznej}
-Mechanizmem, który wyróżnia ewolucji genetyczną na tle innych algorytmów ewolucyjnych, jest mapowanie genotypu zapisywanego jako jednowymiarowa tablica liczb całkowitych na fenotyp - język, zgodnie z zasadami stworzonej gramatyki. Przykładem może być genotyp: 
+\subsection{Omówienia działania algorytmu ewolucji gramatycznej}
+Mechanizmem, który wyróżnia ewolucji gramatyczną na tle innych algorytmów ewolucyjnych, jest mapowanie genotypu zapisywanego jako jednowymiarowa tablica liczb całkowitych na fenotyp - język, zgodnie z zasadami stworzonej gramatyki. Przykładem może być genotyp: 
 \begin{center} [6, 71, 92, 59, 52, 95, 23, 45, 12, 2] \end{center}
 i gramatyka w notacji BNF:
 

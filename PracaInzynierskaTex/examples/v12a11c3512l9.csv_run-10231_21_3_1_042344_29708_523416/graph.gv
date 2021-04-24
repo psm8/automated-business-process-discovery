@@ -1,13 +1,14 @@
 digraph G {
   rankdir=LR;
+
   subgraph place {
     node [shape=circle,fixedsize=true,label="",height=.3,width=.3];
-    in [label="&bull;", fontsize=20];
-    out [style=filled,fillcolor=black];
+    in;
+    out[penwidth=3];
   }
   subgraph xorgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#x2715;>,fontsize=12,style=filled,fillcolor=yellow]
-    x1;x2
+    x1;x2;o1;o2;o3;o4;
   }
   subgraph andgate {
   node [shape=diamond,fixedsize=true,width=.4,height=.4 label=<&#43;>,fontsize=20,style=filled,fillcolor=yellow]
@@ -15,15 +16,15 @@ digraph G {
   }
   subgraph optgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#9711;>,fontsize=12,style=filled,fillcolor=yellow]
-    o1;o2;o3;o4;o5;o6
+    o5;o6
   }
   subgraph transitions {
-    node [shape=rect,height=0.4,width=.4];
+    node [shape=Mrecord,height=0.4,width=.65];
     a; b; c; d; e; f, g, h; i; j; k;
   }
   subgraph skip {
     node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
-    s1;s2;s3
+
   }
 
   # align horizontally
@@ -34,23 +35,21 @@ digraph G {
   x1->j->x2;
   x2->o1
   o1->k->o2;
-  o1->s1->o2;
+  o1:se->o2;
   o2->o3
   o3->c->o4;
-  o3->s2->o4;
+  o3:se->o4;
   o4->o5;
   o5->e->o6;
-  o5->a1
+  o5:ne->a1
   a2->o6;
   o5->d->o6;
-  o5->s3->o6;
   a1->f->a2;
   a1->g->a2;
   a1->h->a2;
+  o5:se->o6;
   o6->i->out
   # align vertically
   {rank=same; b;j}
-  {rank=same; k;s1}
-  {rank=same; c;s2}
-  {rank=same; f;h;g;e;d;s3}
+  {rank=same; f;h;g;e;d}
 }

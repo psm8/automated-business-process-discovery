@@ -1,13 +1,14 @@
 digraph G {
   rankdir=LR;
+
   subgraph place {
     node [shape=circle,fixedsize=true,label="",height=.3,width=.3];
-    in [label="&bull;", fontsize=20];
-    out [style=filled,fillcolor=black];
+    in;
+    out[penwidth=3];
   }
   subgraph xorgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#x2715;>,fontsize=12,style=filled,fillcolor=yellow]
-    x1; x2;
+    x1; x2;     o1; o2;
   }
   subgraph andgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4 label=<&#43;>,fontsize=20,style=filled,fillcolor=yellow]
@@ -15,15 +16,13 @@ digraph G {
   }
   subgraph optgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#9711;>,fontsize=12,style=filled,fillcolor=yellow]
-    o1; o2;
   }
   subgraph transitions {
-    node [shape=rect,height=0.4,width=.4];
+    node [shape=Mrecord,height=0.4,width=.65];
     a; b; c; d; e; f; g;
   }
   subgraph skip {
     node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
-    s1;
   }
 
   # align horizontally
@@ -42,6 +41,6 @@ digraph G {
   a2->g->x1
   e->out;
   # align vertically
-  {rank=same; d;c,s1,g}
+  {rank=same; d;c,g}
   {rank=same; b;f}
 }
