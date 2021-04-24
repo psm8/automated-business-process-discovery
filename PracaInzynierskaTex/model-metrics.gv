@@ -2,8 +2,8 @@ digraph G {
   rankdir=LR;
   subgraph place {
     node [shape=circle,fixedsize=true,label="",height=.3,width=.3];
-    in [label="&bull;", fontsize=20];
-    out [style=filled,fillcolor=black];
+    in;
+    out[penwidth=3];
   }
   subgraph xorgate {
     node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#x2715;>,fontsize=12,style=filled,fillcolor=yellow]
@@ -17,12 +17,11 @@ digraph G {
     o1;o2;
   }
   subgraph transitions {
-    node [shape=rect,height=0.4,width=.4];
+    node [shape=Mrecord,height=0.4,width=.65];
     a; ba [label ="b"]; bb [label ="b"]; c; d; e
   }
   subgraph skip {
     node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
-    s1;
   }
 
   # align horizontally
@@ -34,7 +33,7 @@ digraph G {
   a2->o1
   o1->bb->o2;
   o1->e->o2;
-  o1->s1->o2;
+  o1:se->o2;
   o2->d->out
   # align vertically
 }

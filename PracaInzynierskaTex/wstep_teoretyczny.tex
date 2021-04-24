@@ -157,33 +157,33 @@ Zastosowanie algorytmów genetycznych do automatycznego odkrywania procesów biz
 \subsection{Algorytmy ewolucyjne}
 Algorytmy ewolucyjne \cite{EA} są inspirowaną selekcją naturalną metaheurystyką, która używa znanych z ewolucji biologicznej operacji jak selekcja, krzyżowanie czy mutacja do rozwiązywania problemów wyszukiwania i optymalizacji. Są rodziną metod przeszukiwania przestrzeni losowych rozwiązań w celu wyszukania najlepszych z nich. 
 
-Algorytmy ewolucyjne znajdują zastosowanie w problemach, dla których nie jest konieczna gwarancja znalezienia najlepszego rozwiązania. Cechami wyróżniającymi je na tle innych algorytmów uczenia maszynowego jest istnienie puli zamiast jednego rozwiązywania, co umożliwia szersze przeszukiwanie przestrzeni rozwiązań oraz nieograniczoną i łatwą w zaimplementowaniu paralelizację. Algorytmy te są znacznie bardziej nastawione na globalne eksplorowanie nowych rozwiązań, zamiast na jak najszybsze osiągnięcie celu. Z tego względu dobrze nadają się do problemów, gdzie istnieje dużo ekstremów, a przestrzeń poszukiwań jest duża. Jako przeciwieństwo, metody oparte na gradiencie w najprostszej znajdują tylko lokalne ekstrema, nawet po modyfikacjach takich, jak na przykład symulowane wyżarzanie (\textit{ang. simulated anneling}) wciąż nie ma populacji i możliwości tak szerokiego przeszukiwania przestrzeni rozwiązań.
+Algorytmy ewolucyjne znajdują zastosowanie w problemach, dla których nie jest konieczna gwarancja znalezienia najlepszego rozwiązania. Cechą wyróżniają je na tle innych algorytmów uczenia maszynowego jest istnienie puli zamiast jednego rozwiązania, co umożliwia szersze przeszukiwanie przestrzeni rozwiązań oraz nieograniczone i łatwe w zaimplementowaniu zrównoleglenie. Algorytmy te są znacznie bardziej nastawione na globalne eksplorowanie nowych rozwiązań, zamiast na jak najszybsze osiągnięcie celu. Z tego względu dobrze nadają się do problemów, gdzie istnieje dużo ekstremów, a przestrzeń poszukiwań jest duża. Jako przeciwieństwo, najprostsze metody oparte na gradiencie znajdują tylko lokalne ekstrema, nawet po modyfikacjach takich, jak na przykład symulowane wyżarzanie (\textit{ang. simulated anneling}) wciąż nie mają populacji i możliwości tak szerokiego przeszukiwania przestrzeni rozwiązań.
 
-Sposób działania algorytmów genetycznych polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowanych przez bity, liczby lub znaki i zapisywanych w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostymi przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w fenotypie, zwane allelami. Fenotyp jest postacią, dla której możliwe jest obliczanie funkcji dopasowania (\textit{ang. fitness function}), co pozwala ocenić, jak dobre jest wygenerowane rozwiązanie. Następnie, istniejąca populacja jest modyfikowana poprzez krzyżowanie i mutacje. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Po zastosowaniu tych operatorów i sklasyfikowaniu rozwiązań, spośród głównie, choć nie tylko najlepszych osobników, utworzona zostaje nowa populacja, dla której cały proces jest powtarzany do momentu znalezienia satysfakcjonującego rezultatu.
+Sposób działania algorytmów genetycznych polega na stworzeniu populacji losowych rozwiązań zwanych genotypami lub chromosomami, które kodowane są za pomocą genów reprezentowanych przez bity, liczby lub znaki i zapisywanych w strukturze łatwo przetwarzalnej przez komputer. Najczęściej jest to lista jednowymiarowa liczb całkowitych. Fenotyp natomiast jest reprezentacją utożsamianą z docelowym programem lub modelem. Genotyp może być równoznaczny z fenotypem, jednak poza prostymi przykładami, zazwyczaj są to oddzielne reprezentacje i geny mapowane są na odpowiadające wartości w~fenotypie, zwane allelami. Fenotyp jest postacią, dla której możliwe jest obliczanie funkcji dopasowania (\textit{ang. fitness function}), co pozwala ocenić, jak dobre jest wygenerowane rozwiązanie. Następnie, istniejąca populacja jest modyfikowana poprzez krzyżowanie i mutacje. Warto zauważyć, że krzyżowanie przeszukuje przestrzeń rozwiązań globalnie, podczas gdy mutacja odpowiada za lokalne wyszukiwanie. Po zastosowaniu tych operatorów i sklasyfikowaniu rozwiązań, spośród głównie(choć nie tylko) najlepszych osobników, utworzona zostaje nowa populacja, dla której cały proces jest powtarzany do momentu znalezienia satysfakcjonującego rezultatu.
 
 \subsection{Operatory i działanie algorytmów ewolucyjnych}
 Tworzenie populacji jest pierwszym krokiem algorytmu ewolucyjnego. Może ono odbywać się kompletnie losowo lub do tworzenia nowych osobników może zostać użyta odpowiednia heurystyka. 
 
-Kolejny krok - selekcja pozwala na zachowanie w populacji części osobników promując najlepszych z nich, co sprawia, że przeszukiwanie przestrzeni rozwiązań nie jest kompletnie losowe. Można skorzystać z metod takich jak:
+Kolejny krok -- selekcja -- pozwala na zachowanie w populacji części osobników promując najlepszych z nich, co sprawia, że przeszukiwanie przestrzeni rozwiązań nie jest kompletnie losowe. Można skorzystać z metod takich jak:
 \begin{itemize}
   \item[•] Selekcja proporcjonalna -- wybierane są losowo osobniki z puli wszystkich w populacji z warunkiem, że rozwiązania z największą wartością metryk mają większą szansę na bycie w niej zachowanymi. 
-  \item[•] Selekcja turniejowa -- wybierany jest podzbiór ze zbioru rozwiązań i zachowywane w przyszłej populacji są najlepsze osobniki z tego podzbioru. Rozwiązanie to pozwala na wpływ na presję genetyczną - zwiększając wielkość podzbioru, ograniczamy szansę na wybór z niską wartością metryk. Jest to metoda prosta w implementacji, która umożliwia łatwe zrównoleglenie.
+  \item[•] Selekcja turniejowa -- wybierany jest podzbiór ze zbioru rozwiązań i zachowywane w przyszłej populacji są najlepsze osobniki z tego podzbioru. Rozwiązanie to pozwala na wpływ na presję genetyczną -- zwiększając wielkość podzbioru, ograniczamy szansę na wybór z niską wartością metryk. Jest to metoda prosta w implementacji, która umożliwia łatwe zrównoleglenie.
 \end{itemize}
 
-Żeby uniknąć sytuacji, w której najlepsze rozwiązania zostaną zmodyfikowane, możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w populacji niezależnie od wyniku selekcji.
+Żeby uniknąć sytuacji, w której najlepsze rozwiązania zostaną zmodyfikowane, możliwe jest zastosowanie elityzmu, który pozwala na zachowanie w kolejnej generacji części najlepszych osobników w~populacji niezależnie od wyniku selekcji.
 
-Następnie stosowane są operatory krzyżowania i mutacji. Krzyżowanie jest zamianą materiału genetycznego, czyli części genotypu pomiędzy dwoma osobnikami w populacji tworząc również dwa zmienione osobniku. Mutacja natomiast zachodzi w obrębie jednego osobnika.
+Następnie stosowane są operatory krzyżowania i mutacji. Zostały one zilustrowane na rys. \ref{fig:mutation-and-crossover-operations}. Krzyżowanie jest zamianą materiału genetycznego, czyli części genotypu pomiędzy dwoma osobnikami w~populacji tworząc również dwa zmienione osobniku. Mutacja natomiast zachodzi w obrębie wyłącznie jednego osobnika.
 
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.6]{Mutation-and-crossover-operations.jpg}}
-	\caption{\label{fig:mutation-and-crossover-operations}Mutacja i krzyżowanie}
+	\caption{\label{fig:mutation-and-crossover-operations}Mutacja i krzyżowanie \cite{memetic}}
 \end{figure}
 
 Operatory te nie muszą i zazwyczaj nie są stosowane do każdego osobnika w populacji, a to jak często powinny być stosowane, ustalane jest za pomocą odpowiedniego parametru. Zdarza się, że mutacja jest stosowana więcej niż dla danego genu w danym genotypie.
 
 Najczęściej używane operatory krzyżowania to:
 \begin{itemize}
-\item[•] Krzyżowanie punktowe -- spośród dwóch genotypów losowo wybierany jest jeden punkt, następnie tworzone są dwa nowe genotypy pierwszy z genów na prawo od punktu w pierwszym genotypie i na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
+\item[•] Krzyżowanie punktowe -- spośród dwóch genotypów losowo wybierany jest jeden punkt, następnie tworzone są dwa nowe genotypy pierwszy z genów na prawo od punktu w pierwszym genotypie i~na lewo w genotypie drugim oraz drugi z dwóch pozostałych.
 
 \item[•] Krzyżowanie dwupunktowe -- spośród dwóch genotypów losowo wybierane są dwa punkty, następnie część pomiędzy tymi punktami jest zamieniana pomiędzy genotypami.
 
@@ -191,52 +191,52 @@ Najczęściej używane operatory krzyżowania to:
 
 \item[•] Krzyżowanie zamiana w drzewie -- metoda opiera się na modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie zamieniane są ze sobą dwa poddrzewa. W tym przypadku tworzone są tylko prawidłowe rozwiązania, jednak jest to metoda wymagająca większej ilości obliczeń.  
 \end{itemize}
-Ponadto krzyżowania możemy podzielić na stało-punktowe, czyli takie, w którym wybierany jest ten sam punktu lub punkty w obu osobnikach, przez co nowe genotypy mieć tą samą długość jak rodzice i zmienno-punktowe, gdzie mogą to być różne punkty, co skutkuje dużą zmienności w rozmiarach utworzonych genotypów. 
+Ponadto krzyżowania możemy podzielić na stało-punktowe, czyli takie, w którym wybierany jest ten sam punktu lub punkty w obu osobnikach, przez co nowe genotypy mieć tę samą długość jak rodzice i~zmienno-punktowe, gdzie mogą to być różne punkty, co skutkuje dużą zmiennością w rozmiarach utworzonych genotypów. 
 
 Natomiast operatory mutacji to:
 \begin{itemize}
-\item[•] Mutacja punkowa -- dowolny gen w genotypie zostaje zmieniony na inną losową wartość. Przez co odpowiadająca mu produkcja tworzy nową wartość. Pozostałe produkcje pozostają niezmienione.
+\item[•] Mutacja punkowa -- dowolny gen w genotypie zostaje zmieniony na inną losową wartość.
 
 \item[•] Mutacja zamiana w drzewie -- metoda opiera się modyfikacjach w fenotypie, który jest reprezentowany jako drzewo, w tej metodzie tworzone jest nowe poddrzewo. Analogicznie jak w przypadku krzyżowania tworzone są tylko prawidłowe rozwiązania, jednak konieczna jest większa ilość obliczeń. 
 \end{itemize}
 
-Ostatnim krokiem jest zastąpienie osobników w poprzedniej populacji przez nowych powstałych na skutek zastosowania wcześniej wspomnianych operatorów. Istnieją dwa podejścia, sugerujące zastępowanie całej populacji lub tylko kilku osobników \cite{SSvsGen}.
+Ostatnim krokiem jest zastąpienie osobników w poprzedniej populacji przez nowych powstałych na skutek zastosowania wcześniej wspomnianych operatorów. Istnieją dwa podejścia: sugerujące zastępowanie całej populacji lub tylko części osobników \cite{SSvsGen}.
 
 
 \subsection{Ewolucja gramatyczna}
-Optymalny model procesu biznesowego może mieć różną wielkość, dlatego chcąc go znaleźć, potrzebna jest metoda, która pozwoli na generowanie rozwiązań o zmiennym rozmiarze. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak pożądane jest rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda z tej dziedziny to programowanie genetyczne \cite{Koza:1990:pat-GAsp}\cite{10.5555/138936}, które pozwala na generowanie rozwiązań o różnej długości, dzięki ewolucji całej struktury fenotypu, najczęściej reprezentowanego jako drzewo. Najczęściej te są gotowymi wykonywalnymi programami, jednak mogą być też równaniami czy modelami.
+Optymalny model procesu biznesowego może mieć różną wielkość, dlatego chcąc go znaleźć, potrzebna jest metoda, która pozwoli na generowanie rozwiązań o zmiennym rozmiarze. Tradycyjne algorytmy genetyczne operują na stałej strukturze i mogą być użyte na przykład, żeby dobrać odpowiednie parametry do istniejącego modelu. W wielu problemach jednak pożądane jest rozwiązanie o nieznanym rozmiarze, dlatego obecnie najpopularniejsza metoda z tej dziedziny to programowanie genetyczne \cite{Koza:1990:pat-GAsp, 10.5555/138936}, które pozwala na generowanie rozwiązań o różnej długości, dzięki ewolucji całej struktury fenotypu, najczęściej reprezentowanego jako drzewo. Otrzymane rozwiązania są najczęściej gotowymi wykonywalnymi programami, jednak mogą być też równaniami czy modelami.
 
-Oparta na programowaniu genetycznym jest ewolucja gramatyczna \cite{ryan_collins_neill_1998}. Korzysta ona ze standardowych metod ewolucji genetycznej, jednak ewoluuje gramatykę w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana w notacji BNF (sekcja \ref{sec:BNF}). Dzięki zastosowaniu rekursywnych produkcji możliwe jest tworzenie rozwiązań o różnej długości. 
+Na programowaniu genetycznym oparta jest ewolucja gramatyczna \cite{ryan_collins_neill_1998}. Korzysta ona ze standardowych metod ewolucji genetycznej, jednak ewoluuje gramatykę w celu znalezienia programu, który najlepiej rozwiązuje problem. Gramatyka najczęściej zapisana jest w~notacji BNF (sekcja \ref{sec:BNF}). Dzięki zastosowaniu rekursywnych produkcji możliwe jest tworzenie rozwiązań o różnej długości. 
 
 \subsection{Notacja Backusa-Naura}
 \label{sec:BNF}
-Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę języka, czyli sposób łączenia poszczególnych symboli, nie mówiąc nic o znaczeniu poszczególnych słów języka. Odnosi się to także do języków formalnych np. języków programowania. Do opisu takich języków służą gramatyki formalne. Na gramatykę formalną składa się z uporządkowana czwórka G = (T,N,P,S), gdzie 
+Gramatyka jest zbiorem zasad opisujących budowę języka. Opisuje syntaktykę języka, czyli sposób łączenia poszczególnych symboli, nie mówiąc nic o znaczeniu poszczególnych słów języka. Odnosi się to także do języków formalnych np. języków programowania. Do opisu takich języków służą gramatyki formalne. Na gramatykę formalną składa się uporządkowana czwórka G = (T,N,P,S), gdzie: 
 
 \begin{itemize}
   \item[•] T -- skończony zbiór symboli terminalnych, czyli stałych, symboli, które nie mogą być zastąpione innym ani podzielone na mniejsze 
   \item[•] N -- skończony zbiór symboli nieterminalnych, czyli zmiennych, symboli, które są modyfikowane przy tworzeniu języka
-  \item[•] P -- skończony zbiór produkcji, czyli zasad, przekształceń postaci (N$\cup$T)*N(N$\cup$T)* -> (N$\cup$T)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i nieterminalnych.
+  \item[•] P -- skończony zbiór produkcji, czyli zasad, przekształceń postaci (N$\cup$T)*N(N$\cup$T)* $\rightarrow$ (N$\cup$T)*, czyli przynajmniej jednego symbolu nieterminalnego w dowolny zbiór symboli terminalnych i~nieterminalnych. Gwizdka oznacza wszystkie możliwe słowa nad alfabetem łącznie ze słowem pustym.
   \item[•] S -- symbol startowy, gdzie S $\in$ N
 \end{itemize}
 
 W informatyce szczególnie szeroko stosowane są gramatyki bezkontekstowe. Pozwalają one na pokazanie, w jaki sposób rekurencyjnie tworzony jest język, co jest potrzebne, żeby zrozumieć znaczenie programu. Zaletą jest też ich stosunkowo łatwe parsowanie.
 Gramatyka bezkontekstowa jest to gramatyka, w której wszystkie produkcje mają postać:
 \begin{center}
-	A -> {$\alpha$},
+	A $\rightarrow$ {$\alpha$},
 \end{center}
-gdzie A jest to pojedynczy symbol nieterminalny, a $\alpha$ to dowolny zbiór symboli terminalnych i nieterminalnych.
+gdzie A jest to pojedynczy symbol nieterminalny -- A $\in$ N, a $\alpha$ to dowolny (także pusty) zbiór symboli terminalnych i~nieterminalnych -- $\alpha \in$ (N$\cup$T)*.
 	
-Notacja Backusa-Naura (\textit{ang. Backus-Naur Form}) \cite{Backus1959TheSA}\cite{Naur}\cite{Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
+Notacja Backusa-Naura (\textit{ang. Backus-Naur Form}) \cite{Backus1959TheSA, Naur, Knuth1964} jest najpopularniejszą notacją używaną do kodowania gramatyk bezkontekstowych. Symbole, które składają się na BNF to:
 
 \begin{itemize}
-  \item[•] ::= - produkcja
-  \item[•] |   - lub
-  \item[•] <>  - symbole nieterminalne
+  \item[•] ::= -- produkcja,
+  \item[•] |   -- lub,
+  \item[•] <>  -- symbole nieterminalne.
 \end{itemize}
 
-Używając tych symboli, możemy opisywać składnie języka w następujący sposób:
+Używając tych symboli, możemy opisywać składnię języka w następujący sposób:
 \begin{center}
-<Nieterminalny1> ::= <Nieterminalny2>Terminany1 | <Nieterminalny3> | Terminany1
+<Nieterminalny1> ::= <Nieterminalny2>Terminalny1 | <Nieterminalny3> | Terminalny1
 \end{center}
 Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzenie skomplikowanego języka za pomocą prostych zasad: 
 \begin{center}
@@ -245,25 +245,25 @@ Oczywiście możliwe jest też definiowanie rekurencyjnie, co pozwala na tworzen
 
 \subsection{Tworzenie gramatyki pod kątem ewolucji}
 \label{grammarCreation}
-Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą odpowiednie do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych \cite{grammarDesign}: 
+Dla każdego problemu można stworzyć nieskończoną ilość poprawnych gramatyk, jednak nie wszystkie z nich będą odpowiednie do zastosowania w algorytmie ewolucji gramatycznej. Chcąc stworzyć gramatykę, która umożliwi najwydajniejsze rozwiązanie problemu można przyjąć kilka wytycznych~\cite{grammarDesign}: 
 \begin{itemize}
   \item[•] Każda rekursywna produkcja powinna mieć co najmniej tyle samo produkcji nierekursywnych, inaczej biorąc pod uwagę, że genotyp jest mapowany na fenotyp metodą pseudolosową, prawdopodobieństwo otrzymania rozwiązania, które musi się składać tylko symboli terminalnych, będzie zbyt niskie.
   \item[•] Tworząc gramatykę pod kątem wykorzystania jej w procesie ewolucji, ważne jest, żeby ilość produkcji jak najlepiej odzwierciedlała, jak często chcemy uzyskać dane rozwiązanie.
-  \item[•] Stosując mutacje oraz krzyżowanie punktowe lub n-punktowe, które jak wiadomo, podmienia geny w genotypie, może dojść do sytuacji, w której dany gen po podmianie zostanie zmapowany na produkcje o innej ilości symboli nieterminalnych, przez co kolejne geny, będą mapowania niezgodnie z pierwotnym sensem, gdyż ilość genów w genomie pozostaje stała. Żeby temu zapobiec, należy ograniczyć ilość symboli nieterminalnych do minimum, a każdy symbol nieterminalny powinien mieć produkcje tworzące tyle samo symboli nieterminalnych oraz możliwie tyle samo produkcji, dzięki czemu po zmapowaniu symbole nadal będą odpowiadały pierwotnym. 
-  \item[•] Stworzona gramatyka powinna umożliwić na tworzenie jak najmniejszej ilości rozwiązań, które nie należą do języka, co prawda nie uniemożliwi to działania algorytmu, gdyż można odrzucić te rozwiązania na etapie parsowania, ale warto oszczędzić niepotrzebnych obliczeń i rozwiązań ten problem już na etapie tworzenia gramatyki. 
+  \item[•] Stosując mutacje oraz krzyżowanie punktowe lub n-punktowe, które podmienia geny w genotypie, może dojść do sytuacji, w której dany gen po podmianie zostanie zmapowany na produkcje o innej ilości symboli nieterminalnych, przez co kolejne geny, będą mapowane niezgodnie z pierwotnym sensem, gdyż liczba genów w genomie pozostaje stała. Żeby temu zapobiec, należy ograniczyć liczbę symboli nieterminalnych do minimum, a każdy symbol nieterminalny powinien mieć produkcje tworzące tyle samo symboli nieterminalnych oraz możliwie tyle samo produkcji, dzięki czemu po zmapowaniu symbole nadal będą odpowiadały pierwotnym. 
+  \item[•] Stworzona gramatyka powinna umożliwić tworzenie jak najmniejszej ilości rozwiązań, które nie należą do języka, co prawda nie uniemożliwi to działania algorytmu, gdyż można odrzucić te rozwiązania na etapie parsowania, ale warto oszczędzić niepotrzebnych obliczeń i rozwiązać ten problem już na etapie tworzenia gramatyki. 
 \end{itemize}
 
 \subsection{Omówienia działania algorytmu ewolucji gramatycznej}
-Mechanizmem, który wyróżnia ewolucji gramatyczną na tle innych algorytmów ewolucyjnych, jest mapowanie genotypu zapisywanego jako jednowymiarowa tablica liczb całkowitych na fenotyp - język, zgodnie z zasadami stworzonej gramatyki. Przykładem może być genotyp: 
+Mechanizmem, który wyróżnia ewolucję gramatyczną na tle innych algorytmów ewolucyjnych, jest mapowanie genotypu zapisywanego jako jednowymiarowa tablica liczb całkowitych na fenotyp -- język, zgodnie z zasadami stworzonej gramatyki. Przykładem może być genotyp: 
 \begin{center} [6, 71, 92, 59, 52, 95, 23, 45, 12, 2] \end{center}
 i gramatyka w notacji BNF:
 
  \begin{center}
   \begin{tabular}{l}
-    <e> ::= <var>=<math><var> \\
-	<math> ::= <math><math> | <var><op> \\
-	<op> ::= + | - \\
-	<var> ::= a | b | c | d,
+    \textit{<e> ::= <var>=<math><var>} \\
+	\textit{<math> ::= <math><math> | <var><op>} \\
+	\textit{<op> ::= + | -} \\
+	\textit{<var> ::= a | b | c | d,}
   \end{tabular}
  \end{center}
 
@@ -296,7 +296,7 @@ Wartość genu: 59; \newline
 \end{itemize}
 Kontynuując analogicznie, po zastąpienie wszystkich symboli nieterminalnych, ostatecznie otrzymany fenotyp to:
 \begin{center} d = a - b + c \end{center}	
-Używając tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramatyki, możliwe jest generowanie znaczniej bardziej złożonych rozwiązania. W połączeniu z metodami z algorytmów ewolucyjnych możliwe jest teoretycznie ewoluowanie programów w dowolnym języku programowania, a następnie za pomocą odpowiedniej funkcji dopasowania znalezienie takiego, który rozwiąże dany problem. W kolejnej sekcji omówiono jak dobrać metryki, aby użyć tego mechanizmu do odkrywania procesów biznesowych.
+Używając tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramatyki, możliwe jest generowanie znaczniej bardziej złożonych rozwiązań. W połączeniu z metodami z algorytmów ewolucyjnych możliwe jest teoretycznie ewoluowanie programów w dowolnym języku programowania, a następnie za pomocą odpowiedniej funkcji dopasowania znalezienie takiego, który rozwiąże dany problem. W kolejnej sekcji omówiono jak dobrać metryki, aby użyć tego mechanizmu do odkrywania procesów biznesowych.
 
 
 %---------------------------------------------------------------------------
@@ -306,30 +306,30 @@ Używając tego prostego mechanizmu, w przypadku bardziej skomplikowanej gramaty
 
 \subsection{Metryki a funkcja dopasowania}
 
-Funkcja dopasowania jest obliczana w każdej iteracji, dla każdego osobnika w populacji, dlatego powinna być możliwie najmniej kosztowna obliczeniowo. Nie warto więc nadmiernie jej komplikować, gdyż nawet jeśli taka wersja lepiej określi, jak dobre jest dane rozwiązanie, to jej obliczenie, może stać się wąskim gardłem całego algorytmu, co zwiększy czas potrzebny na znalezienie rozwiązania i pogorszy jego działanie. 
+Funkcja dopasowania jest obliczana w każdej iteracji, dla każdego osobnika w populacji, dlatego powinna być możliwie najmniej kosztowna obliczeniowo. Nie warto więc nadmiernie jej komplikować, gdyż nawet jeśli taka wersja lepiej określi, jak dobre jest dane rozwiązanie, to jej obliczenie może stać się wąskim gardłem całego algorytmu, co zwiększy czas potrzebny na znalezienie rozwiązania i pogorszy jego działanie. 
 
-Dobierając funkcje dopasowania, ważne jest, że była ona regularna, gdyż duża ilość lokalnych ekstremów może spowolnić ewolucję, a nawet całkowicie uniemożliwić znalezienie globalnie najlepszego rozwiązania.
-Nie może więc ona jedynie bezwzględnie mierzyć, jak dobre jest rozwiązanie. Dobry przykładem jest tutaj problem układanie planów (\textit eng. timetabling problem), gdzie większość otrzymanych rozwiązań będzie nieprawidłowa, a wartość funkcji dopasowania będzie wynosiła zero, nawet jeśli mała zmiana może sprawić, że znalezione zostanie właściwe rozwiązanie, dlatego konieczne jest, jak najlepsze uchwycenie jak blisko algorytm jest prawidłowego rozwiązania \cite{icga85:cramer} \cite{beasley:1993:ogapf}.
+Dobierając funkcję dopasowania, ważne jest, żeby była ona regularna, gdyż duża ilość lokalnych ekstremów może spowolnić ewolucję, a nawet całkowicie uniemożliwić znalezienie globalnie najlepszego rozwiązania.
+Nie może więc ona jedynie bezwzględnie mierzyć, jak dobre jest rozwiązanie. Dobrym przykładem jest tutaj problem układanie planów (\textit ang. timetabling problem), gdzie większość otrzymanych rozwiązań będzie nieprawidłowa, a wartość funkcji dopasowania będzie wynosiła zero, nawet jeśli mała zmiana może sprawić, że znalezione zostanie właściwe rozwiązanie, dlatego konieczne jest, jak najlepsze uchwycenie jak blisko algorytm jest prawidłowego rozwiązania \cite{icga85:cramer, beasley:1993:ogapf}.
 
 Ostatecznie funkcja dopasowania w naszym algorytmie jest średnią ważoną metryk wymienionych w sekcji \ref{sec:discovery}, jednak oprócz tego dodano kolejną metrykę złożoność, która ma poprawiać funkcje dopasowania zgodnie z powyższymi zasadami. Użytkownik może określić, z jakimi wagami wziąć pod uwagę poszczególne metryki.
 
-\subsection{Dodatkowa metryka - złożoność}
+\subsection{Dodatkowa metryka -- złożoność}
 \label{sec:additional-metric-complexity}
 Dodatkowa metryka zawiera informacje niedotyczące bezpośrednio jakości odkrytego modelu. Istnieją jednak  teoretyczne przesłanki, że powinna wpłynąć pozytywnie na działanie algorytmu. W odróżnieniu od innych metryk celem jej używania jest poprawa wydajności algorytmu ewolucji i próba zminimalizowania czasu potrzebnego na znalezienie rozwiązania.
  
-Zamysłem jest promowanie rozwiązywania prostych problemów w prosty sposób i unikanie lokalnych ekstremów - w tym wypadku sytuacji, w której populacja zostanie zdominowana przez zbyt skomplikowane osobniki na wczesnym etapie ewolucji, zamiast tego ewolucja jest bardziej nakierowana na znajdowanie coraz lepszego rozwiązania wraz ze wzrostem skomplikowania modelu. Analogię można odnaleźć w naturze, w pewnym momencie na Ziemii dinozaury były najlepiej przystosowanymi do życia na tej planecie organizmami - lokalne maksimum i blokowały powstawanie mniej skomplikowanych form życia, jednak jak pokazuje historia, po wyginięciu dinozaurów, te były w stanie stać się jeszcze lepiej przystosowanymi istotami.
+Zamysłem jest promowanie rozwiązywania prostych problemów w prosty sposób i unikanie lokalnych ekstremów -- w tym wypadku sytuacji, w której populacja zostanie zdominowana przez zbyt skomplikowane osobniki na wczesnym etapie ewolucji, zamiast tego ewolucja jest bardziej nakierowana na znajdowanie coraz lepszego rozwiązania wraz ze wzrostem skomplikowania modelu. Analogię można odnaleźć w naturze, w pewnym momencie na Ziemii dinozaury były najlepiej przystosowanymi do życia na tej planecie organizmami -- lokalne maksimum i blokowały powstawanie mniej skomplikowanych form życia, jednak jak pokazuje historia, po wyginięciu dinozaurów, te były w stanie stać się jeszcze lepiej przystosowanymi istotami.
 
 Metryka korzysta z istniejących już obliczeń, przez co nie zwiększa w istotny sposób czasu każdej iteracji algorytmu. Większa złożoność każdego modelu przekłada się także na dłuższe obliczanie pozostałych metryk dla niego, przez co znalezienie ostatecznego rozwiązania zajmuje więcej czasu.
 
 
-\subsection{Metryki - szczegóły}
+\subsection{Opis i wzory użytych metryk}
 \label{sec:metrics-details}
 \subsubsection{Prostota}  
-Jest to najprostsza z metryk. Celem jest zmniejszenie skomplikowania modelu. Głównym czynnikiem na to wpływającym jest ilość aktywności w modelu. Idealna byłaby sytuacja, w której model ma tyle samo aktywności, ile unikalnych aktywności jest w dzienniku zdarzeń. To nie zawsze jest możliwe, jednak chcąc otrzymać maksymalnie czytelny model, powinniśmy do tego dążyć. Stąd też wybrana metryka skupia się na dwóch czynnikach, czyli ilości duplikatów w modelu i ilości brakujących wartości w modelu. Oczywiście znaczenie ma wielkość modelu, dlatego wartości te musimy odnieść do ilości wszystkich zdarzeń w logu i modelu. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem: \begin{center}
+Celem używania tej metryki jest zmniejszenie skomplikowania modelu. Głównym czynnikiem na to wpływającym jest liczba aktywności w modelu. Idealna byłaby sytuacja, w której model ma tyle samo aktywności, ile unikalnych aktywności jest w dzienniku zdarzeń. To nie zawsze jest możliwe, jednak chcąc otrzymać maksymalnie czytelny model, powinniśmy do tego dążyć. Stąd też wybrana metryka skupia się na dwóch czynnikach, czyli liczbie duplikatów w modelu i liczbie brakujących wartości w~modelu. Znaczenie ma wielkość modelu, dlatego wartości te muszą zostać odniesione do ilości wszystkich zdarzeń w logu i modelu. Metrykę zapożyczono~z~\cite{qd-in-discovery} i~wyrażono wzorem: \begin{center}
 $M_{pro} = 1 - \frac{ilosc\ duplikatow\ w\ modelu\ +\ ilosc\ brakujacych\ zdarzen\ w\ modelu}{ilosc\ unikalnych\ zdarzen\ w\ logu\ +\ ilosc\ zdarzen\ w\ modelu}$
 \end{center}
 \subsubsection{Odwzorowanie} 
-Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie informacji uzyskanych podczas jej obliczania. Ważne jest, żeby obliczać odwzorowanie częściowo dla każdej aktywności, a nie całego wariantu procesu, co sprawi, że metryka będzie bardziej wrażliwa na zmiany. Możliwe jest zastosowanie prostej zero-jedynkowej metryki do obliczania, która weryfikowałaby czy model całkowicie zgadza się z wariantem logu, jednak co jest szczególnie niekorzystne w przypadku algorytmu genetycznego, nie byłoby sprawdzane, o ile bliżej jesteśmy do celu, dopóki losowo nieznaleziony zostałby model idealnie pasujący do wariantu. Metrykę oparto o \cite{metric-calculation}, jednak przy procesie z wieloma aktywnościami, najczęściej duża część aktywności może zostać dopasowana, co sprawi, że łączny błąd będzie niewielki, dlatego wprowadzono modyfikację i podniesiono otrzymany wynik do potęgi 4, żeby zrobić metrykę bardziej wrażliwą na zmiany. Ostatecznie metrykę wyrażono wzorem:
+Jest to najbardziej kosztowna obliczeniowo metryka. Pozostałe metryki obliczane są na podstawie informacji uzyskanych podczas jej obliczania. Ważne jest, żeby obliczać odwzorowanie częściowo dla każdej aktywności, a nie całego wariantu procesu, co sprawi, że metryka będzie bardziej wrażliwa na zmiany. Możliwe jest zastosowanie prostej zero-jedynkowej metryki do obliczania, która weryfikowałaby czy model całkowicie zgadza się z wariantem logu, jednak co jest szczególnie niekorzystne w~przypadku algorytmu genetycznego, nie byłoby sprawdzane, o ile bliżej jesteśmy do celu, dopóki losowo nie zostałby znaleziony model idealnie pasujący do wariantu. Metrykę oparto o \cite{metric-calculation}, jednak przy procesie z wieloma aktywnościami, najczęściej duża część aktywności może zostać dopasowana, co sprawi, że łączny błąd będzie niewielki, dlatego wprowadzono modyfikację i podniesiono otrzymany wynik do potęgi 4, żeby zrobić metrykę bardziej wrażliwą na zmiany. Ostatecznie metrykę wyrażono wzorem:
 \begin{center}
 \begin{tabular}{l}
 $M_o = (1 - blad\_odwzorowania)^4$ \\
@@ -337,12 +337,12 @@ $blad\_odwzorowania = \frac{\sum_{ilosc\ procesow\ w\ logu} \frac{blad\ odwzorow
 \end{tabular}
 \end{center}
 \subsubsection{Precyzja} 
-Pozwala na unikanie niewystarczającego dopasowania (\textit{eng. underfitting}). Celem jest uniknięcie tworzenia modeli, według których możliwe są praktycznie dowolne zachowania. Możliwe jest osiągnięcie maksymalnej wartości pozostałych metryk, tworząc jednak bramkę LUB - OR zawierającą wszystkie aktywności, jednak oczywiste jest, że nie jest to pożądany model. We wzorze skupiono się na ilości osiągalnych zdarzeń następujących po danej aktywności, możliwych w modelu. Chcemy, żeby poszczególne aktywności mogły poprzedzać tylko te, które rzeczywiście poprzedzają w logu. Metrykę oparto o \cite{precision-calculation}, jednak otrzymany wynik podniesiono do potęgi $\frac{1}{3}$, bo oryginalna metryka jest zbyt wrażliwa na zmiany, przez co jest nieproporcjonalna do innych, co zwiększa prawdopodobieństwo utknięcia w lokalnym maksimum, gdzie każda mała zmiana w modelu będzie powodować ogromną zmianę w metryce. Ostatecznie wyrażono ją wzorem:
+Pozwala na unikanie niewystarczającego dopasowania (\textit{ang. underfitting}). Celem jest uniknięcie tworzenia modeli, według których możliwe są praktycznie dowolne zachowania. Możliwe jest osiągnięcie maksymalnej wartości pozostałych metryk, tworząc bramkę LUB -- OR zawierającą wszystkie aktywności, jednak nie jest to pożądany model. We wzorze skupiono się na ilości osiągalnych zdarzeń następujących po danej aktywności, możliwych w modelu. Chcemy, żeby poszczególne aktywności mogły poprzedzać tylko te, które rzeczywiście poprzedzają w logu. Metrykę oparto o \cite{precision-calculation}, jednak otrzymany wynik podniesiono do potęgi $\frac{1}{3}$, bo oryginalna metryka jest zbyt wrażliwa na zmiany, przez co jest nieproporcjonalna do innych, co zwiększa prawdopodobieństwo utknięcia w lokalnym maksimum, gdzie każda mała zmiana w modelu będzie powodować ogromną zmianę w metryce. Ostatecznie wyrażono ją wzorem:
 \begin{center}
 $M_{pre} = (1 - \sum_{zdarzenia\ w\ modelu} \frac{ilosc\ osiagalnych\ zdarzen\ w\ modelu\ -\ ilosc\ osiagalnych\ zdarzen\ w\ logu}{ilosc\ osiagalnych\ zdarzen\ w\ modelu})^{\frac{1}{3}} $
 \end{center}
 \subsubsection{Generalizacja}
-Pozwala na unikanie nadmiernego dopasowania (\textit{eng. overfitting}). W pierwszej chwili może wydawać się przeciwieństwem precyzji, jednak chodzi tutaj o uwzględnienie brakujących w dzienniku zdarzeń wariantów, a nie o rozszerzenie modelu o nowe, zupełnie niezwiązane z istniejącymi. Dobrą wizualizacją jej działania jest operacja domknięcia znana z dziedziny przetwarzania obrazów cyfrowych. Generalizację można zmierzyć poprzez obliczenie średniej ważonej liczby przejść w modelu przez dane zdarzenie, dzięki czemu wciąż uwzględniane są ścieżki, które są często odwiedzane w innych wariantach, mimo że pozwalają na zachowanie niewidoczne w dzienniku zdarzeń, a jednocześnie karane jest istnienie ścieżek, które zupełnie nie pokrywają się z żadnymi wariantami. Wraz ze zwiększaniem ilości wykonań danej aktywności wzrasta pewność, że ścieżki ją uwzględniające faktycznie istnieją i ta informacja staje się mniej cenna, dlatego wzięto pierwiastek z liczby wystąpień danego zdarzenia. Metrykę zapożyczono z \cite{qd-in-discovery} i ostatecznie wyrażono wzorem:
+Pozwala na unikanie nadmiernego dopasowania (\textit{ang. overfitting}). W pierwszej chwili może wydawać się przeciwieństwem precyzji, jednak chodzi tutaj o uwzględnienie brakujących w dzienniku zdarzeń wariantów, a nie o rozszerzenie modelu o nowe, zupełnie niezwiązane z istniejącymi. Dobrą wizualizacją jej działania jest operacja domknięcia znana z dziedziny przetwarzania obrazów cyfrowych. Generalizację można zmierzyć poprzez obliczenie średniej ważonej liczby przejść w modelu przez dane zdarzenie, dzięki czemu wciąż uwzględniane są ścieżki, które są często odwiedzane w innych wariantach, mimo że pozwalają na zachowanie niewidoczne w dzienniku zdarzeń, a jednocześnie karane jest istnienie ścieżek, które zupełnie nie pokrywają się z żadnymi wariantami. Wraz ze zwiększaniem ilości wykonań danej aktywności wzrasta pewność, że ścieżki ją uwzględniające faktycznie istnieją i ta informacja staje się mniej cenna, dlatego wzięto pierwiastek z liczby wystąpień danego zdarzenia. Metrykę zapożyczono z \cite{qd-in-discovery} i~ostatecznie wyrażono wzorem:
 \begin{center}
 $M_g = 1 - \frac{\sum_{zdarzenia\ w\ modelu} \frac{1}{\sqrt{ilosc\ wystapien\ zdarzenia}}}{ilosc\ zdarzen\ w\ logu} $
 \end{center}
@@ -352,27 +352,30 @@ Metryka jest powiązana z odwzorowaniem. Jeśli ono rośnie, pozwala się na two
 $M_z = 1 - \frac{1}{\sqrt{1\ +\ blad\_odwzorowania\ *\ \sqrt{zlozonosc\ modelu}}} $
 \end{center}
 \subsection{Obliczanie metryk}
-W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane dla niego. Poniżej przedstawiono, jak mógłby wyglądać model tego procesu - na czerwono zaznaczono ilość wykonań danej aktywności - oraz zademonstrowano obliczanie metryk:
+W sekcji \ref{sec:event_logs} przedstawiono przykład dziennika zdarzeń i warianty procesu uzyskane dla niego. Na rys. \ref{fig:metrics_business_process} przedstawiono, jak mógłby wyglądać model tego procesu -- na czerwono zaznaczono ilość wykonań danej aktywności -- oraz zademonstrowano obliczanie metryk:
+\newline
 
 \begin{figure}[h]
-	\centering{\includegraphics[scale=0.5]{model-metrics.png}}
+	\centering{\includegraphics[scale=0.6]{model-metrics-new.png}}
 	\caption{\label{fig:metrics_business_process}Model, dla którego obliczane są metryki}
 \end{figure}
 
 \subsubsection{Obliczanie prostoty}
-Model posiada jest jeden duplikat - \textbf{b} oraz jedno brakujące zdarzenie - \textbf{f}, więc wartość metryki wynosi:
+Model posiada jeden duplikat -- \textbf{b} oraz jedno brakujące zdarzenie -- \textbf{f}, więc wartość metryki wynosi:
 \begin{center}
 $M_{pro} = 1 - \frac{1\ +\ 1}{6\ +\ 6} = 0.8333$
 \end{center}
 
 \subsubsection{Obliczanie odwzorowania}
 \label{sec:alignment-calculation}
-Są trzy możliwość na niezgodności modelu z logiem -  brak zdarzenia w modelu, brak zdarzenia w logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być utożsamiane z brakiem zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. W powyższym przykładzie nieprawidłowe odwzorowanie zachodzi tylko dla jednego wariantu, co można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd zawsze wynosi 3:
+Są trzy możliwość na niezgodności modelu z logiem -- brak zdarzenia w modelu, brak zdarzenia w~logu lub zdarzenie w logu różne od zdarzenia w modelu, co może być utożsamiane z brakiem zdarzenia w logu i modelu, dlatego w takim przypadku błąd wynosi 2, a w pozostałych 1. W powyższym przykładzie nieprawidłowe odwzorowanie zachodzi tylko dla jednego wariantu, co można przedstawić na kilka sposobów, jednak nie ma to znaczenia i błąd zawsze wynosi 3 (rys. \ref{fig:bad-alignment}).
+\newline
+\newline
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.7]{bad-alignment.png}}
+	\centering{\includegraphics[scale=0.7]{bad-alignment-new.png}}
 	\caption{\label{fig:bad-alignment}Nieprawidłowe odwzorowanie}
 \end{figure}
-Dla pozostałych wariantów odwzorowanie jest pełne i błąd wynosi 0:
+Dla pozostałych wariantów odwzorowanie jest pełne i błąd wynosi 0 (rys. \ref{fig:good-alignment}).
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.7]{good-alignment.png}}
 	\caption{\label{fig:good-alignment}Prawidłowe odwzorowanie}
@@ -387,7 +390,7 @@ $M_o = (1 - 0.0195)^4 = 0.9243$
 \end{center}
 
 \subsubsection{Obliczanie precyzji}
-Potrzebna jest ilość osiągalnych, kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu, w jakim dana aktywność jest wykonywana np. dla bramki I - AND można jako kolejne wykonać tyle aktywności, ile nie zostało do tej pory wykonanych w tej bramce, z wyjątkiem ostatniej, gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu wygląda to następująco:
+Potrzebna jest ilość osiągalnych, kolejnych zdarzeń dla danej aktywności. Zależy ona od kontekstu, w jakim dana aktywność jest wykonywana np. dla bramki I - AND można jako kolejne wykonać tyle aktywności, ile nie zostało do tej pory wykonanych w tej bramce, z wyjątkiem ostatniej, gdzie przechodzimy do kolejnych aktywności spoza bramki. Dla demonstrowanego przykładu kolejne zdarzenia zaprezentowano na rys. \ref{fig:directly-follows}.
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.7]{precision-calculation.png}}
 	\caption{\label{fig:directly-follows}Kolejne zdarzenia}
@@ -398,16 +401,19 @@ $M_{pre} = (1 - (\frac{1\ -\ 1}{1}\ +\ \frac{2\ -\ 2}{2}\ +\ \frac{1\ -\ 1}{1}\ 
 \end{center}
 
 \subsubsection{Obliczanie generalizacji}
-Słabością tej metryki jest to, że wpływa na nią rozmiar dziennika zdarzeń. Jeśli ilość rekordów jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. Starając się znaleźć najlepszy model dla danego dziennika zdarzeń, on pozostaje stały, więc nie wpływa to na prawidłowość rozwiązania. W tym przypadku:
+Jeśli ilość przypadków jest mała, jak w powyższym przykładzie, to generalizacja będzie słaba. W~tym przypadku otrzymano:
 \begin{center}
 $M_g = 1 - \frac{(\frac{1}{\sqrt{5}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{4}}\ +\ \frac{1}{\sqrt{2}}\ +\ \frac{1}{\sqrt{1}}\ +\ \frac{1}{\sqrt{5}})}{6} = 0.3997$
 \end{center}
 
 \subsubsection{Obliczanie złożoności}
-Najpierw obliczana jest złożoność dla poszczególnych bramek, co jest konieczne na wcześniejszym etapie działania algorytmu, a następnie te wartości są podstawiane do wzoru wraz z błędem dopasowania obliczonym w sekcji \ref{sec:alignment-calculation}:\newline
+Złożoność jest obliczana dla poszczególnych bramek logicznych w modelu, co jest konieczne na wcześniejszym etapie działania algorytmu, a następnie te wartości są podstawiane do wzoru wraz z~błędem dopasowania obliczonym w sekcji \ref{sec:alignment-calculation}:\newline
 $zlozonosc\_dla\_bramki\_AND = 2! = 2$\newline
 $zlozonosc\_dla\_bramki\_OR = 2! * \frac{2!}{(2! * (2 - 2)!)} + 1! *  \frac{2!}{(1! * (2 - 1)!)} + 0! * \frac{2!}{(0! * (2 - 0)!)} = 2 + 2 + 1 = 5$\newline
 $zlozonosc = 1 * 2 * 5 * 1 = 10$
 \begin{center}
 $M_z = 1 - \frac{1}{\sqrt{1 + 0.0195\ *\ \sqrt{10}}} = 0.9706$
 \end{center}
+
+\subsubsection{Znaczenie otrzymanych metryk}
+Najniższą wartość otrzymano dla generalizacji. Jest to naturalne, gdyż przykładowy dziennik zdarzeń składał się tylko z pięciu przypadków, więc należy spodziewać się nadmiernego dopasowania modelu do logu. Przedstawiony model nie opisuje wszystkich przypadków w modelu stąd niska wartość odwzorowania. Jest on jednak mało złożony i precyzyjny. Możliwe jest znalezienie lepszego modelu, co pokazano w dalszej części pracy.

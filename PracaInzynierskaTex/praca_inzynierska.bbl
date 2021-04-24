@@ -930,6 +930,37 @@
     \field{year}{2016}
   \endentry
 
+  \entry{memetic}{article}{}
+    \name{author}{3}{}{%
+      {{hash=ME}{%
+         family={Mabrouk},
+         familyi={M\bibinitperiod},
+         given={Emad},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=HAR}{%
+         family={Hedar},
+         familyi={H\bibinitperiod},
+         given={Abdel-Rahman},
+         giveni={A\bibinithyphendelim R\bibinitperiod},
+      }}%
+      {{hash=FM}{%
+         family={Fukushima},
+         familyi={F\bibinitperiod},
+         given={Masao},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MEHARFM1}
+    \strng{fullhash}{MEHARFM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Memetic Programming Algorithm with Automatically Defined
+  Functions}
+    \field{month}{12}
+    \field{year}{2010}
+  \endentry
+
   \entry{SSvsGen}{misc}{}
     \name{author}{2}{}{%
       {{hash=ND}{%
@@ -1509,37 +1540,6 @@
       {Berlin, Heidelberg}%
     }
     \field{year}{2008}
-  \endentry
-
-  \entry{memetic}{article}{}
-    \name{author}{3}{}{%
-      {{hash=ME}{%
-         family={Mabrouk},
-         familyi={M\bibinitperiod},
-         given={Emad},
-         giveni={E\bibinitperiod},
-      }}%
-      {{hash=HAR}{%
-         family={Hedar},
-         familyi={H\bibinitperiod},
-         given={Abdel-Rahman},
-         giveni={A\bibinithyphendelim R\bibinitperiod},
-      }}%
-      {{hash=FM}{%
-         family={Fukushima},
-         familyi={F\bibinitperiod},
-         given={Masao},
-         giveni={M\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{MEHARFM1}
-    \strng{fullhash}{MEHARFM1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{title}{Memetic Programming Algorithm with Automatically Defined
-  Functions}
-    \field{month}{12}
-    \field{year}{2010}
   \endentry
 
   \entry{ea252fd3937a4a309a5e07e61e5531a7}{article}{}
