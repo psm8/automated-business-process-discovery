@@ -1,0 +1,19 @@
+Generation:
+61
+
+Phenotype:
+xor(xor({a}))seq({b}{c})lo0({d}{e})xor(osq({m}){f}xor({n}{j}))osq({g}{h})osq({i}{k}{l})
+
+Genotype:
+[51724, 81170, 75118, 41981, 95418, 77991, 59781, 27628, 79081, 84958, 1341, 4801, 70766, 36672, 92081, 79051, 40281, 28891, 15830, 29133, 61465, 70302, 82699, 89121, 37221, 7710, 39293, 96894, 12251, 20964, 31691, 51421, 91321, 30995, 36220, 88325, 45451, 45620, 95399, 23906, 34601, 50358, 51161, 9251, 89692, 79081, 6960, 41920, 22939, 97778, 2345, 92081, 87721, 7352, 88731, 77991, 52171, 76190, 8534, 33095, 75526, 23781, 99863, 86031, 78191, 85197, 36959, 23320, 20030, 86777, 18161, 25741, 15681, 92341, 5181, 56060, 2577, 31186, 69398, 77451, 40561, 79061, 82629, 15641, 63660, 30266, 87251, 54181, 43091, 99772, 44618, 99442, 18791, 71721, 24825, 55442, 22493, 20084, 40847, 79590, 18869, 64965, 47821, 30412, 43421, 76869, 94995, 24965, 98330, 96138, 49272, 78257, 78708, 81080, 22551, 27084, 60547, 5881, 70756, 60190, 86130, 74059, 52652, 66004, 87773, 46935, 41250, 7206, 59743, 48117, 8449, 71225, 17456, 18417, 16122, 49126, 58342, 5613, 8200, 55723, 82704, 84200, 52342, 98752, 3263]
+Tree:
+(<e> (<slot> (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> a) }) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) ))) (<slot> (<anygate> (<anygate> (<name> seq) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> b) }) (<anygate> { (<event> c) })) (<slot> ) (<slot> )) )) (<anygate> (<name> lo (<0_n> 0)) ( (<slots> (<slot> ) (<slot> (<anygate> { (<event> d) })) (<anygate> { (<event> e) }) (<slot> ) (<slot> )) )))) (<anygate> (<name> xor) ( (<slots> (<slot> (<anygate> (<name> osq) ( (<slots> (<slot> ) (<slot> ) (<anygate> { (<event> m) }) (<slot> ) (<slot> )) ))) (<slot> (<anygate> { (<event> f) })) (<anygate> (<name> xor) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> n) }) (<anygate> { (<event> j) })) (<slot> ) (<slot> )) )) (<slot> ) (<slot> )) )) (<slot> ) (<slot> (<anygate> (<anygate> (<name> osq) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> g) }) (<anygate> { (<event> h) })) (<slot> ) (<slot> )) )) (<anygate> (<name> osq) ( (<slots> (<slot> ) (<slot> ) (<anygate> (<anygate> { (<event> i) }) (<anygate> { (<event> k) })) (<slot> (<anygate> { (<event> l) })) (<slot> )) )))))
+
+Fitness:
+0.9093551248388227
+Metrics:
+Alignment:	0.891177229892855
+Complexity:	0.9207433138894805
+Generalization:	0.9008157654726455
+Precision:	0.9552396664443983
+Simplicity:	0.9333333333333333

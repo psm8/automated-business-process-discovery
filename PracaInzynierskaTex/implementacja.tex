@@ -119,7 +119,7 @@ Obliczanie metryk dla klasy \textit{Gate} byłoby utrudnione z uwagi na dużą i
 	\caption{\label{fig:EventUML}Klasa \textit{BaseGroup} i klasy po niej dziedziczące reprezentowane jako UML}
 \end{figure}
 
-Pojedyncze aktywności lub ich grupy są przechowywane jako tablica. Jedyna metoda, która musi zostać nadpisana w klasach rozszerzających \textit{BaseGroup} to \textit{to$\_$bytes()} potrzebna do przechowywania obiektów w pamięci podręcznej (\textit{ang. cache}). 
+Pojedyncze aktywności lub ich grupy są przechowywane jako tablica. Jedyna metoda, która musi zostać nadpisana w klasach rozszerzających \textit{BaseGroup} to \textit{to$\_$bytes()} potrzebna do przechowywania obiektów w pamięci podręcznej (ang. \textit{cache}). 
 
 \section{Implementacja}
 
@@ -367,7 +367,7 @@ Jego działanie dla przykładu z sekcji \ref{sec:alignment-calculation} przedsta
 \end{figure}
 
 
-Argumentami metody \textit{oblicz{\_}odwzorowanie}, której pseudokod znajduje się na listingu \ref{src:alignment_calculation}, są model jako obiekt \textit{Gate} oraz wariant jako tablica znaków. Zwracane są natomiast ostatni wiersz, który zawiera błąd odwzorowania modelu wraz z pośrednimi błędami dla wszystkich, zawsze zaczynając od pierwszego zdarzenia, możliwych długości wariantu, co jest potrzebne, jeśli model zawiera podmodele oraz najlepiej dopasowana ścieżka. Metoda opakowana jest w metodę, która jeśli dla danego modelu i wariantu zostało już obliczone odwzorowanie, zwraca rozwiązanie z pamięci podręcznej \textit{(ang. cache)} bez powtarzania obliczeń.
+Argumentami metody \textit{oblicz{\_}odwzorowanie}, której pseudokod znajduje się na listingu \ref{src:alignment_calculation}, są model jako obiekt \textit{Gate} oraz wariant jako tablica znaków. Zwracane są natomiast ostatni wiersz, który zawiera błąd odwzorowania modelu wraz z pośrednimi błędami dla wszystkich, zawsze zaczynając od pierwszego zdarzenia, możliwych długości wariantu, co jest potrzebne, jeśli model zawiera podmodele oraz najlepiej dopasowana ścieżka. Metoda opakowana jest w metodę, która jeśli dla danego modelu i wariantu zostało już obliczone odwzorowanie, zwraca rozwiązanie z pamięci podręcznej (ang. \textit{cache}) bez powtarzania obliczeń.
 
 Zgodnie z \ref{sec:alignment-calculation} dla brakującego zdarzenia błąd wynosi 1, a jeśli zdarzenia się nie zgadzają, wynosi 2. Stworzona macierz jest inicjalizowana zerami, a następnie pierwsza kolumna jest wypełniana stosownymi wartościami błędu. Są trzy opcje -- normalne obliczenie zgodne z klasycznym algorytmem, a także sytuacja, w której model zawiera podmodele, gdzie algorytm jest powtórnie wywoływany dla podmodelu i dla wszystkich zawsze zaczynając od pierwszego zdarzenia możliwych długości wariantu lub gdy zawiera zdarzenia równoległe -- \textit{EventGroupParallel} wtedy stosujemy inny algorytm, który bezpośrednio porównuje wszystkie zdarzenia w wariancie ze zdarzeniami w obiekcie \textit{EventGroupParallel}. 
      
@@ -474,7 +474,7 @@ def znajdź_ścieżkę(macierz_rozwiązań, model, wariant,
 \subsection{Pozostałe wnioski dotyczące implementacji}
 Używając algorytmów genetycznych, konieczne jest wielokrotne obliczenie metryk, żeby znaleźć rozwiązanie. Z tego powodu, duży nacisk położono na ograniczenie czasu obliczeń. W wiele miejscach zaimplementowano mechanizm przerywający obliczenia, jeżeli nie dają one perspektyw na znalezienie lepszego niż aktualnie najlepsze rozwiązanie. Użytkownik może też zdefiniować maksymalną złożoność modelu, co przełoży się także na czas jego znajdowania. Duże znaczenie ma też fakt, że algorytm pozwala na równoległe przetwarzanie. 
 
-W sytuacji, kiedy wiele obliczeń się powtarza, można znacząca przyspieszyć czas działania aplikacji poprzez przechowywanie danych w pamięci podręcznej (\textit{ang. cache}). W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
+W sytuacji, kiedy wiele obliczeń się powtarza, można znacząca przyspieszyć czas działania aplikacji poprzez przechowywanie danych w pamięci podręcznej (ang. \textit{cache}). W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
 \begin{itemize}
   \item[•] Poprzednio obliczone rozwiązanie -- model może się powtórzyć. W tym wypadku możemy skorzystać z przechowywania genotypów w pamięci podręcznej, które jest dostarczane przez bibliotekę PonyGE2.
   \item[•] Podczas obliczania odwzorowania, które jest najbardziej czasochłonne. Zaimplementowano tutaj własną metodę przechowywania wyników w pamięci podręcznej.

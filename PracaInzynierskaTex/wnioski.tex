@@ -166,7 +166,7 @@ Dziennik zdarzeń zawiera dane obsługi wniosku o odszkodowanie.
 Przykład składa się z 8 unikalnych aktywności, 1391 przypadków, 21 wariantów, z których najdłuższy ma 17 zdarzeń. Na rys. \ref{fig:p5_variants} znajdują się warianty procesu dla tego przykładu.
 
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.85]{datasets/v21a81391l17.png}}
+	\centering{\includegraphics[scale=0.87]{datasets/v21a81391l17.png}}
 	\caption{\label{fig:p5_variants}Warianty procesu -- przykład \#Obsługa wniosku o odszkodowanie}
 \end{figure}
 
@@ -177,7 +177,7 @@ Przy odkrywaniu modelu użyto następujących wag poszczególnych metryk: odwzor
 Model został przedstawiony graficznie na rys. \ref{fig:p5_model}, natomiast przebieg ewolucji na rys. \ref{fig:p5_chart}
 
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.37]{examples/v21a81391l17.csv_run-15614_21_3_1_225455/graphviz.png}}
+	\centering{\includegraphics[scale=0.39]{examples/v21a81391l17.csv_run-15614_21_3_1_225455/graphviz.png}}
 	\caption{\label{fig:p5_model}Znaleziony model -- przykład \#Obsługa wniosku o odszkodowanie}
 \end{figure}
 
@@ -197,6 +197,45 @@ Do znalezienia modelu potrzebne było 685 generacji. Zajęło to 4.1 godziny, u�
 \begin{figure}[H]
 	\centering{\includegraphics[scale=0.83]{examples/v21a81391l17.csv_21_4_13_201133_15092_996333/result_graph.pdf}}
 	\caption{\label{fig:p5_chart}Przebieg ewolucji -- przykład \#Obsługa wniosku o odszkodowanie}
+\end{figure}
+
+\subsubsection{Przykład \#Przypadki sepsy}
+\label{sec:example5}
+Dziennik zdarzeń zawiera dane dotyczące przypadków sepsy zarejestrowane przez system CRM w anonimowym, holenderskim szpitalu \cite{sepsis-cases}.
+Przykład składa się z 16 unikalnych aktywności, 1050 przypadków, 846 wariantów, z których najdłuższy ma 185 zdarzeń. Na rys. \ref{fig:p88_variants} znajdują się warianty procesu dla tego przykładu. Z powodu dużej ilość wariantów przedstawiono jedynie te, które występują więcej niż 2 razy.
+
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.85]{datasets/v846a16c1050l185-light.png}}
+	\caption{\label{fig:p88_variants}Warianty procesu -- przykład \#Przypadki sepsy}
+\end{figure}
+
+Przy odkrywaniu modelu użyto następujących wag poszczególnych metryk: odwzorowanie = 8, złożoność = 2, generalizacja = 2, precyzja = 2, prostota = 2. Model dla tego dziennika zdarzeń znaleziony przy pomocy algorytmu to:
+\begin{center}
+	\{a\}\{b\}\{c\}lo0(\{d\}\{e\})xor(opt(\{m\})\{f\}xor(\{n\}\{j\}))opt(seq(\{g\}\{h\}))opt(seq(\{i\}\{k\}\{l\}))
+\end{center}
+Model został przedstawiony graficznie na rys. \ref{fig:p88_model}, natomiast przebieg ewolucji na rys. \ref{fig:p88_chart}
+
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.21]{examples/v846a16c1050l185.csv_run-61_21_4_23_001933_1768_571571/graphviz.png}}
+	\caption{\label{fig:p88_model}Znaleziony model -- przykład \#Przypadki sepsy}
+\end{figure}
+
+Do znalezienia modelu potrzebne było 60 generacji. Zajęło to 4.03 godziny, używając 32 wątków procesora. Znaczne zwiększenie ilości wariantów i ich długości znacząco zwiększyło czas iteracji, natomiast wpłynęło negatywnie na otrzymany model. Pominięte zostały w nim dwie najrzadziej występujące aktywności. W modelu widać jednak znaczną zgodność z najczęściej występującymi wariantami. Znalezienie lepszego rozwiązania byłoby możliwe, używając wydajniejszego komputera lub zwiększając czas ewolucji. Metryki mają następujące wartości: 
+
+ \begin{center}
+  \begin{tabular}{l}
+	Średnia ważona: 0.9094 \\
+	Odwzorowanie: 0.8912 \\
+	Złożoność: 0.9207 \\
+	Generalizacja: 0.9008 \\
+	Precyzja: 0.9552 \\
+	Prostota: 0.9333
+  \end{tabular}
+ \end{center}
+ 
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.83]{examples/v846a16c1050l185.csv_run-61_21_4_23_001933_1768_571571/result_graph.pdf}}
+	\caption{\label{fig:p88_chart}Przebieg ewolucji -- przykład \#Przypadki sepsy}
 \end{figure}
 
 \section{Wyniki w zależności od przyjętych wag poszczególnych metryk}

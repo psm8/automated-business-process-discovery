@@ -1,0 +1,52 @@
+digraph G {
+  rankdir=LR;
+
+  subgraph place {
+    node [shape=circle,fixedsize=true,label="",height=.3,width=.3];
+    in;
+    out[penwidth=3];
+  }
+  subgraph xorgate {
+    node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#x2715;>,fontsize=12,style=filled,fillcolor=yellow]
+    x1; x3; x4; o1; o2; x5;x6; o3; o4; o5;o6
+  }
+  subgraph andgate {
+    node [shape=diamond,fixedsize=true,width=.4,height=.4 label=<&#43;>,fontsize=20,style=filled,fillcolor=yellow]
+  }
+  subgraph optgate {
+    node [shape=diamond,fixedsize=true,width=.4,height=.4,label=<&#9711;>,fontsize=12,style=filled,fillcolor=yellow]
+  }
+  subgraph transitions {
+    node [shape=Mrecord,height=0.4,width=.65];
+    a; b; c; d; e; f; g; h; i; j; k; l; m; n;
+  }
+  subgraph skip {
+    node [shape=rect,label="",height=0.4,width=.4,style=filled,fillcolor=black];
+  }
+
+  # align horizontally
+  {edge [weight=1]; a;g;e}
+
+  in->a->b->c->d->e->x1;
+  x1:s->d;
+  x1->x3;
+  x3->o1;
+  o1->m;
+  m->o2;
+  o1:se->o2;
+  o2->x4;
+  x3->f->x4;
+  x3->x5;
+  x5->n->x6;
+  x5->j->x6;
+  x6->x4
+  x4->o3
+  o3->g->h->o4;
+  o3:se->o4;
+  o4->o5;
+  o5->i->k->l->o6
+  o5:se->o6;
+  o6->out;
+  # align vertically
+
+}
