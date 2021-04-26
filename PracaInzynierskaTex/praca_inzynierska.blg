@@ -1,84 +1,15 @@
-This is BibTeX, Version 0.99d
-Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: praca_inzynierska.aux
-Reallocating 'name_of_file' (item size: 1) to 9 items.
+This is BibTeX, Version 0.99dThe top-level auxiliary file: praca_inzynierska.aux
 The style file: biblatex.bst
-Reallocating 'name_of_file' (item size: 1) to 22 items.
-Reallocating 'name_of_file' (item size: 1) to 13 items.
-Reallocating 'name_of_file' (item size: 1) to 17 items.
 A level-1 auxiliary file: wprowadzenie.aux
-Reallocating 'name_of_file' (item size: 1) to 22 items.
 A level-1 auxiliary file: wstep_teoretyczny.aux
-Reallocating 'name_of_file' (item size: 1) to 18 items.
 A level-1 auxiliary file: implementacja.aux
-Reallocating 'name_of_file' (item size: 1) to 12 items.
 A level-1 auxiliary file: wnioski.aux
-Reallocating 'name_of_file' (item size: 1) to 17 items.
 A level-1 auxiliary file: podsumowanie.aux
-Reallocating 'glb_str_end' (item size: 4) to 20 items.
-Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
-Reallocating 'global_strs' (item size: 1) to 4000000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'wiz_functions' (item size: 4) to 6000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'field_info' (item size: 4) to 11440 items.
 Database file #1: praca_inzynierska-blx.bib
 Database file #2: bibliografia.bib
 Warning--I'm ignoring icga85:cramer's extra "url" field
 --line 448 of file bibliografia.bib
 Warning--I'm ignoring icga85:cramer's extra "url" field
 --line 449 of file bibliografia.bib
-Biblatex version: 3.16
-Reallocating 'wiz_functions' (item size: 4) to 9000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-You've used 46 entries,
-            6393 wiz_defined-function locations,
-            1541 strings with 24757 characters,
-and the built_in function-call counts, 313073 in all, are:
-= -- 23993
-> -- 4982
-< -- 1368
-+ -- 7232
-- -- 1732
-* -- 22592
-:= -- 33615
-add.period$ -- 0
-call.type$ -- 46
-change.case$ -- 789
-chr.to.int$ -- 152
-cite$ -- 90
-duplicate$ -- 30583
-empty$ -- 29018
-format.name$ -- 2954
-if$ -- 64484
-int.to.chr$ -- 0
-int.to.str$ -- 129
-missing$ -- 0
-newline$ -- 1554
-num.names$ -- 2211
-pop$ -- 15973
-preamble$ -- 1
-purify$ -- 1081
-quote$ -- 0
-skip$ -- 8618
-stack$ -- 0
-substring$ -- 44760
-swap$ -- 6760
-text.length$ -- 1002
-text.prefix$ -- 1
-top$ -- 1
-type$ -- 1551
-warning$ -- 0
-while$ -- 4292
-width$ -- 0
-write$ -- 1509
+Biblatex version: 3.13
 (There were 2 warnings)

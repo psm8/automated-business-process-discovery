@@ -4,6 +4,7 @@ from test.util.test_util import set_params
 
 set_params()
 actual = evaluate_guess(
-    '{a}xor(seq({b}{d})seq({c}{d})seq({d}xor({b}{c}))){e}xor({h}{g})',
-    LogInfo('v8a7c1254l5.csv'), dict(), 6300)
+    '{a}{b}{c}osq(opt(lop(opt({d}{e}{f}))seq(lo1({f}{g}{h}{m}){i}))xor({j}{l}{n}{o}{p}){k})',
+    LogInfo('v846a16c1050l185.csv'), dict(), 63000)
+print(actual)
 expected = 0

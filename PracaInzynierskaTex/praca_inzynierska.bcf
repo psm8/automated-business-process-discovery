@@ -2180,8 +2180,63 @@
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
     <bcf:datasource type="file" datatype="bibtex">bibliografia.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex">bibliografia.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="1">davenport1993process</bcf:citekey>
+    <bcf:citekey order="2">HAMMER199390</bcf:citekey>
+    <bcf:citekey order="3">JacobsonObjectAdvantage</bcf:citekey>
+    <bcf:citekey order="4">Eriksson2000BusinessMW</bcf:citekey>
+    <bcf:citekey order="5">rummler_brache_1995</bcf:citekey>
+    <bcf:citekey order="6">BPMDemystified</bcf:citekey>
+    <bcf:citekey order="7">BPMWhat</bcf:citekey>
+    <bcf:citekey order="8">BPMSurvey</bcf:citekey>
+    <bcf:citekey order="9">dumas2013fundamentals</bcf:citekey>
+    <bcf:citekey order="10">dumas2013fundamentals</bcf:citekey>
+    <bcf:citekey order="11">BPMComparission</bcf:citekey>
+    <bcf:citekey order="12">omg2011bpmn</bcf:citekey>
+    <bcf:citekey order="13">7PMG</bcf:citekey>
+    <bcf:citekey order="14">market-pm</bcf:citekey>
+    <bcf:citekey order="15">pm-manifesto</bcf:citekey>
+    <bcf:citekey order="15">mining-overview</bcf:citekey>
+    <bcf:citekey order="16">pm-book</bcf:citekey>
+    <bcf:citekey order="17">alpha-algorithm</bcf:citekey>
+    <bcf:citekey order="18">ILP-miner</bcf:citekey>
+    <bcf:citekey order="19">heuristics-miner</bcf:citekey>
+    <bcf:citekey order="20">multi-phase-miner</bcf:citekey>
+    <bcf:citekey order="21">inductive-miner</bcf:citekey>
+    <bcf:citekey order="22">conf-propositions</bcf:citekey>
+    <bcf:citekey order="22">Blum2015MetricsIP</bcf:citekey>
+    <bcf:citekey order="23">dongen2006b</bcf:citekey>
+    <bcf:citekey order="23">StructuralDetectionofDeadlocks</bcf:citekey>
+    <bcf:citekey order="24">EA</bcf:citekey>
+    <bcf:citekey order="25">memetic</bcf:citekey>
+    <bcf:citekey order="26">memetic</bcf:citekey>
+    <bcf:citekey order="27">SSvsGen</bcf:citekey>
+    <bcf:citekey order="28">Koza:1990:pat-GAsp</bcf:citekey>
+    <bcf:citekey order="28">10.5555/138936</bcf:citekey>
+    <bcf:citekey order="29">ryan_collins_neill_1998</bcf:citekey>
+    <bcf:citekey order="30">Backus1959TheSA</bcf:citekey>
+    <bcf:citekey order="30">Naur</bcf:citekey>
+    <bcf:citekey order="30">Knuth1964</bcf:citekey>
+    <bcf:citekey order="31">grammarDesign</bcf:citekey>
+    <bcf:citekey order="32">icga85:cramer</bcf:citekey>
+    <bcf:citekey order="32">beasley:1993:ogapf</bcf:citekey>
+    <bcf:citekey order="33">qd-in-discovery</bcf:citekey>
+    <bcf:citekey order="34">metric-calculation</bcf:citekey>
+    <bcf:citekey order="35">precision-calculation</bcf:citekey>
+    <bcf:citekey order="36">qd-in-discovery</bcf:citekey>
+    <bcf:citekey order="37">Fenton_2017</bcf:citekey>
+    <bcf:citekey order="38">Fenton_2017</bcf:citekey>
+    <bcf:citekey order="39">Fenton_2017</bcf:citekey>
+    <bcf:citekey order="40">10.1007/978-3-540-69534-9_35</bcf:citekey>
+    <bcf:citekey order="41">memetic</bcf:citekey>
+    <bcf:citekey order="42">10.1007/978-3-540-69534-9_35</bcf:citekey>
+    <bcf:citekey order="43">ea252fd3937a4a309a5e07e61e5531a7</bcf:citekey>
+    <bcf:citekey order="44">NW-example</bcf:citekey>
+    <bcf:citekey order="45">NW-example</bcf:citekey>
+    <bcf:citekey order="46">PonyGE2-wiki</bcf:citekey>
+    <bcf:citekey order="47">pm-book</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

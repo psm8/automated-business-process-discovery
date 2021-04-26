@@ -422,7 +422,7 @@
     \field{year}{2010}
   \endentry
 
-  \entry{market-pm}{inproceedings}{}
+  \entry{market-pm}{standard}{}
     \name{author}{1}{}{%
       {{hash=KM}{%
          family={Kerremans},
@@ -435,12 +435,11 @@
     \strng{fullhash}{KM1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
+    \field{note}{kw. 2018}
     \field{title}{Gartner Market Guide for Process Mining}
-    \field{month}{04}
-    \field{year}{2018}
   \endentry
 
-  \entry{pm-manifesto}{inproceedings}{}
+  \entry{pm-manifesto}{article}{}
     \name{author}{19}{}{%
       {{hash=vdAWMP}{%
          prefix={van\bibnamedelima der},
@@ -676,7 +675,7 @@
     \field{year}{2004}
   \endentry
 
-  \entry{ILP-miner}{inproceedings}{}
+  \entry{ILP-miner}{article}{}
     \name{author}{4}{}{%
       {{hash=VdWJM}{%
          prefix={Van\bibnamedelima der},
@@ -788,36 +787,77 @@
     \field{year}{2005}
   \endentry
 
-  \entry{inductive-miner}{thesis}{}
-    \name{author}{1}{}{%
-      {{hash=LS}{%
+  \entry{inductive-miner}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=LSJJ}{%
          family={Leemans},
          familyi={L\bibinitperiod},
-         given={S.J.J.},
-         giveni={S\bibinitperiod},
+         given={Sander J.\bibnamedelima J.},
+         giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  J\bibinitperiod},
+      }}%
+      {{hash=FD}{%
+         family={Fahland},
+         familyi={F\bibinitperiod},
+         given={Dirk},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Aalst},
+         familyi={A\bibinitperiod},
+         given={Wil M.\bibnamedelima P.},
+         giveni={W\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim
+  P\bibinitperiod},
       }}%
     }
-    \list{language}{1}{%
-      {English}%
+    \name{editor}{2}{}{%
+      {{hash=CJM}{%
+         family={Colom},
+         familyi={C\bibinitperiod},
+         given={Jos{\'e}-Manuel},
+         giveni={J\bibinithyphendelim M\bibinitperiod},
+      }}%
+      {{hash=DJ}{%
+         family={Desel},
+         familyi={D\bibinitperiod},
+         given={J{\"o}rg},
+         giveni={J\bibinitperiod},
+      }}%
     }
     \list{publisher}{1}{%
-      {Technische Universiteit Eindhoven}%
+      {Springer Berlin Heidelberg}%
     }
-    \strng{namehash}{LS1}
-    \strng{fullhash}{LS1}
+    \strng{namehash}{LSJJFDAWMPvd1}
+    \strng{fullhash}{LSJJFDAWMPvd1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{isbn}{978-90-386-4257-4}
-    \field{note}{Proefschrift.}
-    \field{series}{SIKS dissertation series}
-    \field{title}{Robust process mining with guarantees}
-    \list{institution}{2}{%
-      {Mathematics}%
-      {Computer Science}%
+    \field{abstract}{%
+    Process discovery is the problem of, given a log of observed behaviour,
+  finding a process model that `best' describes this behaviour. A large
+  variety of process discovery algorithms has been proposed. However, no
+  existing algorithm guarantees to return a fitting model (i.e., able to
+  reproduce all observed behaviour) that is sound (free of deadlocks and other
+  anomalies) in finite time. We present an extensible framework to discover
+  from any given log a set of block-structured process models that are sound
+  and fit the observed behaviour. In addition we characterise the minimal
+  information required in the log to rediscover a particular process model. We
+  then provide a polynomial-time algorithm for discovering a sound, fitting,
+  block-structured model from any given log; we give sufficient conditions on
+  the log for which our algorithm returns a model that is language-equivalent
+  to the process model underlying the log, including unseen behaviour. The
+  technique is implemented in a prototypical tool.%
     }
-    \field{type}{phdthesis}
-    \field{month}{05}
-    \field{year}{2017}
+    \field{booktitle}{Application and Theory of Petri Nets and Concurrency}
+    \field{isbn}{978-3-642-38697-8}
+    \field{pages}{311\bibrangedash 329}
+    \field{title}{Discovering Block-Structured Process Models from Event Logs -
+  A Constructive Approach}
+    \list{location}{1}{%
+      {Berlin, Heidelberg}%
+    }
+    \field{year}{2013}
   \endentry
 
   \entry{conf-propositions}{inproceedings}{}
@@ -879,7 +919,7 @@
     \field{year}{2018}
   \endentry
 
-  \entry{Blum2015MetricsIP}{inproceedings}{}
+  \entry{Blum2015MetricsIP}{standard}{}
     \name{author}{1}{}{%
       {{hash=BF}{%
          family={Blum},
@@ -932,7 +972,7 @@
     \field{year}{2006}
   \endentry
 
-  \entry{StructuralDetectionofDeadlocks}{inproceedings}{}
+  \entry{StructuralDetectionofDeadlocks}{article}{}
     \name{author}{2}{}{%
       {{hash=AA}{%
          family={Awad},
@@ -987,7 +1027,7 @@
     \field{year}{2016}
   \endentry
 
-  \entry{memetic}{inproceedings}{}
+  \entry{memetic}{standard}{}
     \name{author}{3}{}{%
       {{hash=ME}{%
          family={Mabrouk},
@@ -1205,7 +1245,7 @@
     \field{year}{1964}
   \endentry
 
-  \entry{grammarDesign}{inbook}{}
+  \entry{grammarDesign}{article}{}
     \name{author}{2}{}{%
       {{hash=NM}{%
          family={Nicolau},
@@ -1674,6 +1714,15 @@
     \field{title}{https://github.com/PonyGE/PonyGE2/wiki}
     \verb{url}
     \verb https://github.com/PonyGE/PonyGE2/wiki
+    \endverb
+  \endentry
+
+  \entry{link}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{note}{dostęp: 25 kwietnia 2020}
+    \field{title}{https://github.com/psm8/automated-business-process-discovery}
+    \verb{url}
+    \verb https://github.com/psm8/automated-business-process-discovery
     \endverb
   \endentry
 \enddatalist

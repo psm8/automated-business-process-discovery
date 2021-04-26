@@ -1,69 +1,69 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {polish}{}
-\contentsline {chapter}{\numberline {1}Wprowadzenie}{7}{}%
-\contentsline {section}{\numberline {1.1}Zarys tematyki pracy}{7}{}%
-\contentsline {section}{\numberline {1.2}Cele pracy}{7}{}%
-\contentsline {section}{\numberline {1.3}Zawartość pracy}{8}{}%
-\contentsline {chapter}{\numberline {2}Wstęp teoretyczny}{9}{}%
-\contentsline {section}{\numberline {2.1}Procesy biznesowe}{9}{}%
-\contentsline {section}{\numberline {2.2}Metody modelowania i eksploracji procesów}{12}{}%
-\contentsline {subsection}{\numberline {2.2.1}Modelowanie procesów biznesowych}{12}{}%
-\contentsline {subsection}{\numberline {2.2.2}Eksploracja procesów}{14}{}%
-\contentsline {subsection}{\numberline {2.2.3}Dzienniki zdarzeń}{15}{}%
-\contentsline {subsection}{\numberline {2.2.4}Automatyczne odkrywanie procesów biznesowych}{16}{}%
-\contentsline {section}{\numberline {2.3}Ewolucja gramatyczna}{17}{}%
-\contentsline {subsection}{\numberline {2.3.1}Algorytmy ewolucyjne}{17}{}%
-\contentsline {subsection}{\numberline {2.3.2}Operatory i działanie algorytmów ewolucyjnych}{18}{}%
-\contentsline {subsection}{\numberline {2.3.3}Ewolucja gramatyczna}{20}{}%
-\contentsline {subsection}{\numberline {2.3.4}Notacja Backusa-Naura}{20}{}%
-\contentsline {subsection}{\numberline {2.3.5}Tworzenie gramatyki pod kątem ewolucji}{21}{}%
-\contentsline {subsection}{\numberline {2.3.6}Omówienia działania algorytmu ewolucji gramatycznej}{22}{}%
-\contentsline {section}{\numberline {2.4}Metryki}{23}{}%
-\contentsline {subsection}{\numberline {2.4.1}Metryki a funkcja dopasowania}{23}{}%
-\contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka -- złożoność}{24}{}%
-\contentsline {subsection}{\numberline {2.4.3}Opis i wzory użytych metryk}{24}{}%
-\contentsline {subsubsection}{\numberline {2.4.3.1}Prostota}{24}{}%
-\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{24}{}%
-\contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{25}{}%
-\contentsline {subsubsection}{\numberline {2.4.3.4}Generalizacja}{25}{}%
-\contentsline {subsubsection}{\numberline {2.4.3.5}Złożoność}{26}{}%
-\contentsline {subsection}{\numberline {2.4.4}Obliczanie metryk}{26}{}%
-\contentsline {subsubsection}{\numberline {2.4.4.1}Obliczanie prostoty}{26}{}%
-\contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{26}{}%
-\contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{27}{}%
-\contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{27}{}%
-\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie złożoności}{27}{}%
-\contentsline {subsubsection}{\numberline {2.4.4.6}Znaczenie otrzymanych metryk}{28}{}%
-\contentsline {chapter}{\numberline {3}Projekt i implementacja}{29}{}%
-\contentsline {section}{\numberline {3.1}Wykorzystane technologie}{29}{}%
-\contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{29}{}%
-\contentsline {subsection}{\numberline {3.1.2}PonyGE2}{29}{}%
-\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{30}{}%
-\contentsline {section}{\numberline {3.3}Projekt systemu}{32}{}%
-\contentsline {subsection}{\numberline {3.3.1}Podział na moduły}{32}{}%
-\contentsline {subsection}{\numberline {3.3.2}Model}{33}{}%
-\contentsline {section}{\numberline {3.4}Implementacja}{35}{}%
-\contentsline {subsection}{\numberline {3.4.1}Parsowanie gramatyki}{35}{}%
-\contentsline {subsection}{\numberline {3.4.2}Obliczanie metryk}{36}{}%
-\contentsline {subsection}{\numberline {3.4.3}Obliczanie odwzorowania dla pojedynczego wariantu}{37}{}%
-\contentsline {subsection}{\numberline {3.4.4}Wyszukiwanie w modelu ścieżek o określonej długości}{39}{}%
-\contentsline {subsection}{\numberline {3.4.5}Obliczanie odwzorowania}{41}{}%
-\contentsline {subsection}{\numberline {3.4.6}Znajdowanie najlepiej dopasowanych aktywności w modelu}{43}{}%
-\contentsline {subsection}{\numberline {3.4.7}Pozostałe wnioski dotyczące implementacji}{45}{}%
-\contentsline {section}{\numberline {3.5}Wybór parametrów algorytmu}{45}{}%
-\contentsline {chapter}{\numberline {4}Dyskusja rezultatów}{47}{}%
-\contentsline {section}{\numberline {4.1}Przykładowe wyniki}{47}{}%
-\contentsline {subsection}{\numberline {4.1.1}Wynik dla przykładu ze wstępu}{47}{}%
-\contentsline {subsection}{\numberline {4.1.2}Inne przykłady działania}{49}{}%
-\contentsline {subsubsection}{\numberline {4.1.2.1}Przykład \#Sztucznie wygenerowany}{49}{}%
-\contentsline {subsubsection}{\numberline {4.1.2.2}Przykład \#Obsługa roszczeń w firmie ubezpieczeniowej}{50}{}%
-\contentsline {subsubsection}{\numberline {4.1.2.3}Przykład \#Naprawa telefonu}{52}{}%
-\contentsline {subsubsection}{\numberline {4.1.2.4}Przykład \#Obsługa wniosku o odszkodowanie}{53}{}%
-\contentsline {section}{\numberline {4.2}Wyniki w zależności od przyjętych wag poszczególnych metryk}{55}{}%
-\contentsline {subsection}{\numberline {4.2.1}Brak poszczególnych metryk}{55}{}%
-\contentsline {subsubsection}{\numberline {4.2.1.1}Poprawny model}{55}{}%
-\contentsline {subsubsection}{\numberline {4.2.1.2}Brak precyzji}{56}{}%
-\contentsline {subsubsection}{\numberline {4.2.1.3}Brak generalizacji i prostoty}{57}{}%
-\contentsline {subsection}{\numberline {4.2.2}Wpływ złożoności na wynik}{58}{}%
-\contentsline {section}{\numberline {4.3}Wnioski dotyczące ewolucji}{61}{}%
-\contentsline {chapter}{\numberline {5}Podsumowanie}{63}{}%
+\contentsline {chapter}{\numberline {1}Wprowadzenie}{5}% 
+\contentsline {section}{\numberline {1.1}Zarys tematyki pracy}{5}% 
+\contentsline {section}{\numberline {1.2}Cele pracy}{5}% 
+\contentsline {section}{\numberline {1.3}Zawarto\IeC {\'s}\IeC {\'c} pracy}{6}% 
+\contentsline {chapter}{\numberline {2}Wst\IeC {\k e}p teoretyczny}{7}% 
+\contentsline {section}{\numberline {2.1}Procesy biznesowe}{7}% 
+\contentsline {section}{\numberline {2.2}Metody modelowania i eksploracji proces\IeC {\'o}w}{10}% 
+\contentsline {subsection}{\numberline {2.2.1}Modelowanie proces\IeC {\'o}w biznesowych}{10}% 
+\contentsline {subsection}{\numberline {2.2.2}Eksploracja proces\IeC {\'o}w}{12}% 
+\contentsline {subsection}{\numberline {2.2.3}Dzienniki zdarze\IeC {\'n}}{13}% 
+\contentsline {subsection}{\numberline {2.2.4}Automatyczne odkrywanie proces\IeC {\'o}w biznesowych}{14}% 
+\contentsline {section}{\numberline {2.3}Ewolucja gramatyczna}{15}% 
+\contentsline {subsection}{\numberline {2.3.1}Algorytmy ewolucyjne}{15}% 
+\contentsline {subsection}{\numberline {2.3.2}Operatory i dzia\IeC {\l }anie algorytm\IeC {\'o}w ewolucyjnych}{16}% 
+\contentsline {subsection}{\numberline {2.3.3}Ewolucja gramatyczna}{17}% 
+\contentsline {subsection}{\numberline {2.3.4}Notacja Backusa-Naura}{18}% 
+\contentsline {subsection}{\numberline {2.3.5}Tworzenie gramatyki pod k\IeC {\k a}tem ewolucji}{19}% 
+\contentsline {subsection}{\numberline {2.3.6}Om\IeC {\'o}wienia dzia\IeC {\l }ania algorytmu ewolucji gramatycznej}{19}% 
+\contentsline {section}{\numberline {2.4}Metryki}{21}% 
+\contentsline {subsection}{\numberline {2.4.1}Metryki a funkcja dopasowania}{21}% 
+\contentsline {subsection}{\numberline {2.4.2}Dodatkowa metryka -- z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{21}% 
+\contentsline {subsection}{\numberline {2.4.3}Opis i wzory u\IeC {\.z}ytych metryk}{22}% 
+\contentsline {subsubsection}{\numberline {2.4.3.1}Prostota}{22}% 
+\contentsline {subsubsection}{\numberline {2.4.3.2}Odwzorowanie}{22}% 
+\contentsline {subsubsection}{\numberline {2.4.3.3}Precyzja}{22}% 
+\contentsline {subsubsection}{\numberline {2.4.3.4}Generalizacja}{23}% 
+\contentsline {subsubsection}{\numberline {2.4.3.5}Z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}\IeC {\'c}}{23}% 
+\contentsline {subsection}{\numberline {2.4.4}Obliczanie metryk}{23}% 
+\contentsline {subsubsection}{\numberline {2.4.4.1}Obliczanie prostoty}{23}% 
+\contentsline {subsubsection}{\numberline {2.4.4.2}Obliczanie odwzorowania}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.4.3}Obliczanie precyzji}{24}% 
+\contentsline {subsubsection}{\numberline {2.4.4.4}Obliczanie generalizacji}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.4.5}Obliczanie z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci}{25}% 
+\contentsline {subsubsection}{\numberline {2.4.4.6}Znaczenie otrzymanych metryk}{25}% 
+\contentsline {chapter}{\numberline {3}Projekt i implementacja}{27}% 
+\contentsline {section}{\numberline {3.1}Wykorzystane technologie}{27}% 
+\contentsline {subsection}{\numberline {3.1.1}Python 3.8.1}{27}% 
+\contentsline {subsection}{\numberline {3.1.2}PonyGE2}{27}% 
+\contentsline {section}{\numberline {3.2}Tworzenie gramatyki procesu biznesowego}{28}% 
+\contentsline {section}{\numberline {3.3}Projekt systemu}{30}% 
+\contentsline {subsection}{\numberline {3.3.1}Podzia\IeC {\l } na modu\IeC {\l }y}{30}% 
+\contentsline {subsection}{\numberline {3.3.2}Model}{31}% 
+\contentsline {section}{\numberline {3.4}Implementacja}{33}% 
+\contentsline {subsection}{\numberline {3.4.1}Parsowanie gramatyki}{33}% 
+\contentsline {subsection}{\numberline {3.4.2}Obliczanie metryk}{34}% 
+\contentsline {subsection}{\numberline {3.4.3}Obliczanie odwzorowania dla pojedynczego wariantu}{35}% 
+\contentsline {subsection}{\numberline {3.4.4}Wyszukiwanie w modelu \IeC {\'s}cie\IeC {\.z}ek o okre\IeC {\'s}lonej d\IeC {\l }ugo\IeC {\'s}ci}{37}% 
+\contentsline {subsection}{\numberline {3.4.5}Obliczanie odwzorowania}{39}% 
+\contentsline {subsection}{\numberline {3.4.6}Znajdowanie najlepiej dopasowanych aktywno\IeC {\'s}ci w modelu}{41}% 
+\contentsline {subsection}{\numberline {3.4.7}Pozosta\IeC {\l }e wnioski dotycz\IeC {\k a}ce implementacji}{42}% 
+\contentsline {section}{\numberline {3.5}Wyb\IeC {\'o}r parametr\IeC {\'o}w algorytmu}{43}% 
+\contentsline {chapter}{\numberline {4}Dyskusja rezultat\IeC {\'o}w}{45}% 
+\contentsline {section}{\numberline {4.1}Przyk\IeC {\l }adowe wyniki}{45}% 
+\contentsline {subsection}{\numberline {4.1.1}Wynik dla przyk\IeC {\l }adu ze wst\IeC {\k e}pu}{45}% 
+\contentsline {subsection}{\numberline {4.1.2}Inne przyk\IeC {\l }ady dzia\IeC {\l }ania}{47}% 
+\contentsline {subsubsection}{\numberline {4.1.2.1}Przyk\IeC {\l }ad \#Sztucznie wygenerowany}{47}% 
+\contentsline {subsubsection}{\numberline {4.1.2.2}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga roszcze\IeC {\'n} w firmie ubezpieczeniowej}{48}% 
+\contentsline {subsubsection}{\numberline {4.1.2.3}Przyk\IeC {\l }ad \#Naprawa telefonu}{50}% 
+\contentsline {subsubsection}{\numberline {4.1.2.4}Przyk\IeC {\l }ad \#Obs\IeC {\l }uga wniosku o odszkodowanie}{51}% 
+\contentsline {section}{\numberline {4.2}Wyniki w zale\IeC {\.z}no\IeC {\'s}ci od przyj\IeC {\k e}tych wag poszczeg\IeC {\'o}lnych metryk}{53}% 
+\contentsline {subsection}{\numberline {4.2.1}Brak poszczeg\IeC {\'o}lnych metryk}{53}% 
+\contentsline {subsubsection}{\numberline {4.2.1.1}Poprawny model}{53}% 
+\contentsline {subsubsection}{\numberline {4.2.1.2}Brak precyzji}{54}% 
+\contentsline {subsubsection}{\numberline {4.2.1.3}Brak generalizacji i prostoty}{55}% 
+\contentsline {subsection}{\numberline {4.2.2}Wp\IeC {\l }yw z\IeC {\l }o\IeC {\.z}ono\IeC {\'s}ci na wynik}{56}% 
+\contentsline {section}{\numberline {4.3}Wnioski dotycz\IeC {\k a}ce ewolucji}{59}% 
+\contentsline {chapter}{\numberline {5}Podsumowanie}{61}% 

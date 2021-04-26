@@ -84,7 +84,7 @@ W tej sekcji pokazano, w jaki sposób podzielono program na modułu oraz przedst
 Sposób podziału programu przestawiono na rys. \ref{fig:modules}. 
 
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.45]{modules-light.png}}
+	\centering{\includegraphics[scale=0.55]{modules-light.png}}
 	\caption{\label{fig:modules}Podział na moduły}
 \end{figure}
 
@@ -100,7 +100,7 @@ Główne moduły to:
 Klasa \textit{Gate} i klasy po niej dziedziczące przedstawione na rys. \ref{fig:GateUML} są reprezentacją bliższą realnemu modelowi. 
 
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.5]{GateUML.png}}
+	\centering{\includegraphics[scale=0.55]{GateUML.png}}
 	\caption{\label{fig:GateUML}Klasa \textit{Gate} i klasy po niej dziedziczące reprezentowane jako UML}
 \end{figure}
 
@@ -115,7 +115,7 @@ Model w formie ciągu znaków musi być zamieniony na formę, na której łatwie
 Obliczanie metryk dla klasy \textit{Gate} byłoby utrudnione z uwagi na dużą ilość bramek logicznych, dlatego konieczne jest przerobienie tych obiektów na uproszczoną formę pośrednią. Są nią obiekty klas dziedziczących po \textit{BaseGroup} (rys. \ref{fig:EventUML}), które dzielą się pod względem tego, czy aktywności w nich zgrupowane mogą być wykonywane w dowolnej kolejność -- \textit{EventGroupParallel} czy muszą być wykonywane kolejno po sobie -- \textit{EventGroup}. Są to wystarczające informacje do obliczenia odwzorowania, a~dzięki temu algorytm ten jest prostszy. Takie rozgraniczenie pozwala również na dodawanie nowych bramek logicznych bez konieczności zmieniania metody obliczania odwzorowania.
 
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.5]{EventUML.png}}
+	\centering{\includegraphics[scale=0.55]{EventUML.png}}
 	\caption{\label{fig:EventUML}Klasa \textit{BaseGroup} i klasy po niej dziedziczące reprezentowane jako UML}
 \end{figure}
 
@@ -182,7 +182,7 @@ Argumentami metody \textit{oblicz{\_}metryki}, której pseudokod znajduje się n
 Odwzorowanie obliczane jest osobno dla każdego wariantu w logu, który jest reprezentowany jako tablica znaków. Jeśli błąd odwzorowania wynosi 0, to ilość wystąpień danego wariantu konieczna do obliczenia precyzji jest zapisywana w słowniku. Dodawana do każdej aktywności jest też ilość jej dotychczasowych wystąpień potrzebna we wzorze na generalizację.
 
 Po uzyskaniu tych informacji dla wszystkich wariantów obliczamy średnią ważoną metryk zgodnie ze wzorami w sekcji \ref{sec:metrics-details} i uzyskujemy w ten sposób wartość funkcji dopasowania.
-
+\clearpage
 \lstset{caption=Pseudokod metody oblicz metryki, captionpos=b}
 \lstset{label=src:obl_met, frame=single}
 \begin{lstlisting}[escapeinside=``]
@@ -474,7 +474,7 @@ def znajdź_ścieżkę(macierz_rozwiązań, model, wariant,
 \subsection{Pozostałe wnioski dotyczące implementacji}
 Używając algorytmów genetycznych, konieczne jest wielokrotne obliczenie metryk, żeby znaleźć rozwiązanie. Z tego powodu, duży nacisk położono na ograniczenie czasu obliczeń. W wiele miejscach zaimplementowano mechanizm przerywający obliczenia, jeżeli nie dają one perspektyw na znalezienie lepszego niż aktualnie najlepsze rozwiązanie. Użytkownik może też zdefiniować maksymalną złożoność modelu, co przełoży się także na czas jego znajdowania. Duże znaczenie ma też fakt, że algorytm pozwala na równoległe przetwarzanie. 
 
-W sytuacji, kiedy wiele obliczeń się powtarza, można znacząca przyspieszyć czas działania aplikacji poprzez przechowywanie danych w pamięci podręcznej \textit{ang. cache}. W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
+W sytuacji, kiedy wiele obliczeń się powtarza, można znacząca przyspieszyć czas działania aplikacji poprzez przechowywanie danych w pamięci podręcznej (\textit{ang. cache}). W przypadku naszego algorytmu można zauważyć dwa miejsca, w których często dochodzi to powtórzeń:
 \begin{itemize}
   \item[•] Poprzednio obliczone rozwiązanie -- model może się powtórzyć. W tym wypadku możemy skorzystać z przechowywania genotypów w pamięci podręcznej, które jest dostarczane przez bibliotekę PonyGE2.
   \item[•] Podczas obliczania odwzorowania, które jest najbardziej czasochłonne. Zaimplementowano tutaj własną metodę przechowywania wyników w pamięci podręcznej.
