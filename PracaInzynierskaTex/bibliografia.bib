@@ -170,14 +170,19 @@ year={1995}
 } 
 
 @inproceedings{BPMDemystified,
-author = {van der Aalst, Wil M. P.},
-year = {2003},
-month = {01},
-pages = {1-65},
-title = {Business Process Management Demystified: A Tutorial on Models, Systems and Standards for Workflow Management},
-volume = {3098},
-isbn = {978-3-540-22261-3},
-doi = {10.1007/978-3-540-27755-2_1}
+  added-at = {2008-08-18T14:50:38.000+0200},
+  author = {Wil M. P. van der Aalst},
+  biburl = {https://www.bibsonomy.org/bibtex/253299305dda9c86d1f5d57b3e8bca28c/msn},
+  booktitle = {Lectures on Concurrency and Petri Nets},
+  editor = {Desel, J. and Reisig, W. and Rozenberg, G.},
+  interhash = {095475fd32a682dfcde79e358d51d5a7},
+  intrahash = {53299305dda9c86d1f5d57b3e8bca28c},
+  keywords = {cites.pclass cites.procm out.gcp research.bizInt.bpm},
+  pages = {1-65},
+  publisher = {Springer},
+  timestamp = {2009-06-25T15:59:25.000+0200},
+  title = {Business process management demystified: A tutorial on models, systems and standards for workflow management},
+  year = 2003
 }
 
 @misc{BPMWhat, 
@@ -211,7 +216,7 @@ note = {dostęp: 12 lutego 2020}
 author = {van der Aalst, Wil M. P.},
 year = {2012},
 month = {01},
-title = {van der Aalst, W.M.P.: Business process management: a comprehensive survey. ISRN Softw. Eng. 1-37},
+title = {Business process management: a comprehensive survey. ISRN Softw. Eng. 1-37},
 journal = {ISRN Software Engineering},
 doi = {10.1155/2013/507984}
 }
@@ -237,7 +242,7 @@ doi = {10.17705/1jais.00193}
 }
 
 @article{7PMG,
-author = {Mendling, Jan and Reijers, H.A. and Aalst, Wil M. P.},
+author = {Mendling, Jan and Reijers, H.A. and van der Aalst, Wil M. P.},
 year = {2010},
 month = {02},
 pages = {127-136},
@@ -247,12 +252,10 @@ journal = {Information and Software Technology},
 doi = {10.1016/j.infsof.2009.08.004}
 }
 
-@article{market-pm, 
-title={Market Guide for Process Mining},  
-journal={Gartner}, 
-author={Kerremans, Marc}, 
-year={2018},
-month = {04}} 
+@inproceedings{market-pm, 
+	title={Gartner Market Guide for Process Mining},  
+	author={Kerremans, Marc}, 
+	note = {kw. 2018}
 }
 
 @article{mining-overview,
@@ -266,7 +269,7 @@ journal = {ACM Transactions on Management Information Systems},
 doi = {10.1145/2229156.2229157}
 }
 
-@inproceedings{pm-manifesto,
+@article{pm-manifesto,
 author = {van der Aalst, Wil M. P. and Adriansyah, Arya and Arcieri, Franco and Baier, Thomas and Blickle, Tobias and R.P., Jagadeesh Chandra Bose and Brand, Peter and Brandtjen, Ronald and Buijs, Joos and Burattin, Andrea and Carmona, Josep and Castellanos, Malú and Claes, Jan and Cook, Jonathan and Costantini, Nicola and Curbera, Francisco and Damiani, Ernesto and de Leoni, Massimiliano and Wynn, Moe},
 year = {2011},
 month = {08},
@@ -319,13 +322,22 @@ title = {Multi-phase process mining: Aggregating instance graphs into EPCs and P
 journal = {Proceedings of the Second International Workshop on Applications of Petri Nets to Coordination, Workflow and Business Process Management}
 }
 
-@unknown{inductive-miner,
-author = {Ghawi, Raji},
-year = {2016},
-month = {10},
-pages = {},
-title = {Process Discovery using Inductive Miner and Decomposition}
+@inproceedings{inductive-miner,
+	author="Leemans, Sander J. J.
+	and Fahland, Dirk
+	and van der Aalst, Wil M. P.",
+	editor="Colom, Jos{\'e}-Manuel
+	and Desel, J{\"o}rg",
+	title="Discovering Block-Structured Process Models from Event Logs - A Constructive Approach",
+	booktitle="Application and Theory of Petri Nets and Concurrency",
+	year="2013",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="311--329",
+	abstract="Process discovery is the problem of, given a log of observed behaviour, finding a process model that `best' describes this behaviour. A large variety of process discovery algorithms has been proposed. However, no existing algorithm guarantees to return a fitting model (i.e., able to reproduce all observed behaviour) that is sound (free of deadlocks and other anomalies) in finite time. We present an extensible framework to discover from any given log a set of block-structured process models that are sound and fit the observed behaviour. In addition we characterise the minimal information required in the log to rediscover a particular process model. We then provide a polynomial-time algorithm for discovering a sound, fitting, block-structured model from any given log; we give sufficient conditions on the log for which our algorithm returns a model that is language-equivalent to the process model underlying the log, including unseen behaviour. The technique is implemented in a prototypical tool.",
+	isbn="978-3-642-38697-8"
 }
+
 
 @inproceedings{ILP-miner,
 author = {Van der Werf, Jan Martijn and Dongen, Boudewijn and Hurkens, Cor and Serebrenik, Alexander},
@@ -416,7 +428,7 @@ numpages = {38}
   pages = {735--736},
   publisher = {ACM},
   timestamp = {2010-08-30T14:57:11.000+0200},
-  title = {{backus normal form vs. Backus Naur form}},
+  title = {{Backus Normal Form vs. Backus Naur Form}},
   volume = 7,
   year = 1964
 }
@@ -495,9 +507,11 @@ pages = {},
 title = {Steady-state vs. generational genetic algorithms: A comparison of time complexity and convergence properties}
 }
 
-@article{memetic,
+@inproceedings{memetic,
 author = {Mabrouk, Emad and Hedar, Abdel-Rahman and Fukushima, Masao},
 pages = {},
+year = {2010},
+month = {12},
 title = {Memetic Programming Algorithm with Automatically Defined Functions}
 }
 

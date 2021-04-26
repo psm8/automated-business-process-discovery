@@ -190,19 +190,38 @@
   P\bibinitperiod},
       }}%
     }
+    \name{editor}{3}{}{%
+      {{hash=DJ}{%
+         family={Desel},
+         familyi={D\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=RW}{%
+         family={Reisig},
+         familyi={R\bibinitperiod},
+         given={W.},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=RG}{%
+         family={Rozenberg},
+         familyi={R\bibinitperiod},
+         given={G.},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer}%
+    }
+    \keyw{cites.pclass cites.procm out.gcp research.bizInt.bpm}
     \strng{namehash}{AWMPvd1}
     \strng{fullhash}{AWMPvd1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \verb{doi}
-    \verb 10.1007/978-3-540-27755-2_1
-    \endverb
-    \field{isbn}{978-3-540-22261-3}
+    \field{booktitle}{Lectures on Concurrency and Petri Nets}
     \field{pages}{1\bibrangedash 65}
-    \field{title}{Business Process Management Demystified: A Tutorial on
-  Models, Systems and Standards for Workflow Management}
-    \field{volume}{3098}
-    \field{month}{01}
+    \field{title}{Business process management demystified: A tutorial on
+  models, systems and standards for workflow management}
     \field{year}{2003}
   \endentry
 
@@ -245,8 +264,8 @@
     \verb{doi}
     \verb 10.1155/2013/507984
     \endverb
-    \field{title}{van der Aalst, W.M.P.: Business process management: a
-  comprehensive survey. ISRN Softw. Eng. 1-37}
+    \field{title}{Business process management: a comprehensive survey. ISRN
+  Softw. Eng. 1-37}
     \field{journaltitle}{ISRN Software Engineering}
     \field{month}{01}
     \field{year}{2012}
@@ -378,7 +397,9 @@
          given={H.A.},
          giveni={H\bibinitperiod},
       }}%
-      {{hash=AWMP}{%
+      {{hash=vdAWMP}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
          family={Aalst},
          familyi={A\bibinitperiod},
          given={Wil M.\bibnamedelima P.},
@@ -386,8 +407,8 @@
   P\bibinitperiod},
       }}%
     }
-    \strng{namehash}{MJRHAWMP1}
-    \strng{fullhash}{MJRHAWMP1}
+    \strng{namehash}{MJRHAWMPvd1}
+    \strng{fullhash}{MJRHAWMPvd1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \verb{doi}
@@ -401,7 +422,7 @@
     \field{year}{2010}
   \endentry
 
-  \entry{market-pm}{article}{}
+  \entry{market-pm}{inproceedings}{}
     \name{author}{1}{}{%
       {{hash=KM}{%
          family={Kerremans},
@@ -414,8 +435,7 @@
     \strng{fullhash}{KM1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Market Guide for Process Mining}
-    \field{journaltitle}{Gartner}
+    \field{title}{Gartner Market Guide for Process Mining}
     \field{month}{04}
     \field{year}{2018}
   \endentry
@@ -768,22 +788,36 @@
     \field{year}{2005}
   \endentry
 
-  \entry{inductive-miner}{misc}{}
+  \entry{inductive-miner}{thesis}{}
     \name{author}{1}{}{%
-      {{hash=GR}{%
-         family={Ghawi},
-         familyi={G\bibinitperiod},
-         given={Raji},
-         giveni={R\bibinitperiod},
+      {{hash=LS}{%
+         family={Leemans},
+         familyi={L\bibinitperiod},
+         given={S.J.J.},
+         giveni={S\bibinitperiod},
       }}%
     }
-    \strng{namehash}{GR1}
-    \strng{fullhash}{GR1}
+    \list{language}{1}{%
+      {English}%
+    }
+    \list{publisher}{1}{%
+      {Technische Universiteit Eindhoven}%
+    }
+    \strng{namehash}{LS1}
+    \strng{fullhash}{LS1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{title}{Process Discovery using Inductive Miner and Decomposition}
-    \field{month}{10}
-    \field{year}{2016}
+    \field{isbn}{978-90-386-4257-4}
+    \field{note}{Proefschrift.}
+    \field{series}{SIKS dissertation series}
+    \field{title}{Robust process mining with guarantees}
+    \list{institution}{2}{%
+      {Mathematics}%
+      {Computer Science}%
+    }
+    \field{type}{phdthesis}
+    \field{month}{05}
+    \field{year}{2017}
   \endentry
 
   \entry{conf-propositions}{inproceedings}{}
@@ -953,7 +987,7 @@
     \field{year}{2016}
   \endentry
 
-  \entry{memetic}{article}{}
+  \entry{memetic}{inproceedings}{}
     \name{author}{3}{}{%
       {{hash=ME}{%
          family={Mabrouk},
@@ -980,6 +1014,8 @@
     \field{labeltitlesource}{title}
     \field{title}{Memetic Programming Algorithm with Automatically Defined
   Functions}
+    \field{month}{12}
+    \field{year}{2010}
   \endentry
 
   \entry{SSvsGen}{article}{}
@@ -1160,7 +1196,7 @@
     \field{issn}{0001-0782}
     \field{number}{12}
     \field{pages}{735\bibrangedash 736}
-    \field{title}{{backus normal form vs. Backus Naur form}}
+    \field{title}{{Backus Normal Form vs. Backus Naur Form}}
     \field{volume}{7}
     \list{location}{1}{%
       {New York}%

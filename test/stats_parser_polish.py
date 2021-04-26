@@ -47,14 +47,14 @@ def save_plots_from_data(fitness, alignment, complexity, generalization, precisi
     plt.legend(loc="lower right")
 
     # Set labels.
-    ax1.set_ylabel('Wartość metryk', fontsize=14)
+    ax1.set_ylabel('Czas w sekundach', fontsize=14)
     ax1.set_xlabel('Generacja', fontsize=14)
 
     # Plot title.
-    plt.title('Przebieg ewolucji')
+    plt.title('Średnia wartość średniej ważonej')
 
     # Save plot and close.
-    plt.savefig(path.join(experiment_name, (name + '.pdf')))
+    plt.savefig(path.join(experiment_name, (name + '9.pdf')))
     plt.close()
 
 if __name__ == "__main__":
